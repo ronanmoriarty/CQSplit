@@ -26,10 +26,10 @@ namespace Cafe.Domain.Tests
 
         protected void AssertEventPublished<TEvent>(Func<TEvent, bool> matchCriteria)
         {
-            _eventPublisher.Received(1).Publish(Arg.Is<IEnumerable<Event>>(events => AtLeastOneEventMatchesCriteria(matchCriteria, events)));
+            _eventPublisher.Received(1).Publish(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatchesCriteria(matchCriteria, events)));
         }
 
-        private bool AtLeastOneEventMatchesCriteria<TEvent>(Func<TEvent, bool> matchCriteria, IEnumerable<Event> events)
+        private bool AtLeastOneEventMatchesCriteria<TEvent>(Func<TEvent, bool> matchCriteria, IEnumerable<IEvent> events)
         {
             var allEventsOfMatchingType = events.Where(evt => evt is TEvent).Cast<TEvent>();
             var listOfAllEventsOfMatchingType = allEventsOfMatchingType as IList<TEvent> ?? allEventsOfMatchingType.ToList();

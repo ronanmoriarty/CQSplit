@@ -4,6 +4,6 @@ namespace Cafe.Domain
 {
     public interface IEventPublisher
     {
-        void Publish(IEnumerable<Event> events);
+        void Publish(IEnumerable<IEvent> events);
     }
 }

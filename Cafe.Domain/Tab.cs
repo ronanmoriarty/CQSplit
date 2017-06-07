@@ -6,7 +6,7 @@ namespace Cafe.Domain
 {
     public class Tab : ICommandHandler<OpenTab>
     {
-        public IEnumerable<Event> Handle(OpenTab command)
+        public IEnumerable<IEvent> Handle(OpenTab command)
         {
             yield return new TabOpened
             {

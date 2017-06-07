@@ -4,6 +4,6 @@ namespace Cafe.Domain
 {
     public interface ICommandHandler<in TCommand>
     {
-        IEnumerable<Event> Handle(TCommand command);
+        IEnumerable<IEvent> Handle(TCommand command);
     }
 }

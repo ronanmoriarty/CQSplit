@@ -2,7 +2,7 @@
 
 namespace Cafe.Domain.Events
 {
-    public class TabOpened : Event
+    public class TabOpened : IEvent
     {
         public Guid Id { get; set; }
         public int TableNumber { get; set; }

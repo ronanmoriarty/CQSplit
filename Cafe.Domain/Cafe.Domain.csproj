@@ -43,7 +43,7 @@
     <Compile Include="CommandDispatcher.cs" />
     <Compile Include="CommandHandlerDictionary.cs" />
     <Compile Include="Commands\OpenTab.cs" />
-    <Compile Include="Event.cs" />
+    <Compile Include="IEvent.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="IEventPublisher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
