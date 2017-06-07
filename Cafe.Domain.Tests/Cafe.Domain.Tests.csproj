@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="CommandHandlerDictionaryTests.cs" />
     <Compile Include="EventTestsBase.cs" />
+    <Compile Include="PlaceOrderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabTests.cs" />
   </ItemGroup>
