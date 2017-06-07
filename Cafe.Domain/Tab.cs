@@ -4,14 +4,9 @@ using Cafe.Domain.Events;
 
 namespace Cafe.Domain
 {
-    public class Tab : CommandHandlerBase<OpenTab>
+    public class Tab : ICommandHandler<OpenTab>
     {
-        public Tab(IEventPublisher eventPublisher)
-            : base(eventPublisher)
-        {
-        }
-
-        protected override IEnumerable<Event> OnCommandReceived(OpenTab command)
+        public IEnumerable<Event> Handle(OpenTab command)
         {
             yield return new TabOpened
             {

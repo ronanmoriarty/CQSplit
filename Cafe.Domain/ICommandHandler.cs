@@ -1,7 +1,9 @@
-﻿namespace Cafe.Domain
+﻿using System.Collections.Generic;
+
+namespace Cafe.Domain
 {
     public interface ICommandHandler<in TCommand>
     {
-        void Handle(TCommand command);
+        IEnumerable<Event> Handle(TCommand command);
     }
 }

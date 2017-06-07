@@ -7,23 +7,21 @@ using NUnit.Framework;
 namespace Cafe.Domain.Tests
 {
     public abstract class EventTestsBase<TCommandHandler, TCommand>
-        where TCommandHandler : ICommandHandler<TCommand>
+        where TCommandHandler : ICommandHandler<TCommand>, new()
     {
-        private readonly TCommandHandler _commandHandler;
         private readonly IEventPublisher _eventPublisher;
+        private readonly CommandDispatcher _commandDispatcher;
 
         protected EventTestsBase()
         {
+            var commandHandler = new TCommandHandler();
             _eventPublisher = Substitute.For<IEventPublisher>();
-            // ReSharper disable once VirtualMemberCallInConstructor
-            _commandHandler = CreateCommandHandler(_eventPublisher);
+            _commandDispatcher = new CommandDispatcher(_eventPublisher, new object[] {commandHandler});
         }
-
-        protected abstract TCommandHandler CreateCommandHandler(IEventPublisher eventPublisher);
 
         protected void WhenCommandReceived(TCommand command)
         {
-            _commandHandler.Handle(command);
+            _commandDispatcher.Dispatch(command);
         }
 
         protected void AssertEventPublished<TEvent>(Func<TEvent, bool> matchCriteria)

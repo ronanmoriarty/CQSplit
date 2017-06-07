@@ -31,10 +31,5 @@ namespace Cafe.Domain.Tests
                    && tabOpened.TableNumber == _tableNumber
                    && tabOpened.Waiter == _waiter;
         }
-
-        protected override Tab CreateCommandHandler(IEventPublisher eventPublisher)
-        {
-            return new Tab(eventPublisher);
-        }
     }
 }

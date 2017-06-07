@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandHandlerBase.cs" />
+    <Compile Include="CommandDispatcher.cs" />
     <Compile Include="Commands\OpenTab.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="ICommandHandler.cs" />
