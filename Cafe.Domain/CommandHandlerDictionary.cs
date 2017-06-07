@@ -25,13 +25,7 @@ namespace Cafe.Domain
 
         public ICommandHandler<TCommand> GetHandlerFor<TCommand>()
         {
-            var commandHandler = _commandHandlerMappings[typeof(TCommand)] as ICommandHandler<TCommand>;
-            if (commandHandler == null)
-            {
-               throw new Exception($"Could not find handler for {typeof(TCommand).FullName} command.");
-            }
-
-            return commandHandler;
+            return _commandHandlerMappings[typeof(TCommand)] as ICommandHandler<TCommand>;
         }
     }
 }
