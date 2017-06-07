@@ -1,6 +1,7 @@
 ﻿using System;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
+using Cafe.Domain.Exceptions;
 using NUnit.Framework;
 
 namespace Cafe.Domain.Tests
@@ -23,6 +24,12 @@ namespace Cafe.Domain.Tests
             });
 
             AssertEventPublished<TabOpened>(AssertTabOpened);
+        }
+
+        [Test]
+        public void CannotOrderWhenTabHasNotBeenOpenedYet()
+        {
+            Assert.That(() => WhenCommandReceived(new PlaceOrder { Id = _id, Items = null }), Throws.Exception.InstanceOf<TabNotOpen>());
         }
 
         private bool AssertTabOpened(TabOpened tabOpened)
