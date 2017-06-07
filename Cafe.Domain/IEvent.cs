@@ -1,9 +1,9 @@
-﻿namespace Cafe.Domain
+﻿using System;
+
+namespace Cafe.Domain
 {
-    /// <summary>
-    /// Just a marker interface
-    /// </summary>
     public interface IEvent
     {
+        Guid Id { get; set; }
     }
 }
