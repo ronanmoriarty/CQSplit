@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace Cafe.Domain.Tests
 {
     [TestFixture]
-    public class TabTests : EventTestsBase<Tab, OpenTab>
+    public class TabTests : EventTestsBase<Tab>
     {
         private readonly Guid _id = new Guid("91EBA94D-3A5F-45FD-BEC4-712E631C732C");
         private readonly int _tableNumber = 123;

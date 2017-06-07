@@ -6,8 +6,8 @@ using NUnit.Framework;
 
 namespace Cafe.Domain.Tests
 {
-    public abstract class EventTestsBase<TCommandHandler, TCommand>
-        where TCommandHandler : ICommandHandler<TCommand>, new()
+    public abstract class EventTestsBase<TCommandHandler>
+        where TCommandHandler : new()
     {
         private readonly IEventPublisher _eventPublisher;
         private readonly CommandDispatcher _commandDispatcher;
@@ -19,7 +19,7 @@ namespace Cafe.Domain.Tests
             _commandDispatcher = new CommandDispatcher(_eventPublisher, new CommandHandlerDictionary(new object[] {commandHandler}));
         }
 
-        protected void WhenCommandReceived(TCommand command)
+        protected void WhenCommandReceived<TCommand>(TCommand command)
         {
             _commandDispatcher.Dispatch(command);
         }
