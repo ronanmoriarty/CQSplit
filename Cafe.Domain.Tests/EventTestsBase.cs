@@ -16,7 +16,7 @@ namespace Cafe.Domain.Tests
         {
             var commandHandler = new TCommandHandler();
             _eventPublisher = Substitute.For<IEventPublisher>();
-            _commandDispatcher = new CommandDispatcher(_eventPublisher, new object[] {commandHandler});
+            _commandDispatcher = new CommandDispatcher(_eventPublisher, new CommandHandlerDictionary(new object[] {commandHandler}));
         }
 
         protected void WhenCommandReceived(TCommand command)

@@ -1,37 +1,21 @@
-﻿using System;
-
-namespace Cafe.Domain
+﻿namespace Cafe.Domain
 {
     public class CommandDispatcher
     {
         private readonly IEventPublisher _eventPublisher;
-        private readonly object[] _commandHandlers;
+        private readonly CommandHandlerDictionary _commandHandlerDictionary;
 
-        public CommandDispatcher(IEventPublisher eventPublisher, object[] commandHandlers)
+        public CommandDispatcher(IEventPublisher eventPublisher, CommandHandlerDictionary commandHandlerDictionary)
         {
             _eventPublisher = eventPublisher;
-            _commandHandlers = commandHandlers;
+            _commandHandlerDictionary = commandHandlerDictionary;
         }
 
         public void Dispatch<TCommand>(TCommand command)
         {
-            var handler = GetHandlerFor<TCommand>();
+            var handler = _commandHandlerDictionary.GetHandlerFor<TCommand>();
             var events = handler.Handle(command);
             _eventPublisher.Publish(events);
-        }
-
-        private ICommandHandler<TCommand> GetHandlerFor<TCommand>()
-        {
-            foreach (var commandHander in _commandHandlers)
-            {
-                var handler = commandHander as ICommandHandler<TCommand>;
-                if (handler != null)
-                {
-                    return handler;
-                }
-            }
-
-            throw new Exception($"Could not find handler for {typeof(TCommand).FullName} command.");
         }
     }
 }

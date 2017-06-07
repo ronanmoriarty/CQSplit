@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandDispatcher.cs" />
+    <Compile Include="CommandHandlerDictionary.cs" />
     <Compile Include="Commands\OpenTab.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="ICommandHandler.cs" />
