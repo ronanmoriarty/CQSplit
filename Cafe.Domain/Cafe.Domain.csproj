@@ -47,6 +47,7 @@
     <Compile Include="Events\DrinksOrdered.cs" />
     <Compile Include="Events\FoodOrdered.cs" />
     <Compile Include="Exceptions\TabNotOpen.cs" />
+    <Compile Include="IApplyEvent.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="IEventPublisher.cs" />
