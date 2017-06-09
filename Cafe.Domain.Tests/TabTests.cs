@@ -23,12 +23,7 @@ namespace Cafe.Domain.Tests
         [Test]
         public void CanOpenANewTab()
         {
-            WhenCommandReceived(new OpenTab
-            {
-                TabId = _tabId,
-                TableNumber = _tableNumber,
-                Waiter = _waiter
-            });
+            WhenCommandReceived(CreateOpenTabCommand());
 
             AssertEventPublished<TabOpened>(AssertTabOpened);
         }
@@ -43,44 +38,43 @@ namespace Cafe.Domain.Tests
         public void CanOrderFoodWhenTabHasAlreadyBeenOpened()
         {
             var foodOrderedItem = GetFoodOrderedItem();
-            var foodOrderedItems = new List<OrderedItem> { foodOrderedItem };
+            var orderedItems = new List<OrderedItem> { foodOrderedItem };
 
-            WhenCommandReceived(new OpenTab
-            {
-                TabId = _tabId,
-                TableNumber = _tableNumber,
-                Waiter = _waiter
-            });
+            WhenCommandReceived(CreateOpenTabCommand());
+            WhenCommandReceived(CreatePlaceOrderCommandWith(orderedItems));
 
-            WhenCommandReceived(new PlaceOrder
-            {
-                TabId = _tabId,
-                Items = foodOrderedItems
-            });
-
-            AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, foodOrderedItems));
+            AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, orderedItems));
         }
 
         [Test]
         public void CanOrderDrinksWhenTabHasAlreadyBeenOpened()
         {
             var drinksOrderedItem = GetDrinkOrderedItem();
-            var drinksOrderedItems = new List<OrderedItem> { drinksOrderedItem };
+            var orderedItems = new List<OrderedItem> { drinksOrderedItem };
 
-            WhenCommandReceived(new OpenTab
+            WhenCommandReceived(CreateOpenTabCommand());
+            WhenCommandReceived(CreatePlaceOrderCommandWith(orderedItems));
+
+            AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, orderedItems));
+        }
+
+        private OpenTab CreateOpenTabCommand()
+        {
+            return new OpenTab
             {
                 TabId = _tabId,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
-            });
+            };
+        }
 
-            WhenCommandReceived(new PlaceOrder
+        private PlaceOrder CreatePlaceOrderCommandWith(List<OrderedItem> orderedItems)
+        {
+            return new PlaceOrder
             {
                 TabId = _tabId,
-                Items = drinksOrderedItems
-            });
-
-            AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, drinksOrderedItems));
+                Items = orderedItems
+            };
         }
 
         private OrderedItem GetFoodOrderedItem()
