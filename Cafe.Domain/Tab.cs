@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using Cafe.Domain.Exceptions;
@@ -31,13 +32,26 @@ namespace Cafe.Domain
                 throw new TabNotOpen();
             }
 
-            return new IEvent[]
-            { new FoodOrdered
+            var events = new List<IEvent>();
+            if (command.Items.Any(item => item.IsDrink)) // TODO: add tests to improve this logic - will likely have food AND drink in PlaceOrder command.
+            {
+                var drinksOrdered = new DrinksOrdered
                 {
                     Id = command.TabId,
                     Items = command.Items
-                }
-            };
+                };
+                events.Add(drinksOrdered);
+            }
+            else
+            {
+                var foodOrdered = new FoodOrdered
+                {
+                    Id = command.TabId,
+                    Items = command.Items
+                };
+                events.Add(foodOrdered);
+            }
+            return events;
         }
 
         public IEnumerable<IEvent> Handle(object command)

@@ -16,6 +16,9 @@ namespace Cafe.Domain.Tests
         private const decimal FoodPrice = 12m;
         private const int FoodMenuNumber = 12;
         private const string FoodDescription = "Tikka Masala";
+        private const decimal DrinkPrice = 2m;
+        private const int DrinkMenuNumber = 13;
+        private const string DrinkDescription = "Coca Cola";
 
         [Test]
         public void CanOpenANewTab()
@@ -58,6 +61,28 @@ namespace Cafe.Domain.Tests
             AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, foodOrderedItems));
         }
 
+        [Test]
+        public void CanOrderDrinksWhenTabHasAlreadyBeenOpened()
+        {
+            var drinksOrderedItem = GetDrinkOrderedItem();
+            var drinksOrderedItems = new List<OrderedItem> { drinksOrderedItem };
+
+            WhenCommandReceived(new OpenTab
+            {
+                TabId = _tabId,
+                TableNumber = _tableNumber,
+                Waiter = _waiter
+            });
+
+            WhenCommandReceived(new PlaceOrder
+            {
+                TabId = _tabId,
+                Items = drinksOrderedItems
+            });
+
+            AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, drinksOrderedItems));
+        }
+
         private OrderedItem GetFoodOrderedItem()
         {
             return new OrderedItem
@@ -69,10 +94,27 @@ namespace Cafe.Domain.Tests
             };
         }
 
-        private bool AssertFoodOrdered(FoodOrdered foodOrdered, List<OrderedItem> foodOrderedItems)
+        private OrderedItem GetDrinkOrderedItem()
+        {
+            return new OrderedItem
+            {
+                Description = DrinkDescription,
+                IsDrink = true,
+                MenuNumber = DrinkMenuNumber,
+                Price = DrinkPrice
+            };
+        }
+
+        private bool AssertFoodOrdered(FoodOrdered foodOrdered, List<OrderedItem> orderedItems)
         {
             return foodOrdered.Id == _tabId
-                   && foodOrdered.Items == foodOrderedItems;
+                   && foodOrdered.Items == orderedItems;
+        }
+
+        private bool AssertDrinksOrdered(DrinksOrdered drinksOrdered, List<OrderedItem> orderedItems)
+        {
+            return drinksOrdered.Id == _tabId
+                   && drinksOrdered.Items == orderedItems;
         }
 
         private bool AssertTabOpened(TabOpened tabOpened)
