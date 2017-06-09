@@ -13,16 +13,9 @@ namespace Cafe.Domain.Tests
         private readonly Guid _tabId = new Guid("91EBA94D-3A5F-45FD-BEC4-712E631C732C");
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
-        private List<OrderedItem> _foodOrderedItems;
         private const decimal FoodPrice = 12m;
         private const int FoodMenuNumber = 12;
         private const string FoodDescription = "Tikka Masala";
-
-        protected override void AdditionalSetUp()
-        {
-            var foodOrderedItem = GetFoodOrderedItem();
-            _foodOrderedItems = new List<OrderedItem> { foodOrderedItem };
-        }
 
         [Test]
         public void CanOpenANewTab()
@@ -46,6 +39,9 @@ namespace Cafe.Domain.Tests
         [Test]
         public void CanOrderFoodWhenTabHasAlreadyBeenOpened()
         {
+            var foodOrderedItem = GetFoodOrderedItem();
+            var foodOrderedItems = new List<OrderedItem> { foodOrderedItem };
+
             WhenCommandReceived(new OpenTab
             {
                 TabId = _tabId,
@@ -56,10 +52,10 @@ namespace Cafe.Domain.Tests
             WhenCommandReceived(new PlaceOrder
             {
                 TabId = _tabId,
-                Items = _foodOrderedItems
+                Items = foodOrderedItems
             });
 
-            AssertEventPublished<FoodOrdered>(AssertFoodOrdered);
+            AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, foodOrderedItems));
         }
 
         private OrderedItem GetFoodOrderedItem()
@@ -73,10 +69,10 @@ namespace Cafe.Domain.Tests
             };
         }
 
-        private bool AssertFoodOrdered(FoodOrdered foodOrdered)
+        private bool AssertFoodOrdered(FoodOrdered foodOrdered, List<OrderedItem> foodOrderedItems)
         {
             return foodOrdered.Id == _tabId
-                   && foodOrdered.Items == _foodOrderedItems;
+                   && foodOrdered.Items == foodOrderedItems;
         }
 
         private bool AssertTabOpened(TabOpened tabOpened)
