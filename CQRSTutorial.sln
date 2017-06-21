@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Tests.Common",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Core", "CQRSTutorial.Core\CQRSTutorial.Core.csproj", "{D9A17521-4B50-403C-8A7F-D9F82051049B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{401F4101-6E6E-4074-904E-1B53551615BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0CA8051B-D97B-4F85-8BD3-EE74107D8A44} = {401F4101-6E6E-4074-904E-1B53551615BA}
+		{0F8C4EC3-415F-4571-BCB9-8BB224A63E90} = {401F4101-6E6E-4074-904E-1B53551615BA}
 	EndGlobalSection
 EndGlobal
