@@ -41,7 +41,9 @@ namespace Cafe.Domain.Tests
         [Test]
         public void CannotOrderWhenTabHasNotBeenOpenedYet()
         {
-            Assert.That(() => When(new PlaceOrder { TabId = _tabId, Items = null }), Throws.Exception.InstanceOf<TabNotOpen>());
+            Assert.That(() =>
+                When(new PlaceOrder { TabId = _tabId, Items = null }),
+                Throws.Exception.InstanceOf<TabNotOpen>());
         }
 
         [Test]
@@ -117,15 +119,16 @@ namespace Cafe.Domain.Tests
             );
 
             Then(new DrinksOrdered
-            {
-                Id = _tabId,
-                Items = new List<OrderedItem> {drinksOrderedItem}
-            });
-            Then(new FoodOrdered
-            {
-                Id = _tabId,
-                Items = new List<OrderedItem> { foodOrderedItem }
-            });
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem> {drinksOrderedItem}
+                },
+                new FoodOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem> { foodOrderedItem }
+                }
+            );
         }
 
         private OrderedItem GetFoodOrderedItem()

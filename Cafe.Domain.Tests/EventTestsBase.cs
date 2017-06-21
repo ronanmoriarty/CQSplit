@@ -45,9 +45,12 @@ namespace Cafe.Domain.Tests
             _commandDispatcher.Dispatch(commands);
         }
 
-        protected void Then(object expectedEvent)
+        protected void Then(params object[] expectedEvents)
         {
-            _eventPublisher.Received(1).Publish(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatches(expectedEvent, events)));
+            foreach (var expectedEvent in expectedEvents)
+            {
+                _eventPublisher.Received(1).Publish(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatches(expectedEvent, events)));
+            }
         }
 
         private bool AtLeastOneEventMatches(object expectedEvent, IEnumerable<IEvent> events)
