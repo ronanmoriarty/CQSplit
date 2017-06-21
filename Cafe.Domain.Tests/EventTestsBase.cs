@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using KellermanSoftware.CompareNetObjects;
 using NSubstitute;
@@ -44,19 +43,6 @@ namespace Cafe.Domain.Tests
         protected void When(params object[] commands)
         {
             _commandDispatcher.Dispatch(commands);
-        }
-
-        protected void AssertEventPublished<TEvent>(Func<TEvent, bool> matchCriteria)
-        {
-            _eventPublisher.Received(1).Publish(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatchesCriteria(matchCriteria, events)));
-        }
-
-        private bool AtLeastOneEventMatchesCriteria<TEvent>(Func<TEvent, bool> matchCriteria, IEnumerable<IEvent> events)
-        {
-            var allEventsOfMatchingType = events.Where(evt => evt is TEvent).Cast<TEvent>();
-            var listOfAllEventsOfMatchingType = allEventsOfMatchingType as IList<TEvent> ?? allEventsOfMatchingType.ToList();
-            Assert.IsTrue(listOfAllEventsOfMatchingType.Count > 0, $"No events of type {typeof(TEvent).FullName} received.");
-            return listOfAllEventsOfMatchingType.Any(matchCriteria);
         }
 
         protected void Then(object expectedEvent)

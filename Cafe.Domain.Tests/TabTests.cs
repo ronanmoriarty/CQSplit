@@ -63,7 +63,11 @@ namespace Cafe.Domain.Tests
                 }
             );
 
-            AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, orderedItems));
+            Then(new FoodOrdered
+            {
+                Id = _tabId,
+                Items = orderedItems
+            });
         }
 
         [Test]
@@ -85,7 +89,11 @@ namespace Cafe.Domain.Tests
                 }
             );
 
-            AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, orderedItems));
+            Then(new DrinksOrdered
+            {
+                Id = _tabId,
+                Items = orderedItems
+            });
         }
 
         [Test]
@@ -108,8 +116,16 @@ namespace Cafe.Domain.Tests
                 }
             );
 
-            AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, new List<OrderedItem> { drinksOrderedItem }));
-            AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, new List<OrderedItem> { foodOrderedItem }));
+            Then(new DrinksOrdered
+            {
+                Id = _tabId,
+                Items = new List<OrderedItem> {drinksOrderedItem}
+            });
+            Then(new FoodOrdered
+            {
+                Id = _tabId,
+                Items = new List<OrderedItem> { foodOrderedItem }
+            });
         }
 
         private OrderedItem GetFoodOrderedItem()
@@ -132,20 +148,6 @@ namespace Cafe.Domain.Tests
                 MenuNumber = DrinkMenuNumber,
                 Price = DrinkPrice
             };
-        }
-
-        private bool AssertFoodOrdered(FoodOrdered foodOrdered, List<OrderedItem> orderedItems)
-        {
-            Assert.That(foodOrdered.Id, Is.EqualTo(_tabId));
-            CollectionAssert.AreEquivalent(foodOrdered.Items, orderedItems);
-            return true;
-        }
-
-        private bool AssertDrinksOrdered(DrinksOrdered drinksOrdered, List<OrderedItem> orderedItems)
-        {
-            Assert.That(drinksOrdered.Id, Is.EqualTo(_tabId));
-            CollectionAssert.AreEquivalent(drinksOrdered.Items, orderedItems);
-            return true;
         }
     }
 }
