@@ -15,15 +15,12 @@ namespace Cafe.Domain
         public IEnumerable<IEvent> Handle(OpenTab command)
         {
             Console.WriteLine("Handling OpenTab command...");
-            return new IEvent[]
-            {
-                new TabOpened
+            yield return new TabOpened
                 {
                     Id = command.TabId,
                     TableNumber = command.TableNumber,
                     Waiter = command.Waiter
-                }
-            };
+                };
         }
 
         public IEnumerable<IEvent> Handle(PlaceOrder command)
@@ -34,53 +31,41 @@ namespace Cafe.Domain
                 throw new TabNotOpen();
             }
 
-            var events = new List<IEvent>();
-            AddEventForAnyDrinks(command, events);
-            AddEventForAnyFood(command, events);
-
-            return events;
-        }
-
-        private void AddEventForAnyDrinks(PlaceOrder command, List<IEvent> events)
-        {
-            var drinks = GetAllDrinks(command);
-            if (drinks.Any())
+            foreach (var @event in GetEventForAnyDrinks(command))
             {
-                var drinksOrdered = new DrinksOrdered
-                {
-                    Id = command.TabId,
-                    Items = drinks.ToList()
-                };
-                events.Add(drinksOrdered);
+                yield return @event;
+            }
+
+            foreach (var @event in GetEventForAnyFood(command))
+            {
+                yield return @event;
             }
         }
 
-        private void AddEventForAnyFood(PlaceOrder command, List<IEvent> events)
+        private static IEnumerable<IEvent> GetEventForAnyFood(PlaceOrder command)
         {
-            var food = GetAllFood(command);
+            var food = command.Items.Where(i => !i.IsDrink).ToList();
             if (food.Any())
             {
-                var foodOrdered = new FoodOrdered
+                yield return new FoodOrdered
                 {
                     Id = command.TabId,
-                    Items = food.ToList()
+                    Items = food
                 };
-                events.Add(foodOrdered);
             }
         }
 
-        private IList<OrderedItem> GetAllFood(PlaceOrder command)
+        private IEnumerable<IEvent> GetEventForAnyDrinks(PlaceOrder command)
         {
-            var food = command.Items.Where(item => !item.IsDrink);
-            var foodList = food as IList<OrderedItem> ?? food.ToList();
-            return foodList;
-        }
-
-        private IList<OrderedItem> GetAllDrinks(PlaceOrder command)
-        {
-            var drinks = command.Items.Where(item => item.IsDrink);
-            var drinksList = drinks as IList<OrderedItem> ?? drinks.ToList();
-            return drinksList;
+            var drinks = command.Items.Where(i => i.IsDrink).ToList();
+            if (drinks.Any())
+            {
+                yield return new DrinksOrdered
+                {
+                    Id = command.TabId,
+                    Items = drinks
+                };
+            }
         }
 
         public void Apply(TabOpened @event)
