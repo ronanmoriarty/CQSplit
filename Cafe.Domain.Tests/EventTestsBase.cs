@@ -42,7 +42,7 @@ namespace Cafe.Domain.Tests
             });
         }
 
-        protected void WhenCommandReceived<TCommand>(TCommand command)
+        protected void When<TCommand>(TCommand command)
         {
             _commandDispatcher.Dispatch(command);
         }

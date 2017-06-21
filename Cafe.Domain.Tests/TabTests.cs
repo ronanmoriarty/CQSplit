@@ -23,7 +23,7 @@ namespace Cafe.Domain.Tests
         [Test]
         public void CanOpenANewTab()
         {
-            WhenCommandReceived(new OpenTab
+            When(new OpenTab
             {
                 TabId = _tabId,
                 TableNumber = _tableNumber,
@@ -41,7 +41,7 @@ namespace Cafe.Domain.Tests
         [Test]
         public void CannotOrderWhenTabHasNotBeenOpenedYet()
         {
-            Assert.That(() => WhenCommandReceived(new PlaceOrder { TabId = _tabId, Items = null }), Throws.Exception.InstanceOf<TabNotOpen>());
+            Assert.That(() => When(new PlaceOrder { TabId = _tabId, Items = null }), Throws.Exception.InstanceOf<TabNotOpen>());
         }
 
         [Test]
@@ -50,8 +50,8 @@ namespace Cafe.Domain.Tests
             var foodOrderedItem = GetFoodOrderedItem();
             var orderedItems = new List<OrderedItem> { foodOrderedItem };
 
-            WhenCommandReceived(CreateOpenTabCommand());
-            WhenCommandReceived(CreatePlaceOrderCommandWith(orderedItems));
+            When(CreateOpenTabCommand());
+            When(CreatePlaceOrderCommandWith(orderedItems));
 
             AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, orderedItems));
         }
@@ -62,8 +62,8 @@ namespace Cafe.Domain.Tests
             var drinksOrderedItem = GetDrinkOrderedItem();
             var orderedItems = new List<OrderedItem> { drinksOrderedItem };
 
-            WhenCommandReceived(CreateOpenTabCommand());
-            WhenCommandReceived(CreatePlaceOrderCommandWith(orderedItems));
+            When(CreateOpenTabCommand());
+            When(CreatePlaceOrderCommandWith(orderedItems));
 
             AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, orderedItems));
         }
@@ -75,8 +75,8 @@ namespace Cafe.Domain.Tests
             var drinksOrderedItem = GetDrinkOrderedItem();
             var orderedItems = new List<OrderedItem> {foodOrderedItem, drinksOrderedItem};
 
-            WhenCommandReceived(CreateOpenTabCommand());
-            WhenCommandReceived(CreatePlaceOrderCommandWith(orderedItems));
+            When(CreateOpenTabCommand());
+            When(CreatePlaceOrderCommandWith(orderedItems));
 
             AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, new List<OrderedItem> { drinksOrderedItem }));
             AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, new List<OrderedItem> { foodOrderedItem }));
