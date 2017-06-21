@@ -20,7 +20,7 @@ namespace Cafe.Domain.Tests
             _commandHandler = new TCommandHandler();
             _eventPublisher = Substitute.For<IEventPublisher>();
             SetUpEventPublisher();
-            _commandDispatcher = new CommandDispatcher(_eventPublisher, new CommandHandlerDictionary(new object[] { _commandHandler }));
+            _commandDispatcher = new CommandDispatcher(_eventPublisher, new object[] { _commandHandler });
         }
 
         private void SetUpEventPublisher()
