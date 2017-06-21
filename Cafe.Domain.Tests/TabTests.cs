@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using Cafe.Domain.Exceptions;
+using CQRSTutorial.Tests.Common;
 using NUnit.Framework;
 
 namespace Cafe.Domain.Tests

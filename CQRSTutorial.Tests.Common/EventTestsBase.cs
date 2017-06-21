@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+using Cafe.Domain;
 using KellermanSoftware.CompareNetObjects;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Domain.Tests
+namespace CQRSTutorial.Tests.Common
 {
     public abstract class EventTestsBase<TCommandHandler>
         where TCommandHandler : new()
