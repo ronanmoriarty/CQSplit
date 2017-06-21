@@ -21,7 +21,7 @@ namespace Cafe.Domain.Tests
             _eventPublisher = Substitute.For<IEventPublisher>();
             SetUpEventPublisher();
             _commandDispatcher = new CommandDispatcher(_eventPublisher, new object[] { _commandHandler });
-            _eventApplier = new EventApplier(_commandHandler);
+            _eventApplier = new EventApplier(new object[] {_commandHandler});
         }
 
         private void SetUpEventPublisher()

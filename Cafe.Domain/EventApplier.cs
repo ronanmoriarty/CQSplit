@@ -6,38 +6,39 @@ namespace Cafe.Domain
 {
     public class EventApplier
     {
-        private readonly object _commandHandler;
+        private readonly object[] _commandHandlers;
 
-        public EventApplier(object commandHandler)
+        public EventApplier(object[] commandHandlers)
         {
-            _commandHandler = commandHandler;
+            _commandHandlers = commandHandlers;
         }
 
         public void ApplyEvent(Type eventType, IEvent @event)
         {
-            if (CanApplyEvent(eventType))
+            var commandHandler = _commandHandlers.SingleOrDefault(CanApplyEventOfType(eventType));
+            if (commandHandler != null)
             {
-                var applyMethodInfo = FindApplyEventOverloadFor(eventType);
+                var applyMethodInfo = FindApplyEventOverloadFor(eventType, commandHandler);
                 Console.WriteLine($"Invoking Apply() for {eventType.FullName}...");
-                applyMethodInfo?.Invoke(_commandHandler, new object[] {@event});
+                applyMethodInfo?.Invoke(commandHandler, new object[] {@event});
             }
         }
 
-        private bool CanApplyEvent(Type eventType)
+        private Func<object, bool> CanApplyEventOfType(Type eventType)
         {
-            var canApplyEvent = _commandHandler.GetType()
+            return commandHandler => commandHandler
+                .GetType()
                 .GetInterfaces()
                 .Any(interfaceType =>
                     interfaceType.IsGenericType
                     && interfaceType.GetGenericTypeDefinition() == typeof(IApplyEvent<>)
                     && interfaceType.GenericTypeArguments.Single() == eventType
                 );
-            return canApplyEvent;
         }
 
-        private MethodInfo FindApplyEventOverloadFor(Type eventType)
+        private MethodInfo FindApplyEventOverloadFor(Type eventType, object commandHandler)
         {
-            var applyMethodInfo = _commandHandler
+            var applyMethodInfo = commandHandler
                 .GetType()
                 .GetMethods()
                 .SingleOrDefault(methodInfo => methodInfo.Name == "Apply" // TODO use expression to make refactoring / renaming methods easier.
