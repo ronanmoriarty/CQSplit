@@ -23,9 +23,19 @@ namespace Cafe.Domain.Tests
         [Test]
         public void CanOpenANewTab()
         {
-            WhenCommandReceived(CreateOpenTabCommand());
+            WhenCommandReceived(new OpenTab
+            {
+                TabId = _tabId,
+                TableNumber = _tableNumber,
+                Waiter = _waiter
+            });
 
-            AssertEventPublished<TabOpened>(AssertTabOpened);
+            Then(new TabOpened
+            {
+                Id = _tabId,
+                TableNumber = _tableNumber,
+                Waiter = _waiter
+            });
         }
 
         [Test]

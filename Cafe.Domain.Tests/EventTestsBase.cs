@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cafe.Domain.Events;
+using KellermanSoftware.CompareNetObjects;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -56,6 +58,18 @@ namespace Cafe.Domain.Tests
             var listOfAllEventsOfMatchingType = allEventsOfMatchingType as IList<TEvent> ?? allEventsOfMatchingType.ToList();
             Assert.IsTrue(listOfAllEventsOfMatchingType.Count > 0, $"No events of type {typeof(TEvent).FullName} received.");
             return listOfAllEventsOfMatchingType.Any(matchCriteria);
+        }
+
+        protected void Then(object expectedEvent)
+        {
+            _eventPublisher.Received(1).Publish(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatches(expectedEvent, events)));
+        }
+
+        private bool AtLeastOneEventMatches(object expectedEvent, IEnumerable<IEvent> events)
+        {
+            var compareLogic = new CompareLogic();
+            var matchingEvents = events.Where(@event => compareLogic.Compare(@event, expectedEvent).AreEqual);
+            return matchingEvents.Any();
         }
     }
 }
