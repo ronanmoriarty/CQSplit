@@ -20,6 +20,9 @@ namespace Cafe.Domain.Tests
         private const decimal DrinkPrice = 2m;
         private const int DrinkMenuNumber = 13;
         private const string DrinkDescription = "Coca Cola";
+        private const decimal Drink2Price = 2.5m;
+        private const int Drink2MenuNumber = 14;
+        private const string Drink2Description = "Fanta";
 
         [Test]
         public void CanOpenANewTab()
@@ -133,6 +136,136 @@ namespace Cafe.Domain.Tests
                     Items = new List<OrderedItem> { foodOrderedItem }
                 }
             );
+        }
+
+        [Test]
+        public void OrderedDrinksCanBeServed()
+        {
+            var testDrink1 = new OrderedItem
+            {
+                Description = DrinkDescription,
+                IsDrink = true,
+                MenuNumber = DrinkMenuNumber,
+                Price = DrinkPrice
+            };
+            var testDrink2 = new OrderedItem
+            {
+                Description = Drink2Description,
+                IsDrink = true,
+                MenuNumber = Drink2MenuNumber,
+                Price = Drink2Price
+            };
+
+            GivenEvents(new TabOpened
+                {
+                    Id = _tabId,
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                },
+                new DrinksOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem>
+                    {
+                        testDrink1,
+                        testDrink2
+                    }
+                });
+
+            When(new MarkDrinksServed
+            {
+                TabId = _tabId,
+                MenuNumbers = new List<int>
+                {
+                    testDrink1.MenuNumber,
+                    testDrink2.MenuNumber
+                }
+            });
+
+            Then(new DrinksServed
+                {
+                    Id = _tabId,
+                    MenuNumbers = new List<int>
+                        { testDrink1.MenuNumber, testDrink2.MenuNumber }
+                });
+        }
+
+        [Test]
+        public void CanNotServeAnUnorderedDrink()
+        {
+            var testDrink1 = new OrderedItem
+            {
+                Description = DrinkDescription,
+                IsDrink = true,
+                MenuNumber = DrinkMenuNumber,
+                Price = DrinkPrice
+            };
+            var testDrink2 = new OrderedItem
+            {
+                Description = Drink2Description,
+                IsDrink = true,
+                MenuNumber = Drink2MenuNumber,
+                Price = Drink2Price
+            };
+
+            GivenEvents(new TabOpened
+                {
+                    Id = _tabId,
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                },
+                new DrinksOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem> {testDrink1}
+                }
+            );
+
+            Assert.That(() => 
+                When(new MarkDrinksServed
+                {
+                    TabId = _tabId,
+                    MenuNumbers = new List<int> {testDrink2.MenuNumber}
+                }), 
+                Throws.Exception.InstanceOf<DrinksNotOutstanding>());
+        }
+
+        [Test]
+        public void CanNotServeADrinkThatHasAlreadyBeenServed()
+        {
+            var testDrink1 = new OrderedItem
+            {
+                Description = DrinkDescription,
+                IsDrink = true,
+                MenuNumber = DrinkMenuNumber,
+                Price = DrinkPrice
+            };
+            
+            GivenEvents(new TabOpened
+                {
+                    Id = _tabId,
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                },
+                new DrinksOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem> { testDrink1 }
+                },
+                new DrinksServed
+                {
+                    Id = _tabId,
+                    MenuNumbers = new List<int> {testDrink1.MenuNumber}
+                }
+            );
+
+            Assert.That(() =>
+                When(new MarkDrinksServed
+                {
+                    TabId = _tabId,
+                    MenuNumbers = new List<int> { testDrink1.MenuNumber }
+                }),
+                Throws.Exception.InstanceOf<DrinksNotOutstanding>());
         }
 
         private OrderedItem GetFoodOrderedItem()

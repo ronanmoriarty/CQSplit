@@ -41,6 +41,14 @@ namespace CQRSTutorial.Tests.Common
             });
         }
 
+        protected void GivenEvents(params IEvent[] events)
+        {
+            foreach (var @event in events)
+            {
+                _eventApplier.ApplyEvent(@event); 
+            }
+        }
+
         protected void Given(params object[] commands)
         {
             _commandDispatcher.Dispatch(commands);
