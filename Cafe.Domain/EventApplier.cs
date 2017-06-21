@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Cafe.Domain
@@ -20,7 +21,7 @@ namespace Cafe.Domain
             if (commandHandler != null)
             {
                 var applyMethodInfo = FindApplyEventOverloadFor(eventType, commandHandler);
-                Console.WriteLine($"Invoking Apply() for {eventType.FullName}...");
+                Console.WriteLine($"Invoking {GetApplyEventMethodName()}() for {eventType.FullName}...");
                 applyMethodInfo?.Invoke(commandHandler, new object[] {@event});
             }
         }
@@ -39,13 +40,20 @@ namespace Cafe.Domain
 
         private MethodInfo FindApplyEventOverloadFor(Type eventType, object commandHandler)
         {
+            var applyEventMethodName = GetApplyEventMethodName();
             var applyMethodInfo = commandHandler
                 .GetType()
                 .GetMethods()
-                .SingleOrDefault(methodInfo => methodInfo.Name == "Apply" // TODO use expression to make refactoring / renaming methods easier.
+                .SingleOrDefault(methodInfo => methodInfo.Name == applyEventMethodName
                                                && methodInfo.GetParameters().Length == 1
                                                && methodInfo.GetParameters().Single().ParameterType == eventType);
             return applyMethodInfo;
+        }
+
+        private string GetApplyEventMethodName()
+        {
+            Expression<Action> objectExpression = () => ((IApplyEvent<IEvent>)null).Apply(null); // done this way instead of just returning "Apply" to facilitate any potential future refactoring / renaming.
+            return ((MethodCallExpression) objectExpression.Body).Method.Name;
         }
     }
 }
