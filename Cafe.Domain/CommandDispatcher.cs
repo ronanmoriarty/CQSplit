@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Cafe.Domain
 {
@@ -17,8 +19,22 @@ namespace Cafe.Domain
         public void Dispatch<TCommand>(TCommand command)
         {
             var handler = GetHandlerFor<TCommand>();
-            var events = handler.Handle(command);
-            _eventPublisher.Publish(events);
+            var handleMethod = handler.FindMethodTakingSingleArgument(GetHandleMethodName(), typeof(TCommand));
+            try
+            {
+                var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new object[] { command });
+                _eventPublisher.Publish(events);
+            }
+            catch (TargetInvocationException exception)
+            {
+                throw exception.InnerException; // allow any actual exceptions to bubble up, rather than wrapping up the original exception in the reflection-specific TargetInvocationException.
+            }
+        }
+
+        private string GetHandleMethodName()
+        {
+            Expression<Action> objectExpression = () => ((ICommandHandler<IEvent>)null).Handle(null); // done this way instead of just returning "Handle" to facilitate any potential future refactoring / renaming.
+            return ((MethodCallExpression)objectExpression.Body).Method.Name;
         }
 
         private void MapCommandTypesToCommandHandlerInstance(object[] commandHandlers)
@@ -42,9 +58,9 @@ namespace Cafe.Domain
             }
         }
 
-        private ICommandHandler<TCommand> GetHandlerFor<TCommand>()
+        private object GetHandlerFor<TCommand>()
         {
-            return _commandHandlerMappings[typeof(TCommand)] as ICommandHandler<TCommand>;
+            return _commandHandlerMappings[typeof(TCommand)];
         }
     }
 }

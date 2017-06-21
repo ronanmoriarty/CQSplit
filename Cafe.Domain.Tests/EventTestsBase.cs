@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cafe.Domain.Events;
 using KellermanSoftware.CompareNetObjects;
 using NSubstitute;
 using NUnit.Framework;
