@@ -40,6 +40,12 @@ namespace Cafe.Domain.Tests
             });
         }
 
+        protected void Given(params object[] commands)
+        {
+            _commandDispatcher.Dispatch(commands);
+            _eventPublisher.ClearReceivedCalls(); // so any calls to Publish() during setup are not counted in the assertions - only calls to Publish() that occur as part of the When() clause wil be considered for assertions.
+        }
+
         protected void When(params object[] commands)
         {
             _commandDispatcher.Dispatch(commands);

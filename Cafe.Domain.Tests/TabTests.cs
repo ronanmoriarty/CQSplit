@@ -52,13 +52,14 @@ namespace Cafe.Domain.Tests
             var foodOrderedItem = GetFoodOrderedItem();
             var orderedItems = new List<OrderedItem> { foodOrderedItem };
 
-            When(new OpenTab
-                {
-                    TabId = _tabId,
-                    TableNumber = _tableNumber,
-                    Waiter = _waiter
-                },
-                new PlaceOrder
+            Given(new OpenTab
+            {
+                TabId = _tabId,
+                TableNumber = _tableNumber,
+                Waiter = _waiter
+            });
+
+            When(new PlaceOrder
                 {
                     TabId = _tabId,
                     Items = orderedItems
@@ -78,13 +79,14 @@ namespace Cafe.Domain.Tests
             var drinksOrderedItem = GetDrinkOrderedItem();
             var orderedItems = new List<OrderedItem> { drinksOrderedItem };
 
-            When(new OpenTab
-                {
-                    TabId = _tabId,
-                    TableNumber = _tableNumber,
-                    Waiter = _waiter
-                },
-                new PlaceOrder
+            Given(new OpenTab
+            {
+                TabId = _tabId,
+                TableNumber = _tableNumber,
+                Waiter = _waiter
+            });
+
+            When(new PlaceOrder
                 {
                     TabId = _tabId,
                     Items = orderedItems
@@ -105,13 +107,14 @@ namespace Cafe.Domain.Tests
             var drinksOrderedItem = GetDrinkOrderedItem();
             var orderedItems = new List<OrderedItem> {foodOrderedItem, drinksOrderedItem};
 
-            When(new OpenTab
-                {
-                    TabId = _tabId,
-                    TableNumber = _tableNumber,
-                    Waiter = _waiter
-                },
-                new PlaceOrder
+            Given(new OpenTab
+            {
+                TabId = _tabId,
+                TableNumber = _tableNumber,
+                Waiter = _waiter
+            });
+
+            When(new PlaceOrder
                 {
                     TabId = _tabId,
                     Items = orderedItems
