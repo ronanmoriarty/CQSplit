@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Cafe.Domain
+namespace CQRSTutorial.Core
 {
     public interface IEventPublisher
     {
