@@ -1,4 +1,5 @@
 ﻿using System;
+using CQRSTutorial.Core;
 
 namespace Cafe.Domain.Events
 {

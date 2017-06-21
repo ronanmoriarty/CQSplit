@@ -1,8 +1,8 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Cafe.Domain
+namespace CQRSTutorial.Core
 {
     public class EventApplier
     {

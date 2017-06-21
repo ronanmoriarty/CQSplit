@@ -1,4 +1,4 @@
-﻿namespace Cafe.Domain
+﻿namespace CQRSTutorial.Core
 {
     public interface IApplyEvent<in TEvent>
         where TEvent : IEvent

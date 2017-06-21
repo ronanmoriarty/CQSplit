@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Cafe.Domain
+namespace CQRSTutorial.Core
 {
     public static class TypeExtensions
     {

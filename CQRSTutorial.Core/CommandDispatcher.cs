@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Cafe.Domain
+namespace CQRSTutorial.Core
 {
     public class CommandDispatcher
     {

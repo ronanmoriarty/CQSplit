@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0F8C4EC3-415F-4571-BCB9-8BB224A63E90}</ProjectGuid>
+    <ProjectGuid>{D9A17521-4B50-403C-8A7F-D9F82051049B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CQRSTutorial.Tests.Common</RootNamespace>
-    <AssemblyName>CQRSTutorial.Tests.Common</AssemblyName>
+    <RootNamespace>CQRSTutorial.Core</RootNamespace>
+    <AssemblyName>CQRSTutorial.Core</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,18 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="KellermanSoftware.Compare-NET-Objects, Version=3.8.0.0, Culture=neutral, PublicKeyToken=d970ace04cc85217, processorArchitecture=MSIL">
-      <HintPath>..\packages\CompareNETObjects.3.08.0.0\lib\net452\KellermanSoftware.Compare-NET-Objects.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NSubstitute, Version=2.0.3.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\NSubstitute.2.0.3\lib\net45\NSubstitute.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,20 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventTestsBase.cs" />
+    <Compile Include="CommandDispatcher.cs" />
+    <Compile Include="EventApplier.cs" />
+    <Compile Include="IApplyEvent.cs" />
+    <Compile Include="ICommandHandler.cs" />
+    <Compile Include="IEvent.cs" />
+    <Compile Include="IEventPublisher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="AppReadme\Compare-NET-Objects-Help.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
-      <Project>{d9a17521-4b50-403c-8a7f-d9f82051049b}</Project>
-      <Name>CQRSTutorial.Core</Name>
-    </ProjectReference>
+    <Compile Include="TypeExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

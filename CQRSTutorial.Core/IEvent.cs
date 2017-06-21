@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 
-namespace Cafe.Domain
+namespace CQRSTutorial.Core
 {
     public interface IEvent
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Cafe.Domain;
+using CQRSTutorial.Core;
 using KellermanSoftware.CompareNetObjects;
 using NSubstitute;
 using NUnit.Framework;

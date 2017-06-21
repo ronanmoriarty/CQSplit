@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CQRSTutorial.Core;
 using NUnit.Framework;
 
 namespace Cafe.Domain.Tests

@@ -59,6 +59,10 @@
       <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
       <Name>Cafe.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
+      <Project>{d9a17521-4b50-403c-8a7f-d9f82051049b}</Project>
+      <Name>CQRSTutorial.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Tests.Common\CQRSTutorial.Tests.Common.csproj">
       <Project>{0f8c4ec3-415f-4571-bcb9-8bb224a63e90}</Project>
       <Name>CQRSTutorial.Tests.Common</Name>
