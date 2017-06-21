@@ -50,7 +50,12 @@ namespace Cafe.Domain.Tests
             var foodOrderedItem = GetFoodOrderedItem();
             var orderedItems = new List<OrderedItem> { foodOrderedItem };
 
-            When(CreateOpenTabCommand());
+            When(new OpenTab
+            {
+                TabId = _tabId,
+                TableNumber = _tableNumber,
+                Waiter = _waiter
+            });
             When(CreatePlaceOrderCommandWith(orderedItems));
 
             AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, orderedItems));
@@ -62,7 +67,12 @@ namespace Cafe.Domain.Tests
             var drinksOrderedItem = GetDrinkOrderedItem();
             var orderedItems = new List<OrderedItem> { drinksOrderedItem };
 
-            When(CreateOpenTabCommand());
+            When(new OpenTab
+            {
+                TabId = _tabId,
+                TableNumber = _tableNumber,
+                Waiter = _waiter
+            });
             When(CreatePlaceOrderCommandWith(orderedItems));
 
             AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, orderedItems));
@@ -75,21 +85,16 @@ namespace Cafe.Domain.Tests
             var drinksOrderedItem = GetDrinkOrderedItem();
             var orderedItems = new List<OrderedItem> {foodOrderedItem, drinksOrderedItem};
 
-            When(CreateOpenTabCommand());
-            When(CreatePlaceOrderCommandWith(orderedItems));
-
-            AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, new List<OrderedItem> { drinksOrderedItem }));
-            AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, new List<OrderedItem> { foodOrderedItem }));
-        }
-
-        private OpenTab CreateOpenTabCommand()
-        {
-            return new OpenTab
+            When(new OpenTab
             {
                 TabId = _tabId,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
-            };
+            });
+            When(CreatePlaceOrderCommandWith(orderedItems));
+
+            AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, new List<OrderedItem> { drinksOrderedItem }));
+            AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, new List<OrderedItem> { foodOrderedItem }));
         }
 
         private PlaceOrder CreatePlaceOrderCommandWith(List<OrderedItem> orderedItems)
