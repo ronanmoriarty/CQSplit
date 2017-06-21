@@ -13,7 +13,17 @@ namespace Cafe.Domain
             _commandHandler = commandHandler;
         }
 
-        public bool CanApplyEvent(Type eventType)
+        public void ApplyEvent(Type eventType, IEvent @event)
+        {
+            if (CanApplyEvent(eventType))
+            {
+                var applyMethodInfo = FindApplyEventOverloadFor(eventType);
+                Console.WriteLine($"Invoking Apply() for {eventType.FullName}...");
+                applyMethodInfo?.Invoke(_commandHandler, new object[] {@event});
+            }
+        }
+
+        private bool CanApplyEvent(Type eventType)
         {
             var canApplyEvent = _commandHandler.GetType()
                 .GetInterfaces()
@@ -23,13 +33,6 @@ namespace Cafe.Domain
                     && interfaceType.GenericTypeArguments.Single() == eventType
                 );
             return canApplyEvent;
-        }
-
-        public void ApplyEvent(Type eventType, IEvent @event)
-        {
-            var applyMethodInfo = FindApplyEventOverloadFor(eventType);
-            Console.WriteLine($"Invoking Apply() for {eventType.FullName}...");
-            applyMethodInfo?.Invoke(_commandHandler, new object[] { @event });
         }
 
         private MethodInfo FindApplyEventOverloadFor(Type eventType)
