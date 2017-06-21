@@ -58,6 +58,20 @@ namespace Cafe.Domain.Tests
             AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, orderedItems));
         }
 
+        [Test]
+        public void CanOrderFoodAndDrinksWhenTabHasAlreadyBeenOpened()
+        {
+            var foodOrderedItem = GetFoodOrderedItem();
+            var drinksOrderedItem = GetDrinkOrderedItem();
+            var orderedItems = new List<OrderedItem> {foodOrderedItem, drinksOrderedItem};
+
+            WhenCommandReceived(CreateOpenTabCommand());
+            WhenCommandReceived(CreatePlaceOrderCommandWith(orderedItems));
+
+            AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, new List<OrderedItem> { drinksOrderedItem }));
+            AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, new List<OrderedItem> { foodOrderedItem }));
+        }
+
         private OpenTab CreateOpenTabCommand()
         {
             return new OpenTab
@@ -101,14 +115,16 @@ namespace Cafe.Domain.Tests
 
         private bool AssertFoodOrdered(FoodOrdered foodOrdered, List<OrderedItem> orderedItems)
         {
-            return foodOrdered.Id == _tabId
-                   && foodOrdered.Items == orderedItems;
+            Assert.That(foodOrdered.Id, Is.EqualTo(_tabId));
+            CollectionAssert.AreEquivalent(foodOrdered.Items, orderedItems);
+            return true;
         }
 
         private bool AssertDrinksOrdered(DrinksOrdered drinksOrdered, List<OrderedItem> orderedItems)
         {
-            return drinksOrdered.Id == _tabId
-                   && drinksOrdered.Items == orderedItems;
+            Assert.That(drinksOrdered.Id, Is.EqualTo(_tabId));
+            CollectionAssert.AreEquivalent(drinksOrdered.Items, orderedItems);
+            return true;
         }
 
         private bool AssertTabOpened(TabOpened tabOpened)

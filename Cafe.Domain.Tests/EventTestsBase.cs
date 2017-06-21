@@ -48,9 +48,10 @@ namespace Cafe.Domain.Tests
             var canApplyEvent = _commandHandler.GetType()
                 .GetInterfaces()
                 .Any(interfaceType =>
-                    interfaceType.IsGenericType &&
-                    interfaceType.GetGenericTypeDefinition() == typeof(IApplyEvent<>) &&
-                    interfaceType.GenericTypeArguments.Single() == eventType);
+                    interfaceType.IsGenericType
+                    && interfaceType.GetGenericTypeDefinition() == typeof(IApplyEvent<>)
+                    && interfaceType.GenericTypeArguments.Single() == eventType
+                );
             return canApplyEvent;
         }
 
@@ -66,7 +67,7 @@ namespace Cafe.Domain.Tests
             var applyMethodInfo = _commandHandler
                 .GetType()
                 .GetMethods()
-                .SingleOrDefault(methodInfo => methodInfo.Name == "Apply"
+                .SingleOrDefault(methodInfo => methodInfo.Name == "Apply" // TODO use expression to make refactoring / renaming methods easier.
                                                && methodInfo.GetParameters().Length == 1
                                                && methodInfo.GetParameters().Single().ParameterType == eventType);
             return applyMethodInfo;

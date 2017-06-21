@@ -15,7 +15,8 @@ namespace Cafe.Domain
         {
             Console.WriteLine("Handling OpenTab command...");
             return new IEvent[]
-            { new TabOpened
+            {
+                new TabOpened
                 {
                     Id = command.TabId,
                     TableNumber = command.TableNumber,
@@ -33,32 +34,52 @@ namespace Cafe.Domain
             }
 
             var events = new List<IEvent>();
-            if (command.Items.Any(item => item.IsDrink)) // TODO: add tests to improve this logic - will likely have food AND drink in PlaceOrder command.
+            AddEventForAnyDrinks(command, events);
+            AddEventForAnyFood(command, events);
+
+            return events;
+        }
+
+        private void AddEventForAnyDrinks(PlaceOrder command, List<IEvent> events)
+        {
+            var drinks = GetAllDrinks(command);
+            if (drinks.Any())
             {
                 var drinksOrdered = new DrinksOrdered
                 {
                     Id = command.TabId,
-                    Items = command.Items
+                    Items = drinks.ToList()
                 };
                 events.Add(drinksOrdered);
             }
-            else
+        }
+
+        private void AddEventForAnyFood(PlaceOrder command, List<IEvent> events)
+        {
+            var food = GetAllFood(command);
+            if (food.Any())
             {
                 var foodOrdered = new FoodOrdered
                 {
                     Id = command.TabId,
-                    Items = command.Items
+                    Items = food.ToList()
                 };
                 events.Add(foodOrdered);
             }
-            return events;
         }
 
-        public IEnumerable<IEvent> Handle(object command)
+        private IList<OrderedItem> GetAllFood(PlaceOrder command)
         {
-            var errorMessage = "Could not find suitable handler";
-            Console.WriteLine(errorMessage);
-            throw new Exception(errorMessage);
+            var food = command.Items.Where(item => !item.IsDrink);
+            var foodList = food as IList<OrderedItem> ?? food.ToList();
+            return foodList;
+        }
+
+        private IList<OrderedItem> GetAllDrinks(PlaceOrder command)
+        {
+            var drinks = command.Items.Where(item => item.IsDrink);
+            var drinksList = drinks as IList<OrderedItem> ?? drinks.ToList();
+            return drinksList;
         }
 
         public void Apply(TabOpened @event)
