@@ -56,7 +56,11 @@ namespace Cafe.Domain.Tests
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
-            When(CreatePlaceOrderCommandWith(orderedItems));
+            When(new PlaceOrder
+            {
+                TabId = _tabId,
+                Items = orderedItems
+            });
 
             AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, orderedItems));
         }
@@ -73,7 +77,11 @@ namespace Cafe.Domain.Tests
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
-            When(CreatePlaceOrderCommandWith(orderedItems));
+            When(new PlaceOrder
+            {
+                TabId = _tabId,
+                Items = orderedItems
+            });
 
             AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, orderedItems));
         }
@@ -91,19 +99,14 @@ namespace Cafe.Domain.Tests
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
-            When(CreatePlaceOrderCommandWith(orderedItems));
-
-            AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, new List<OrderedItem> { drinksOrderedItem }));
-            AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, new List<OrderedItem> { foodOrderedItem }));
-        }
-
-        private PlaceOrder CreatePlaceOrderCommandWith(List<OrderedItem> orderedItems)
-        {
-            return new PlaceOrder
+            When(new PlaceOrder
             {
                 TabId = _tabId,
                 Items = orderedItems
-            };
+            });
+
+            AssertEventPublished<DrinksOrdered>(x => AssertDrinksOrdered(x, new List<OrderedItem> { drinksOrderedItem }));
+            AssertEventPublished<FoodOrdered>(x => AssertFoodOrdered(x, new List<OrderedItem> { foodOrderedItem }));
         }
 
         private OrderedItem GetFoodOrderedItem()
