@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -13,6 +12,7 @@ namespace Cafe.Domain.Tests
         private IEventPublisher _eventPublisher;
         private CommandDispatcher _commandDispatcher;
         private TCommandHandler _commandHandler;
+        private EventApplier _eventApplier;
 
         [SetUp]
         public void SetUp()
@@ -21,6 +21,7 @@ namespace Cafe.Domain.Tests
             _eventPublisher = Substitute.For<IEventPublisher>();
             SetUpEventPublisher();
             _commandDispatcher = new CommandDispatcher(_eventPublisher, new object[] { _commandHandler });
+            _eventApplier = new EventApplier(_commandHandler);
         }
 
         private void SetUpEventPublisher()
@@ -34,43 +35,13 @@ namespace Cafe.Domain.Tests
                     foreach (var @event in eventsFromOnePublishInvocation)
                     {
                         var eventType = @event.GetType();
-                        if (CanApplyEvent(eventType))
+                        if (_eventApplier.CanApplyEvent(eventType))
                         {
-                            ApplyEvent(eventType, @event);
+                            _eventApplier.ApplyEvent(eventType, @event);
                         }
                     }
                 }
             });
-        }
-
-        private bool CanApplyEvent(Type eventType)
-        {
-            var canApplyEvent = _commandHandler.GetType()
-                .GetInterfaces()
-                .Any(interfaceType =>
-                    interfaceType.IsGenericType
-                    && interfaceType.GetGenericTypeDefinition() == typeof(IApplyEvent<>)
-                    && interfaceType.GenericTypeArguments.Single() == eventType
-                );
-            return canApplyEvent;
-        }
-
-        private void ApplyEvent(Type eventType, IEvent @event)
-        {
-            var applyMethodInfo = FindApplyEventOverloadFor(eventType);
-            Console.WriteLine($"Invoking Apply() for {eventType.FullName}...");
-            applyMethodInfo?.Invoke(_commandHandler, new object[] {@event});
-        }
-
-        private MethodInfo FindApplyEventOverloadFor(Type eventType)
-        {
-            var applyMethodInfo = _commandHandler
-                .GetType()
-                .GetMethods()
-                .SingleOrDefault(methodInfo => methodInfo.Name == "Apply" // TODO use expression to make refactoring / renaming methods easier.
-                                               && methodInfo.GetParameters().Length == 1
-                                               && methodInfo.GetParameters().Single().ParameterType == eventType);
-            return applyMethodInfo;
         }
 
         protected void WhenCommandReceived<TCommand>(TCommand command)

@@ -43,6 +43,7 @@
     <Compile Include="CommandDispatcher.cs" />
     <Compile Include="Commands\OpenTab.cs" />
     <Compile Include="Commands\PlaceOrder.cs" />
+    <Compile Include="EventApplier.cs" />
     <Compile Include="Events\DrinksOrdered.cs" />
     <Compile Include="Events\FoodOrdered.cs" />
     <Compile Include="Exceptions\TabNotOpen.cs" />
