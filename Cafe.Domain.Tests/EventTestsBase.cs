@@ -34,8 +34,7 @@ namespace Cafe.Domain.Tests
                 {
                     foreach (var @event in eventsFromOnePublishInvocation)
                     {
-                        var eventType = @event.GetType();
-                        _eventApplier.ApplyEvent(eventType, @event);
+                        _eventApplier.ApplyEvent(@event);
                     }
                 }
             });

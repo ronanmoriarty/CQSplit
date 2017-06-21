@@ -13,8 +13,9 @@ namespace Cafe.Domain
             _commandHandlers = commandHandlers;
         }
 
-        public void ApplyEvent(Type eventType, IEvent @event)
+        public void ApplyEvent(IEvent @event)
         {
+            var eventType = @event.GetType();
             var commandHandler = _commandHandlers.SingleOrDefault(CanApplyEventOfType(eventType));
             if (commandHandler != null)
             {
