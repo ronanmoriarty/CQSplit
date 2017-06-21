@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 
 namespace Cafe.Domain
 {
@@ -20,7 +19,7 @@ namespace Cafe.Domain
             var commandHandler = _commandHandlers.SingleOrDefault(CanApplyEventOfType(eventType));
             if (commandHandler != null)
             {
-                var applyMethodInfo = FindApplyEventOverloadFor(eventType, commandHandler);
+                var applyMethodInfo = commandHandler.FindMethodTakingSingleArgument(GetApplyEventMethodName(), eventType);
                 Console.WriteLine($"Invoking {GetApplyEventMethodName()}() for {eventType.FullName}...");
                 applyMethodInfo?.Invoke(commandHandler, new object[] {@event});
             }
@@ -36,18 +35,6 @@ namespace Cafe.Domain
                     && interfaceType.GetGenericTypeDefinition() == typeof(IApplyEvent<>)
                     && interfaceType.GenericTypeArguments.Single() == eventType
                 );
-        }
-
-        private MethodInfo FindApplyEventOverloadFor(Type eventType, object commandHandler)
-        {
-            var applyEventMethodName = GetApplyEventMethodName();
-            var applyMethodInfo = commandHandler
-                .GetType()
-                .GetMethods()
-                .SingleOrDefault(methodInfo => methodInfo.Name == applyEventMethodName
-                                               && methodInfo.GetParameters().Length == 1
-                                               && methodInfo.GetParameters().Single().ParameterType == eventType);
-            return applyMethodInfo;
         }
 
         private string GetApplyEventMethodName()
