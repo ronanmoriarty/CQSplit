@@ -16,18 +16,22 @@ namespace Cafe.Domain
             MapCommandTypesToCommandHandlerInstance(commandHandlers);
         }
 
-        public void Dispatch<TCommand>(TCommand command)
+        public void Dispatch(params object[] commands)
         {
-            var handler = GetHandlerFor<TCommand>();
-            var handleMethod = handler.FindMethodTakingSingleArgument(GetHandleMethodName(), typeof(TCommand));
-            try
+            foreach (var command in commands)
             {
-                var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new object[] { command });
-                _eventPublisher.Publish(events);
-            }
-            catch (TargetInvocationException exception)
-            {
-                throw exception.InnerException; // allow any actual exceptions to bubble up, rather than wrapping up the original exception in the reflection-specific TargetInvocationException.
+                var commandType = command.GetType();
+                var handler = _commandHandlerMappings[commandType];
+                var handleMethod = handler.FindMethodTakingSingleArgument(GetHandleMethodName(), commandType);
+                try
+                {
+                    var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new[] { command });
+                    _eventPublisher.Publish(events);
+                }
+                catch (TargetInvocationException exception)
+                {
+                    throw exception.InnerException; // allow any actual exceptions to bubble up, rather than wrapping up the original exception in the reflection-specific TargetInvocationException.
+                }
             }
         }
 
@@ -56,11 +60,6 @@ namespace Cafe.Domain
                     }
                 }
             }
-        }
-
-        private object GetHandlerFor<TCommand>()
-        {
-            return _commandHandlerMappings[typeof(TCommand)];
         }
     }
 }

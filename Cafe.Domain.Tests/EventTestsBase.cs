@@ -41,9 +41,9 @@ namespace Cafe.Domain.Tests
             });
         }
 
-        protected void When<TCommand>(TCommand command)
+        protected void When(params object[] commands)
         {
-            _commandDispatcher.Dispatch(command);
+            _commandDispatcher.Dispatch(commands);
         }
 
         protected void AssertEventPublished<TEvent>(Func<TEvent, bool> matchCriteria)
