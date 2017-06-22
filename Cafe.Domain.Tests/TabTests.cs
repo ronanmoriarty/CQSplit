@@ -468,6 +468,64 @@ namespace Cafe.Domain.Tests
             });
         }
 
+        [Test]
+        public void NoFoodMarkedAsServedUnlessAllFoodCanBeMarkedAsServed()
+        {
+            var foodThatWasOrdered = new OrderedItem
+            {
+                Description = FoodDescription,
+                IsDrink = false,
+                MenuNumber = FoodMenuNumber,
+                Price = FoodPrice
+            };
+            var foodThatWasNotOrdered = new OrderedItem
+            {
+                Description = Food2Description,
+                IsDrink = false,
+                MenuNumber = Food2MenuNumber,
+                Price = Food2Price
+            };
+
+            Given(
+                new TabOpened
+                {
+                    Id = _tabId,
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                },
+                new FoodOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem> { foodThatWasOrdered }
+                }
+            );
+
+            try
+            {
+                When(new MarkFoodServed
+                {
+                    TabId = _tabId,
+                    MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber, foodThatWasNotOrdered.MenuNumber }
+                });
+            }
+            catch (FoodNotOutstanding)
+            {
+                // We'll swallow this, and try again with a valid command.
+            }
+
+            When(new MarkFoodServed
+            {
+                TabId = _tabId,
+                MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber }
+            });
+
+            Then(new FoodServed
+            {
+                Id = _tabId,
+                MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber }
+            });
+        }
+
         private OrderedItem GetFoodOrderedItem()
         {
             return new OrderedItem
