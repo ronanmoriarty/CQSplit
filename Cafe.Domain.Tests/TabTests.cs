@@ -64,11 +64,10 @@ namespace Cafe.Domain.Tests
             });
 
             When(new PlaceOrder
-                {
-                    TabId = _tabId,
-                    Items = orderedItems
-                }
-            );
+            {
+                TabId = _tabId,
+                Items = orderedItems
+            });
 
             Then(new FoodOrdered
             {
@@ -91,10 +90,10 @@ namespace Cafe.Domain.Tests
             });
 
             When(new PlaceOrder
-                {
-                    TabId = _tabId,
-                    Items = orderedItems
-                }
+            {
+                TabId = _tabId,
+                Items = orderedItems
+            }
             );
 
             Then(new DrinksOrdered
@@ -109,7 +108,7 @@ namespace Cafe.Domain.Tests
         {
             var foodOrderedItem = GetFoodOrderedItem();
             var drinksOrderedItem = GetDrinkOrderedItem();
-            var orderedItems = new List<OrderedItem> {foodOrderedItem, drinksOrderedItem};
+            var orderedItems = new List<OrderedItem> { foodOrderedItem, drinksOrderedItem };
 
             Given(new TabOpened
             {
@@ -119,16 +118,17 @@ namespace Cafe.Domain.Tests
             });
 
             When(new PlaceOrder
-                {
-                    TabId = _tabId,
-                    Items = orderedItems
-                }
+            {
+                TabId = _tabId,
+                Items = orderedItems
+            }
             );
 
-            Then(new DrinksOrdered
+            Then(
+                new DrinksOrdered
                 {
                     Id = _tabId,
-                    Items = new List<OrderedItem> {drinksOrderedItem}
+                    Items = new List<OrderedItem> { drinksOrderedItem }
                 },
                 new FoodOrdered
                 {
@@ -156,7 +156,8 @@ namespace Cafe.Domain.Tests
                 Price = Drink2Price
             };
 
-            Given(new TabOpened
+            Given(
+                new TabOpened
                 {
                     Id = _tabId,
                     TableNumber = _tableNumber,
@@ -183,11 +184,11 @@ namespace Cafe.Domain.Tests
             });
 
             Then(new DrinksServed
-                {
-                    Id = _tabId,
-                    MenuNumbers = new List<int>
+            {
+                Id = _tabId,
+                MenuNumbers = new List<int>
                         { testDrink1.MenuNumber, testDrink2.MenuNumber }
-                });
+            });
         }
 
         [Test]
@@ -208,7 +209,8 @@ namespace Cafe.Domain.Tests
                 Price = Drink2Price
             };
 
-            Given(new TabOpened
+            Given(
+                new TabOpened
                 {
                     Id = _tabId,
                     TableNumber = _tableNumber,
@@ -217,7 +219,7 @@ namespace Cafe.Domain.Tests
                 new DrinksOrdered
                 {
                     Id = _tabId,
-                    Items = new List<OrderedItem> {testDrink1}
+                    Items = new List<OrderedItem> { testDrink1 }
                 }
             );
 
@@ -225,7 +227,7 @@ namespace Cafe.Domain.Tests
                 When(new MarkDrinksServed
                 {
                     TabId = _tabId,
-                    MenuNumbers = new List<int> {testDrink2.MenuNumber}
+                    MenuNumbers = new List<int> { testDrink2.MenuNumber }
                 }),
                 Throws.Exception.InstanceOf<DrinksNotOutstanding>());
         }
@@ -241,7 +243,8 @@ namespace Cafe.Domain.Tests
                 Price = DrinkPrice
             };
 
-            Given(new TabOpened
+            Given(
+                new TabOpened
                 {
                     Id = _tabId,
                     TableNumber = _tableNumber,
@@ -255,7 +258,7 @@ namespace Cafe.Domain.Tests
                 new DrinksServed
                 {
                     Id = _tabId,
-                    MenuNumbers = new List<int> {testDrink1.MenuNumber}
+                    MenuNumbers = new List<int> { testDrink1.MenuNumber }
                 }
             );
 
@@ -266,6 +269,64 @@ namespace Cafe.Domain.Tests
                     MenuNumbers = new List<int> { testDrink1.MenuNumber }
                 }),
                 Throws.Exception.InstanceOf<DrinksNotOutstanding>());
+        }
+
+        [Test]
+        public void NoDrinksMarkedAsServedUnlessAllDrinksCanBeMarkedAsServed()
+        {
+            var drinkThatWasOrdered = new OrderedItem
+            {
+                Description = DrinkDescription,
+                IsDrink = true,
+                MenuNumber = DrinkMenuNumber,
+                Price = DrinkPrice
+            };
+            var drinkThatWasNotOrdered = new OrderedItem
+            {
+                Description = Drink2Description,
+                IsDrink = true,
+                MenuNumber = Drink2MenuNumber,
+                Price = Drink2Price
+            };
+
+            Given(
+                new TabOpened
+                {
+                    Id = _tabId,
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                },
+                new DrinksOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem> { drinkThatWasOrdered }
+                }
+            );
+
+            try
+            {
+                When(new MarkDrinksServed
+                {
+                    TabId = _tabId,
+                    MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber, drinkThatWasNotOrdered.MenuNumber }
+                });
+            }
+            catch (DrinksNotOutstanding)
+            {
+                // We'll swallow this, and try again with a valid command.
+            }
+
+            When(new MarkDrinksServed
+            {
+                TabId = _tabId,
+                MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber }
+            });
+
+            Then(new DrinksServed
+            {
+                Id = _tabId,
+                MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber }
+            });
         }
 
         private OrderedItem GetFoodOrderedItem()

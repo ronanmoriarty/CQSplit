@@ -49,32 +49,39 @@ namespace Cafe.Domain
 
         public IEnumerable<IEvent> Handle(MarkDrinksServed command)
         {
-            var menuNumbers = command.MenuNumbers;
-            UpdateDrinksAwaitingServing(menuNumbers);
+            if (!AllDrinksAwaitingServing(command.MenuNumbers))
+            {
+                throw new DrinksNotOutstanding();
+            }
+
+            UpdateDrinksAwaitingServing(command.MenuNumbers);
 
             return new IEvent[]
             {
                 new DrinksServed
                 {
                     Id = command.TabId,
-                    MenuNumbers = menuNumbers
+                    MenuNumbers = command.MenuNumbers
                 }
             };
         }
 
-        private void UpdateDrinksAwaitingServing(List<int> menuNumbers)
+        private bool AllDrinksAwaitingServing(List<int> menuNumbers)
         {
+            var currentDrinksAwaitingServing = new List<int>(_drinksAwaitingServing);
             foreach (var menuNumber in menuNumbers)
             {
-                if (_drinksAwaitingServing.Contains(menuNumber))
+                if (currentDrinksAwaitingServing.Contains(menuNumber))
                 {
-                    _drinksAwaitingServing.Remove(menuNumber);
+                    currentDrinksAwaitingServing.Remove(menuNumber);
                 }
                 else
                 {
-                    throw new DrinksNotOutstanding();
+                    return false;
                 }
             }
+
+            return true;
         }
 
         private IEnumerable<IEvent> GetEventForAnyFood(PlaceOrder command)
@@ -126,6 +133,14 @@ namespace Cafe.Domain
         public void Apply(DrinksServed @event)
         {
             UpdateDrinksAwaitingServing(@event.MenuNumbers);
+        }
+
+        private void UpdateDrinksAwaitingServing(List<int> menuNumbers)
+        {
+            foreach (var menuNumber in menuNumbers)
+            {
+                _drinksAwaitingServing.Remove(menuNumber);
+            }
         }
     }
 }
