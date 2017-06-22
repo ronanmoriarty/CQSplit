@@ -48,8 +48,8 @@ namespace Cafe.Domain
             }
 
             var events = new List<IEvent>();
-            events.AddRange(GetEventForAnyDrinks(command));
-            events.AddRange(GetEventForAnyFood(command));
+            events.AddRange(GetEventForAnyDrinksOrdered(command));
+            events.AddRange(GetEventForAnyFoodOrdered(command));
             return events;
         }
 
@@ -124,7 +124,7 @@ namespace Cafe.Domain
             return true;
         }
 
-        private IEnumerable<IEvent> GetEventForAnyFood(PlaceOrder command)
+        private IEnumerable<IEvent> GetEventForAnyFoodOrdered(PlaceOrder command)
         {
             var food = command.Items.Where(i => !i.IsDrink).ToList();
             if (!food.Any())
@@ -142,7 +142,7 @@ namespace Cafe.Domain
             };
         }
 
-        private IEnumerable<IEvent> GetEventForAnyDrinks(PlaceOrder command)
+        private IEnumerable<IEvent> GetEventForAnyDrinksOrdered(PlaceOrder command)
         {
             var drinks = command.Items.Where(i => i.IsDrink).ToList();
             if (!drinks.Any())
