@@ -30,6 +30,7 @@ namespace CQRSTutorial.Core
                 }
                 catch (TargetInvocationException exception)
                 {
+                    Console.WriteLine(exception.InnerException.StackTrace);
                     throw exception.InnerException; // allow any actual exceptions to bubble up, rather than wrapping up the original exception in the reflection-specific TargetInvocationException.
                 }
             }

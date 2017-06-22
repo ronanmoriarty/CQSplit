@@ -56,9 +56,9 @@ namespace Cafe.Domain.Tests
             var foodOrderedItem = GetFoodOrderedItem();
             var orderedItems = new List<OrderedItem> { foodOrderedItem };
 
-            Given(new OpenTab
+            Given(new TabOpened
             {
-                TabId = _tabId,
+                Id = _tabId,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
@@ -83,9 +83,9 @@ namespace Cafe.Domain.Tests
             var drinksOrderedItem = GetDrinkOrderedItem();
             var orderedItems = new List<OrderedItem> { drinksOrderedItem };
 
-            Given(new OpenTab
+            Given(new TabOpened
             {
-                TabId = _tabId,
+                Id = _tabId,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
@@ -111,9 +111,9 @@ namespace Cafe.Domain.Tests
             var drinksOrderedItem = GetDrinkOrderedItem();
             var orderedItems = new List<OrderedItem> {foodOrderedItem, drinksOrderedItem};
 
-            Given(new OpenTab
+            Given(new TabOpened
             {
-                TabId = _tabId,
+                Id = _tabId,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
@@ -156,7 +156,7 @@ namespace Cafe.Domain.Tests
                 Price = Drink2Price
             };
 
-            GivenEvents(new TabOpened
+            Given(new TabOpened
                 {
                     Id = _tabId,
                     TableNumber = _tableNumber,
@@ -208,7 +208,7 @@ namespace Cafe.Domain.Tests
                 Price = Drink2Price
             };
 
-            GivenEvents(new TabOpened
+            Given(new TabOpened
                 {
                     Id = _tabId,
                     TableNumber = _tableNumber,
@@ -221,12 +221,12 @@ namespace Cafe.Domain.Tests
                 }
             );
 
-            Assert.That(() => 
+            Assert.That(() =>
                 When(new MarkDrinksServed
                 {
                     TabId = _tabId,
                     MenuNumbers = new List<int> {testDrink2.MenuNumber}
-                }), 
+                }),
                 Throws.Exception.InstanceOf<DrinksNotOutstanding>());
         }
 
@@ -240,8 +240,8 @@ namespace Cafe.Domain.Tests
                 MenuNumber = DrinkMenuNumber,
                 Price = DrinkPrice
             };
-            
-            GivenEvents(new TabOpened
+
+            Given(new TabOpened
                 {
                     Id = _tabId,
                     TableNumber = _tableNumber,
