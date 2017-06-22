@@ -14,6 +14,7 @@ namespace CQRSTutorial.Tests.Common
         private CommandDispatcher _commandDispatcher;
         private TCommandHandler _commandHandler;
         private EventApplier _eventApplier;
+        private object[] _commands;
 
         [SetUp]
         public void SetUp()
@@ -35,11 +36,12 @@ namespace CQRSTutorial.Tests.Common
 
         protected void When(params object[] commands)
         {
-            _commandDispatcher.Dispatch(commands);
+            _commands = commands;
         }
 
         protected void Then(params object[] expectedEvents)
         {
+            HandleCommands();
             foreach (var expectedEvent in expectedEvents)
             {
                 _eventPublisher.Received(1).Publish(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatches(expectedEvent, events)));
@@ -51,6 +53,19 @@ namespace CQRSTutorial.Tests.Common
             var compareLogic = new CompareLogic();
             var matchingEvents = events.Where(@event => compareLogic.Compare(@event, expectedEvent).AreEqual);
             return matchingEvents.Any();
+        }
+
+        protected void ThenFailsWith<TException>()
+        {
+            Assert.That(
+                HandleCommands,
+                Throws.Exception.InstanceOf<TException>()
+            );
+        }
+
+        private void HandleCommands()
+        {
+            _commandDispatcher.Dispatch(_commands);
         }
     }
 }

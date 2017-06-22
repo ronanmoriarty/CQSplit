@@ -45,9 +45,13 @@ namespace Cafe.Domain.Tests
         [Test]
         public void CannotOrderWhenTabHasNotBeenOpenedYet()
         {
-            Assert.That(() =>
-                When(new PlaceOrder { TabId = _tabId, Items = null }),
-                Throws.Exception.InstanceOf<TabNotOpen>());
+            When(new PlaceOrder
+            {
+                TabId = _tabId,
+                Items = null
+            });
+
+            ThenFailsWith<TabNotOpen>();
         }
 
         [Test]
@@ -223,13 +227,13 @@ namespace Cafe.Domain.Tests
                 }
             );
 
-            Assert.That(() =>
-                When(new MarkDrinksServed
-                {
-                    TabId = _tabId,
-                    MenuNumbers = new List<int> { testDrink2.MenuNumber }
-                }),
-                Throws.Exception.InstanceOf<DrinksNotOutstanding>());
+            When(new MarkDrinksServed
+            {
+                TabId = _tabId,
+                MenuNumbers = new List<int> {testDrink2.MenuNumber}
+            });
+
+            ThenFailsWith<DrinksNotOutstanding>();
         }
 
         [Test]
@@ -262,13 +266,13 @@ namespace Cafe.Domain.Tests
                 }
             );
 
-            Assert.That(() =>
-                When(new MarkDrinksServed
-                {
-                    TabId = _tabId,
-                    MenuNumbers = new List<int> { testDrink1.MenuNumber }
-                }),
-                Throws.Exception.InstanceOf<DrinksNotOutstanding>());
+            When(new MarkDrinksServed
+            {
+                TabId = _tabId,
+                MenuNumbers = new List<int> {testDrink1.MenuNumber}
+            });
+
+            ThenFailsWith<DrinksNotOutstanding>();
         }
 
         [Test]
