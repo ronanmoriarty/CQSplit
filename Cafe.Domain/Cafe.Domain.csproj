@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CloseTab.cs" />
     <Compile Include="Commands\MarkDrinksServed.cs" />
     <Compile Include="Commands\MarkFoodServed.cs" />
     <Compile Include="Commands\OpenTab.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="Events\DrinksServed.cs" />
     <Compile Include="Events\FoodOrdered.cs" />
     <Compile Include="Events\FoodServed.cs" />
+    <Compile Include="Events\TabClosed.cs" />
     <Compile Include="Exceptions\DrinksNotOutstanding.cs" />
     <Compile Include="Exceptions\FoodNotOutstanding.cs" />
     <Compile Include="Exceptions\TabNotOpen.cs" />

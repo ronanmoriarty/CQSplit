@@ -13,6 +13,7 @@ namespace Cafe.Domain
         , ICommandHandler<PlaceOrder>
         , ICommandHandler<MarkDrinksServed>
         , ICommandHandler<MarkFoodServed>
+        , ICommandHandler<CloseTab>
         , IApplyEvent<TabOpened>
         , IApplyEvent<DrinksOrdered>
         , IApplyEvent<DrinksServed>
@@ -20,8 +21,9 @@ namespace Cafe.Domain
         , IApplyEvent<FoodServed>
     {
         private bool _isOpened;
-        private readonly List<int> _drinksAwaitingServing = new List<int>();
-        private readonly List<int> _foodAwaitingServing = new List<int>();
+        private readonly List<OrderedItem> _drinksAwaitingServing = new List<OrderedItem>();
+        private readonly List<OrderedItem> _foodAwaitingServing = new List<OrderedItem>();
+        private decimal _totalValueOfServedItems;
 
         public IEnumerable<IEvent> Handle(OpenTab command)
         {
@@ -53,12 +55,12 @@ namespace Cafe.Domain
 
         public IEnumerable<IEvent> Handle(MarkFoodServed command)
         {
-            if (!AllFoodAwaitingServing(command.MenuNumbers))
+            if (!AllItemsAwaitingServing(command.MenuNumbers, _foodAwaitingServing))
             {
                 throw new FoodNotOutstanding();
             }
 
-            UpdateFoodAwaitingServing(command.MenuNumbers);
+            UpdateItemsAwaitingServing(command.MenuNumbers, _foodAwaitingServing);
 
             return new IEvent[]
             {
@@ -72,12 +74,12 @@ namespace Cafe.Domain
 
         public IEnumerable<IEvent> Handle(MarkDrinksServed command)
         {
-            if (!AllDrinksAwaitingServing(command.MenuNumbers))
+            if (!AllItemsAwaitingServing(command.MenuNumbers, _drinksAwaitingServing))
             {
                 throw new DrinksNotOutstanding();
             }
 
-            UpdateDrinksAwaitingServing(command.MenuNumbers);
+            UpdateItemsAwaitingServing(command.MenuNumbers, _drinksAwaitingServing);
 
             return new IEvent[]
             {
@@ -89,32 +91,29 @@ namespace Cafe.Domain
             };
         }
 
-        private bool AllFoodAwaitingServing(List<int> menuNumbers)
+        public IEnumerable<IEvent> Handle(CloseTab command)
         {
-            var currentFoodAwaitingServing = new List<int>(_foodAwaitingServing);
-            foreach (var menuNumber in menuNumbers)
+            return new IEvent[]
             {
-                if (currentFoodAwaitingServing.Contains(menuNumber))
+                new TabClosed
                 {
-                    currentFoodAwaitingServing.Remove(menuNumber);
+                    Id = command.Id,
+                    AmountPaid = command.AmountPaid,
+                    OrderValue = _totalValueOfServedItems,
+                    TipValue = command.AmountPaid - _totalValueOfServedItems
                 }
-                else
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            };
         }
 
-        private bool AllDrinksAwaitingServing(List<int> menuNumbers)
+        private bool AllItemsAwaitingServing(List<int> menuNumbers, List<OrderedItem> itemsAwaitingServing)
         {
-            var currentDrinksAwaitingServing = new List<int>(_drinksAwaitingServing);
+            var currentItemsAwaitingServing = new List<OrderedItem>(itemsAwaitingServing);
             foreach (var menuNumber in menuNumbers)
             {
-                if (currentDrinksAwaitingServing.Contains(menuNumber))
+                if (currentItemsAwaitingServing.Any(orderedItem => orderedItem.MenuNumber == menuNumber))
                 {
-                    currentDrinksAwaitingServing.Remove(menuNumber);
+                    var firstItemMatchingMenuNumber = currentItemsAwaitingServing.First(orderedItem => orderedItem.MenuNumber == menuNumber);
+                    currentItemsAwaitingServing.Remove(firstItemMatchingMenuNumber);
                 }
                 else
                 {
@@ -168,37 +167,31 @@ namespace Cafe.Domain
 
         public void Apply(DrinksOrdered @event)
         {
-            _drinksAwaitingServing.AddRange(@event.Items.Select(x => x.MenuNumber));
+            _drinksAwaitingServing.AddRange(@event.Items);
         }
 
         public void Apply(FoodOrdered @event)
         {
-            _foodAwaitingServing.AddRange(@event.Items.Select(x => x.MenuNumber));
+            _foodAwaitingServing.AddRange(@event.Items);
         }
 
         public void Apply(FoodServed @event)
         {
-            UpdateFoodAwaitingServing(@event.MenuNumbers);
+            UpdateItemsAwaitingServing(@event.MenuNumbers, _foodAwaitingServing);
         }
 
         public void Apply(DrinksServed @event)
         {
-            UpdateDrinksAwaitingServing(@event.MenuNumbers);
+            UpdateItemsAwaitingServing(@event.MenuNumbers, _drinksAwaitingServing);
         }
 
-        private void UpdateFoodAwaitingServing(List<int> menuNumbers)
+        private void UpdateItemsAwaitingServing(List<int> menuNumbers, List<OrderedItem> itemsAwaitingServing)
         {
             foreach (var menuNumber in menuNumbers)
             {
-                _foodAwaitingServing.Remove(menuNumber);
-            }
-        }
-
-        private void UpdateDrinksAwaitingServing(List<int> menuNumbers)
-        {
-            foreach (var menuNumber in menuNumbers)
-            {
-                _drinksAwaitingServing.Remove(menuNumber);
+                var firstItemMatchingMenuNumber = itemsAwaitingServing.First(orderedItem => orderedItem.MenuNumber == menuNumber);
+                itemsAwaitingServing.Remove(firstItemMatchingMenuNumber);
+                _totalValueOfServedItems += firstItemMatchingMenuNumber.Price;
             }
         }
     }
