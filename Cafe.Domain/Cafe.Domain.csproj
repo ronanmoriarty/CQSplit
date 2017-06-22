@@ -49,6 +49,7 @@
     <Compile Include="Events\FoodOrdered.cs" />
     <Compile Include="Events\FoodServed.cs" />
     <Compile Include="Exceptions\DrinksNotOutstanding.cs" />
+    <Compile Include="Exceptions\FoodNotOutstanding.cs" />
     <Compile Include="Exceptions\TabNotOpen.cs" />
     <Compile Include="OrderedItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

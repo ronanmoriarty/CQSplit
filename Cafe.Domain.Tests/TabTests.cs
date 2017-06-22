@@ -292,6 +292,47 @@ namespace Cafe.Domain.Tests
         }
 
         [Test]
+        public void CanNotServeUnorderedFood()
+        {
+            var orderedFoodItem = new OrderedItem
+            {
+                Description = FoodDescription,
+                IsDrink = false,
+                MenuNumber = FoodMenuNumber,
+                Price = FoodPrice
+            };
+            var unorderedFoodItem = new OrderedItem
+            {
+                Description = Food2Description,
+                IsDrink = false,
+                MenuNumber = Food2MenuNumber,
+                Price = Food2Price
+            };
+
+            Given(
+                new TabOpened
+                {
+                    Id = _tabId,
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                },
+                new FoodOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem> { orderedFoodItem }
+                }
+            );
+
+            When(new MarkFoodServed
+            {
+                TabId = _tabId,
+                MenuNumbers = new List<int> { unorderedFoodItem.MenuNumber }
+            });
+
+            ThenFailsWith<FoodNotOutstanding>();
+        }
+
+        [Test]
         public void CanNotServeADrinkThatHasAlreadyBeenServed()
         {
             var testDrink1 = new OrderedItem

@@ -17,9 +17,11 @@ namespace Cafe.Domain
         , IApplyEvent<DrinksOrdered>
         , IApplyEvent<DrinksServed>
         , IApplyEvent<FoodOrdered>
+        , IApplyEvent<FoodServed>
     {
         private bool _isOpened;
         private readonly List<int> _drinksAwaitingServing = new List<int>();
+        private readonly List<int> _foodAwaitingServing = new List<int>();
 
         public IEnumerable<IEvent> Handle(OpenTab command)
         {
@@ -51,6 +53,13 @@ namespace Cafe.Domain
 
         public IEnumerable<IEvent> Handle(MarkFoodServed command)
         {
+            if (!AllFoodAwaitingServing(command.MenuNumbers))
+            {
+                throw new FoodNotOutstanding();
+            }
+
+            UpdateFoodAwaitingServing(command.MenuNumbers);
+
             return new IEvent[]
             {
                 new FoodServed
@@ -78,6 +87,24 @@ namespace Cafe.Domain
                     MenuNumbers = command.MenuNumbers
                 }
             };
+        }
+
+        private bool AllFoodAwaitingServing(List<int> menuNumbers)
+        {
+            var currentFoodAwaitingServing = new List<int>(_foodAwaitingServing);
+            foreach (var menuNumber in menuNumbers)
+            {
+                if (currentFoodAwaitingServing.Contains(menuNumber))
+                {
+                    currentFoodAwaitingServing.Remove(menuNumber);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         private bool AllDrinksAwaitingServing(List<int> menuNumbers)
@@ -146,11 +173,25 @@ namespace Cafe.Domain
 
         public void Apply(FoodOrdered @event)
         {
+            _foodAwaitingServing.AddRange(@event.Items.Select(x => x.MenuNumber));
+        }
+
+        public void Apply(FoodServed @event)
+        {
+            UpdateFoodAwaitingServing(@event.MenuNumbers);
         }
 
         public void Apply(DrinksServed @event)
         {
             UpdateDrinksAwaitingServing(@event.MenuNumbers);
+        }
+
+        private void UpdateFoodAwaitingServing(List<int> menuNumbers)
+        {
+            foreach (var menuNumber in menuNumbers)
+            {
+                _foodAwaitingServing.Remove(menuNumber);
+            }
         }
 
         private void UpdateDrinksAwaitingServing(List<int> menuNumbers)
