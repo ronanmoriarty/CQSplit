@@ -41,11 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\MarkDrinksServed.cs" />
+    <Compile Include="Commands\MarkFoodServed.cs" />
     <Compile Include="Commands\OpenTab.cs" />
     <Compile Include="Commands\PlaceOrder.cs" />
     <Compile Include="Events\DrinksOrdered.cs" />
     <Compile Include="Events\DrinksServed.cs" />
     <Compile Include="Events\FoodOrdered.cs" />
+    <Compile Include="Events\FoodServed.cs" />
     <Compile Include="Exceptions\DrinksNotOutstanding.cs" />
     <Compile Include="Exceptions\TabNotOpen.cs" />
     <Compile Include="OrderedItem.cs" />

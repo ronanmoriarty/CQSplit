@@ -12,9 +12,11 @@ namespace Cafe.Domain
         : ICommandHandler<OpenTab>
         , ICommandHandler<PlaceOrder>
         , ICommandHandler<MarkDrinksServed>
+        , ICommandHandler<MarkFoodServed>
         , IApplyEvent<TabOpened>
         , IApplyEvent<DrinksOrdered>
         , IApplyEvent<DrinksServed>
+        , IApplyEvent<FoodOrdered>
     {
         private bool _isOpened;
         private readonly List<int> _drinksAwaitingServing = new List<int>();
@@ -45,6 +47,18 @@ namespace Cafe.Domain
             events.AddRange(GetEventForAnyDrinks(command));
             events.AddRange(GetEventForAnyFood(command));
             return events;
+        }
+
+        public IEnumerable<IEvent> Handle(MarkFoodServed command)
+        {
+            return new IEvent[]
+            {
+                new FoodServed
+                {
+                    Id = command.TabId,
+                    MenuNumbers = command.MenuNumbers
+                }
+            };
         }
 
         public IEnumerable<IEvent> Handle(MarkDrinksServed command)
@@ -89,7 +103,7 @@ namespace Cafe.Domain
             var food = command.Items.Where(i => !i.IsDrink).ToList();
             if (!food.Any())
             {
-                return new IEvent[] {};
+                return new IEvent[] { };
             }
 
             return new IEvent[]
@@ -128,6 +142,10 @@ namespace Cafe.Domain
         public void Apply(DrinksOrdered @event)
         {
             _drinksAwaitingServing.AddRange(@event.Items.Select(x => x.MenuNumber));
+        }
+
+        public void Apply(FoodOrdered @event)
+        {
         }
 
         public void Apply(DrinksServed @event)
