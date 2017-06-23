@@ -14,46 +14,34 @@ namespace CQRSTutorial.Tests.Common
         private CommandDispatcher _commandDispatcher;
         private TCommandHandler _commandHandler;
         private EventApplier _eventApplier;
+        private object[] _commands;
 
         [SetUp]
         public void SetUp()
         {
             _commandHandler = new TCommandHandler();
             _eventPublisher = Substitute.For<IEventPublisher>();
-            SetUpEventPublisher();
             _commandDispatcher = new CommandDispatcher(_eventPublisher, new object[] { _commandHandler });
             _eventApplier = new EventApplier(new object[] {_commandHandler});
         }
 
-        private void SetUpEventPublisher()
+        // TODO: need to consider what tests are required involving a sequence of commands, or do we potentially say that each command will execute in isolation from all other commands, on an object whose current state is entirely dependent on previous events (rather than being dependent on previous events AND commands).
+        protected void Given(params IEvent[] events)
         {
-            _eventPublisher.When(e => e.Publish(Arg.Any<IEnumerable<IEvent>>())).Do(publishInvocation =>
+            foreach (var @event in events)
             {
-                //TODO: apply events automatically for now, but long-term we'll want to make this a more explicit step to get more control over exactly when the events get applied.
-                //TODO: events are currently applied regardless of TabId - fine for now in these simpler tests that only have one Tab, but that will likely become a problem quite soon.
-                foreach (IEnumerable<IEvent> eventsFromOnePublishInvocation in publishInvocation.Args())
-                {
-                    foreach (var @event in eventsFromOnePublishInvocation)
-                    {
-                        _eventApplier.ApplyEvent(@event);
-                    }
-                }
-            });
-        }
-
-        protected void Given(params object[] commands)
-        {
-            _commandDispatcher.Dispatch(commands);
-            _eventPublisher.ClearReceivedCalls(); // so any calls to Publish() during setup are not counted in the assertions - only calls to Publish() that occur as part of the When() clause wil be considered for assertions.
+                _eventApplier.ApplyEvent(@event);
+            }
         }
 
         protected void When(params object[] commands)
         {
-            _commandDispatcher.Dispatch(commands);
+            _commands = commands;
         }
 
         protected void Then(params object[] expectedEvents)
         {
+            HandleCommands();
             foreach (var expectedEvent in expectedEvents)
             {
                 _eventPublisher.Received(1).Publish(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatches(expectedEvent, events)));
@@ -65,6 +53,19 @@ namespace CQRSTutorial.Tests.Common
             var compareLogic = new CompareLogic();
             var matchingEvents = events.Where(@event => compareLogic.Compare(@event, expectedEvent).AreEqual);
             return matchingEvents.Any();
+        }
+
+        protected void ThenFailsWith<TException>()
+        {
+            Assert.That(
+                HandleCommands,
+                Throws.Exception.InstanceOf<TException>()
+            );
+        }
+
+        private void HandleCommands()
+        {
+            _commandDispatcher.Dispatch(_commands);
         }
     }
 }

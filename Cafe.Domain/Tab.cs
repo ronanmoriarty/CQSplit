@@ -8,19 +8,29 @@ using CQRSTutorial.Core;
 
 namespace Cafe.Domain
 {
-    public class Tab : ICommandHandler<OpenTab>, ICommandHandler<PlaceOrder>, IApplyEvent<TabOpened>
+    public class Tab
+        : ICommandHandler<OpenTab>
+        , ICommandHandler<PlaceOrder>
+        , ICommandHandler<MarkDrinksServed>
+        , IApplyEvent<TabOpened>
+        , IApplyEvent<DrinksOrdered>
+        , IApplyEvent<DrinksServed>
     {
         private bool _isOpened;
+        private readonly List<int> _drinksAwaitingServing = new List<int>();
 
         public IEnumerable<IEvent> Handle(OpenTab command)
         {
             Console.WriteLine("Handling OpenTab command...");
-            yield return new TabOpened
+            return new IEvent[]
+            {
+                new TabOpened
                 {
                     Id = command.TabId,
                     TableNumber = command.TableNumber,
                     Waiter = command.Waiter
-                };
+                }
+            };
         }
 
         public IEnumerable<IEvent> Handle(PlaceOrder command)
@@ -31,46 +41,106 @@ namespace Cafe.Domain
                 throw new TabNotOpen();
             }
 
-            foreach (var @event in GetEventForAnyDrinks(command))
-            {
-                yield return @event;
-            }
-
-            foreach (var @event in GetEventForAnyFood(command))
-            {
-                yield return @event;
-            }
+            var events = new List<IEvent>();
+            events.AddRange(GetEventForAnyDrinks(command));
+            events.AddRange(GetEventForAnyFood(command));
+            return events;
         }
 
-        private static IEnumerable<IEvent> GetEventForAnyFood(PlaceOrder command)
+        public IEnumerable<IEvent> Handle(MarkDrinksServed command)
+        {
+            if (!AllDrinksAwaitingServing(command.MenuNumbers))
+            {
+                throw new DrinksNotOutstanding();
+            }
+
+            UpdateDrinksAwaitingServing(command.MenuNumbers);
+
+            return new IEvent[]
+            {
+                new DrinksServed
+                {
+                    Id = command.TabId,
+                    MenuNumbers = command.MenuNumbers
+                }
+            };
+        }
+
+        private bool AllDrinksAwaitingServing(List<int> menuNumbers)
+        {
+            var currentDrinksAwaitingServing = new List<int>(_drinksAwaitingServing);
+            foreach (var menuNumber in menuNumbers)
+            {
+                if (currentDrinksAwaitingServing.Contains(menuNumber))
+                {
+                    currentDrinksAwaitingServing.Remove(menuNumber);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private IEnumerable<IEvent> GetEventForAnyFood(PlaceOrder command)
         {
             var food = command.Items.Where(i => !i.IsDrink).ToList();
-            if (food.Any())
+            if (!food.Any())
             {
-                yield return new FoodOrdered
+                return new IEvent[] {};
+            }
+
+            return new IEvent[]
+            {
+                new FoodOrdered
                 {
                     Id = command.TabId,
                     Items = food
-                };
-            }
+                }
+            };
         }
 
         private IEnumerable<IEvent> GetEventForAnyDrinks(PlaceOrder command)
         {
             var drinks = command.Items.Where(i => i.IsDrink).ToList();
-            if (drinks.Any())
+            if (!drinks.Any())
             {
-                yield return new DrinksOrdered
+                return new IEvent[] { };
+            }
+
+            return new IEvent[]
+            {
+                new DrinksOrdered
                 {
                     Id = command.TabId,
                     Items = drinks
-                };
-            }
+                }
+            };
         }
 
         public void Apply(TabOpened @event)
         {
             _isOpened = true;
+        }
+
+        public void Apply(DrinksOrdered @event)
+        {
+            _drinksAwaitingServing.AddRange(@event.Items.Select(x => x.MenuNumber));
+        }
+
+        public void Apply(DrinksServed @event)
+        {
+            UpdateDrinksAwaitingServing(@event.MenuNumbers);
+        }
+
+        private void UpdateDrinksAwaitingServing(List<int> menuNumbers)
+        {
+            foreach (var menuNumber in menuNumbers)
+            {
+                _drinksAwaitingServing.Remove(menuNumber);
+            }
         }
     }
 }

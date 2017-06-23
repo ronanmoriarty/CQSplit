@@ -17,11 +17,16 @@ namespace CQRSTutorial.Core
         {
             var eventType = @event.GetType();
             var commandHandler = _commandHandlers.SingleOrDefault(CanApplyEventOfType(eventType));
+            var applyEventMethodName = GetApplyEventMethodName();
             if (commandHandler != null)
             {
-                var applyMethodInfo = commandHandler.FindMethodTakingSingleArgument(GetApplyEventMethodName(), eventType);
-                Console.WriteLine($"Invoking {GetApplyEventMethodName()}() for {eventType.FullName}...");
+                var applyMethodInfo = commandHandler.FindMethodTakingSingleArgument(applyEventMethodName, eventType);
+                Console.WriteLine($"Invoking {applyEventMethodName}() for {eventType.FullName}...");
                 applyMethodInfo?.Invoke(commandHandler, new object[] {@event});
+            }
+            else
+            {
+                Console.WriteLine($"Could not find {applyEventMethodName}() taking argument of type {eventType.FullName}.");
             }
         }
 
