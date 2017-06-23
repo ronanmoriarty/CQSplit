@@ -526,6 +526,51 @@ namespace Cafe.Domain.Tests
             });
         }
 
+        [Test]
+        public void CanCloseTabWithTip()
+        {
+            var drinkItem = new OrderedItem
+            {
+                Description = DrinkDescription,
+                IsDrink = true,
+                MenuNumber = DrinkMenuNumber,
+                Price = DrinkPrice
+            };
+
+            Given(
+                new TabOpened
+                {
+                    Id = _tabId,
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                },
+                new DrinksOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem> {drinkItem}
+                },
+                new DrinksServed
+                {
+                    Id = _tabId,
+                    MenuNumbers = new List<int> {drinkItem.MenuNumber}
+                }
+            );
+
+            When(new CloseTab
+            {
+                Id = _tabId,
+                AmountPaid = drinkItem.Price + 0.50M
+            });
+
+            Then(new TabClosed
+            {
+                Id = _tabId,
+                AmountPaid = drinkItem.Price + 0.50M,
+                OrderValue = drinkItem.Price,
+                TipValue = 0.50M
+            });
+        }
+
         private OrderedItem GetFoodOrderedItem()
         {
             return new OrderedItem
