@@ -15,8 +15,11 @@ namespace Cafe.Domain.Tests
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
         private const decimal FoodPrice = 12m;
-        private const int FoodMenuNumber = 12;
+        private const int FoodMenuNumber = 101;
         private const string FoodDescription = "Tikka Masala";
+        private const decimal Food2Price = 15m;
+        private const int Food2MenuNumber = 102;
+        private const string Food2Description = "Chicken Madras";
         private const decimal DrinkPrice = 2m;
         private const int DrinkMenuNumber = 13;
         private const string DrinkDescription = "Coca Cola";
@@ -196,6 +199,58 @@ namespace Cafe.Domain.Tests
         }
 
         [Test]
+        public void OrderedFoodCanBeServed()
+        {
+            var foodItem1 = new OrderedItem
+            {
+                Description = FoodDescription,
+                IsDrink = false,
+                MenuNumber = FoodMenuNumber,
+                Price = FoodPrice
+            };
+            var foodItem2 = new OrderedItem
+            {
+                Description = Food2Description,
+                IsDrink = false,
+                MenuNumber = Food2MenuNumber,
+                Price = Food2Price
+            };
+
+            Given(
+                new TabOpened
+                {
+                    Id = _tabId,
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                },
+                new FoodOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem>
+                    {
+                        foodItem1,
+                        foodItem2
+                    }
+                });
+
+            When(new MarkFoodServed
+            {
+                TabId = _tabId,
+                MenuNumbers = new List<int>
+                {
+                    foodItem1.MenuNumber,
+                    foodItem2.MenuNumber
+                }
+            });
+
+            Then(new FoodServed
+            {
+                Id = _tabId,
+                MenuNumbers = new List<int> { foodItem1.MenuNumber, foodItem2.MenuNumber }
+            });
+        }
+
+        [Test]
         public void CanNotServeAnUnorderedDrink()
         {
             var testDrink1 = new OrderedItem
@@ -230,10 +285,51 @@ namespace Cafe.Domain.Tests
             When(new MarkDrinksServed
             {
                 TabId = _tabId,
-                MenuNumbers = new List<int> {testDrink2.MenuNumber}
+                MenuNumbers = new List<int> { testDrink2.MenuNumber }
             });
 
             ThenFailsWith<DrinksNotOutstanding>();
+        }
+
+        [Test]
+        public void CanNotServeUnorderedFood()
+        {
+            var orderedFoodItem = new OrderedItem
+            {
+                Description = FoodDescription,
+                IsDrink = false,
+                MenuNumber = FoodMenuNumber,
+                Price = FoodPrice
+            };
+            var unorderedFoodItem = new OrderedItem
+            {
+                Description = Food2Description,
+                IsDrink = false,
+                MenuNumber = Food2MenuNumber,
+                Price = Food2Price
+            };
+
+            Given(
+                new TabOpened
+                {
+                    Id = _tabId,
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                },
+                new FoodOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem> { orderedFoodItem }
+                }
+            );
+
+            When(new MarkFoodServed
+            {
+                TabId = _tabId,
+                MenuNumbers = new List<int> { unorderedFoodItem.MenuNumber }
+            });
+
+            ThenFailsWith<FoodNotOutstanding>();
         }
 
         [Test]
@@ -269,10 +365,49 @@ namespace Cafe.Domain.Tests
             When(new MarkDrinksServed
             {
                 TabId = _tabId,
-                MenuNumbers = new List<int> {testDrink1.MenuNumber}
+                MenuNumbers = new List<int> { testDrink1.MenuNumber }
             });
 
             ThenFailsWith<DrinksNotOutstanding>();
+        }
+
+        [Test]
+        public void CanNotServeFoodThatHasAlreadyBeenServed()
+        {
+            var foodItem = new OrderedItem
+            {
+                Description = FoodDescription,
+                IsDrink = false,
+                MenuNumber = FoodMenuNumber,
+                Price = FoodPrice
+            };
+
+            Given(
+                new TabOpened
+                {
+                    Id = _tabId,
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                },
+                new FoodOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem> { foodItem }
+                },
+                new FoodServed
+                {
+                    Id = _tabId,
+                    MenuNumbers = new List<int> { foodItem.MenuNumber }
+                }
+            );
+
+            When(new MarkFoodServed
+            {
+                TabId = _tabId,
+                MenuNumbers = new List<int> { foodItem.MenuNumber }
+            });
+
+            ThenFailsWith<FoodNotOutstanding>();
         }
 
         [Test]
@@ -330,6 +465,64 @@ namespace Cafe.Domain.Tests
             {
                 Id = _tabId,
                 MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber }
+            });
+        }
+
+        [Test]
+        public void NoFoodMarkedAsServedUnlessAllFoodCanBeMarkedAsServed()
+        {
+            var foodThatWasOrdered = new OrderedItem
+            {
+                Description = FoodDescription,
+                IsDrink = false,
+                MenuNumber = FoodMenuNumber,
+                Price = FoodPrice
+            };
+            var foodThatWasNotOrdered = new OrderedItem
+            {
+                Description = Food2Description,
+                IsDrink = false,
+                MenuNumber = Food2MenuNumber,
+                Price = Food2Price
+            };
+
+            Given(
+                new TabOpened
+                {
+                    Id = _tabId,
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                },
+                new FoodOrdered
+                {
+                    Id = _tabId,
+                    Items = new List<OrderedItem> { foodThatWasOrdered }
+                }
+            );
+
+            try
+            {
+                When(new MarkFoodServed
+                {
+                    TabId = _tabId,
+                    MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber, foodThatWasNotOrdered.MenuNumber }
+                });
+            }
+            catch (FoodNotOutstanding)
+            {
+                // We'll swallow this, and try again with a valid command.
+            }
+
+            When(new MarkFoodServed
+            {
+                TabId = _tabId,
+                MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber }
+            });
+
+            Then(new FoodServed
+            {
+                Id = _tabId,
+                MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber }
             });
         }
 
