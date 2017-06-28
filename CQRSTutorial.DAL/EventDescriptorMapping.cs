@@ -1,15 +1,13 @@
-﻿using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Automapping;
+using FluentNHibernate.Automapping.Alterations;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventDescriptorMapping : ClassMap<EventDescriptor>
+    public class EventDescriptorMapping : IAutoMappingOverride<EventDescriptor>
     {
-        public EventDescriptorMapping()
+        public void Override(AutoMapping<EventDescriptor> mapping)
         {
-            Table("Events");
-            Id(x => x.Id);
-            Map(x => x.EventType);
-            Map(x => x.Data);
+            mapping.Table("Events");
         }
     }
 }
