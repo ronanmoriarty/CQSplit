@@ -75,5 +75,41 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(foodOrderedItem.MenuNumber, Is.EqualTo(foodMenuNumber));
             Assert.That(foodOrderedItem.Price, Is.EqualTo(foodPrice));
         }
+
+        [Test]
+        public void InsertAndReadDrinkOrdered()
+        {
+            const string drinkDescription = "Coca Cola";
+            const int drinkMenuNumber = 101;
+            const decimal drinkPrice = 2.5m;
+
+            var drinkOrdered = new DrinksOrdered
+            {
+                Items = new List<OrderedItem>
+                {
+                    new OrderedItem
+                    {
+                        Description = drinkDescription,
+                        IsDrink = true,
+                        MenuNumber = drinkMenuNumber,
+                        Price = drinkPrice
+                    }
+                }
+            };
+
+            _eventRepository.Add(drinkOrdered);
+
+            var retrievedEvent = _eventRepository.Read(drinkOrdered.Id);
+
+            Assert.That(retrievedEvent is DrinksOrdered);
+            var retrievedDrinkOrderedEvent = (DrinksOrdered)retrievedEvent;
+            Assert.That(retrievedDrinkOrderedEvent.Id, Is.EqualTo(drinkOrdered.Id));
+            Assert.That(retrievedDrinkOrderedEvent.Items.Count, Is.EqualTo(1));
+            var drinkOrderedItem = retrievedDrinkOrderedEvent.Items.Single();
+            Assert.That(drinkOrderedItem.Description, Is.EqualTo(drinkDescription));
+            Assert.That(drinkOrderedItem.IsDrink, Is.True);
+            Assert.That(drinkOrderedItem.MenuNumber, Is.EqualTo(drinkMenuNumber));
+            Assert.That(drinkOrderedItem.Price, Is.EqualTo(drinkPrice));
+        }
     }
 }
