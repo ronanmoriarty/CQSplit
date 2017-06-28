@@ -58,6 +58,8 @@
   <ItemGroup>
     <Compile Include="EventTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RunOncePerTestRun.cs" />
+    <Compile Include="SessionFactory.cs" />
     <Compile Include="TestConstants.cs" />
   </ItemGroup>
   <ItemGroup>
