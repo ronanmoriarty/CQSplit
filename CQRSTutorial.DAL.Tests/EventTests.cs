@@ -1,5 +1,4 @@
-﻿using System;
-using Cafe.Domain.Events;
+﻿using Cafe.Domain.Events;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
@@ -7,7 +6,7 @@ using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
 {
-    [TestFixture]
+    [TestFixture, Category(TestConstants.Integration)]
     public class EventTests
     {
         private IEventRepository _eventRepository;

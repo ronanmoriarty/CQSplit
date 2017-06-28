@@ -35,7 +35,7 @@ namespace CQRSTutorial.DAL
             {
                 var eventDescriptor = session.Get<EventDescriptor>(id);
                 var @event = (IEvent)JsonConvert.DeserializeObject(eventDescriptor.Data, eventDescriptor.EventType);
-                @event.Id = id;
+                AssignEventIdFromEventDescriptorId(@event, eventDescriptor);
                 return @event;
             }
         }
@@ -44,6 +44,11 @@ namespace CQRSTutorial.DAL
             EventDescriptor eventDescriptor)
         {
             // We're not saving the event itself - so the event's id doesn't get updated automatically by NHibernate. Only the EventDescriptor's Id gets updated during saving.
+            @event.Id = eventDescriptor.Id;
+        }
+
+        private void AssignEventIdFromEventDescriptorId(IEvent @event, EventDescriptor eventDescriptor)
+        {
             @event.Id = eventDescriptor.Id;
         }
     }
