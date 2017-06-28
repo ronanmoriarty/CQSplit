@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Automapping;
+﻿using System.Data;
+using FluentNHibernate.Automapping;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
@@ -7,9 +8,13 @@ namespace CQRSTutorial.DAL
 {
     public static class NHibernateConfiguration
     {
-        public static ISessionFactory CreateSessionFactory()
+        public static ISessionFactory CreateSessionFactory(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
         {
-            var msSqlConfiguration = MsSqlConfiguration.MsSql2012.ConnectionString(x => x.FromConnectionStringWithKey("CQRSTutorial"));
+            var msSqlConfiguration = MsSqlConfiguration
+                .MsSql2012
+                .IsolationLevel(isolationLevel)
+                .ConnectionString(x => x.FromConnectionStringWithKey("CQRSTutorial"));
+
             var cfg = new CustomAutomappingConfiguration();
             return Fluently
                 .Configure()

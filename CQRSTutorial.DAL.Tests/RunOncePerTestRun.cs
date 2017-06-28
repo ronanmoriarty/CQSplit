@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Data;
+using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
 {
@@ -9,6 +10,7 @@ namespace CQRSTutorial.DAL.Tests
         public void OneTimeSetUp()
         {
             SessionFactory.Instance = NHibernateConfiguration.CreateSessionFactory();
+            SessionFactory.InstanceForReadingUncommittedChanges = NHibernateConfiguration.CreateSessionFactory(IsolationLevel.ReadUncommitted);
         }
     }
 }

@@ -10,11 +10,15 @@ namespace CQRSTutorial.DAL.Tests
     public class EventTests
     {
         private IEventRepository _eventRepository;
+        private IEventRepository _eventRepositoryForReadingUncommittedChanges;
+        private UnitOfWork _unitOfWork;
 
         [SetUp]
         public void SetUp()
         {
-            _eventRepository = new EventRepository(SessionFactory.Instance);
+            _unitOfWork = new UnitOfWork(SessionFactory.Instance);
+            _eventRepository = new EventRepository(_unitOfWork);
+            _eventRepositoryForReadingUncommittedChanges = new EventRepository(new UnitOfWork(SessionFactory.InstanceForReadingUncommittedChanges));
         }
 
         [Test]
@@ -31,7 +35,7 @@ namespace CQRSTutorial.DAL.Tests
 
             _eventRepository.Add(tabOpened);
 
-            var retrievedEvent = _eventRepository.Read(tabOpened.Id);
+            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(tabOpened.Id);
 
             Assert.That(retrievedEvent is TabOpened);
             var retrievedTabOpenedEvent = (TabOpened) retrievedEvent;
@@ -63,7 +67,7 @@ namespace CQRSTutorial.DAL.Tests
 
             _eventRepository.Add(foodOrdered);
 
-            var retrievedEvent = _eventRepository.Read(foodOrdered.Id);
+            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(foodOrdered.Id);
 
             Assert.That(retrievedEvent is FoodOrdered);
             var retrievedFoodOrderedEvent = (FoodOrdered)retrievedEvent;
@@ -99,7 +103,7 @@ namespace CQRSTutorial.DAL.Tests
 
             _eventRepository.Add(drinkOrdered);
 
-            var retrievedEvent = _eventRepository.Read(drinkOrdered.Id);
+            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(drinkOrdered.Id);
 
             Assert.That(retrievedEvent is DrinksOrdered);
             var retrievedDrinkOrderedEvent = (DrinksOrdered)retrievedEvent;
@@ -110,6 +114,12 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(drinkOrderedItem.IsDrink, Is.True);
             Assert.That(drinkOrderedItem.MenuNumber, Is.EqualTo(drinkMenuNumber));
             Assert.That(drinkOrderedItem.Price, Is.EqualTo(drinkPrice));
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _unitOfWork?.Rollback();
         }
     }
 }

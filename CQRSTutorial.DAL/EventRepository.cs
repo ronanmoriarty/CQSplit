@@ -1,22 +1,21 @@
 ﻿using System;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
-using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
     public class EventRepository : IEventRepository
     {
-        private readonly ISessionFactory _sessionFactory;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EventRepository(ISessionFactory sessionFactory)
+        public EventRepository(IUnitOfWork unitOfWork)
         {
-            _sessionFactory = sessionFactory;
+            _unitOfWork = unitOfWork;
         }
 
         public void Add(IEvent @event)
         {
-            using (var session = _sessionFactory.OpenSession())
+            using (var session = _unitOfWork.GetSession())
             {
                 var eventDescriptor = new EventDescriptor
                 {
@@ -31,7 +30,7 @@ namespace CQRSTutorial.DAL
 
         public IEvent Read(Guid id)
         {
-            using (var session = _sessionFactory.OpenSession())
+            using (var session = _unitOfWork.GetSession())
             {
                 var eventDescriptor = session.Get<EventDescriptor>(id);
                 var @event = (IEvent)JsonConvert.DeserializeObject(eventDescriptor.Data, eventDescriptor.EventType);
