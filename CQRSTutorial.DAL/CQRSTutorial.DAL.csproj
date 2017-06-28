@@ -56,10 +56,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomAutomappingConfiguration.cs" />
     <Compile Include="EventDescriptor.cs" />
     <Compile Include="EventDescriptorMapping.cs" />
     <Compile Include="EventRepository.cs" />
     <Compile Include="IEventRepository.cs" />
+    <Compile Include="NHibernateConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
