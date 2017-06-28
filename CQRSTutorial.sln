@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Infrastructure.Tests", "CQRSTutorial.Infrastructure.Tests\CQRSTutorial.Infrastructure.Tests.csproj", "{A839A3A1-0302-40A1-95BF-F43F19E0677C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.DAL", "CQRSTutorial.DAL\CQRSTutorial.DAL.csproj", "{92221377-F43D-4C30-9A94-9E5E8FB0C969}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{A839A3A1-0302-40A1-95BF-F43F19E0677C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A839A3A1-0302-40A1-95BF-F43F19E0677C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A839A3A1-0302-40A1-95BF-F43F19E0677C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92221377-F43D-4C30-9A94-9E5E8FB0C969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92221377-F43D-4C30-9A94-9E5E8FB0C969}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92221377-F43D-4C30-9A94-9E5E8FB0C969}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92221377-F43D-4C30-9A94-9E5E8FB0C969}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
