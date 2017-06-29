@@ -7,7 +7,7 @@ namespace CQRSTutorial.DAL
     {
         public override bool ShouldMap(Type type)
         {
-            return type.Name == "EventDescriptor"; // TODO: we'll cater for entities here too as tests demand it.
+            return type.Name == typeof(EventDescriptor).Name;
         }
     }
 }

@@ -1,42 +1,29 @@
 ﻿using System;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
+using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
     public class EventRepository : IEventRepository
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public EventRepository(IUnitOfWork unitOfWork)
+        public void Add(IEvent @event, ISession session)
         {
-            _unitOfWork = unitOfWork;
+            var eventDescriptor = new EventDescriptor
+            {
+                EventType = @event.GetType(),
+                Data = JsonConvert.SerializeObject(@event)
+            };
+            session.SaveOrUpdate(eventDescriptor);
+            UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(@event, eventDescriptor);
         }
 
-        public void Add(IEvent @event)
+        public IEvent Read(Guid id, ISession session)
         {
-            using (var session = _unitOfWork.GetSession())
-            {
-                var eventDescriptor = new EventDescriptor
-                {
-                    EventType = @event.GetType(),
-                    Data = JsonConvert.SerializeObject(@event)
-                };
-                session.SaveOrUpdate(eventDescriptor);
-                UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(@event, eventDescriptor);
-                session.Flush();
-            }
-        }
-
-        public IEvent Read(Guid id)
-        {
-            using (var session = _unitOfWork.GetSession())
-            {
                 var eventDescriptor = session.Get<EventDescriptor>(id);
                 var @event = (IEvent)JsonConvert.DeserializeObject(eventDescriptor.Data, eventDescriptor.EventType);
                 AssignEventIdFromEventDescriptorId(@event, eventDescriptor);
                 return @event;
-            }
         }
 
         private void UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(IEvent @event,

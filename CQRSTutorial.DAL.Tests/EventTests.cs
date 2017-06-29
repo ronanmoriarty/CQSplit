@@ -2,6 +2,7 @@
 using System.Linq;
 using Cafe.Domain;
 using Cafe.Domain.Events;
+using NHibernate;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
@@ -11,14 +12,15 @@ namespace CQRSTutorial.DAL.Tests
     {
         private IEventRepository _eventRepository;
         private IEventRepository _eventRepositoryForReadingUncommittedChanges;
-        private UnitOfWork _unitOfWork;
+        private ISession _writeSession;
 
         [SetUp]
         public void SetUp()
         {
-            _unitOfWork = new UnitOfWork(SessionFactory.Instance);
-            _eventRepository = new EventRepository(_unitOfWork);
-            _eventRepositoryForReadingUncommittedChanges = new EventRepository(new UnitOfWork(SessionFactory.InstanceForReadingUncommittedChanges));
+            _eventRepository = new EventRepository();
+            _writeSession = SessionFactory.WriteInstance.OpenSession();
+            _writeSession.BeginTransaction();
+            _eventRepositoryForReadingUncommittedChanges = new EventRepository();
         }
 
         [Test]
@@ -33,9 +35,10 @@ namespace CQRSTutorial.DAL.Tests
                 Waiter = waiter
             };
 
-            _eventRepository.Add(tabOpened);
+            _eventRepository.Add(tabOpened, _writeSession);
+            _writeSession.Flush();
 
-            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(tabOpened.Id);
+            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(tabOpened.Id, SessionFactory.ReadInstance.OpenSession());
 
             Assert.That(retrievedEvent is TabOpened);
             var retrievedTabOpenedEvent = (TabOpened) retrievedEvent;
@@ -65,9 +68,10 @@ namespace CQRSTutorial.DAL.Tests
                 }
             };
 
-            _eventRepository.Add(foodOrdered);
+            _eventRepository.Add(foodOrdered, _writeSession);
+            _writeSession.Flush();
 
-            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(foodOrdered.Id);
+            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(foodOrdered.Id, SessionFactory.ReadInstance.OpenSession());
 
             Assert.That(retrievedEvent is FoodOrdered);
             var retrievedFoodOrderedEvent = (FoodOrdered)retrievedEvent;
@@ -101,9 +105,11 @@ namespace CQRSTutorial.DAL.Tests
                 }
             };
 
-            _eventRepository.Add(drinkOrdered);
+            _eventRepository.Add(drinkOrdered, _writeSession);
+            _writeSession.Flush();
 
-            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(drinkOrdered.Id);
+            var readSession = SessionFactory.ReadInstance.OpenSession();
+            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(drinkOrdered.Id, readSession);
 
             Assert.That(retrievedEvent is DrinksOrdered);
             var retrievedDrinkOrderedEvent = (DrinksOrdered)retrievedEvent;
@@ -119,7 +125,7 @@ namespace CQRSTutorial.DAL.Tests
         [TearDown]
         public void TearDown()
         {
-            _unitOfWork?.Rollback();
+            _writeSession.Transaction?.Rollback();
         }
     }
 }
