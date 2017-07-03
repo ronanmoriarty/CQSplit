@@ -65,7 +65,6 @@
     <Compile Include="RunOncePerTestRun.cs" />
     <Compile Include="SessionFactory.cs" />
     <Compile Include="TestConstants.cs" />
-    <Compile Include="TimeoutExpiredTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cafe.Domain\Cafe.Domain.csproj">
