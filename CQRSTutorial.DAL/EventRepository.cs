@@ -1,26 +1,32 @@
 ﻿using System;
+using System.Data;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
 using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventRepository : IEventRepository
+    public class EventRepository : RepositoryBase, IEventRepository
     {
-        public void Add(IEvent @event, ISession session)
+        public EventRepository(ISessionFactory writeSessionFactory, ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
+            : base(writeSessionFactory, readSessionFactory, isolationLevel)
+        {
+        }
+
+        public void Add(IEvent @event)
         {
             var eventDescriptor = new EventDescriptor
             {
                 EventType = @event.GetType(),
                 Data = JsonConvert.SerializeObject(@event)
             };
-            session.SaveOrUpdate(eventDescriptor);
+            SaveOrUpdate(eventDescriptor);
             UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(@event, eventDescriptor);
         }
 
-        public IEvent Read(Guid id, ISession session)
+        public IEvent Read(Guid id)
         {
-                var eventDescriptor = session.Get<EventDescriptor>(id);
+                var eventDescriptor = Get<EventDescriptor>(id);
                 var @event = (IEvent)JsonConvert.DeserializeObject(eventDescriptor.Data, eventDescriptor.EventType);
                 AssignEventIdFromEventDescriptorId(@event, eventDescriptor);
                 return @event;
