@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using Cafe.Domain;
 using Cafe.Domain.Events;
@@ -9,16 +10,13 @@ namespace CQRSTutorial.DAL.Tests
     [TestFixture, Category(TestConstants.Integration)]
     public class EventTests
     {
-        private IEventRepository _eventRepository;
-        private IEventRepository _eventRepositoryForReadingUncommittedChanges;
-        private UnitOfWork _unitOfWork;
+        private EventRepository _eventRepository;
 
         [SetUp]
         public void SetUp()
         {
-            _unitOfWork = new UnitOfWork(SessionFactory.Instance);
-            _eventRepository = new EventRepository(_unitOfWork);
-            _eventRepositoryForReadingUncommittedChanges = new EventRepository(new UnitOfWork(SessionFactory.InstanceForReadingUncommittedChanges));
+            _eventRepository = new EventRepository(SessionFactory.WriteInstance, SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted);
+            _eventRepository.BeginTransaction();
         }
 
         [Test]
@@ -35,7 +33,7 @@ namespace CQRSTutorial.DAL.Tests
 
             _eventRepository.Add(tabOpened);
 
-            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(tabOpened.Id);
+            var retrievedEvent = _eventRepository.Read(tabOpened.Id);
 
             Assert.That(retrievedEvent is TabOpened);
             var retrievedTabOpenedEvent = (TabOpened) retrievedEvent;
@@ -67,7 +65,7 @@ namespace CQRSTutorial.DAL.Tests
 
             _eventRepository.Add(foodOrdered);
 
-            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(foodOrdered.Id);
+            var retrievedEvent = _eventRepository.Read(foodOrdered.Id);
 
             Assert.That(retrievedEvent is FoodOrdered);
             var retrievedFoodOrderedEvent = (FoodOrdered)retrievedEvent;
@@ -103,7 +101,7 @@ namespace CQRSTutorial.DAL.Tests
 
             _eventRepository.Add(drinkOrdered);
 
-            var retrievedEvent = _eventRepositoryForReadingUncommittedChanges.Read(drinkOrdered.Id);
+            var retrievedEvent = _eventRepository.Read(drinkOrdered.Id);
 
             Assert.That(retrievedEvent is DrinksOrdered);
             var retrievedDrinkOrderedEvent = (DrinksOrdered)retrievedEvent;
@@ -119,7 +117,7 @@ namespace CQRSTutorial.DAL.Tests
         [TearDown]
         public void TearDown()
         {
-            _unitOfWork?.Rollback();
+            _eventRepository.Rollback();
         }
     }
 }

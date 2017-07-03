@@ -9,8 +9,8 @@ namespace CQRSTutorial.DAL.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            SessionFactory.Instance = NHibernateConfiguration.CreateSessionFactory();
-            SessionFactory.InstanceForReadingUncommittedChanges = NHibernateConfiguration.CreateSessionFactory(IsolationLevel.ReadUncommitted);
+            SessionFactory.WriteInstance = NHibernateConfiguration.CreateSessionFactory();
+            SessionFactory.ReadInstance = NHibernateConfiguration.CreateSessionFactory(IsolationLevel.ReadUncommitted);
         }
     }
 }

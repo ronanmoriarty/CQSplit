@@ -1,42 +1,35 @@
 ﻿using System;
+using System.Data;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
+using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventRepository : IEventRepository
+    public class EventRepository : RepositoryBase, IEventRepository
     {
-        private readonly IUnitOfWork _unitOfWork;
-
-        public EventRepository(IUnitOfWork unitOfWork)
+        public EventRepository(ISessionFactory writeSessionFactory, ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
+            : base(writeSessionFactory, readSessionFactory, isolationLevel)
         {
-            _unitOfWork = unitOfWork;
         }
 
         public void Add(IEvent @event)
         {
-            using (var session = _unitOfWork.GetSession())
+            var eventDescriptor = new EventDescriptor
             {
-                var eventDescriptor = new EventDescriptor
-                {
-                    EventType = @event.GetType(),
-                    Data = JsonConvert.SerializeObject(@event)
-                };
-                session.SaveOrUpdate(eventDescriptor);
-                UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(@event, eventDescriptor);
-                session.Flush();
-            }
+                EventType = @event.GetType(),
+                Data = JsonConvert.SerializeObject(@event)
+            };
+            SaveOrUpdate(eventDescriptor);
+            UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(@event, eventDescriptor);
         }
 
         public IEvent Read(Guid id)
         {
-            using (var session = _unitOfWork.GetSession())
-            {
-                var eventDescriptor = session.Get<EventDescriptor>(id);
+                var eventDescriptor = Get<EventDescriptor>(id);
                 var @event = (IEvent)JsonConvert.DeserializeObject(eventDescriptor.Data, eventDescriptor.EventType);
                 AssignEventIdFromEventDescriptorId(@event, eventDescriptor);
                 return @event;
-            }
         }
 
         private void UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(IEvent @event,
