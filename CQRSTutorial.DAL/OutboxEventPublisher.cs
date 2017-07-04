@@ -32,7 +32,7 @@ namespace CQRSTutorial.DAL
                     }
                     catch (System.Exception)
                     {
-                        //transaction.Rollback(); //TODO write test to bring this line in
+                        transaction.Rollback();
                     }
                 }
             }
