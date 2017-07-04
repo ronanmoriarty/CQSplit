@@ -8,7 +8,7 @@ namespace CQRSTutorial.Infrastructure.Tests
     [TestFixture]
     public class MessageBusEventPublisherTests
     {
-        [Test]
+        [Test, Explicit]
         public void Test()
         {
             var messageBusEventPublisher = new MessageBusEventPublisher();
