@@ -3,6 +3,7 @@ using System.Data;
 using System.Linq;
 using Cafe.Domain;
 using Cafe.Domain.Events;
+using NHibernate;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
@@ -11,12 +12,15 @@ namespace CQRSTutorial.DAL.Tests
     public class EventTests
     {
         private EventRepository _eventRepository;
+        private ISession _writeSession;
 
         [SetUp]
         public void SetUp()
         {
-            _eventRepository = new EventRepository(SessionFactory.WriteInstance, SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted);
-            _eventRepository.BeginTransaction();
+            _eventRepository = new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted);
+            _writeSession = SessionFactory.WriteInstance.OpenSession();
+            _eventRepository.WriteSession = _writeSession;
+            _writeSession.BeginTransaction();
         }
 
         [Test]
@@ -32,6 +36,7 @@ namespace CQRSTutorial.DAL.Tests
             };
 
             _eventRepository.Add(tabOpened);
+            _writeSession.Flush();
 
             var retrievedEvent = _eventRepository.Read(tabOpened.Id);
 
@@ -64,6 +69,7 @@ namespace CQRSTutorial.DAL.Tests
             };
 
             _eventRepository.Add(foodOrdered);
+            _writeSession.Flush();
 
             var retrievedEvent = _eventRepository.Read(foodOrdered.Id);
 
@@ -100,6 +106,7 @@ namespace CQRSTutorial.DAL.Tests
             };
 
             _eventRepository.Add(drinkOrdered);
+            _writeSession.Flush();
 
             var retrievedEvent = _eventRepository.Read(drinkOrdered.Id);
 
@@ -117,7 +124,7 @@ namespace CQRSTutorial.DAL.Tests
         [TearDown]
         public void TearDown()
         {
-            _eventRepository.Rollback();
+            _writeSession.Transaction.Rollback();
         }
     }
 }

@@ -8,8 +8,8 @@ namespace CQRSTutorial.DAL
 {
     public class EventRepository : RepositoryBase, IEventRepository
     {
-        public EventRepository(ISessionFactory writeSessionFactory, ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
-            : base(writeSessionFactory, readSessionFactory, isolationLevel)
+        public EventRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
+            : base(readSessionFactory, isolationLevel)
         {
         }
 

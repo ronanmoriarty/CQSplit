@@ -6,28 +6,20 @@ namespace CQRSTutorial.DAL
 {
     public abstract class RepositoryBase
     {
-        private readonly ISessionFactory _writeSessionFactory;
         private readonly ISessionFactory _readSessionFactory;
         private readonly IsolationLevel _isolationLevel;
-        private ISession _session;
 
-        protected RepositoryBase(ISessionFactory writeSessionFactory, ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
+        protected RepositoryBase(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
         {
-            _writeSessionFactory = writeSessionFactory;
             _readSessionFactory = readSessionFactory;
             _isolationLevel = isolationLevel;
         }
 
-        public void BeginTransaction()
-        {
-            _session = _writeSessionFactory.OpenSession();
-            _session.BeginTransaction();
-        }
+        public ISession WriteSession { get; set; }
 
         protected void SaveOrUpdate(object objectToSave)
         {
-            _session.SaveOrUpdate(objectToSave);
-            _session.Flush();
+            WriteSession.SaveOrUpdate(objectToSave);
         }
 
         protected TReturnType Get<TReturnType>(Guid id)
@@ -39,11 +31,6 @@ namespace CQRSTutorial.DAL
                     return session.Get<TReturnType>(id);
                 }
             }
-        }
-
-        public void Rollback()
-        {
-            _session.Transaction.Rollback();
         }
     }
 }
