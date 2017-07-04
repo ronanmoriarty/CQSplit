@@ -4,7 +4,7 @@ using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public abstract class RepositoryBase
+    public abstract class RepositoryBase<TTypeToPersist>
     {
         private readonly ISessionFactory _readSessionFactory;
         private readonly IsolationLevel _isolationLevel;
@@ -17,18 +17,18 @@ namespace CQRSTutorial.DAL
 
         public object UnitOfWork { get; set; }
 
-        protected void SaveOrUpdate(object objectToSave)
+        protected void SaveOrUpdate(TTypeToPersist objectToSave)
         {
             ((NHibernateUnitOfWork)UnitOfWork).Session.SaveOrUpdate(objectToSave);
         }
 
-        protected TReturnType Get<TReturnType>(Guid id)
+        protected TTypeToPersist Get(Guid id)
         {
             using (var session = _readSessionFactory.OpenSession())
             {
                 using (session.BeginTransaction(_isolationLevel))
                 {
-                    return session.Get<TReturnType>(id);
+                    return session.Get<TTypeToPersist>(id);
                 }
             }
         }

@@ -11,7 +11,7 @@ namespace CQRSTutorial.DAL.Tests
 {
     [TestFixture, Category(TestConstants.Integration)]
     public class EventTests
-        : InsertAndReadTest<EventRepository>
+        : InsertAndReadTest<EventRepository, EventDescriptor>
     {
         private IEvent _retrievedEvent;
 

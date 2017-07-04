@@ -6,7 +6,7 @@ using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventRepository : RepositoryBase, IEventRepository
+    public class EventRepository : RepositoryBase<EventDescriptor>, IEventRepository
     {
         public EventRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
             : base(readSessionFactory, isolationLevel)
@@ -26,7 +26,7 @@ namespace CQRSTutorial.DAL
 
         public IEvent Read(Guid id)
         {
-                var eventDescriptor = Get<EventDescriptor>(id);
+                var eventDescriptor = Get(id);
                 var @event = (IEvent)JsonConvert.DeserializeObject(eventDescriptor.Data, eventDescriptor.EventType);
                 AssignEventIdFromEventDescriptorId(@event, eventDescriptor);
                 return @event;
