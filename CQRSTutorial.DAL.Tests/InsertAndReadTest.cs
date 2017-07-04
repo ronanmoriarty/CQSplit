@@ -16,7 +16,7 @@ namespace CQRSTutorial.DAL.Tests
             WriteSession = SessionFactory.WriteInstance.OpenSession();
             WriteSession.BeginTransaction();
             Repository = CreateRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted);
-            Repository.WriteSession = WriteSession;
+            Repository.UnitOfWork = new NHibernateUnitOfWork(WriteSession);
         }
 
         protected abstract TRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel);

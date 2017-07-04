@@ -19,7 +19,7 @@ namespace CQRSTutorial.DAL
         {
             using (var writeSession = _writeSessionFactory.OpenSession())
             {
-                _eventRepository.WriteSession = writeSession;
+                _eventRepository.UnitOfWork = new NHibernateUnitOfWork(writeSession);
                 using (var transaction = writeSession.BeginTransaction())
                 {
                     try

@@ -31,10 +31,10 @@ namespace CQRSTutorial.DAL.Tests
             return _eventRepository.Read(id);
         }
 
-        public ISession WriteSession
+        public object UnitOfWork
         {
-            get { return _eventRepository.WriteSession; }
-            set { _eventRepository.WriteSession = value; }
+            get { return _eventRepository.UnitOfWork; }
+            set { _eventRepository.UnitOfWork = value; }
         }
     }
 }

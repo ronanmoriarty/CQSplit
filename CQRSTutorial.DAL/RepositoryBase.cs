@@ -15,11 +15,11 @@ namespace CQRSTutorial.DAL
             _isolationLevel = isolationLevel;
         }
 
-        public ISession WriteSession { get; set; }
+        public object UnitOfWork { get; set; }
 
         protected void SaveOrUpdate(object objectToSave)
         {
-            WriteSession.SaveOrUpdate(objectToSave);
+            ((NHibernateUnitOfWork)UnitOfWork).Session.SaveOrUpdate(objectToSave);
         }
 
         protected TReturnType Get<TReturnType>(Guid id)

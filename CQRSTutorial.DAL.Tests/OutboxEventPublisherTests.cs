@@ -29,7 +29,7 @@ namespace CQRSTutorial.DAL.Tests
             _sqlExecutor = new SqlExecutor();
             _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions();
             _outboxEventPublisher = new OutboxEventPublisher(
-                SessionFactory.WriteInstance, 
+                SessionFactory.WriteInstance,
                 _eventRepositoryDecorator
             );
 
