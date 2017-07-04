@@ -13,6 +13,8 @@ namespace CQRSTutorial.DAL.Tests
     public class EventTests
         : InsertAndReadTest<EventRepository>
     {
+        private IEvent _retrievedEvent;
+
         protected override EventRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
         {
             return new EventRepository(readSessionFactory, isolationLevel);
@@ -30,10 +32,10 @@ namespace CQRSTutorial.DAL.Tests
                 Waiter = waiter
             };
 
-            var retrievedEvent = InsertAndRead(tabOpened);
+            InsertAndRead(tabOpened);
 
-            Assert.That(retrievedEvent is TabOpened);
-            var retrievedTabOpenedEvent = (TabOpened) retrievedEvent;
+            Assert.That(_retrievedEvent is TabOpened);
+            var retrievedTabOpenedEvent = (TabOpened) _retrievedEvent;
             Assert.That(retrievedTabOpenedEvent.Id, Is.EqualTo(tabOpened.Id));
             Assert.That(retrievedTabOpenedEvent.TableNumber, Is.EqualTo(tableNumber));
             Assert.That(retrievedTabOpenedEvent.Waiter, Is.EqualTo(waiter));
@@ -60,10 +62,10 @@ namespace CQRSTutorial.DAL.Tests
                 }
             };
 
-            var retrievedEvent = InsertAndRead(foodOrdered);
+            InsertAndRead(foodOrdered);
 
-            Assert.That(retrievedEvent is FoodOrdered);
-            var retrievedFoodOrderedEvent = (FoodOrdered)retrievedEvent;
+            Assert.That(_retrievedEvent is FoodOrdered);
+            var retrievedFoodOrderedEvent = (FoodOrdered)_retrievedEvent;
             Assert.That(retrievedFoodOrderedEvent.Id, Is.EqualTo(foodOrdered.Id));
             Assert.That(retrievedFoodOrderedEvent.Items.Count, Is.EqualTo(1));
             var foodOrderedItem = retrievedFoodOrderedEvent.Items.Single();
@@ -94,10 +96,10 @@ namespace CQRSTutorial.DAL.Tests
                 }
             };
 
-            var retrievedEvent = InsertAndRead(drinkOrdered);
+            InsertAndRead(drinkOrdered);
 
-            Assert.That(retrievedEvent is DrinksOrdered);
-            var retrievedDrinkOrderedEvent = (DrinksOrdered)retrievedEvent;
+            Assert.That(_retrievedEvent is DrinksOrdered);
+            var retrievedDrinkOrderedEvent = (DrinksOrdered)_retrievedEvent;
             Assert.That(retrievedDrinkOrderedEvent.Id, Is.EqualTo(drinkOrdered.Id));
             Assert.That(retrievedDrinkOrderedEvent.Items.Count, Is.EqualTo(1));
             var drinkOrderedItem = retrievedDrinkOrderedEvent.Items.Single();
@@ -107,11 +109,11 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(drinkOrderedItem.Price, Is.EqualTo(drinkPrice));
         }
 
-        private IEvent InsertAndRead(IEvent @event)
+        private void InsertAndRead(IEvent @event)
         {
             Repository.Add(@event);
             WriteSession.Flush();
-            return Repository.Read(@event.Id);
+            _retrievedEvent = Repository.Read(@event.Id);
         }
     }
 }
