@@ -23,28 +23,34 @@ namespace CQRSTutorial.DAL.Tests
         [Test]
         public void Published_events_get_saved_to_database()
         {
-            _tabOpened = new TabOpened
+            try
             {
-                TableNumber = _tableNumber,
-                Waiter = _waiter
-            };
+                _tabOpened = new TabOpened
+                {
+                    TableNumber = _tableNumber,
+                    Waiter = _waiter
+                };
 
-            _outboxEventPublisher.Publish(new []
-            {
+                _outboxEventPublisher.Publish(new[]
+                {
                 _tabOpened
             });
 
-            AssertThatEventSaved();
+                AssertThatEventSaved();
+            }
+            finally
+            {
+                DeleteNewlyInsertedTabOpenedEvent();
+            }
         }
-
+        
         private void AssertThatEventSaved()
         {
             var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM dbo.Events WHERE Id = '{_tabOpened.Id}'");
             Assert.That(numberOfEventsInserted, Is.EqualTo(1));
         }
 
-        [TearDown]
-        public void TearDown()
+        private void DeleteNewlyInsertedTabOpenedEvent()
         {
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE Id = '{_tabOpened.Id}'");
         }
