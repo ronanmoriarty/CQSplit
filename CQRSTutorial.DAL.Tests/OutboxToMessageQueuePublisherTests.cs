@@ -27,7 +27,7 @@ namespace CQRSTutorial.DAL.Tests
 
         protected override EventRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
         {
-            return new EventRepository(readSessionFactory, isolationLevel, _publishConfiguration);
+            return new EventRepository(readSessionFactory, isolationLevel, _publishConfiguration, new EventDescriptorMapper());
         }
 
         protected override void AdditionalSetup()

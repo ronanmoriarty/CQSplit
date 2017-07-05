@@ -9,11 +9,16 @@ namespace CQRSTutorial.DAL
     public class EventRepository : RepositoryBase<EventDescriptor>, IEventRepository
     {
         private readonly IPublishConfiguration _publishConfiguration;
+        private readonly EventDescriptorMapper _eventDescriptorMapper;
 
-        public EventRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel, IPublishConfiguration publishConfiguration)
+        public EventRepository(ISessionFactory readSessionFactory,
+            IsolationLevel isolationLevel,
+            IPublishConfiguration publishConfiguration,
+            EventDescriptorMapper eventDescriptorMapper)
             : base(readSessionFactory, isolationLevel)
         {
             _publishConfiguration = publishConfiguration;
+            _eventDescriptorMapper = eventDescriptorMapper;
         }
 
         public void Add(IEvent @event)
@@ -31,7 +36,7 @@ namespace CQRSTutorial.DAL
         public IEvent Read(int id)
         {
             var eventDescriptor = Get(id);
-            return new EventDescriptorMapper().MapEventDescriptorToEvent(eventDescriptor); // TODO inject instead of instantiating
+            return _eventDescriptorMapper.MapEventDescriptorToEvent(eventDescriptor);
         }
 
         public IList<EventDescriptor> ReadEventsAwaitingPublishing()

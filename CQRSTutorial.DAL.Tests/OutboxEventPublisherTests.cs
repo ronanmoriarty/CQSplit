@@ -91,7 +91,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventRepositoryDecorator CreateEventRepositoryThatCanSimulateSqlExceptions()
         {
-            return new EventRepositoryDecorator(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*")));
+            return new EventRepositoryDecorator(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventDescriptorMapper()));
         }
 
         private void AssumingSecondSaveCausesException()
