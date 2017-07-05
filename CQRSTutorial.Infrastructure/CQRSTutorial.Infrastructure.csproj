@@ -68,6 +68,7 @@
     <Compile Include="EnvironmentVariableMessageBusConfiguration.cs" />
     <Compile Include="IMessageBusConfiguration.cs" />
     <Compile Include="MessageBusEventPublisher.cs" />
+    <Compile Include="MessageBusFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
