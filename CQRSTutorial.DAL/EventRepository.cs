@@ -10,9 +10,12 @@ namespace CQRSTutorial.DAL
 {
     public class EventRepository : RepositoryBase<EventDescriptor>, IEventRepository
     {
-        public EventRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
+        private readonly IPublishConfiguration _publishConfiguration;
+
+        public EventRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel, IPublishConfiguration publishConfiguration)
             : base(readSessionFactory, isolationLevel)
         {
+            _publishConfiguration = publishConfiguration;
         }
 
         public void Add(IEvent @event)
@@ -20,7 +23,8 @@ namespace CQRSTutorial.DAL
             var eventDescriptor = new EventDescriptor
             {
                 EventType = @event.GetType().Name,
-                Data = JsonConvert.SerializeObject(@event)
+                Data = JsonConvert.SerializeObject(@event),
+                PublishTo = _publishConfiguration.GetPublishLocationFor(@event.GetType())
             };
             SaveOrUpdate(eventDescriptor);
             UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(@event, eventDescriptor);
@@ -28,10 +32,15 @@ namespace CQRSTutorial.DAL
 
         public IEvent Read(int id)
         {
-                var eventDescriptor = Get(id);
-                var @event = (IEvent)JsonConvert.DeserializeObject(eventDescriptor.Data, GetEventTypeFrom(eventDescriptor.EventType));
-                AssignEventIdFromEventDescriptorId(@event, eventDescriptor);
-                return @event;
+            var eventDescriptor = Get(id);
+            var @event = (IEvent)JsonConvert.DeserializeObject(eventDescriptor.Data, GetEventTypeFrom(eventDescriptor.EventType));
+            AssignEventIdFromEventDescriptorId(@event, eventDescriptor);
+            return @event;
+        }
+
+        public EventDescriptor ReadEventDescriptor(int id)
+        {
+            return Get(id);
         }
 
         private Type GetEventTypeFrom(string eventType)

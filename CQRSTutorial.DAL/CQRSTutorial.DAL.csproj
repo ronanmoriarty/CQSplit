@@ -61,6 +61,7 @@
     <Compile Include="EventDescriptorMapping.cs" />
     <Compile Include="EventRepository.cs" />
     <Compile Include="IEventRepository.cs" />
+    <Compile Include="IPublishConfiguration.cs" />
     <Compile Include="NHibernateConfiguration.cs" />
     <Compile Include="NHibernateUnitOfWork.cs" />
     <Compile Include="OutboxEventPublisher.cs" />
