@@ -9,14 +9,14 @@ namespace CQRSTutorial.Infrastructure
     {
         private readonly IBusControl _bus;
 
-        public MessageBusEventPublisher()
+        public MessageBusEventPublisher(MessageBusConfiguration messageBusConfiguration)
         {
             _bus = Bus.Factory.CreateUsingRabbitMq(sbc =>
             {
-                var host = sbc.Host(new Uri("rabbitmq://localhost"), h =>
+                var host = sbc.Host(messageBusConfiguration.Uri, h =>
                 {
-                    h.Username("guest");
-                    h.Password("guest");
+                    h.Username(messageBusConfiguration.Username);
+                    h.Password(messageBusConfiguration.Password);
                 });
 
                 sbc.ReceiveEndpoint(host, "test_queue", ep =>
