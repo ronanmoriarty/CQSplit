@@ -23,6 +23,7 @@ namespace CQRSTutorial.DAL.Tests
         private readonly int _drinkMenuNumber = 123;
         private readonly decimal _drinkPrice = 2.5m;
         private EventRepositoryDecorator _eventRepositoryDecorator;
+        private const string EventsToPublishTableName = "dbo.EventsToPublish";
 
         [SetUp]
         public void SetUp()
@@ -108,20 +109,20 @@ namespace CQRSTutorial.DAL.Tests
 
         private void AssertThatEventSaved()
         {
-            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM dbo.Events WHERE Id = '{_tabOpened.Id}'");
+            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM {EventsToPublishTableName} WHERE Id = '{_tabOpened.Id}'");
             Assert.That(numberOfEventsInserted, Is.EqualTo(1));
         }
 
         private void AssertThatNoEventsSaved(params int[] ids)
         {
             var commaSeparatedIds = string.Join(",", ids);
-            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM dbo.Events WHERE Id IN ({commaSeparatedIds})");
+            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM {EventsToPublishTableName} WHERE Id IN ({commaSeparatedIds})");
             Assert.That(numberOfEventsInserted, Is.EqualTo(0));
         }
 
         private void DeleteNewlyInsertedTabOpenedEvent()
         {
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE Id = {_tabOpened.Id}");
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM {EventsToPublishTableName} WHERE Id = {_tabOpened.Id}");
         }
     }
 }

@@ -4,7 +4,13 @@ BEGIN
 END
 GO
 
-CREATE TABLE dbo.Events
+IF EXISTS(SELECT 1 FROM sys.tables WHERE object_id = OBJECT_ID(N'dbo.EventsToPublish'))
+BEGIN
+	DROP TABLE dbo.EventsToPublish
+END
+GO
+
+CREATE TABLE dbo.EventsToPublish
 (
 	Id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
 	EventType NVARCHAR(MAX) NOT NULL,
