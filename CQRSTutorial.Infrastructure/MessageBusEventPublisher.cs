@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CQRSTutorial.Core;
 using MassTransit;
+using MassTransit.RabbitMqTransport;
 
 namespace CQRSTutorial.Infrastructure
 {
@@ -9,7 +10,7 @@ namespace CQRSTutorial.Infrastructure
     {
         private readonly IBusControl _bus;
 
-        public MessageBusEventPublisher(IMessageBusConfiguration messageBusConfiguration)
+        public MessageBusEventPublisher(IMessageBusConfiguration messageBusConfiguration, Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> configure = null)
         {
             _bus = Bus.Factory.CreateUsingRabbitMq(sbc =>
             {
@@ -19,14 +20,7 @@ namespace CQRSTutorial.Infrastructure
                     h.Password(messageBusConfiguration.Password);
                 });
 
-                sbc.ReceiveEndpoint(host, "test_queue", ep =>
-                {
-                    ep.Handler<IEvent> (context =>
-                    {
-                        var messages = string.Join("\n", context.Message);
-                        return Console.Out.WriteLineAsync($"Received: {messages}");
-                    });
-                });
+                configure?.Invoke(sbc, host);
             });
 
             _bus.Start();
