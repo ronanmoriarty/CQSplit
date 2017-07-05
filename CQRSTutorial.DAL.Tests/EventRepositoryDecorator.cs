@@ -1,6 +1,5 @@
 ﻿using System;
 using CQRSTutorial.Core;
-using NHibernate;
 
 namespace CQRSTutorial.DAL.Tests
 {
@@ -26,7 +25,7 @@ namespace CQRSTutorial.DAL.Tests
         public Action<IEvent> OnBeforeAdding { get; set; } = @event => { };
         public Action<IEvent> OnAfterAdding { get; set; } = @event => { };
 
-        public IEvent Read(Guid id)
+        public IEvent Read(int id)
         {
             return _eventRepository.Read(id);
         }

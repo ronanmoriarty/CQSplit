@@ -109,16 +109,16 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(numberOfEventsInserted, Is.EqualTo(1));
         }
 
-        private void AssertThatNoEventsSaved(params Guid[] ids)
+        private void AssertThatNoEventsSaved(params int[] ids)
         {
-            var commaSeparatedIdsInSingleQuotes = string.Join(",", ids.Select(id => $"'{id}'"));
-            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM dbo.Events WHERE Id IN ({commaSeparatedIdsInSingleQuotes})");
+            var commaSeparatedIds = string.Join(",", ids);
+            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM dbo.Events WHERE Id IN ({commaSeparatedIds})");
             Assert.That(numberOfEventsInserted, Is.EqualTo(0));
         }
 
         private void DeleteNewlyInsertedTabOpenedEvent()
         {
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE Id = '{_tabOpened.Id}'");
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE Id = {_tabOpened.Id}");
         }
     }
 }
