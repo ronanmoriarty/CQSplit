@@ -13,45 +13,60 @@ using NUnit.Framework;
 namespace CQRSTutorial.DAL.Tests
 {
     [TestFixture]
-    public class OutboxToMessageQueuePublisherTests : InsertAndReadTest<EventRepository, EventDescriptor>
+    public class OutboxToMessageQueuePublisherTests
     {
         private OutboxToMessageQueuePublisher _outboxToMessageQueuePublisher;
-        private readonly IPublishConfiguration _publishConfiguration;
+        private IPublishConfiguration _publishConfiguration;
         private readonly string _publishLocation = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue";
         private int _messagesPublished;
+        private EventRepository _repository;
+        private ISession _writeSession;
+        private readonly SqlExecutor _sqlExecutor = new SqlExecutor();
 
-        public OutboxToMessageQueuePublisherTests()
+        [SetUp]
+        public void SetUp()
         {
             _publishConfiguration = new TestPublishConfiguration(_publishLocation);
-        }
-
-        protected override EventRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
-        {
-            return new EventRepository(readSessionFactory, isolationLevel, _publishConfiguration, new EventDescriptorMapper());
-        }
-
-        protected override void AdditionalSetup()
-        {
+            _writeSession = SessionFactory.WriteInstance.OpenSession();
+            _writeSession.BeginTransaction();
+            _repository = new EventRepository(
+                SessionFactory.ReadInstance,
+                IsolationLevel.ReadCommitted,
+                _publishConfiguration,
+                new EventDescriptorMapper())
+            {
+                UnitOfWork = new NHibernateUnitOfWork(_writeSession)
+            };
             var messageBusEventPublisher = new MessageBusEventPublisher(new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(), ConfigureTestReceiver));
-            _outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(Repository, messageBusEventPublisher, new EventDescriptorMapper());
+            _outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(_repository, messageBusEventPublisher, new EventDescriptorMapper());
         }
 
         [Test]
         public void Publishes_messages_from_outbox()
         {
-            Repository.Add(new TabOpened
+            var tabOpened = new TabOpened
             {
                 TabId = 123,
                 TableNumber = 234,
                 Waiter = "John"
-            });
-            WriteSession.Flush();
+            };
 
-            _outboxToMessageQueuePublisher.PublishQueuedMessages();
-            const int oneSecond = 1000; // i.e. 1000 ms.
-            Thread.Sleep(oneSecond);
+            try
+            {
+                _repository.Add(tabOpened);
+                _writeSession.Flush();
+                _writeSession.Transaction.Commit();
 
-            Assert.That(_messagesPublished, Is.EqualTo(1));
+                _outboxToMessageQueuePublisher.PublishQueuedMessages();
+                const int oneSecond = 1000; // i.e. 1000 ms.
+                Thread.Sleep(oneSecond);
+
+                Assert.That(_messagesPublished, Is.EqualTo(1));
+            }
+            finally
+            {
+                DeleteNewlyInsertedRow(tabOpened.Id);
+            }
         }
 
         private void ConfigureTestReceiver(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host)
@@ -62,10 +77,14 @@ namespace CQRSTutorial.DAL.Tests
                 {
                     var messages = string.Join("\n", context.Message);
                     _messagesPublished++;
-                    return Console.Out.WriteLineAsync($"Received: {messages}");
+                    return Console.Out.WriteLineAsync($"Received: [Id:{context.Message.Id}] {messages}");
                 });
             });
         }
 
+        private void DeleteNewlyInsertedRow(int id)
+        {
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = {id}");
+        }
     }
 }
