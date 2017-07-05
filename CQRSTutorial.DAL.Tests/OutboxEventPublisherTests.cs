@@ -85,6 +85,11 @@ namespace CQRSTutorial.DAL.Tests
             }
         }
 
+        private EventRepositoryDecorator CreateEventRepositoryThatCanSimulateSqlExceptions()
+        {
+            return new EventRepositoryDecorator(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted));
+        }
+
         private void AssumingSecondSaveCausesException()
         {
             int numberOfEventsAdded = 0;
@@ -96,11 +101,6 @@ namespace CQRSTutorial.DAL.Tests
                     throw new Exception("Simulating Sql error on addition of second event.");
                 }
             };
-        }
-
-        private EventRepositoryDecorator CreateEventRepositoryThatCanSimulateSqlExceptions()
-        {
-            return new EventRepositoryDecorator(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted));
         }
 
         private void AssertThatEventSaved()
