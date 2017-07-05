@@ -12,6 +12,7 @@ namespace CQRSTutorial.DAL.Tests
     [TestFixture]
     public class OutboxEventPublisherTests
     {
+        protected const int TabId = 321;
         private OutboxEventPublisher _outboxEventPublisher;
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John";
@@ -35,11 +36,13 @@ namespace CQRSTutorial.DAL.Tests
 
             _tabOpened = new TabOpened
             {
+                TabId = TabId,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             };
             _drinksOrdered = new DrinksOrdered
             {
+                TabId = TabId,
                 Items = new List<OrderedItem>
                     {
                         new OrderedItem
