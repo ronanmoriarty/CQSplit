@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
 using NHibernate;
@@ -24,7 +23,7 @@ namespace CQRSTutorial.DAL
             UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(@event, eventDescriptor);
         }
 
-        public IEvent Read(Guid id)
+        public IEvent Read(int id)
         {
                 var eventDescriptor = Get(id);
                 var @event = (IEvent)JsonConvert.DeserializeObject(eventDescriptor.Data, eventDescriptor.EventType);

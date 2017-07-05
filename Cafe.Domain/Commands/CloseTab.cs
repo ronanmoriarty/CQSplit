@@ -1,10 +1,9 @@
-﻿using System;
-
-namespace Cafe.Domain.Commands
+﻿namespace Cafe.Domain.Commands
 {
     public class CloseTab
     {
-        public Guid Id;
+        public int Id;
+        public int TabId { get; set; }
         public decimal AmountPaid;
     }
 }

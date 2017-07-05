@@ -32,7 +32,7 @@ namespace Cafe.Domain
             {
                 new TabOpened
                 {
-                    Id = command.TabId,
+                    TabId = command.TabId,
                     TableNumber = command.TableNumber,
                     Waiter = command.Waiter
                 }
@@ -66,7 +66,7 @@ namespace Cafe.Domain
             {
                 new FoodServed
                 {
-                    Id = command.TabId,
+                    TabId = command.TabId,
                     MenuNumbers = command.MenuNumbers
                 }
             };
@@ -85,7 +85,7 @@ namespace Cafe.Domain
             {
                 new DrinksServed
                 {
-                    Id = command.TabId,
+                    TabId = command.TabId,
                     MenuNumbers = command.MenuNumbers
                 }
             };
@@ -97,7 +97,7 @@ namespace Cafe.Domain
             {
                 new TabClosed
                 {
-                    Id = command.Id,
+                    TabId = command.TabId,
                     AmountPaid = command.AmountPaid,
                     OrderValue = _totalValueOfServedItems,
                     TipValue = command.AmountPaid - _totalValueOfServedItems
@@ -136,7 +136,7 @@ namespace Cafe.Domain
             {
                 new FoodOrdered
                 {
-                    Id = command.TabId,
+                    TabId = command.TabId,
                     Items = food
                 }
             };
@@ -154,7 +154,7 @@ namespace Cafe.Domain
             {
                 new DrinksOrdered
                 {
-                    Id = command.TabId,
+                    TabId = command.TabId,
                     Items = drinks
                 }
             };

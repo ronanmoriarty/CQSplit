@@ -1,11 +1,11 @@
-﻿using System;
-using CQRSTutorial.Core;
+﻿using CQRSTutorial.Core;
 
 namespace Cafe.Domain.Events
 {
     public class TabOpened : IEvent
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
+        public int TabId { get; set; }
         public int TableNumber { get; set; }
         public string Waiter { get; set; }
     }

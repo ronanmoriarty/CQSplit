@@ -21,7 +21,7 @@ namespace CQRSTutorial.Infrastructure.Tests
 
         public class TestEvent : IEvent
         {
-            public Guid Id { get; set; }
+            public int Id { get; set; }
         }
 
         private void ConfigureTestReceiver(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host)
