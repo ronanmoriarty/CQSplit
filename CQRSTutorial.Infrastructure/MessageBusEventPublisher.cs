@@ -9,7 +9,7 @@ namespace CQRSTutorial.Infrastructure
     {
         private readonly IBusControl _bus;
 
-        public MessageBusEventPublisher(MessageBusConfiguration messageBusConfiguration)
+        public MessageBusEventPublisher(IMessageBusConfiguration messageBusConfiguration)
         {
             _bus = Bus.Factory.CreateUsingRabbitMq(sbc =>
             {

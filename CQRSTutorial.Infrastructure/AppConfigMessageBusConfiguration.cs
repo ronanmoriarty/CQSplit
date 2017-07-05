@@ -3,7 +3,7 @@ using System.Configuration;
 
 namespace CQRSTutorial.Infrastructure
 {
-    public class MessageBusConfiguration
+    public class AppConfigMessageBusConfiguration : IMessageBusConfiguration
     {
         public Uri Uri => new Uri(ConfigurationManager.AppSettings["RabbitMQUri"]);
         public string Username => ConfigurationManager.AppSettings["RabbitMQUsername"];

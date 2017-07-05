@@ -65,7 +65,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MessageBusConfiguration.cs" />
+    <Compile Include="IMessageBusConfiguration.cs" />
+    <Compile Include="AppConfigMessageBusConfiguration.cs" />
     <Compile Include="MessageBusEventPublisher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
