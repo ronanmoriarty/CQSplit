@@ -1,4 +1,7 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
+using System.Linq;
+using Cafe.Domain.Events;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
 using NHibernate;
@@ -16,7 +19,7 @@ namespace CQRSTutorial.DAL
         {
             var eventDescriptor = new EventDescriptor
             {
-                EventType = @event.GetType(),
+                EventType = @event.GetType().Name,
                 Data = JsonConvert.SerializeObject(@event)
             };
             SaveOrUpdate(eventDescriptor);
@@ -26,9 +29,15 @@ namespace CQRSTutorial.DAL
         public IEvent Read(int id)
         {
                 var eventDescriptor = Get(id);
-                var @event = (IEvent)JsonConvert.DeserializeObject(eventDescriptor.Data, eventDescriptor.EventType);
+                var @event = (IEvent)JsonConvert.DeserializeObject(eventDescriptor.Data, GetEventTypeFrom(eventDescriptor.EventType));
                 AssignEventIdFromEventDescriptorId(@event, eventDescriptor);
                 return @event;
+        }
+
+        private Type GetEventTypeFrom(string eventType)
+        {
+            return typeof(TabOpened).Assembly.GetTypes()
+                .Single(t => typeof(ITabEvent).IsAssignableFrom(t) && t.Name == eventType);
         }
 
         private void UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(IEvent @event,
