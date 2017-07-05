@@ -9,7 +9,7 @@ namespace CQRSTutorial.Infrastructure.Tests
     public class MessageBusEventPublisherTests
     {
         [Test, Explicit]
-        public void Test()
+        public void Can_publish_to_message_queue()
         {
             var messageBusEventPublisher = new MessageBusEventPublisher();
             messageBusEventPublisher.Publish(new [] {new TestEvent()});
