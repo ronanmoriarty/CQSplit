@@ -5,7 +5,7 @@ namespace CQRSTutorial.DAL.Tests
 {
     public class SqlExecutor
     {
-        public int ExecuteScalar(string commandText)
+        public int ExecuteScalar(string commandText) // TODO make this generic
         {
             using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["CQRSTutorial"].ConnectionString))
             {

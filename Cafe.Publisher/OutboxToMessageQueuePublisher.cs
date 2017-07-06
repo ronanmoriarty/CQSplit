@@ -25,6 +25,7 @@ namespace Cafe.Publisher
                 var @event = _eventDescriptorMapper.MapEventDescriptorToEvent(eventDescriptor);
                 Console.WriteLine($"Publishing event [Id:{@event.Id};Type:{eventDescriptor.EventType}]..."); // TODO need to see how to specify queue / channel / topic when publishing
                 _messageBusEventPublisher.Publish(new []{ @event });
+                _repository.Delete(eventDescriptor);
             }
         }
     }

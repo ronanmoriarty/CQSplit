@@ -16,12 +16,12 @@ namespace CQRSTutorial.DAL
 
         public object UnitOfWork { get; set; } // TODO really don't like this property and the way the following method relies on it being set. Figure out a better way to deal with this.
 
-        protected void SaveOrUpdate(TTypeToPersist objectToSave)
+        public void SaveOrUpdate(TTypeToPersist objectToSave)
         {
             ((NHibernateUnitOfWork)UnitOfWork).Session.SaveOrUpdate(objectToSave);
         }
 
-        protected TTypeToPersist Get(int id)
+        public TTypeToPersist Get(int id)
         {
             using (var session = ReadSessionFactory.OpenSession())
             {
@@ -30,6 +30,11 @@ namespace CQRSTutorial.DAL
                     return session.Get<TTypeToPersist>(id);
                 }
             }
+        }
+
+        public void Delete(TTypeToPersist objectToDelete)
+        {
+            ((NHibernateUnitOfWork)UnitOfWork).Session.Delete(objectToDelete);
         }
     }
 }
