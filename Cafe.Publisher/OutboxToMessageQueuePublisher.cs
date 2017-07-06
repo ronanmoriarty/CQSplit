@@ -6,11 +6,11 @@ namespace Cafe.Publisher
 {
     public class OutboxToMessageQueuePublisher
     {
-        private readonly EventRepository _repository;
+        private readonly EventDescriptorRepository _repository;
         private readonly MessageBusEventPublisher _messageBusEventPublisher;
         private readonly EventDescriptorMapper _eventDescriptorMapper;
 
-        public OutboxToMessageQueuePublisher(EventRepository repository, MessageBusEventPublisher messageBusEventPublisher, EventDescriptorMapper eventDescriptorMapper)
+        public OutboxToMessageQueuePublisher(EventDescriptorRepository repository, MessageBusEventPublisher messageBusEventPublisher, EventDescriptorMapper eventDescriptorMapper)
         {
             _repository = repository;
             _messageBusEventPublisher = messageBusEventPublisher;
@@ -19,7 +19,7 @@ namespace Cafe.Publisher
 
         public void PublishQueuedMessages()
         {
-            var eventDescriptors = _repository.ReadEventsAwaitingPublishing();
+            var eventDescriptors = _repository.GetEventsAwaitingPublishing();
             foreach (var eventDescriptor in eventDescriptors)
             {
                 var @event = _eventDescriptorMapper.MapEventDescriptorToEvent(eventDescriptor);

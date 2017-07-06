@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
 using NHibernate;
@@ -37,22 +36,6 @@ namespace CQRSTutorial.DAL
         {
             var eventDescriptor = Get(id);
             return _eventDescriptorMapper.MapEventDescriptorToEvent(eventDescriptor);
-        }
-
-        public IList<EventDescriptor> ReadEventsAwaitingPublishing()
-        {
-            using (var session = ReadSessionFactory.OpenSession())
-            {
-                using (session.BeginTransaction(IsolationLevel))
-                {
-                    return session.QueryOver<EventDescriptor>().List();
-                }
-            }
-        }
-
-        public EventDescriptor ReadEventDescriptor(int id)
-        {
-            return Get(id);
         }
 
         private void UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(IEvent @event,

@@ -17,9 +17,11 @@ namespace CQRSTutorial.DAL.Tests
         private IEvent _retrievedEvent;
         private readonly IPublishConfiguration _publishConfiguration;
         private const string PublishLocation = "some.rabbitmq.topic.*";
+        private readonly EventDescriptorRepository _eventDescriptorRepository;
 
         public EventTests()
         {
+            _eventDescriptorRepository = new EventDescriptorRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted);
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);
         }
 
@@ -131,7 +133,7 @@ namespace CQRSTutorial.DAL.Tests
 
             Repository.Add(tabOpened);
             WriteSession.Flush();
-            var eventDescriptor = Repository.ReadEventDescriptor(tabOpened.Id);
+            var eventDescriptor = _eventDescriptorRepository.Get(tabOpened.Id);
 
             Assert.That(eventDescriptor.PublishTo, Is.EqualTo(PublishLocation));
         }

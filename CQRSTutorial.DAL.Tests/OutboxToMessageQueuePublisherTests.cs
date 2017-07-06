@@ -19,7 +19,8 @@ namespace CQRSTutorial.DAL.Tests
         private IPublishConfiguration _publishConfiguration;
         private readonly string _publishLocation = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue";
         private int _messagesPublished;
-        private EventRepository _repository;
+        private EventRepository _eventRepository;
+        private EventDescriptorRepository _eventDescriptorRepository;
         private ISession _writeSession;
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor();
 
@@ -29,16 +30,19 @@ namespace CQRSTutorial.DAL.Tests
             _publishConfiguration = new TestPublishConfiguration(_publishLocation);
             _writeSession = SessionFactory.WriteInstance.OpenSession();
             _writeSession.BeginTransaction();
-            _repository = new EventRepository(
-                SessionFactory.ReadInstance,
-                IsolationLevel.ReadCommitted,
+            var readSessionFactory = SessionFactory.ReadInstance;
+            var isolationLevel = IsolationLevel.ReadCommitted;
+            _eventRepository = new EventRepository(
+                readSessionFactory,
+                isolationLevel,
                 _publishConfiguration,
                 new EventDescriptorMapper())
             {
                 UnitOfWork = new NHibernateUnitOfWork(_writeSession)
             };
+            _eventDescriptorRepository = new EventDescriptorRepository(readSessionFactory, isolationLevel);
             var messageBusEventPublisher = new MessageBusEventPublisher(new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(), ConfigureTestReceiver));
-            _outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(_repository, messageBusEventPublisher, new EventDescriptorMapper());
+            _outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(_eventDescriptorRepository, messageBusEventPublisher, new EventDescriptorMapper());
         }
 
         [Test]
@@ -53,7 +57,7 @@ namespace CQRSTutorial.DAL.Tests
 
             try
             {
-                _repository.Add(tabOpened);
+                _eventRepository.Add(tabOpened);
                 _writeSession.Flush();
                 _writeSession.Transaction.Commit();
 
