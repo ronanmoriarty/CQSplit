@@ -1,36 +1,40 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public abstract class RepositoryBase<TTypeToPersist>
+    public abstract class RepositoryBase<TTypeToPersist> where TTypeToPersist : class
     {
-        private readonly ISessionFactory _readSessionFactory;
-        private readonly IsolationLevel _isolationLevel;
+        protected readonly ISessionFactory ReadSessionFactory;
+        protected readonly IsolationLevel IsolationLevel;
 
         protected RepositoryBase(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
         {
-            _readSessionFactory = readSessionFactory;
-            _isolationLevel = isolationLevel;
+            ReadSessionFactory = readSessionFactory;
+            IsolationLevel = isolationLevel;
         }
 
-        public object UnitOfWork { get; set; }
+        public object UnitOfWork { get; set; } // TODO really don't like this property and the way the following method relies on it being set. Figure out a better way to deal with this.
 
-        protected void SaveOrUpdate(TTypeToPersist objectToSave)
+        public void SaveOrUpdate(TTypeToPersist objectToSave)
         {
             ((NHibernateUnitOfWork)UnitOfWork).Session.SaveOrUpdate(objectToSave);
         }
 
-        protected TTypeToPersist Get(int id)
+        public TTypeToPersist Get(int id)
         {
-            using (var session = _readSessionFactory.OpenSession())
+            using (var session = ReadSessionFactory.OpenSession())
             {
-                using (session.BeginTransaction(_isolationLevel))
+                using (session.BeginTransaction(IsolationLevel))
                 {
                     return session.Get<TTypeToPersist>(id);
                 }
             }
+        }
+
+        public void Delete(TTypeToPersist objectToDelete)
+        {
+            ((NHibernateUnitOfWork)UnitOfWork).Session.Delete(objectToDelete);
         }
     }
 }

@@ -12,6 +12,7 @@ namespace CQRSTutorial.DAL.Tests
     [TestFixture]
     public class OutboxEventPublisherTests
     {
+        protected const int TabId = 321;
         private OutboxEventPublisher _outboxEventPublisher;
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John";
@@ -22,6 +23,7 @@ namespace CQRSTutorial.DAL.Tests
         private readonly int _drinkMenuNumber = 123;
         private readonly decimal _drinkPrice = 2.5m;
         private EventRepositoryDecorator _eventRepositoryDecorator;
+        private const string EventsToPublishTableName = "dbo.EventsToPublish";
 
         [SetUp]
         public void SetUp()
@@ -35,11 +37,13 @@ namespace CQRSTutorial.DAL.Tests
 
             _tabOpened = new TabOpened
             {
+                TabId = TabId,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             };
             _drinksOrdered = new DrinksOrdered
             {
+                TabId = TabId,
                 Items = new List<OrderedItem>
                     {
                         new OrderedItem
@@ -87,7 +91,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventRepositoryDecorator CreateEventRepositoryThatCanSimulateSqlExceptions()
         {
-            return new EventRepositoryDecorator(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted));
+            return new EventRepositoryDecorator(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventDescriptorMapper()));
         }
 
         private void AssumingSecondSaveCausesException()
@@ -105,20 +109,20 @@ namespace CQRSTutorial.DAL.Tests
 
         private void AssertThatEventSaved()
         {
-            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM dbo.Events WHERE Id = '{_tabOpened.Id}'");
+            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM {EventsToPublishTableName} WHERE Id = '{_tabOpened.Id}'");
             Assert.That(numberOfEventsInserted, Is.EqualTo(1));
         }
 
         private void AssertThatNoEventsSaved(params int[] ids)
         {
             var commaSeparatedIds = string.Join(",", ids);
-            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM dbo.Events WHERE Id IN ({commaSeparatedIds})");
+            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM {EventsToPublishTableName} WHERE Id IN ({commaSeparatedIds})");
             Assert.That(numberOfEventsInserted, Is.EqualTo(0));
         }
 
         private void DeleteNewlyInsertedTabOpenedEvent()
         {
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE Id = {_tabOpened.Id}");
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM {EventsToPublishTableName} WHERE Id = {_tabOpened.Id}");
         }
     }
 }

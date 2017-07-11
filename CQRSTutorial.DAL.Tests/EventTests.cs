@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Cafe.Domain;
@@ -14,10 +15,19 @@ namespace CQRSTutorial.DAL.Tests
         : InsertAndReadTest<EventRepository, EventDescriptor>
     {
         private IEvent _retrievedEvent;
+        private readonly IPublishConfiguration _publishConfiguration;
+        private const string PublishLocation = "some.rabbitmq.topic.*";
+        private readonly EventDescriptorRepository _eventDescriptorRepository;
+
+        public EventTests()
+        {
+            _eventDescriptorRepository = new EventDescriptorRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted);
+            _publishConfiguration = new TestPublishConfiguration(PublishLocation);
+        }
 
         protected override EventRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
         {
-            return new EventRepository(readSessionFactory, isolationLevel);
+            return new EventRepository(readSessionFactory, isolationLevel, _publishConfiguration, new EventDescriptorMapper());
         }
 
         [Test]
@@ -109,11 +119,44 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(drinkOrderedItem.Price, Is.EqualTo(drinkPrice));
         }
 
+        [Test]
+        public void Event_PublishTo_set_according_to_PublishConfiguration()
+        {
+            const string waiter = "John";
+            const int tableNumber = 123;
+
+            var tabOpened = new TabOpened
+            {
+                TableNumber = tableNumber,
+                Waiter = waiter
+            };
+
+            Repository.Add(tabOpened);
+            WriteSession.Flush();
+            var eventDescriptor = _eventDescriptorRepository.Get(tabOpened.Id);
+
+            Assert.That(eventDescriptor.PublishTo, Is.EqualTo(PublishLocation));
+        }
+
         private void InsertAndRead(IEvent @event)
         {
             Repository.Add(@event);
             WriteSession.Flush();
             _retrievedEvent = Repository.Read(@event.Id);
+        }
+    }
+
+    public class TestPublishConfiguration : IPublishConfiguration
+    {
+        private readonly string _location;
+
+        public TestPublishConfiguration(string location)
+        {
+            _location = location;
+        }
+        public string GetPublishLocationFor(Type typeToPublish)
+        {
+            return _location;
         }
     }
 }

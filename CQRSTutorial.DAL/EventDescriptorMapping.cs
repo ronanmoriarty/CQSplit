@@ -7,7 +7,7 @@ namespace CQRSTutorial.DAL
     {
         public void Override(AutoMapping<EventDescriptor> mapping)
         {
-            mapping.Table("Events");
+            mapping.Table("EventsToPublish");
         }
     }
 }

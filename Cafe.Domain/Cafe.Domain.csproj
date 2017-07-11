@@ -49,6 +49,7 @@
     <Compile Include="Events\DrinksServed.cs" />
     <Compile Include="Events\FoodOrdered.cs" />
     <Compile Include="Events\FoodServed.cs" />
+    <Compile Include="Events\ITabEvent.cs" />
     <Compile Include="Events\TabClosed.cs" />
     <Compile Include="Exceptions\DrinksNotOutstanding.cs" />
     <Compile Include="Exceptions\FoodNotOutstanding.cs" />

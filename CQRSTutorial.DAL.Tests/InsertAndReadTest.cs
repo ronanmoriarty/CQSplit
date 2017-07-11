@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace CQRSTutorial.DAL.Tests
 {
     public abstract class InsertAndReadTest<TRepository, TTypeToPersist>
-        where TRepository : RepositoryBase<TTypeToPersist>
+        where TRepository : RepositoryBase<TTypeToPersist> where TTypeToPersist : class
     {
         protected ISession WriteSession;
         protected TRepository Repository;
