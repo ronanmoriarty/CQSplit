@@ -1,11 +1,12 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Data.SqlClient;
 
 namespace CQRSTutorial.DAL.Tests
 {
     public class SqlExecutor
     {
-        public int ExecuteScalar(string commandText) // TODO make this generic
+        public T ExecuteScalar<T>(string commandText) // TODO make this generic
         {
             using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["CQRSTutorial"].ConnectionString))
             {
@@ -13,7 +14,8 @@ namespace CQRSTutorial.DAL.Tests
                 using (var command = sqlConnection.CreateCommand())
                 {
                     command.CommandText = commandText;
-                    return (int)command.ExecuteScalar();
+                    var executeScalar = command.ExecuteScalar();
+                    return executeScalar != DBNull.Value ? (T)executeScalar : default(T);
                 }
             }
         }

@@ -15,7 +15,7 @@ namespace CQRSTutorial.DAL.Tests
         public void Add(IEvent @event)
         {
             // This is all a bit smoke-and-mirrors, but I can't think of a better way to do this without having to change to the OutboxEventPublisher / EventRepository
-            // *specifically* for testing purposes, which always feels wrong. At least this way, the extra complication is contained within the tests, and not the 
+            // *specifically* for testing purposes, which always feels wrong. At least this way, the extra complication is contained within the tests, and not the
             // system-under-test.
             OnBeforeAdding(@event);
             _eventRepository.Add(@event);
@@ -30,7 +30,7 @@ namespace CQRSTutorial.DAL.Tests
             return _eventRepository.Read(id);
         }
 
-        public object UnitOfWork
+        public IUnitOfWork UnitOfWork
         {
             get { return _eventRepository.UnitOfWork; }
             set { _eventRepository.UnitOfWork = value; }

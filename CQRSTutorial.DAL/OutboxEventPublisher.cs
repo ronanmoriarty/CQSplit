@@ -1,39 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CQRSTutorial.Core;
-using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
     public class OutboxEventPublisher : IEventPublisher
     {
-        private readonly ISessionFactory _writeSessionFactory;
+        private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly IEventRepository _eventRepository;
+        private readonly IEventStore _eventStore;
 
-        public OutboxEventPublisher(ISessionFactory writeSessionFactory, IEventRepository eventRepository)
+        public OutboxEventPublisher(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore, IEventRepository eventRepository)
         {
-            _writeSessionFactory = writeSessionFactory;
+            _unitOfWorkFactory = unitOfWorkFactory;
+            _eventStore = eventStore;
             _eventRepository = eventRepository;
         }
 
         public void Publish(IEnumerable<IEvent> events)
         {
-            using (var writeSession = _writeSessionFactory.OpenSession())
+            using (var unitOfWork = _unitOfWorkFactory.Create())
             {
-                _eventRepository.UnitOfWork = new NHibernateUnitOfWork(writeSession);
-                using (var transaction = writeSession.BeginTransaction())
+                unitOfWork.Start();
+                unitOfWork.Enlist(_eventRepository);
+                unitOfWork.Enlist(_eventStore);
+                try
                 {
-                    try
+                    foreach (var @event in events)
                     {
-                        foreach (var @event in events)
-                        {
-                            _eventRepository.Add(@event);
-                        }
-                        transaction.Commit();
+                        _eventStore.Add(@event);
+                        _eventRepository.Add(@event);
                     }
-                    catch (System.Exception)
-                    {
-                        transaction.Rollback();
-                    }
+                    unitOfWork.Commit();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                    unitOfWork.Rollback();
                 }
             }
         }

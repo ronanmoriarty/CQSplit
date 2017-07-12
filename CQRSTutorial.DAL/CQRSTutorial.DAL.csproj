@@ -57,15 +57,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomAutomappingConfiguration.cs" />
-    <Compile Include="EventDescriptor.cs" />
-    <Compile Include="EventDescriptorMapper.cs" />
-    <Compile Include="EventDescriptorMapping.cs" />
-    <Compile Include="EventDescriptorRepository.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="EventMapper.cs" />
+    <Compile Include="EventMapping.cs" />
+    <Compile Include="EventStore.cs" />
+    <Compile Include="EventToPublish.cs" />
+    <Compile Include="EventToPublishMapper.cs" />
+    <Compile Include="EventToPublishMapping.cs" />
+    <Compile Include="EventToPublishRepository.cs" />
     <Compile Include="EventRepository.cs" />
     <Compile Include="IEventRepository.cs" />
+    <Compile Include="IEventStore.cs" />
+    <Compile Include="IHaveUnitOfWork.cs" />
+    <Compile Include="IMapToTable.cs" />
     <Compile Include="IPublishConfiguration.cs" />
+    <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="IUnitOfWorkFactory.cs" />
     <Compile Include="NHibernateConfiguration.cs" />
     <Compile Include="NHibernateUnitOfWork.cs" />
+    <Compile Include="NHibernateUnitOfWorkFactory.cs" />
     <Compile Include="OutboxEventPublisher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryBase.cs" />
@@ -84,6 +94,7 @@
       <Name>CQRSTutorial.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

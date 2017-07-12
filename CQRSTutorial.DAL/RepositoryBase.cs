@@ -14,7 +14,7 @@ namespace CQRSTutorial.DAL
             IsolationLevel = isolationLevel;
         }
 
-        public object UnitOfWork { get; set; } // TODO really don't like this property and the way the following method relies on it being set. Figure out a better way to deal with this.
+        public IUnitOfWork UnitOfWork { get; set; } // TODO really don't like this property and the way the following method relies on it being set. Figure out a better way to deal with this.
 
         public void SaveOrUpdate(TTypeToPersist objectToSave)
         {

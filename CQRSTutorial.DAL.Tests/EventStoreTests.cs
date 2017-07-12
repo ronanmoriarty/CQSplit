@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -11,25 +10,15 @@ using NUnit.Framework;
 namespace CQRSTutorial.DAL.Tests
 {
     [TestFixture, Category(TestConstants.Integration)]
-    public class EventTests
-        : InsertAndReadTest<EventRepository, EventToPublish>
+    public class EventStoreTests
+        : InsertAndReadTest<EventStore, Event>
     {
         private IEvent _retrievedEvent;
-        private readonly IPublishConfiguration _publishConfiguration;
-        private const string PublishLocation = "some.rabbitmq.topic.*";
-        private readonly EventToPublishRepository _eventToPublishRepository;
-        private readonly SqlExecutor _sqlExecutor;
+        private const int AggregateId = 234;
 
-        public EventTests()
+        protected override EventStore CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
         {
-            _eventToPublishRepository = new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted);
-            _publishConfiguration = new TestPublishConfiguration(PublishLocation);
-            _sqlExecutor = new SqlExecutor();
-        }
-
-        protected override EventRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
-        {
-            return new EventRepository(readSessionFactory, isolationLevel, _publishConfiguration, new EventToPublishMapper());
+            return new EventStore(readSessionFactory, isolationLevel, new EventMapper());
         }
 
         [Test]
@@ -40,7 +29,7 @@ namespace CQRSTutorial.DAL.Tests
 
             var tabOpened = new TabOpened
             {
-                Id = GetNewId(),
+                AggregateId = AggregateId,
                 TableNumber = tableNumber,
                 Waiter = waiter
             };
@@ -49,7 +38,8 @@ namespace CQRSTutorial.DAL.Tests
 
             Assert.That(_retrievedEvent is TabOpened);
             var retrievedTabOpenedEvent = (TabOpened) _retrievedEvent;
-            Assert.That(retrievedTabOpenedEvent.Id, Is.EqualTo(tabOpened.Id));
+            Assert.That(retrievedTabOpenedEvent.Id, Is.Not.Null);
+            Assert.That(retrievedTabOpenedEvent.AggregateId, Is.EqualTo(tabOpened.AggregateId));
             Assert.That(retrievedTabOpenedEvent.TableNumber, Is.EqualTo(tableNumber));
             Assert.That(retrievedTabOpenedEvent.Waiter, Is.EqualTo(waiter));
         }
@@ -63,7 +53,6 @@ namespace CQRSTutorial.DAL.Tests
 
             var foodOrdered = new FoodOrdered
             {
-                Id = GetNewId(),
                 Items = new List<OrderedItem>
                 {
                     new OrderedItem
@@ -80,7 +69,8 @@ namespace CQRSTutorial.DAL.Tests
 
             Assert.That(_retrievedEvent is FoodOrdered);
             var retrievedFoodOrderedEvent = (FoodOrdered)_retrievedEvent;
-            Assert.That(retrievedFoodOrderedEvent.Id, Is.EqualTo(foodOrdered.Id));
+            Assert.That(retrievedFoodOrderedEvent.Id, Is.Not.Null);
+            Assert.That(retrievedFoodOrderedEvent.AggregateId, Is.EqualTo(foodOrdered.AggregateId));
             Assert.That(retrievedFoodOrderedEvent.Items.Count, Is.EqualTo(1));
             var foodOrderedItem = retrievedFoodOrderedEvent.Items.Single();
             Assert.That(foodOrderedItem.Description, Is.EqualTo(foodDescription));
@@ -98,7 +88,6 @@ namespace CQRSTutorial.DAL.Tests
 
             var drinkOrdered = new DrinksOrdered
             {
-                Id = GetNewId(),
                 Items = new List<OrderedItem>
                 {
                     new OrderedItem
@@ -115,7 +104,9 @@ namespace CQRSTutorial.DAL.Tests
 
             Assert.That(_retrievedEvent is DrinksOrdered);
             var retrievedDrinkOrderedEvent = (DrinksOrdered)_retrievedEvent;
-            Assert.That(retrievedDrinkOrderedEvent.Id, Is.EqualTo(drinkOrdered.Id));
+            Assert.That(retrievedDrinkOrderedEvent.Id, Is.Not.Null);
+            Assert.That(retrievedDrinkOrderedEvent.AggregateId, Is.EqualTo(drinkOrdered.AggregateId));
+
             Assert.That(retrievedDrinkOrderedEvent.Items.Count, Is.EqualTo(1));
             var drinkOrderedItem = retrievedDrinkOrderedEvent.Items.Single();
             Assert.That(drinkOrderedItem.Description, Is.EqualTo(drinkDescription));
@@ -124,51 +115,11 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(drinkOrderedItem.Price, Is.EqualTo(drinkPrice));
         }
 
-        [Test]
-        public void Event_PublishTo_set_according_to_PublishConfiguration()
-        {
-            const string waiter = "John";
-            const int tableNumber = 123;
-
-            var tabOpened = new TabOpened
-            {
-                Id = GetNewId(),
-                TableNumber = tableNumber,
-                Waiter = waiter
-            };
-
-            Repository.Add(tabOpened);
-            WriteSession.Flush();
-            var eventToPublish = _eventToPublishRepository.Get(tabOpened.Id);
-
-            Assert.That(eventToPublish.PublishTo, Is.EqualTo(PublishLocation));
-        }
-
-        private int GetNewId()
-        {
-            var maxValue = _sqlExecutor.ExecuteScalar<int?>("SELECT MAX(Id) FROM dbo.EventsToPublish");
-            return maxValue + 1 ?? 1;
-        }
-
         private void InsertAndRead(IEvent @event)
         {
             Repository.Add(@event);
             WriteSession.Flush();
             _retrievedEvent = Repository.Read(@event.Id);
-        }
-    }
-
-    public class TestPublishConfiguration : IPublishConfiguration
-    {
-        private readonly string _location;
-
-        public TestPublishConfiguration(string location)
-        {
-            _location = location;
-        }
-        public string GetPublishLocationFor(Type typeToPublish)
-        {
-            return _location;
         }
     }
 }
