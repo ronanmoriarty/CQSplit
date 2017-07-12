@@ -21,9 +21,8 @@ namespace CQRSTutorial.DAL
         {
             var eventToStore = new Event
             {
-                //AggregateId = @event.AggregateId, // TODO will bring this line and next in when required tests are written.
-                EventType = "abc", // @event.GetType().Name, // TODO will bring this line and next in when required tests are written.
-                Data = "def" // JsonConvert.SerializeObject(@event) // TODO will bring this line and next in when required tests are written.
+                EventType = @event.GetType().Name,
+                Data = JsonConvert.SerializeObject(@event)
             };
             SaveOrUpdate(eventToStore);
             UpdateEventIdToReflectIdAssignedByNHibernateToEventToStore(@event, eventToStore);

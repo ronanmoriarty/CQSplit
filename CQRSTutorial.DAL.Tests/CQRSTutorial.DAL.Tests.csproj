@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventRepositoryDecorator.cs" />
+    <Compile Include="EventStoreTests.cs" />
     <Compile Include="EventTests.cs" />
     <Compile Include="InsertAndReadTest.cs" />
     <Compile Include="OutboxEventPublisherTests.cs" />
