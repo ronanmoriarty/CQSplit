@@ -18,11 +18,13 @@ namespace CQRSTutorial.DAL.Tests
         private readonly IPublishConfiguration _publishConfiguration;
         private const string PublishLocation = "some.rabbitmq.topic.*";
         private readonly EventToPublishRepository _eventToPublishRepository;
+        private readonly SqlExecutor _sqlExecutor;
 
         public EventTests()
         {
             _eventToPublishRepository = new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted);
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);
+            _sqlExecutor = new SqlExecutor();
         }
 
         protected override EventRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
@@ -38,6 +40,7 @@ namespace CQRSTutorial.DAL.Tests
 
             var tabOpened = new TabOpened
             {
+                Id = GetNewId(),
                 TableNumber = tableNumber,
                 Waiter = waiter
             };
@@ -60,6 +63,7 @@ namespace CQRSTutorial.DAL.Tests
 
             var foodOrdered = new FoodOrdered
             {
+                Id = GetNewId(),
                 Items = new List<OrderedItem>
                 {
                     new OrderedItem
@@ -94,6 +98,7 @@ namespace CQRSTutorial.DAL.Tests
 
             var drinkOrdered = new DrinksOrdered
             {
+                Id = GetNewId(),
                 Items = new List<OrderedItem>
                 {
                     new OrderedItem
@@ -127,6 +132,7 @@ namespace CQRSTutorial.DAL.Tests
 
             var tabOpened = new TabOpened
             {
+                Id = GetNewId(),
                 TableNumber = tableNumber,
                 Waiter = waiter
             };
@@ -136,6 +142,12 @@ namespace CQRSTutorial.DAL.Tests
             var eventToPublish = _eventToPublishRepository.Get(tabOpened.Id);
 
             Assert.That(eventToPublish.PublishTo, Is.EqualTo(PublishLocation));
+        }
+
+        private int GetNewId()
+        {
+            var maxValue = _sqlExecutor.ExecuteScalar("SELECT MAX(Id) FROM dbo.EventsToPublish");
+            return maxValue + 1 ?? 1;
         }
 
         private void InsertAndRead(IEvent @event)

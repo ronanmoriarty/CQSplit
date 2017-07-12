@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using Cafe.Domain;
 using Cafe.Domain.Events;
 using CQRSTutorial.Core;
@@ -23,16 +22,20 @@ namespace CQRSTutorial.DAL.Tests
         private readonly int _drinkMenuNumber = 123;
         private readonly decimal _drinkPrice = 2.5m;
         private EventRepositoryDecorator _eventRepositoryDecorator;
+        private EventRepositoryDecorator _eventStoreDecorator;
         private const string EventsToPublishTableName = "dbo.EventsToPublish";
+        private const string EventStoreTableName = "dbo.Events";
 
         [SetUp]
         public void SetUp()
         {
             _sqlExecutor = new SqlExecutor();
-            _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions();
+            _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper()));
+            _eventStoreDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new EventMapper()));
             _outboxEventPublisher = new OutboxEventPublisher(
                 SessionFactory.WriteInstance,
-                _eventRepositoryDecorator
+                _eventRepositoryDecorator,
+                _eventStoreDecorator
             );
 
             _tabOpened = new TabOpened
@@ -64,11 +67,13 @@ namespace CQRSTutorial.DAL.Tests
             {
                 _outboxEventPublisher.Publish(new[] { _tabOpened });
 
-                AssertThatEventSaved();
+                AssertThatEventSavedToEventsToPublishTable();
+                AssertThatEventSavedToEventStore();
             }
             finally
             {
-                DeleteNewlyInsertedTabOpenedEvent();
+                DeleteNewlyInsertedTabOpenedEventFromEventsToPublishTable();
+                DeleteNewlyInsertedTabOpenedEventFromEventStore();
             }
         }
 
@@ -81,17 +86,19 @@ namespace CQRSTutorial.DAL.Tests
 
                 _outboxEventPublisher.Publish(new IEvent[] { _tabOpened, _drinksOrdered });
 
-                AssertThatNoEventsSaved(_tabOpened.Id,_drinksOrdered.Id);
+                AssertThatNoEventsSavedToEventsToPublishTable(_tabOpened.Id,_drinksOrdered.Id);
+                AssertThatNoEventsSavedToEventStore(_tabOpened.Id,_drinksOrdered.Id);
             }
             finally
             {
-                DeleteNewlyInsertedTabOpenedEvent();
+                DeleteNewlyInsertedTabOpenedEventFromEventsToPublishTable();
+                DeleteNewlyInsertedTabOpenedEventFromEventStore();
             }
         }
 
-        private EventRepositoryDecorator CreateEventRepositoryThatCanSimulateSqlExceptions()
+        private EventRepositoryDecorator CreateEventRepositoryThatCanSimulateSqlExceptions(IEventRepository eventRepositoryToWrap)
         {
-            return new EventRepositoryDecorator(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper()));
+            return new EventRepositoryDecorator(eventRepositoryToWrap);
         }
 
         private void AssumingSecondSaveCausesException()
@@ -107,22 +114,56 @@ namespace CQRSTutorial.DAL.Tests
             };
         }
 
-        private void AssertThatEventSaved()
+        private void AssertThatEventSavedToEventsToPublishTable()
         {
-            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM {EventsToPublishTableName} WHERE Id = '{_tabOpened.Id}'");
+            AssertThatEventSavedToTable(EventsToPublishTableName);
+        }
+
+        private void AssertThatEventSavedToEventStore()
+        {
+            AssertThatEventSavedToTable(EventStoreTableName);
+        }
+
+        private void AssertThatEventSavedToTable(string tableName)
+        {
+            var sql = $"SELECT COUNT(*) FROM {tableName} WHERE Id = {_tabOpened.Id}";
+            Console.WriteLine(sql);
+            var numberOfEventsInserted =
+                _sqlExecutor.ExecuteScalar(sql);
             Assert.That(numberOfEventsInserted, Is.EqualTo(1));
         }
 
-        private void AssertThatNoEventsSaved(params int[] ids)
+        private void AssertThatNoEventsSavedToEventsToPublishTable(params int[] ids)
+        {
+            AssertThatNoEventsSavedToTable(ids, EventsToPublishTableName);
+        }
+
+        private void AssertThatNoEventsSavedToEventStore(params int[] ids)
+        {
+            AssertThatNoEventsSavedToTable(ids, EventStoreTableName);
+        }
+
+        private void AssertThatNoEventsSavedToTable(int[] ids, string tableName)
         {
             var commaSeparatedIds = string.Join(",", ids);
-            var numberOfEventsInserted = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM {EventsToPublishTableName} WHERE Id IN ({commaSeparatedIds})");
+            var numberOfEventsInserted =
+                _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM {tableName} WHERE Id IN ({commaSeparatedIds})");
             Assert.That(numberOfEventsInserted, Is.EqualTo(0));
         }
 
-        private void DeleteNewlyInsertedTabOpenedEvent()
+        private void DeleteNewlyInsertedTabOpenedEventFromEventsToPublishTable()
         {
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM {EventsToPublishTableName} WHERE Id = {_tabOpened.Id}");
+            DeleteNewlyInsertedEventFromTable(EventsToPublishTableName);
+        }
+
+        private void DeleteNewlyInsertedTabOpenedEventFromEventStore()
+        {
+            DeleteNewlyInsertedEventFromTable(EventStoreTableName);
+        }
+
+        private void DeleteNewlyInsertedEventFromTable(string tableName)
+        {
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM {tableName} WHERE Id = {_tabOpened.Id}");
         }
     }
 }
