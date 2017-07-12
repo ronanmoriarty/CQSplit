@@ -5,7 +5,7 @@ using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventStore : RepositoryBase<Event>, IEventRepository
+    public class EventStore : RepositoryBase<Event>, IEventStore
     {
         private readonly EventMapper _eventMapper;
 

@@ -22,7 +22,7 @@ namespace CQRSTutorial.DAL.Tests
         private readonly int _drinkMenuNumber = 123;
         private readonly decimal _drinkPrice = 2.5m;
         private EventRepositoryDecorator _eventRepositoryDecorator;
-        private EventRepositoryDecorator _eventStoreDecorator;
+        private IEventStore _eventStore;
         private const string EventsToPublishTableName = "dbo.EventsToPublish";
         private const string EventStoreTableName = "dbo.Events";
 
@@ -31,10 +31,10 @@ namespace CQRSTutorial.DAL.Tests
         {
             _sqlExecutor = new SqlExecutor();
             _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper()));
-            _eventStoreDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new EventMapper()));
+            _eventStore = new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new EventMapper());
             _outboxEventPublisher = new OutboxEventPublisher(
                 new NHibernateUnitOfWorkFactory(SessionFactory.WriteInstance),
-                _eventStoreDecorator,
+                _eventStore,
                 _eventRepositoryDecorator);
 
             _tabOpened = new TabOpened

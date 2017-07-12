@@ -8,13 +8,13 @@ namespace CQRSTutorial.DAL
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly IEventRepository _eventRepository;
-        private readonly IEventRepository _eventStore;
+        private readonly IEventStore _eventStore;
 
-        public OutboxEventPublisher(IUnitOfWorkFactory unitOfWorkFactory, IEventRepository eventStore, IEventRepository eventRepository)
+        public OutboxEventPublisher(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore, IEventRepository eventRepository)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
-            _eventRepository = eventRepository;
             _eventStore = eventStore;
+            _eventRepository = eventRepository;
         }
 
         public void Publish(IEnumerable<IEvent> events)
