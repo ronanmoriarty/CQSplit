@@ -135,7 +135,7 @@ namespace CQRSTutorial.DAL.Tests
                 const int oneSecond = 1000; // i.e. 1000 ms.
                 Thread.Sleep(oneSecond);
 
-                var numberOfEvents = _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM dbo.EventsToPublish WHERE Id = {tabOpenedId}");
+                var numberOfEvents = _sqlExecutor.ExecuteScalar<int>($"SELECT COUNT(*) FROM dbo.EventsToPublish WHERE Id = {tabOpenedId}");
                 Assert.That(numberOfEvents, Is.EqualTo(0));
             }
         }

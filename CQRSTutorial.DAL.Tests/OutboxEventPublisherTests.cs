@@ -128,7 +128,7 @@ namespace CQRSTutorial.DAL.Tests
             var sql = $"SELECT COUNT(*) FROM {tableName} WHERE Id = {_tabOpened.Id}";
             Console.WriteLine(sql);
             var numberOfEventsInserted =
-                _sqlExecutor.ExecuteScalar(sql);
+                _sqlExecutor.ExecuteScalar<int>(sql);
             Assert.That(numberOfEventsInserted, Is.EqualTo(1));
         }
 
@@ -146,7 +146,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             var commaSeparatedIds = string.Join(",", ids);
             var numberOfEventsInserted =
-                _sqlExecutor.ExecuteScalar($"SELECT COUNT(*) FROM {tableName} WHERE Id IN ({commaSeparatedIds})");
+                _sqlExecutor.ExecuteScalar<int>($"SELECT COUNT(*) FROM {tableName} WHERE Id IN ({commaSeparatedIds})");
             Assert.That(numberOfEventsInserted, Is.EqualTo(0));
         }
 

@@ -6,7 +6,7 @@ namespace CQRSTutorial.DAL.Tests
 {
     public class SqlExecutor
     {
-        public int? ExecuteScalar(string commandText) // TODO make this generic
+        public T ExecuteScalar<T>(string commandText) // TODO make this generic
         {
             using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["CQRSTutorial"].ConnectionString))
             {
@@ -15,7 +15,7 @@ namespace CQRSTutorial.DAL.Tests
                 {
                     command.CommandText = commandText;
                     var executeScalar = command.ExecuteScalar();
-                    return executeScalar != DBNull.Value ? (int?)executeScalar : null;
+                    return executeScalar != DBNull.Value ? (T)executeScalar : default(T);
                 }
             }
         }

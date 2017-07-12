@@ -146,7 +146,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private int GetNewId()
         {
-            var maxValue = _sqlExecutor.ExecuteScalar("SELECT MAX(Id) FROM dbo.EventsToPublish");
+            var maxValue = _sqlExecutor.ExecuteScalar<int?>("SELECT MAX(Id) FROM dbo.EventsToPublish");
             return maxValue + 1 ?? 1;
         }
 
