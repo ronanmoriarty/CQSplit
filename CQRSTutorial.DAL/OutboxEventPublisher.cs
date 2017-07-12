@@ -10,7 +10,7 @@ namespace CQRSTutorial.DAL
         private readonly IEventRepository _eventRepository;
         private readonly IEventRepository _eventStore;
 
-        public OutboxEventPublisher(IUnitOfWorkFactory unitOfWorkFactory, IEventRepository eventRepository, IEventRepository eventStore)
+        public OutboxEventPublisher(IUnitOfWorkFactory unitOfWorkFactory, IEventRepository eventStore, IEventRepository eventRepository)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _eventRepository = eventRepository;

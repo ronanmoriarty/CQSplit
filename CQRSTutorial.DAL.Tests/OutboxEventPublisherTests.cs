@@ -34,9 +34,8 @@ namespace CQRSTutorial.DAL.Tests
             _eventStoreDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new EventMapper()));
             _outboxEventPublisher = new OutboxEventPublisher(
                 new NHibernateUnitOfWorkFactory(SessionFactory.WriteInstance),
-                _eventRepositoryDecorator,
-                _eventStoreDecorator
-            );
+                _eventStoreDecorator,
+                _eventRepositoryDecorator);
 
             _tabOpened = new TabOpened
             {
