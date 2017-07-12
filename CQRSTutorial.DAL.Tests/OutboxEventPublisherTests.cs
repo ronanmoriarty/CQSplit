@@ -12,7 +12,7 @@ namespace CQRSTutorial.DAL.Tests
     [TestFixture]
     public class OutboxEventPublisherTests
     {
-        protected const int TabId = 321;
+        private const int TabId = 321;
         private OutboxEventPublisher _outboxEventPublisher;
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John";
@@ -91,7 +91,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventRepositoryDecorator CreateEventRepositoryThatCanSimulateSqlExceptions()
         {
-            return new EventRepositoryDecorator(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventDescriptorMapper()));
+            return new EventRepositoryDecorator(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper()));
         }
 
         private void AssumingSecondSaveCausesException()

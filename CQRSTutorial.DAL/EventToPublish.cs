@@ -1,6 +1,6 @@
 ﻿namespace CQRSTutorial.DAL
 {
-    public class EventDescriptor
+    public class EventToPublish
     {
         public virtual int Id { get; set; }
         public virtual string EventType { get; set; }

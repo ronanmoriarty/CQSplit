@@ -4,25 +4,25 @@ using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventDescriptorRepository : RepositoryBase<EventDescriptor>
+    public class EventToPublishRepository : RepositoryBase<EventToPublish>
     {
         private readonly ISessionFactory _readSessionFactory;
         private readonly IsolationLevel _isolationLevel;
 
-        public EventDescriptorRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
+        public EventToPublishRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
             : base(readSessionFactory, isolationLevel)
         {
             _readSessionFactory = readSessionFactory;
             _isolationLevel = isolationLevel;
         }
 
-        public IList<EventDescriptor> GetEventsAwaitingPublishing()
+        public IList<EventToPublish> GetEventsAwaitingPublishing()
         {
             using (var session = _readSessionFactory.OpenSession())
             {
                 using (session.BeginTransaction(_isolationLevel))
                 {
-                    return session.QueryOver<EventDescriptor>().List();
+                    return session.QueryOver<EventToPublish>().List();
                 }
             }
         }

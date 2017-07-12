@@ -57,10 +57,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomAutomappingConfiguration.cs" />
-    <Compile Include="EventDescriptor.cs" />
-    <Compile Include="EventDescriptorMapper.cs" />
-    <Compile Include="EventDescriptorMapping.cs" />
-    <Compile Include="EventDescriptorRepository.cs" />
+    <Compile Include="EventToPublish.cs" />
+    <Compile Include="EventToPublishMapper.cs" />
+    <Compile Include="EventToPublishMapping.cs" />
+    <Compile Include="EventToPublishRepository.cs" />
     <Compile Include="EventRepository.cs" />
     <Compile Include="IEventRepository.cs" />
     <Compile Include="IPublishConfiguration.cs" />

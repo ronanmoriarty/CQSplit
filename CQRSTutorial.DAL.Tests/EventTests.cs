@@ -12,22 +12,22 @@ namespace CQRSTutorial.DAL.Tests
 {
     [TestFixture, Category(TestConstants.Integration)]
     public class EventTests
-        : InsertAndReadTest<EventRepository, EventDescriptor>
+        : InsertAndReadTest<EventRepository, EventToPublish>
     {
         private IEvent _retrievedEvent;
         private readonly IPublishConfiguration _publishConfiguration;
         private const string PublishLocation = "some.rabbitmq.topic.*";
-        private readonly EventDescriptorRepository _eventDescriptorRepository;
+        private readonly EventToPublishRepository _eventToPublishRepository;
 
         public EventTests()
         {
-            _eventDescriptorRepository = new EventDescriptorRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted);
+            _eventToPublishRepository = new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted);
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);
         }
 
         protected override EventRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
         {
-            return new EventRepository(readSessionFactory, isolationLevel, _publishConfiguration, new EventDescriptorMapper());
+            return new EventRepository(readSessionFactory, isolationLevel, _publishConfiguration, new EventToPublishMapper());
         }
 
         [Test]
@@ -133,9 +133,9 @@ namespace CQRSTutorial.DAL.Tests
 
             Repository.Add(tabOpened);
             WriteSession.Flush();
-            var eventDescriptor = _eventDescriptorRepository.Get(tabOpened.Id);
+            var eventToPublish = _eventToPublishRepository.Get(tabOpened.Id);
 
-            Assert.That(eventDescriptor.PublishTo, Is.EqualTo(PublishLocation));
+            Assert.That(eventToPublish.PublishTo, Is.EqualTo(PublishLocation));
         }
 
         private void InsertAndRead(IEvent @event)

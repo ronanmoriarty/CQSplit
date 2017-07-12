@@ -7,7 +7,7 @@ namespace CQRSTutorial.DAL
     {
         public override bool ShouldMap(Type type)
         {
-            return type.Name == typeof(EventDescriptor).Name;
+            return type.Name == typeof(EventToPublish).Name;
         }
     }
 }

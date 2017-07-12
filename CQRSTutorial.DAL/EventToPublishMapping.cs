@@ -3,9 +3,9 @@ using FluentNHibernate.Automapping.Alterations;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventDescriptorMapping : IAutoMappingOverride<EventDescriptor>
+    public class EventToPublishMapping : IAutoMappingOverride<EventToPublish>
     {
-        public void Override(AutoMapping<EventDescriptor> mapping)
+        public void Override(AutoMapping<EventToPublish> mapping)
         {
             mapping.Table("EventsToPublish");
         }

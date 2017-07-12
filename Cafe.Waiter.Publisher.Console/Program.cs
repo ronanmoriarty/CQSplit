@@ -11,14 +11,14 @@ namespace Cafe.Waiter.Publisher.Console
         static void Main(string[] args)
         {
             var readSessionFactory = NHibernateConfiguration.CreateSessionFactory(IsolationLevel.ReadCommitted);
-            var eventDescriptorMapper = new EventDescriptorMapper();
-            var eventDescriptorRepository = new EventDescriptorRepository(readSessionFactory, IsolationLevel.ReadCommitted);
+            var eventToPublishMapper = new EventToPublishMapper();
+            var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, IsolationLevel.ReadCommitted);
             var messageBusEventPublisher = new MessageBusEventPublisher(new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration()));
             var publisher = new OutboxToMessageQueuePublisher
             (
-                eventDescriptorRepository,
+                eventToPublishRepository,
                 messageBusEventPublisher,
-                eventDescriptorMapper
+                eventToPublishMapper
             );
 
             publisher.PublishQueuedMessages();

@@ -6,26 +6,26 @@ namespace Cafe.Publisher
 {
     public class OutboxToMessageQueuePublisher
     {
-        private readonly EventDescriptorRepository _repository;
+        private readonly EventToPublishRepository _repository;
         private readonly MessageBusEventPublisher _messageBusEventPublisher;
-        private readonly EventDescriptorMapper _eventDescriptorMapper;
+        private readonly EventToPublishMapper _eventToPublishMapper;
 
-        public OutboxToMessageQueuePublisher(EventDescriptorRepository repository, MessageBusEventPublisher messageBusEventPublisher, EventDescriptorMapper eventDescriptorMapper)
+        public OutboxToMessageQueuePublisher(EventToPublishRepository repository, MessageBusEventPublisher messageBusEventPublisher, EventToPublishMapper eventToPublishMapper)
         {
             _repository = repository;
             _messageBusEventPublisher = messageBusEventPublisher;
-            _eventDescriptorMapper = eventDescriptorMapper;
+            _eventToPublishMapper = eventToPublishMapper;
         }
 
         public void PublishQueuedMessages()
         {
-            var eventDescriptors = _repository.GetEventsAwaitingPublishing();
-            foreach (var eventDescriptor in eventDescriptors)
+            var eventsToPublish = _repository.GetEventsAwaitingPublishing();
+            foreach (var eventToPublish in eventsToPublish)
             {
-                var @event = _eventDescriptorMapper.MapEventDescriptorToEvent(eventDescriptor);
-                Console.WriteLine($"Publishing event [Id:{@event.Id};Type:{eventDescriptor.EventType}]..."); // TODO need to see how to specify queue / channel / topic when publishing
+                var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
+                Console.WriteLine($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]..."); // TODO need to see how to specify queue / channel / topic when publishing
                 _messageBusEventPublisher.Publish(new []{ @event });
-                _repository.Delete(eventDescriptor);
+                _repository.Delete(eventToPublish);
             }
         }
     }

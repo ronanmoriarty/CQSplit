@@ -49,7 +49,7 @@ namespace CQRSTutorial.DAL.Tests
                         readSessionFactory,
                         isolationLevel,
                         publishConfiguration,
-                        new EventDescriptorMapper())
+                        new EventToPublishMapper())
                     {
                         UnitOfWork = nHibernateUnitOfWork
                     };
@@ -62,11 +62,11 @@ namespace CQRSTutorial.DAL.Tests
                 var messageBusEventPublisher = new MessageBusEventPublisher(new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(), (sbc, host) => ConfigureTestReceiver(sbc, host, publishLocation, () => messagesPublished++)));
                 using (var writeSession = SessionFactory.WriteInstance.OpenSession())
                 {
-                    var eventDescriptorRepository = new EventDescriptorRepository(readSessionFactory, isolationLevel)
+                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, isolationLevel)
                     {
                         UnitOfWork = new NHibernateUnitOfWork(writeSession)
                     };
-                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventDescriptorRepository, messageBusEventPublisher, new EventDescriptorMapper());
+                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventToPublishRepository, messageBusEventPublisher, new EventToPublishMapper());
                     outboxToMessageQueuePublisher.PublishQueuedMessages();
                     const int oneSecond = 1000; // i.e. 1000 ms.
                     Thread.Sleep(oneSecond);
@@ -96,7 +96,7 @@ namespace CQRSTutorial.DAL.Tests
                     readSessionFactory,
                     isolationLevel,
                     publishConfiguration,
-                    new EventDescriptorMapper())
+                    new EventToPublishMapper())
                 {
                     UnitOfWork = nHibernateUnitOfWork
                 };
@@ -118,7 +118,7 @@ namespace CQRSTutorial.DAL.Tests
             {
                 using (var transaction = writeSession.BeginTransaction())
                 {
-                    var eventDescriptorRepository = new EventDescriptorRepository(readSessionFactory, isolationLevel)
+                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, isolationLevel)
                     {
                         UnitOfWork = new NHibernateUnitOfWork(writeSession)
                     };
@@ -126,7 +126,7 @@ namespace CQRSTutorial.DAL.Tests
                         new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(),
                         (sbc, host) => ConfigureTestReceiver(sbc, host, publishLocation))
                     );
-                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventDescriptorRepository, messageBusEventPublisher, new EventDescriptorMapper());
+                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventToPublishRepository, messageBusEventPublisher, new EventToPublishMapper());
 
                     outboxToMessageQueuePublisher.PublishQueuedMessages();
                     transaction.Commit();

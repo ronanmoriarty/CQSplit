@@ -5,44 +5,44 @@ using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventRepository : RepositoryBase<EventDescriptor>, IEventRepository
+    public class EventRepository : RepositoryBase<EventToPublish>, IEventRepository
     {
         private readonly IPublishConfiguration _publishConfiguration;
-        private readonly EventDescriptorMapper _eventDescriptorMapper;
+        private readonly EventToPublishMapper _eventToPublishMapper;
 
         public EventRepository(ISessionFactory readSessionFactory,
             IsolationLevel isolationLevel,
             IPublishConfiguration publishConfiguration,
-            EventDescriptorMapper eventDescriptorMapper)
+            EventToPublishMapper eventToPublishMapper)
             : base(readSessionFactory, isolationLevel)
         {
             _publishConfiguration = publishConfiguration;
-            _eventDescriptorMapper = eventDescriptorMapper;
+            _eventToPublishMapper = eventToPublishMapper;
         }
 
         public void Add(IEvent @event)
         {
-            var eventDescriptor = new EventDescriptor
+            var eventToPublish = new EventToPublish
             {
                 EventType = @event.GetType().Name,
                 Data = JsonConvert.SerializeObject(@event),
                 PublishTo = _publishConfiguration.GetPublishLocationFor(@event.GetType())
             };
-            SaveOrUpdate(eventDescriptor);
-            UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(@event, eventDescriptor);
+            SaveOrUpdate(eventToPublish);
+            UpdateEventIdToReflectIdAssignedByNHibernateToEventToPublish(@event, eventToPublish);
         }
 
         public IEvent Read(int id)
         {
-            var eventDescriptor = Get(id);
-            return _eventDescriptorMapper.MapEventDescriptorToEvent(eventDescriptor);
+            var eventToPublish = Get(id);
+            return _eventToPublishMapper.MapToEvent(eventToPublish);
         }
 
-        private void UpdateEventIdToReflectIdAssignedByNHibernateToEventDescriptor(IEvent @event,
-            EventDescriptor eventDescriptor)
+        private void UpdateEventIdToReflectIdAssignedByNHibernateToEventToPublish(IEvent @event,
+            EventToPublish eventToPublish)
         {
-            // We're not saving the event itself - so the event's id doesn't get updated automatically by NHibernate. Only the EventDescriptor's Id gets updated during saving.
-            @event.Id = eventDescriptor.Id;
+            // We're not saving the event itself - so the event's id doesn't get updated automatically by NHibernate. Only the EventToPublish's Id gets updated during saving.
+            @event.Id = eventToPublish.Id;
         }
     }
 }

@@ -22,8 +22,8 @@ namespace CQRSTutorial.DAL
                 .Mappings(m =>
                 {
                     m.AutoMappings.Add(
-                        AutoMap.AssemblyOf<EventDescriptor>(cfg)
-                            .UseOverridesFromAssemblyOf<EventDescriptorMapping>());
+                        AutoMap.AssemblyOf<EventToPublish>(cfg)
+                            .UseOverridesFromAssemblyOf<EventToPublishMapping>());
                 })
                 .BuildSessionFactory();
         }
