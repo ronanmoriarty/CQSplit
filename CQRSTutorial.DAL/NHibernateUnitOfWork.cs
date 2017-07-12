@@ -30,5 +30,10 @@ namespace CQRSTutorial.DAL
         {
             Session?.Transaction?.Rollback();
         }
+
+        public void Enlist(IHaveUnitOfWork haveUnitOfWork)
+        {
+            haveUnitOfWork.UnitOfWork = this;
+        }
     }
 }

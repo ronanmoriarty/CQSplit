@@ -22,8 +22,8 @@ namespace CQRSTutorial.DAL
             using (var unitOfWork = _unitOfWorkFactory.Create())
             {
                 unitOfWork.Start();
-                _eventRepository.UnitOfWork = unitOfWork;
-                _eventStore.UnitOfWork = unitOfWork;
+                unitOfWork.Enlist(_eventRepository);
+                unitOfWork.Enlist(_eventStore);
                 try
                 {
                     foreach (var @event in events)

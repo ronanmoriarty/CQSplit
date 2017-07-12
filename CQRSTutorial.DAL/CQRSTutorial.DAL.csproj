@@ -68,6 +68,7 @@
     <Compile Include="EventRepository.cs" />
     <Compile Include="IEventRepository.cs" />
     <Compile Include="IEventStore.cs" />
+    <Compile Include="IHaveUnitOfWork.cs" />
     <Compile Include="IMapToTable.cs" />
     <Compile Include="IPublishConfiguration.cs" />
     <Compile Include="IUnitOfWork.cs" />

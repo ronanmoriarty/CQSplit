@@ -2,10 +2,9 @@
 
 namespace CQRSTutorial.DAL
 {
-    public interface IEventRepository
+    public interface IEventRepository : IHaveUnitOfWork
     {
         void Add(IEvent @event);
         IEvent Read(int id);
-        IUnitOfWork UnitOfWork { get; set; }
     }
 }
