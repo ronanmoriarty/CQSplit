@@ -30,7 +30,7 @@ namespace CQRSTutorial.DAL.Tests
             return _eventRepository.Read(id);
         }
 
-        public object UnitOfWork
+        public IUnitOfWork UnitOfWork
         {
             get { return _eventRepository.UnitOfWork; }
             set { _eventRepository.UnitOfWork = value; }

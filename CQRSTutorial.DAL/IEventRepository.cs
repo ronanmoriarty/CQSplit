@@ -6,6 +6,6 @@ namespace CQRSTutorial.DAL
     {
         void Add(IEvent @event);
         IEvent Read(int id);
-        object UnitOfWork { get; set; }
+        IUnitOfWork UnitOfWork { get; set; }
     }
 }
