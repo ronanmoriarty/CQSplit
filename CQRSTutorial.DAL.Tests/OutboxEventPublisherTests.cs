@@ -33,7 +33,7 @@ namespace CQRSTutorial.DAL.Tests
             _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper()));
             _eventStoreDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new EventMapper()));
             _outboxEventPublisher = new OutboxEventPublisher(
-                SessionFactory.WriteInstance,
+                new NHibernateUnitOfWorkFactory(SessionFactory.WriteInstance),
                 _eventRepositoryDecorator,
                 _eventStoreDecorator
             );

@@ -1,45 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
 using CQRSTutorial.Core;
-using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
     public class OutboxEventPublisher : IEventPublisher
     {
-        private readonly ISessionFactory _writeSessionFactory;
+        private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly IEventRepository _eventRepository;
         private readonly IEventRepository _eventStore;
 
-        public OutboxEventPublisher(ISessionFactory writeSessionFactory, IEventRepository eventRepository, IEventRepository eventStore)
+        public OutboxEventPublisher(IUnitOfWorkFactory unitOfWorkFactory, IEventRepository eventRepository, IEventRepository eventStore)
         {
-            _writeSessionFactory = writeSessionFactory;
+            _unitOfWorkFactory = unitOfWorkFactory;
             _eventRepository = eventRepository;
             _eventStore = eventStore;
         }
 
         public void Publish(IEnumerable<IEvent> events)
         {
-            using (var writeSession = _writeSessionFactory.OpenSession())
+            using (var unitOfWork = _unitOfWorkFactory.Create())
             {
-                _eventRepository.UnitOfWork = new NHibernateUnitOfWork(writeSession); // TODO: we pass in an IEventRepository, but we're clearly working with NHibernate repositories. Remove references to NHibernate from this class.
-                _eventStore.UnitOfWork = new NHibernateUnitOfWork(writeSession); // TODO: we pass in an IEventRepository, but we're clearly working with NHibernate repositories. Remove references to NHibernate from this class.
-                using (var transaction = writeSession.BeginTransaction())
+                unitOfWork.Start();
+                _eventRepository.UnitOfWork = unitOfWork;
+                _eventStore.UnitOfWork = unitOfWork;
+                try
                 {
-                    try
+                    foreach (var @event in events)
                     {
-                        foreach (var @event in events)
-                        {
-                            _eventStore.Add(@event);
-                            _eventRepository.Add(@event);
-                        }
-                        transaction.Commit();
+                        _eventStore.Add(@event);
+                        _eventRepository.Add(@event);
                     }
-                    catch (Exception exception)
-                    {
-                        Console.WriteLine(exception);
-                        transaction.Rollback();
-                    }
+                    unitOfWork.Commit();
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                    unitOfWork.Rollback();
                 }
             }
         }
