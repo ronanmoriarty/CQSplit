@@ -18,7 +18,7 @@ namespace CQRSTutorial.DAL
         private Type GetEventTypeFrom(string eventType)
         {
             return typeof(TabOpened).Assembly.GetTypes()
-                .Single(t => typeof(ITabEvent).IsAssignableFrom(t) && t.Name == eventType);
+                .Single(t => typeof(IEvent).IsAssignableFrom(t) && t.Name == eventType);
         }
 
         private void AssignEventIdFromEventToPublishId(IEvent @event, EventToPublish eventToPublish)

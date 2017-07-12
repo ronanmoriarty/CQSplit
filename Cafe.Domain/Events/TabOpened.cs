@@ -1,6 +1,8 @@
-﻿namespace Cafe.Domain.Events
+﻿using CQRSTutorial.Core;
+
+namespace Cafe.Domain.Events
 {
-    public class TabOpened : ITabEvent
+    public class TabOpened : IEvent
     {
         public int Id { get; set; }
         public int TabId { get; set; }
