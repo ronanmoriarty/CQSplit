@@ -30,7 +30,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             var tabOpened = new TabOpened
             {
-                TabId = 123,
+                AggregateId = 123,
                 TableNumber = 234,
                 Waiter = "John"
             };
@@ -103,7 +103,7 @@ namespace CQRSTutorial.DAL.Tests
 
                 var tabOpened = new TabOpened
                 {
-                    TabId = 345,
+                    AggregateId = 345,
                     TableNumber = 456,
                     Waiter = "Mary"
                 };

@@ -5,7 +5,7 @@ namespace Cafe.Domain.Events
     public class TabClosed : IEvent
     {
         public int Id { get; set; }
-        public int TabId { get; set; }
+        public int AggregateId { get; set; }
 
         public decimal AmountPaid;
         public decimal OrderValue;

@@ -37,13 +37,13 @@ namespace CQRSTutorial.DAL.Tests
 
             _tabOpened = new TabOpened
             {
-                TabId = TabId,
+                AggregateId = TabId,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             };
             _drinksOrdered = new DrinksOrdered
             {
-                TabId = TabId,
+                AggregateId = TabId,
                 Items = new List<OrderedItem>
                     {
                         new OrderedItem
