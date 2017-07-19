@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using Cafe.Domain;
-using Cafe.Domain.Events;
+using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
 using NHibernate;
@@ -23,124 +20,54 @@ namespace CQRSTutorial.DAL.Tests
 
         public EventTests()
         {
-            _eventToPublishRepository = new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, null, new EventToPublishMapper());
+            _eventToPublishRepository = new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, null, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);
             _sqlExecutor = new SqlExecutor();
         }
 
         protected override EventToPublishRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
         {
-            return new EventToPublishRepository(readSessionFactory, isolationLevel, _publishConfiguration, new EventToPublishMapper());
+            return new EventToPublishRepository(readSessionFactory, isolationLevel, _publishConfiguration, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
         }
 
         [Test]
-        public void InsertAndReadTabOpened()
+        public void InsertAndReadEvent()
         {
-            const string waiter = "John";
-            const int tableNumber = 123;
+            const string stringPropertyValue = "John";
+            const int intPropertyValue = 123;
 
-            var tabOpened = new TabOpened
+            var testEvent = new TestEvent
             {
                 Id = GetNewId(),
-                TableNumber = tableNumber,
-                Waiter = waiter
+                IntProperty = intPropertyValue,
+                StringProperty = stringPropertyValue
             };
 
-            InsertAndRead(tabOpened);
+            InsertAndRead(testEvent);
 
-            Assert.That(_retrievedEvent is TabOpened);
-            var retrievedTabOpenedEvent = (TabOpened) _retrievedEvent;
-            Assert.That(retrievedTabOpenedEvent.Id, Is.EqualTo(tabOpened.Id));
-            Assert.That(retrievedTabOpenedEvent.TableNumber, Is.EqualTo(tableNumber));
-            Assert.That(retrievedTabOpenedEvent.Waiter, Is.EqualTo(waiter));
-        }
-
-        [Test]
-        public void InsertAndReadFoodOrdered()
-        {
-            const string foodDescription = "Chicken Madras";
-            const int foodMenuNumber = 234;
-            const decimal foodPrice = 10.5m;
-
-            var foodOrdered = new FoodOrdered
-            {
-                Id = GetNewId(),
-                Items = new List<OrderedItem>
-                {
-                    new OrderedItem
-                    {
-                        Description = foodDescription,
-                        IsDrink = false,
-                        MenuNumber = foodMenuNumber,
-                        Price = foodPrice
-                    }
-                }
-            };
-
-            InsertAndRead(foodOrdered);
-
-            Assert.That(_retrievedEvent is FoodOrdered);
-            var retrievedFoodOrderedEvent = (FoodOrdered)_retrievedEvent;
-            Assert.That(retrievedFoodOrderedEvent.Id, Is.EqualTo(foodOrdered.Id));
-            Assert.That(retrievedFoodOrderedEvent.Items.Count, Is.EqualTo(1));
-            var foodOrderedItem = retrievedFoodOrderedEvent.Items.Single();
-            Assert.That(foodOrderedItem.Description, Is.EqualTo(foodDescription));
-            Assert.That(foodOrderedItem.IsDrink, Is.False);
-            Assert.That(foodOrderedItem.MenuNumber, Is.EqualTo(foodMenuNumber));
-            Assert.That(foodOrderedItem.Price, Is.EqualTo(foodPrice));
-        }
-
-        [Test]
-        public void InsertAndReadDrinkOrdered()
-        {
-            const string drinkDescription = "Coca Cola";
-            const int drinkMenuNumber = 101;
-            const decimal drinkPrice = 2.5m;
-
-            var drinkOrdered = new DrinksOrdered
-            {
-                Id = GetNewId(),
-                Items = new List<OrderedItem>
-                {
-                    new OrderedItem
-                    {
-                        Description = drinkDescription,
-                        IsDrink = true,
-                        MenuNumber = drinkMenuNumber,
-                        Price = drinkPrice
-                    }
-                }
-            };
-
-            InsertAndRead(drinkOrdered);
-
-            Assert.That(_retrievedEvent is DrinksOrdered);
-            var retrievedDrinkOrderedEvent = (DrinksOrdered)_retrievedEvent;
-            Assert.That(retrievedDrinkOrderedEvent.Id, Is.EqualTo(drinkOrdered.Id));
-            Assert.That(retrievedDrinkOrderedEvent.Items.Count, Is.EqualTo(1));
-            var drinkOrderedItem = retrievedDrinkOrderedEvent.Items.Single();
-            Assert.That(drinkOrderedItem.Description, Is.EqualTo(drinkDescription));
-            Assert.That(drinkOrderedItem.IsDrink, Is.True);
-            Assert.That(drinkOrderedItem.MenuNumber, Is.EqualTo(drinkMenuNumber));
-            Assert.That(drinkOrderedItem.Price, Is.EqualTo(drinkPrice));
+            Assert.That(_retrievedEvent is TestEvent);
+            var retrievedTabOpenedEvent = (TestEvent) _retrievedEvent;
+            Assert.That(retrievedTabOpenedEvent.Id, Is.EqualTo(testEvent.Id));
+            Assert.That(retrievedTabOpenedEvent.IntProperty, Is.EqualTo(intPropertyValue));
+            Assert.That(retrievedTabOpenedEvent.StringProperty, Is.EqualTo(stringPropertyValue));
         }
 
         [Test]
         public void Event_PublishTo_set_according_to_PublishConfiguration()
         {
-            const string waiter = "John";
-            const int tableNumber = 123;
+            const string stringPropertyValue = "John";
+            const int intPropertyValue = 123;
 
-            var tabOpened = new TabOpened
+            var testEvent = new TestEvent
             {
                 Id = GetNewId(),
-                TableNumber = tableNumber,
-                Waiter = waiter
+                IntProperty = intPropertyValue,
+                StringProperty = stringPropertyValue
             };
 
-            Repository.Add(tabOpened);
+            Repository.Add(testEvent);
             WriteSession.Flush();
-            var eventToPublish = _eventToPublishRepository.Get(tabOpened.Id);
+            var eventToPublish = _eventToPublishRepository.Get(testEvent.Id);
 
             Assert.That(eventToPublish.PublishTo, Is.EqualTo(PublishLocation));
         }

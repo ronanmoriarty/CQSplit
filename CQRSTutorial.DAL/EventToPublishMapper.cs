@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using Cafe.Domain.Events;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
@@ -8,6 +9,18 @@ namespace CQRSTutorial.DAL
 {
     public class EventToPublishMapper
     {
+        private readonly Assembly _assemblyToInspectForEvents;
+
+        public EventToPublishMapper()
+            : this(typeof(TabOpened).Assembly)
+        {
+        }
+
+        public EventToPublishMapper(Assembly assemblyToInspectForEvents)
+        {
+            _assemblyToInspectForEvents = assemblyToInspectForEvents;
+        }
+
         public IEvent MapToEvent(EventToPublish eventToPublish)
         {
             var @event = (IEvent)JsonConvert.DeserializeObject(eventToPublish.Data, GetEventTypeFrom(eventToPublish.EventType));
@@ -17,7 +30,7 @@ namespace CQRSTutorial.DAL
 
         private Type GetEventTypeFrom(string eventType)
         {
-            return typeof(TabOpened).Assembly.GetTypes()
+            return _assemblyToInspectForEvents.GetTypes()
                 .Single(t => typeof(IEvent).IsAssignableFrom(t) && t.Name == eventType);
         }
 
