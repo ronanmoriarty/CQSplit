@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Data;
-using Cafe.Publisher;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Publisher;
 
 namespace Cafe.Waiter.Publisher.Console
 {
