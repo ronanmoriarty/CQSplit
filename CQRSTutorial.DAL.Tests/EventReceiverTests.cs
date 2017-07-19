@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using Cafe.Domain;
-using Cafe.Domain.Events;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
@@ -12,16 +9,11 @@ namespace CQRSTutorial.DAL.Tests
     [TestFixture]
     public class EventReceiverTests
     {
-        private const int TabId = 321;
+        private const int AggregateId = 321;
         private EventReceiver _eventReceiver;
-        private readonly int _tableNumber = 123;
-        private readonly string _waiter = "John";
-        private TabOpened _tabOpened;
-        private DrinksOrdered _drinksOrdered;
+        private TestEvent _testEvent;
+        private TestEvent2 _drinksOrdered;
         private SqlExecutor _sqlExecutor;
-        private readonly string _drinkDescription = "Coca Cola";
-        private readonly int _drinkMenuNumber = 123;
-        private readonly decimal _drinkPrice = 2.5m;
         private EventRepositoryDecorator _eventRepositoryDecorator;
         private IEventStore _eventStore;
         private const string EventsToPublishTableName = "dbo.EventsToPublish";
@@ -38,25 +30,13 @@ namespace CQRSTutorial.DAL.Tests
                 _eventStore,
                 _eventRepositoryDecorator);
 
-            _tabOpened = new TabOpened
+            _testEvent = new TestEvent
             {
-                AggregateId = TabId,
-                TableNumber = _tableNumber,
-                Waiter = _waiter
+                AggregateId = AggregateId
             };
-            _drinksOrdered = new DrinksOrdered
+            _drinksOrdered = new TestEvent2
             {
-                AggregateId = TabId,
-                Items = new List<OrderedItem>
-                    {
-                        new OrderedItem
-                        {
-                            Description = _drinkDescription,
-                            IsDrink = true,
-                            MenuNumber = _drinkMenuNumber,
-                            Price = _drinkPrice
-                        }
-                    }
+                AggregateId = AggregateId
             };
         }
 
@@ -65,7 +45,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             try
             {
-                _eventReceiver.Receive(new[] { _tabOpened });
+                _eventReceiver.Receive(new[] { _testEvent });
 
                 AssertThatEventSavedToEventsToPublishTable();
                 AssertThatEventSavedToEventStore();
@@ -84,10 +64,10 @@ namespace CQRSTutorial.DAL.Tests
             {
                 AssumingSecondSaveCausesException();
 
-                _eventReceiver.Receive(new IEvent[] { _tabOpened, _drinksOrdered });
+                _eventReceiver.Receive(new IEvent[] { _testEvent, _drinksOrdered });
 
-                AssertThatNoEventsSavedToEventsToPublishTable(_tabOpened.Id,_drinksOrdered.Id);
-                AssertThatNoEventsSavedToEventStore(_tabOpened.Id,_drinksOrdered.Id);
+                AssertThatNoEventsSavedToEventsToPublishTable(_testEvent.Id,_drinksOrdered.Id);
+                AssertThatNoEventsSavedToEventStore(_testEvent.Id,_drinksOrdered.Id);
             }
             finally
             {
@@ -126,7 +106,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private void AssertThatEventSavedToTable(string tableName)
         {
-            var sql = $"SELECT COUNT(*) FROM {tableName} WHERE Id = {_tabOpened.Id}";
+            var sql = $"SELECT COUNT(*) FROM {tableName} WHERE Id = {_testEvent.Id}";
             Console.WriteLine(sql);
             var numberOfEventsInserted =
                 _sqlExecutor.ExecuteScalar<int>(sql);
@@ -163,7 +143,19 @@ namespace CQRSTutorial.DAL.Tests
 
         private void DeleteNewlyInsertedEventFromTable(string tableName)
         {
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM {tableName} WHERE Id = {_tabOpened.Id}");
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM {tableName} WHERE Id = {_testEvent.Id}");
+        }
+
+        internal class TestEvent : IEvent
+        {
+            public int Id { get; set; }
+            public int AggregateId { get; set; }
+        }
+
+        internal class TestEvent2 : IEvent
+        {
+            public int Id { get; set; }
+            public int AggregateId { get; set; }
         }
     }
 }
