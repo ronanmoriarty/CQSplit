@@ -145,17 +145,5 @@ namespace CQRSTutorial.DAL.Tests
         {
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM {tableName} WHERE Id = {_testEvent.Id}");
         }
-
-        internal class TestEvent : IEvent
-        {
-            public int Id { get; set; }
-            public int AggregateId { get; set; }
-        }
-
-        internal class TestEvent2 : IEvent
-        {
-            public int Id { get; set; }
-            public int AggregateId { get; set; }
-        }
     }
 }
