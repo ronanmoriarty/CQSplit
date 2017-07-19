@@ -6,5 +6,7 @@ namespace CQRSTutorial.DAL.Tests
     {
         public int Id { get; set; }
         public int AggregateId { get; set; }
+        public int IntProperty { get; set; }
+        public string StringProperty { get; set; }
     }
 }
