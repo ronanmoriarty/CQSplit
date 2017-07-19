@@ -10,7 +10,7 @@ namespace CQRSTutorial.Tests.Common
     public abstract class EventTestsBase<TCommandHandler>
         where TCommandHandler : new()
     {
-        private IEventPublisher _eventPublisher;
+        private IEventReceiver _eventReceiver;
         private CommandDispatcher _commandDispatcher;
         private TCommandHandler _commandHandler;
         private EventApplier _eventApplier;
@@ -20,8 +20,8 @@ namespace CQRSTutorial.Tests.Common
         public void SetUp()
         {
             _commandHandler = new TCommandHandler();
-            _eventPublisher = Substitute.For<IEventPublisher>();
-            _commandDispatcher = new CommandDispatcher(_eventPublisher, new object[] { _commandHandler });
+            _eventReceiver = Substitute.For<IEventReceiver>();
+            _commandDispatcher = new CommandDispatcher(_eventReceiver, new object[] { _commandHandler });
             _eventApplier = new EventApplier(new object[] {_commandHandler});
         }
 
@@ -44,7 +44,7 @@ namespace CQRSTutorial.Tests.Common
             HandleCommands();
             foreach (var expectedEvent in expectedEvents)
             {
-                _eventPublisher.Received(1).Publish(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatches(expectedEvent, events)));
+                _eventReceiver.Received(1).Receive(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatches(expectedEvent, events)));
             }
         }
 

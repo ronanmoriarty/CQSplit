@@ -14,7 +14,7 @@ namespace CQRSTutorial.Infrastructure.Tests
         public void Can_publish_to_message_queue()
         {
             var messageBusEventPublisher = new MessageBusEventPublisher(new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(), ConfigureTestReceiver));
-            messageBusEventPublisher.Publish(new [] {new TestEvent()});
+            messageBusEventPublisher.Receive(new [] {new TestEvent()});
             Thread.Sleep(1000);
             messageBusEventPublisher.Stop();
         }

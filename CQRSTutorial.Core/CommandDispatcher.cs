@@ -7,12 +7,12 @@ namespace CQRSTutorial.Core
 {
     public class CommandDispatcher
     {
-        private readonly IEventPublisher _eventPublisher;
+        private readonly IEventReceiver _eventReceiver;
         private Dictionary<Type, object> _commandHandlerMappings;
 
-        public CommandDispatcher(IEventPublisher eventPublisher, object[] commandHandlers)
+        public CommandDispatcher(IEventReceiver eventReceiver, object[] commandHandlers)
         {
-            _eventPublisher = eventPublisher;
+            _eventReceiver = eventReceiver;
             MapCommandTypesToCommandHandlerInstance(commandHandlers);
         }
 
@@ -26,7 +26,7 @@ namespace CQRSTutorial.Core
                 try
                 {
                     var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new[] { command });
-                    _eventPublisher.Publish(events);
+                    _eventReceiver.Receive(events);
                 }
                 catch (TargetInvocationException exception)
                 {

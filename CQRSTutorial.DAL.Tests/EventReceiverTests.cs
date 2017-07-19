@@ -9,10 +9,10 @@ using NUnit.Framework;
 namespace CQRSTutorial.DAL.Tests
 {
     [TestFixture]
-    public class OutboxEventPublisherTests
+    public class EventReceiverTests
     {
         private const int TabId = 321;
-        private OutboxEventPublisher _outboxEventPublisher;
+        private EventReceiver _eventReceiver;
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John";
         private TabOpened _tabOpened;
@@ -32,7 +32,7 @@ namespace CQRSTutorial.DAL.Tests
             _sqlExecutor = new SqlExecutor();
             _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper()));
             _eventStore = new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new EventMapper());
-            _outboxEventPublisher = new OutboxEventPublisher(
+            _eventReceiver = new EventReceiver(
                 new NHibernateUnitOfWorkFactory(SessionFactory.WriteInstance),
                 _eventStore,
                 _eventRepositoryDecorator);
@@ -60,11 +60,11 @@ namespace CQRSTutorial.DAL.Tests
         }
 
         [Test]
-        public void Published_events_get_saved_to_database()
+        public void Received_events_get_saved_to_database_for_publishing()
         {
             try
             {
-                _outboxEventPublisher.Publish(new[] { _tabOpened });
+                _eventReceiver.Receive(new[] { _tabOpened });
 
                 AssertThatEventSavedToEventsToPublishTable();
                 AssertThatEventSavedToEventStore();
@@ -77,13 +77,13 @@ namespace CQRSTutorial.DAL.Tests
         }
 
         [Test]
-        public void No_events_get_saved_to_database_if_any_fail_to_save()
+        public void No_events_get_saved_to_database_for_publishing_if_any_fail_to_save()
         {
             try
             {
                 AssumingSecondSaveCausesException();
 
-                _outboxEventPublisher.Publish(new IEvent[] { _tabOpened, _drinksOrdered });
+                _eventReceiver.Receive(new IEvent[] { _tabOpened, _drinksOrdered });
 
                 AssertThatNoEventsSavedToEventsToPublishTable(_tabOpened.Id,_drinksOrdered.Id);
                 AssertThatNoEventsSavedToEventStore(_tabOpened.Id,_drinksOrdered.Id);

@@ -85,7 +85,7 @@
     <Compile Include="EventStoreTests.cs" />
     <Compile Include="EventTests.cs" />
     <Compile Include="InsertAndReadTest.cs" />
-    <Compile Include="OutboxEventPublisherTests.cs" />
+    <Compile Include="EventReceiverTests.cs" />
     <Compile Include="OutboxToMessageQueuePublisherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunOncePerTestRun.cs" />

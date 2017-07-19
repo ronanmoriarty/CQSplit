@@ -4,20 +4,20 @@ using CQRSTutorial.Core;
 
 namespace CQRSTutorial.DAL
 {
-    public class OutboxEventPublisher : IEventPublisher
+    public class EventReceiver : IEventReceiver
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly IEventRepository _eventRepository;
         private readonly IEventStore _eventStore;
 
-        public OutboxEventPublisher(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore, IEventRepository eventRepository)
+        public EventReceiver(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore, IEventRepository eventRepository)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _eventStore = eventStore;
             _eventRepository = eventRepository;
         }
 
-        public void Publish(IEnumerable<IEvent> events)
+        public void Receive(IEnumerable<IEvent> events)
         {
             using (var unitOfWork = _unitOfWorkFactory.Create())
             {
