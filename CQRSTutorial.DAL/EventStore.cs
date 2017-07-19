@@ -25,6 +25,7 @@ namespace CQRSTutorial.DAL
         {
             var eventToStore = new Event
             {
+                AggregateId = @event.AggregateId,
                 EventType = @event.GetType().Name,
                 Data = JsonConvert.SerializeObject(@event),
                 Created = DateTime.Now
