@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
 using NHibernate;
@@ -22,7 +23,8 @@ namespace CQRSTutorial.DAL
             var eventToStore = new Event
             {
                 EventType = @event.GetType().Name,
-                Data = JsonConvert.SerializeObject(@event)
+                Data = JsonConvert.SerializeObject(@event),
+                Created = DateTime.Now
             };
             SaveOrUpdate(eventToStore);
             UpdateEventIdToReflectIdAssignedByNHibernateToEventToStore(@event, eventToStore);
