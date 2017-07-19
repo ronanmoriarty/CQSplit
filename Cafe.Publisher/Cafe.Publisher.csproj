@@ -68,10 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cafe.Domain\Cafe.Domain.csproj">
-      <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
-      <Name>Cafe.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
       <Project>{D9A17521-4B50-403C-8A7F-D9F82051049B}</Project>
       <Name>CQRSTutorial.Core</Name>
