@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Reflection;
 using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
@@ -40,6 +41,7 @@ namespace CQRSTutorial.DAL.Tests
                 var isolationLevel = IsolationLevel.ReadCommitted;
                 var readSessionFactory = SessionFactory.ReadInstance;
                 var publishLocation = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue1";
+                var eventToPublishMapper = new EventToPublishMapper(Assembly.GetExecutingAssembly());
                 using (var writeSession = SessionFactory.WriteInstance.OpenSession())
                 {
                     writeSession.BeginTransaction();
@@ -49,7 +51,7 @@ namespace CQRSTutorial.DAL.Tests
                         readSessionFactory,
                         isolationLevel,
                         publishConfiguration,
-                        new EventToPublishMapper())
+                        eventToPublishMapper)
                     {
                         UnitOfWork = nHibernateUnitOfWork
                     };
@@ -62,11 +64,11 @@ namespace CQRSTutorial.DAL.Tests
                 var messageBusEventPublisher = new MessageBusEventPublisher(new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(), (sbc, host) => ConfigureTestReceiver(sbc, host, publishLocation, () => messagesPublished++)));
                 using (var writeSession = SessionFactory.WriteInstance.OpenSession())
                 {
-                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, isolationLevel, null, new EventToPublishMapper())
+                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, isolationLevel, null, eventToPublishMapper)
                     {
                         UnitOfWork = new NHibernateUnitOfWork(writeSession)
                     };
-                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventToPublishRepository, messageBusEventPublisher, new EventToPublishMapper());
+                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventToPublishRepository, messageBusEventPublisher, eventToPublishMapper);
                     outboxToMessageQueuePublisher.PublishQueuedMessages();
                     const int oneSecond = 1000; // i.e. 1000 ms.
                     Thread.Sleep(oneSecond);
@@ -87,6 +89,7 @@ namespace CQRSTutorial.DAL.Tests
             var isolationLevel = IsolationLevel.ReadCommitted;
             int tabOpenedId;
             var publishLocation = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue2";
+            var eventToPublishMapper = new EventToPublishMapper(Assembly.GetExecutingAssembly());
             using (var writeSession = SessionFactory.WriteInstance.OpenSession())
             {
                 writeSession.BeginTransaction();
@@ -96,7 +99,7 @@ namespace CQRSTutorial.DAL.Tests
                     readSessionFactory,
                     isolationLevel,
                     publishConfiguration,
-                    new EventToPublishMapper())
+                    eventToPublishMapper)
                 {
                     UnitOfWork = nHibernateUnitOfWork
                 };
@@ -118,7 +121,7 @@ namespace CQRSTutorial.DAL.Tests
             {
                 using (var transaction = writeSession.BeginTransaction())
                 {
-                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, isolationLevel, null, new EventToPublishMapper())
+                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, isolationLevel, null, eventToPublishMapper)
                     {
                         UnitOfWork = new NHibernateUnitOfWork(writeSession)
                     };
@@ -126,7 +129,7 @@ namespace CQRSTutorial.DAL.Tests
                         new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(),
                         (sbc, host) => ConfigureTestReceiver(sbc, host, publishLocation))
                     );
-                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventToPublishRepository, messageBusEventPublisher, new EventToPublishMapper());
+                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventToPublishRepository, messageBusEventPublisher, eventToPublishMapper);
 
                     outboxToMessageQueuePublisher.PublishQueuedMessages();
                     transaction.Commit();

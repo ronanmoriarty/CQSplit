@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Cafe.Domain.Events;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
 
@@ -10,11 +9,6 @@ namespace CQRSTutorial.DAL
     public class EventToPublishMapper
     {
         private readonly Assembly _assemblyToInspectForEvents;
-
-        public EventToPublishMapper()
-            : this(typeof(TabOpened).Assembly)
-        {
-        }
 
         public EventToPublishMapper(Assembly assemblyToInspectForEvents)
         {
