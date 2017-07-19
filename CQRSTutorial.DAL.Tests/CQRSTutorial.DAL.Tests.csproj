@@ -97,9 +97,9 @@
       <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
       <Name>Cafe.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cafe.Publisher\Cafe.Publisher.csproj">
+    <ProjectReference Include="..\Cafe.Publisher\CQRSTutorial.Publisher.csproj">
       <Project>{16b09e97-f528-4225-871d-ced500f9d659}</Project>
-      <Name>Cafe.Publisher</Name>
+      <Name>CQRSTutorial.Publisher</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
       <Project>{d9a17521-4b50-403c-8a7f-d9f82051049b}</Project>

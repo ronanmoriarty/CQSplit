@@ -7,8 +7,8 @@
     <ProjectGuid>{16B09E97-F528-4225-871D-CED500F9D659}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cafe.Publisher</RootNamespace>
-    <AssemblyName>Cafe.Publisher</AssemblyName>
+    <RootNamespace>CQRSTutorial.Publisher</RootNamespace>
+    <AssemblyName>CQRSTutorial.Publisher</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

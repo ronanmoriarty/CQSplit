@@ -2,7 +2,7 @@
 using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
 
-namespace Cafe.Publisher
+namespace CQRSTutorial.Publisher
 {
     public class OutboxToMessageQueuePublisher
     {

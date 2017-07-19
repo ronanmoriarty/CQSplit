@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data;
 using System.Threading;
-using Cafe.Publisher;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Publisher;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
 using NUnit.Framework;
