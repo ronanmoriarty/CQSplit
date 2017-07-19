@@ -6,12 +6,12 @@ using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventRepository : RepositoryBase<EventToPublish>, IEventRepository
+    public class EventToPublishRepository : RepositoryBase<EventToPublish>, IEventRepository
     {
         private readonly IPublishConfiguration _publishConfiguration;
         private readonly EventToPublishMapper _eventToPublishMapper;
 
-        public EventRepository(ISessionFactory readSessionFactory,
+        public EventToPublishRepository(ISessionFactory readSessionFactory,
             IsolationLevel isolationLevel,
             IPublishConfiguration publishConfiguration,
             EventToPublishMapper eventToPublishMapper)

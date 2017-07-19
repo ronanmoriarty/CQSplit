@@ -30,7 +30,7 @@ namespace CQRSTutorial.DAL.Tests
         public void SetUp()
         {
             _sqlExecutor = new SqlExecutor();
-            _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper()));
+            _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper()));
             _eventStore = new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new EventMapper());
             _eventReceiver = new EventReceiver(
                 new NHibernateUnitOfWorkFactory(SessionFactory.WriteInstance),

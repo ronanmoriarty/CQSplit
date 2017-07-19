@@ -12,24 +12,24 @@ namespace CQRSTutorial.DAL.Tests
 {
     [TestFixture, Category(TestConstants.Integration)]
     public class EventTests
-        : InsertAndReadTest<EventRepository, EventToPublish>
+        : InsertAndReadTest<EventToPublishRepository, EventToPublish>
     {
         private IEvent _retrievedEvent;
         private readonly IPublishConfiguration _publishConfiguration;
         private const string PublishLocation = "some.rabbitmq.topic.*";
-        private readonly EventRepository _eventToPublishRepository;
+        private readonly EventToPublishRepository _eventToPublishRepository;
         private readonly SqlExecutor _sqlExecutor;
 
         public EventTests()
         {
-            _eventToPublishRepository = new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, null, new EventToPublishMapper());
+            _eventToPublishRepository = new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, null, new EventToPublishMapper());
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);
             _sqlExecutor = new SqlExecutor();
         }
 
-        protected override EventRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
+        protected override EventToPublishRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
         {
-            return new EventRepository(readSessionFactory, isolationLevel, _publishConfiguration, new EventToPublishMapper());
+            return new EventToPublishRepository(readSessionFactory, isolationLevel, _publishConfiguration, new EventToPublishMapper());
         }
 
         [Test]

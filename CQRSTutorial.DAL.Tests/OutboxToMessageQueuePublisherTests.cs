@@ -45,7 +45,7 @@ namespace CQRSTutorial.DAL.Tests
                     writeSession.BeginTransaction();
                     var nHibernateUnitOfWork = new NHibernateUnitOfWork(writeSession);
                     var publishConfiguration = new TestPublishConfiguration(publishLocation);
-                    var eventRepository = new EventRepository(
+                    var eventToPublishRepository = new EventToPublishRepository(
                         readSessionFactory,
                         isolationLevel,
                         publishConfiguration,
@@ -53,7 +53,7 @@ namespace CQRSTutorial.DAL.Tests
                     {
                         UnitOfWork = nHibernateUnitOfWork
                     };
-                    eventRepository.Add(tabOpened);
+                    eventToPublishRepository.Add(tabOpened);
                     writeSession.Flush();
                     writeSession.Transaction.Commit();
                 }
@@ -62,7 +62,7 @@ namespace CQRSTutorial.DAL.Tests
                 var messageBusEventPublisher = new MessageBusEventPublisher(new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(), (sbc, host) => ConfigureTestReceiver(sbc, host, publishLocation, () => messagesPublished++)));
                 using (var writeSession = SessionFactory.WriteInstance.OpenSession())
                 {
-                    var eventToPublishRepository = new EventRepository(readSessionFactory, isolationLevel, null, new EventToPublishMapper())
+                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, isolationLevel, null, new EventToPublishMapper())
                     {
                         UnitOfWork = new NHibernateUnitOfWork(writeSession)
                     };
@@ -92,7 +92,7 @@ namespace CQRSTutorial.DAL.Tests
                 writeSession.BeginTransaction();
                 var nHibernateUnitOfWork = new NHibernateUnitOfWork(writeSession);
                 var publishConfiguration = new TestPublishConfiguration(publishLocation);
-                var eventRepository = new EventRepository(
+                var eventToPublishRepository = new EventToPublishRepository(
                     readSessionFactory,
                     isolationLevel,
                     publishConfiguration,
@@ -108,7 +108,7 @@ namespace CQRSTutorial.DAL.Tests
                     Waiter = "Mary"
                 };
 
-                eventRepository.Add(tabOpened);
+                eventToPublishRepository.Add(tabOpened);
                 writeSession.Flush();
                 writeSession.Transaction.Commit();
                 tabOpenedId = tabOpened.Id;
@@ -118,7 +118,7 @@ namespace CQRSTutorial.DAL.Tests
             {
                 using (var transaction = writeSession.BeginTransaction())
                 {
-                    var eventToPublishRepository = new EventRepository(readSessionFactory, isolationLevel, null, new EventToPublishMapper())
+                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, isolationLevel, null, new EventToPublishMapper())
                     {
                         UnitOfWork = new NHibernateUnitOfWork(writeSession)
                     };

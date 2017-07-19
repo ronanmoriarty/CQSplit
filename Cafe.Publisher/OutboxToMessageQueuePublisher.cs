@@ -6,11 +6,11 @@ namespace Cafe.Publisher
 {
     public class OutboxToMessageQueuePublisher
     {
-        private readonly EventRepository _repository;
+        private readonly EventToPublishRepository _repository;
         private readonly MessageBusEventPublisher _messageBusEventPublisher;
         private readonly EventToPublishMapper _eventToPublishMapper;
 
-        public OutboxToMessageQueuePublisher(EventRepository repository, MessageBusEventPublisher messageBusEventPublisher, EventToPublishMapper eventToPublishMapper)
+        public OutboxToMessageQueuePublisher(EventToPublishRepository repository, MessageBusEventPublisher messageBusEventPublisher, EventToPublishMapper eventToPublishMapper)
         {
             _repository = repository;
             _messageBusEventPublisher = messageBusEventPublisher;
