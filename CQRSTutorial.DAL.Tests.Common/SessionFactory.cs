@@ -1,6 +1,6 @@
 ﻿using NHibernate;
 
-namespace CQRSTutorial.DAL.Tests
+namespace CQRSTutorial.DAL.Tests.Common
 {
     public class SessionFactory
     {

@@ -4,6 +4,7 @@ using System.Data;
 using Cafe.Domain;
 using Cafe.Domain.Events;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests

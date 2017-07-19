@@ -2,11 +2,11 @@
 using System.Configuration;
 using System.Data.SqlClient;
 
-namespace CQRSTutorial.DAL.Tests
+namespace CQRSTutorial.DAL.Tests.Common
 {
     public class SqlExecutor
     {
-        public T ExecuteScalar<T>(string commandText) // TODO make this generic
+        public T ExecuteScalar<T>(string commandText)
         {
             using (var sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["CQRSTutorial"].ConnectionString))
             {

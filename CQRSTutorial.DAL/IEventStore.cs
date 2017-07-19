@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using CQRSTutorial.Core;
 
 namespace CQRSTutorial.DAL
@@ -6,5 +7,6 @@ namespace CQRSTutorial.DAL
     {
         void Add(IEvent @event);
         IEvent Read(int id);
+        IEnumerable<IEvent> GetAllEventsFor(int aggregateId);
     }
 }

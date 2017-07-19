@@ -4,6 +4,7 @@ using System.Threading;
 using Cafe.Domain.Events;
 using Cafe.Publisher;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Infrastructure;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
