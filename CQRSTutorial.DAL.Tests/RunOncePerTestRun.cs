@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests

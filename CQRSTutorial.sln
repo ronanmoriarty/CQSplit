@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Publisher", "Cafe.Publ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Publisher.Console", "Cafe.Waiter.Publisher.Console\Cafe.Waiter.Publisher.Console.csproj", "{0F00AEE9-F69D-45C2-BEFF-6801CC62ABEB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.DAL.Tests.Common", "CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj", "{9381DFC5-0185-49CB-92B6-1D80A8911E87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{0F00AEE9-F69D-45C2-BEFF-6801CC62ABEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F00AEE9-F69D-45C2-BEFF-6801CC62ABEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F00AEE9-F69D-45C2-BEFF-6801CC62ABEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9381DFC5-0185-49CB-92B6-1D80A8911E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9381DFC5-0185-49CB-92B6-1D80A8911E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9381DFC5-0185-49CB-92B6-1D80A8911E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9381DFC5-0185-49CB-92B6-1D80A8911E87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,5 +86,6 @@ Global
 		{0F8C4EC3-415F-4571-BCB9-8BB224A63E90} = {401F4101-6E6E-4074-904E-1B53551615BA}
 		{A839A3A1-0302-40A1-95BF-F43F19E0677C} = {401F4101-6E6E-4074-904E-1B53551615BA}
 		{43C554EF-583A-42C3-B0F3-BB33190DC902} = {401F4101-6E6E-4074-904E-1B53551615BA}
+		{9381DFC5-0185-49CB-92B6-1D80A8911E87} = {401F4101-6E6E-4074-904E-1B53551615BA}
 	EndGlobalSection
 EndGlobal

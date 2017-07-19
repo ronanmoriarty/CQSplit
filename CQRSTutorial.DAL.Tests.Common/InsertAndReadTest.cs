@@ -2,7 +2,7 @@ using System.Data;
 using NHibernate;
 using NUnit.Framework;
 
-namespace CQRSTutorial.DAL.Tests
+namespace CQRSTutorial.DAL.Tests.Common
 {
     public abstract class InsertAndReadTest<TRepository, TTypeToPersist>
         where TRepository : RepositoryBase<TTypeToPersist> where TTypeToPersist : class

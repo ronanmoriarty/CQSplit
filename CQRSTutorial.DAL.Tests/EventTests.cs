@@ -5,6 +5,7 @@ using System.Linq;
 using Cafe.Domain;
 using Cafe.Domain.Events;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Tests.Common;
 using NHibernate;
 using NUnit.Framework;
 
