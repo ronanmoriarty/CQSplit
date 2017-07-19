@@ -1,9 +1,3 @@
-IF EXISTS(SELECT 1 FROM sys.tables WHERE object_id = OBJECT_ID(N'dbo.Events'))
-BEGIN
-	DROP TABLE dbo.Events
-END
-GO
-
 IF EXISTS(SELECT 1 FROM sys.tables WHERE object_id = OBJECT_ID(N'dbo.EventsToPublish'))
 BEGIN
 	DROP TABLE dbo.EventsToPublish
