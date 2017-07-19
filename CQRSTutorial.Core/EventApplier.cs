@@ -6,27 +6,32 @@ namespace CQRSTutorial.Core
 {
     public class EventApplier
     {
-        private readonly object[] _commandHandlers;
+        private readonly object[] _eventHandlers;
 
-        public EventApplier(object[] commandHandlers)
+        public EventApplier(object[] eventHandlers)
         {
-            _commandHandlers = commandHandlers;
+            _eventHandlers = eventHandlers;
         }
 
         public void ApplyEvent(IEvent @event)
         {
+            ApplyEvent(@event, _eventHandlers);
+        }
+
+        public void ApplyEvent(IEvent @event, object[] eventHandlers)
+        {
             var eventType = @event.GetType();
-            var commandHandler = _commandHandlers.SingleOrDefault(CanApplyEventOfType(eventType));
+            var eventHandler = eventHandlers.SingleOrDefault(CanApplyEventOfType(eventType));
             var applyEventMethodName = GetApplyEventMethodName();
-            if (commandHandler != null)
+            if (eventHandler != null)
             {
-                var applyMethodInfo = commandHandler.FindMethodTakingSingleArgument(applyEventMethodName, eventType);
+                var applyMethodInfo = eventHandler.FindMethodTakingSingleArgument(applyEventMethodName, eventType);
                 Console.WriteLine($"Invoking {applyEventMethodName}() for {eventType.FullName}...");
-                applyMethodInfo?.Invoke(commandHandler, new object[] {@event});
+                applyMethodInfo?.Invoke(eventHandler, new object[] {@event});
             }
             else
             {
-                Console.WriteLine($"Could not find {applyEventMethodName}() taking argument of type {eventType.FullName}.");
+                Console.WriteLine($"Could not find any registered aggregates with {applyEventMethodName}() taking argument of type {eventType.FullName}.");
             }
         }
 
