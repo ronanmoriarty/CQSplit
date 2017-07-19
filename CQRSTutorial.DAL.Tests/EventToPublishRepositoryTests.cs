@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace CQRSTutorial.DAL.Tests
 {
     [TestFixture, Category(TestConstants.Integration)]
-    public class EventTests
+    public class EventToPublishRepositoryTests
         : InsertAndReadTest<EventToPublishRepository, EventToPublish>
     {
         private IEvent _retrievedEvent;
@@ -18,7 +18,7 @@ namespace CQRSTutorial.DAL.Tests
         private readonly EventToPublishRepository _eventToPublishRepository;
         private readonly SqlExecutor _sqlExecutor;
 
-        public EventTests()
+        public EventToPublishRepositoryTests()
         {
             _eventToPublishRepository = new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, null, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);

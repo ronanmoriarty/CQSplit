@@ -83,7 +83,7 @@
   <ItemGroup>
     <Compile Include="EventRepositoryDecorator.cs" />
     <Compile Include="EventStoreTests.cs" />
-    <Compile Include="EventTests.cs" />
+    <Compile Include="EventToPublishRepositoryTests.cs" />
     <Compile Include="EventReceiverTests.cs" />
     <Compile Include="OutboxToMessageQueuePublisherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
