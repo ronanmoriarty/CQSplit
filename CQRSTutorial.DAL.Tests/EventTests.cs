@@ -17,12 +17,12 @@ namespace CQRSTutorial.DAL.Tests
         private IEvent _retrievedEvent;
         private readonly IPublishConfiguration _publishConfiguration;
         private const string PublishLocation = "some.rabbitmq.topic.*";
-        private readonly EventToPublishRepository _eventToPublishRepository;
+        private readonly EventRepository _eventToPublishRepository;
         private readonly SqlExecutor _sqlExecutor;
 
         public EventTests()
         {
-            _eventToPublishRepository = new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted);
+            _eventToPublishRepository = new EventRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, null, new EventToPublishMapper());
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);
             _sqlExecutor = new SqlExecutor();
         }

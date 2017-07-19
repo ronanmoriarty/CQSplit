@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
 using NHibernate;
@@ -36,6 +37,17 @@ namespace CQRSTutorial.DAL
         {
             var eventToPublish = Get(id);
             return _eventToPublishMapper.MapToEvent(eventToPublish);
+        }
+
+        public IList<EventToPublish> GetEventsAwaitingPublishing()
+        {
+            using (var session = ReadSessionFactory.OpenSession())
+            {
+                using (session.BeginTransaction(IsolationLevel))
+                {
+                    return session.QueryOver<EventToPublish>().List();
+                }
+            }
         }
     }
 }
