@@ -25,7 +25,7 @@ namespace Cafe.Waiter.DAL.Tests
         public TabRepositoryTests()
         {
             _sqlExecutor = new SqlExecutor();
-            _tabRepository = new TabRepository(new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, new EventMapper()), new EventApplier());
+            _tabRepository = new TabRepository(new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, new EventMapper(typeof(TabOpened).Assembly)), new EventApplier());
             _tabId = GetTabId();
         }
 
@@ -114,7 +114,7 @@ namespace Cafe.Waiter.DAL.Tests
 
         protected override EventStore CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
         {
-            return new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, new EventMapper());
+            return new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, new EventMapper(typeof(TabOpened).Assembly));
         }
     }
 }

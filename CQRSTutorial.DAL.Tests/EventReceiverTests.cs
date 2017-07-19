@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
@@ -12,7 +13,7 @@ namespace CQRSTutorial.DAL.Tests
         private const int AggregateId = 321;
         private EventReceiver _eventReceiver;
         private TestEvent _testEvent;
-        private TestEvent2 _drinksOrdered;
+        private TestEvent2 _testEvent2;
         private SqlExecutor _sqlExecutor;
         private EventRepositoryDecorator _eventRepositoryDecorator;
         private IEventStore _eventStore;
@@ -24,7 +25,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             _sqlExecutor = new SqlExecutor();
             _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper()));
-            _eventStore = new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new EventMapper());
+            _eventStore = new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new EventMapper(Assembly.GetExecutingAssembly()));
             _eventReceiver = new EventReceiver(
                 new NHibernateUnitOfWorkFactory(SessionFactory.WriteInstance),
                 _eventStore,
@@ -34,7 +35,7 @@ namespace CQRSTutorial.DAL.Tests
             {
                 AggregateId = AggregateId
             };
-            _drinksOrdered = new TestEvent2
+            _testEvent2 = new TestEvent2
             {
                 AggregateId = AggregateId
             };
@@ -64,10 +65,10 @@ namespace CQRSTutorial.DAL.Tests
             {
                 AssumingSecondSaveCausesException();
 
-                _eventReceiver.Receive(new IEvent[] { _testEvent, _drinksOrdered });
+                _eventReceiver.Receive(new IEvent[] { _testEvent, _testEvent2 });
 
-                AssertThatNoEventsSavedToEventsToPublishTable(_testEvent.Id,_drinksOrdered.Id);
-                AssertThatNoEventsSavedToEventStore(_testEvent.Id,_drinksOrdered.Id);
+                AssertThatNoEventsSavedToEventsToPublishTable(_testEvent.Id,_testEvent2.Id);
+                AssertThatNoEventsSavedToEventStore(_testEvent.Id,_testEvent2.Id);
             }
             finally
             {
