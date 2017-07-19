@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Threading;
-using Cafe.Domain.Events;
 using Cafe.Publisher;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
@@ -29,11 +28,11 @@ namespace CQRSTutorial.DAL.Tests
         [Test, Ignore(Reason)]
         public void Publishes_messages_from_outbox()
         {
-            var tabOpened = new TabOpened
+            var testEvent = new TestEvent
             {
                 AggregateId = 123,
-                TableNumber = 234,
-                Waiter = "John"
+                IntProperty = 234,
+                StringProperty = "John"
             };
 
             try
@@ -54,7 +53,7 @@ namespace CQRSTutorial.DAL.Tests
                     {
                         UnitOfWork = nHibernateUnitOfWork
                     };
-                    eventToPublishRepository.Add(tabOpened);
+                    eventToPublishRepository.Add(testEvent);
                     writeSession.Flush();
                     writeSession.Transaction.Commit();
                 }
@@ -77,7 +76,7 @@ namespace CQRSTutorial.DAL.Tests
             }
             finally
             {
-                DeleteNewlyInsertedRow(tabOpened.Id);
+                DeleteNewlyInsertedRow(testEvent.Id);
             }
         }
 
@@ -102,17 +101,17 @@ namespace CQRSTutorial.DAL.Tests
                     UnitOfWork = nHibernateUnitOfWork
                 };
 
-                var tabOpened = new TabOpened
+                var testEvent = new TestEvent
                 {
                     AggregateId = 345,
-                    TableNumber = 456,
-                    Waiter = "Mary"
+                    IntProperty = 456,
+                    StringProperty = "Mary"
                 };
 
-                eventToPublishRepository.Add(tabOpened);
+                eventToPublishRepository.Add(testEvent);
                 writeSession.Flush();
                 writeSession.Transaction.Commit();
-                tabOpenedId = tabOpened.Id;
+                tabOpenedId = testEvent.Id;
             }
 
             using (var writeSession = SessionFactory.WriteInstance.OpenSession())
