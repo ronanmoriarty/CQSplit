@@ -25,7 +25,7 @@ namespace Cafe.Waiter.DAL.Tests
         public TabRepositoryTests()
         {
             _sqlExecutor = new SqlExecutor();
-            _tabRepository = new TabRepository(new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, new EventMapper()), new EventApplier(new object[] {}));
+            _tabRepository = new TabRepository(new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, new EventMapper()), new EventApplier());
             _tabId = GetTabId();
         }
 

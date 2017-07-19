@@ -22,7 +22,7 @@ namespace CQRSTutorial.Tests.Common
             _commandHandler = new TCommandHandler();
             _eventReceiver = Substitute.For<IEventReceiver>();
             _commandDispatcher = new CommandDispatcher(_eventReceiver, new object[] { _commandHandler });
-            _eventApplier = new EventApplier(new object[] {_commandHandler});
+            _eventApplier = new EventApplier();
         }
 
         // TODO: need to consider what tests are required involving a sequence of commands, or do we potentially say that each command will execute in isolation from all other commands, on an object whose current state is entirely dependent on previous events (rather than being dependent on previous events AND commands).
@@ -30,7 +30,7 @@ namespace CQRSTutorial.Tests.Common
         {
             foreach (var @event in events)
             {
-                _eventApplier.ApplyEvent(@event);
+                _eventApplier.ApplyEvent(@event, new object[]{_commandHandler});
             }
         }
 

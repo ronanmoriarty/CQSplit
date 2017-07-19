@@ -6,18 +6,6 @@ namespace CQRSTutorial.Core
 {
     public class EventApplier
     {
-        private readonly object[] _eventHandlers;
-
-        public EventApplier(object[] eventHandlers)
-        {
-            _eventHandlers = eventHandlers;
-        }
-
-        public void ApplyEvent(IEvent @event)
-        {
-            ApplyEvent(@event, _eventHandlers);
-        }
-
         public void ApplyEvent(IEvent @event, object[] eventHandlers)
         {
             var eventType = @event.GetType();
