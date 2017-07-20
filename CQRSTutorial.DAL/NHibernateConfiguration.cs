@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Configuration;
+using System.Data;
 using FluentNHibernate.Automapping;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
@@ -13,7 +14,7 @@ namespace CQRSTutorial.DAL
             var msSqlConfiguration = MsSqlConfiguration
                 .MsSql2012
                 .IsolationLevel(isolationLevel)
-                .ConnectionString(x => x.FromConnectionStringWithKey("CQRSTutorial"));
+                .ConnectionString(x => x.Is(ConfigurationManager.ConnectionStrings["CQRSTutorial"].ConnectionString));
 
             var cfg = new CustomAutomappingConfiguration();
             return Fluently
