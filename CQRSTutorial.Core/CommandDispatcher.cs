@@ -9,11 +9,13 @@ namespace CQRSTutorial.Core
     {
         private readonly IEventReceiver _eventReceiver;
         private Dictionary<Type, object> _commandHandlerMappings;
+        private readonly TypeInspector _typeInspector;
 
-        public CommandDispatcher(IEventReceiver eventReceiver, object[] commandHandlers)
+        public CommandDispatcher(IEventReceiver eventReceiver, object[] commandHandlers, TypeInspector typeInspector)
         {
             _eventReceiver = eventReceiver;
             MapCommandTypesToCommandHandlerInstance(commandHandlers);
+            _typeInspector = typeInspector;
         }
 
         public void Dispatch(params object[] commands)
@@ -22,7 +24,7 @@ namespace CQRSTutorial.Core
             {
                 var commandType = command.GetType();
                 var handler = _commandHandlerMappings[commandType];
-                var handleMethod = handler.FindMethodTakingSingleArgument(GetHandleMethodName(), commandType);
+                var handleMethod = _typeInspector.FindMethodTakingSingleArgument(handler, GetHandleMethodName(), commandType);
                 try
                 {
                     var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new[] { command });

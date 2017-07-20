@@ -6,6 +6,13 @@ namespace CQRSTutorial.Core
 {
     public class EventApplier
     {
+        private readonly TypeInspector _typeInspector;
+
+        public EventApplier(TypeInspector typeInspector)
+        {
+            _typeInspector = typeInspector;
+        }
+
         public void ApplyEvent(IEvent @event, object[] eventHandlers)
         {
             var eventType = @event.GetType();
@@ -13,7 +20,7 @@ namespace CQRSTutorial.Core
             var applyEventMethodName = GetApplyEventMethodName();
             if (eventHandler != null)
             {
-                var applyMethodInfo = eventHandler.FindMethodTakingSingleArgument(applyEventMethodName, eventType);
+                var applyMethodInfo = _typeInspector.FindMethodTakingSingleArgument(eventHandler, applyEventMethodName, eventType);
                 Console.WriteLine($"Invoking {applyEventMethodName}() for {eventType.FullName}...");
                 applyMethodInfo?.Invoke(eventHandler, new object[] {@event});
             }

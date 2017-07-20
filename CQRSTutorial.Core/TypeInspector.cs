@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace CQRSTutorial.Core
 {
-    public static class TypeExtensions
+    public class TypeInspector
     {
-        public static MethodInfo FindMethodTakingSingleArgument(this object objectToInspect, string methodName, Type singleParameterType)
+        public MethodInfo FindMethodTakingSingleArgument(object objectToInspect, string methodName, Type singleParameterType)
         {
             return objectToInspect
                 .GetType()
