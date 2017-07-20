@@ -53,9 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Inspector.cs" />
+    <Compile Include="Inspectors\Inspector.cs" />
     <Compile Include="RunOncePerTestRun.cs" />
-    <Compile Include="TabInspector.cs" />
+    <Compile Include="Inspectors\TabInspector.cs" />
     <Compile Include="TabRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
