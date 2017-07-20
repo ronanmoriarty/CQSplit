@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Configuration;
+using System.Data;
 using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
 
@@ -10,8 +11,9 @@ namespace CQRSTutorial.DAL.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            SessionFactory.WriteInstance = NHibernateConfiguration.CreateSessionFactory();
-            SessionFactory.ReadInstance = NHibernateConfiguration.CreateSessionFactory(IsolationLevel.ReadUncommitted);
+            var connectionString = ConfigurationManager.ConnectionStrings["CQRSTutorial"].ConnectionString;
+            SessionFactory.WriteInstance = NHibernateConfiguration.CreateSessionFactory(connectionString);
+            SessionFactory.ReadInstance = NHibernateConfiguration.CreateSessionFactory(connectionString, IsolationLevel.ReadUncommitted);
         }
     }
 }
