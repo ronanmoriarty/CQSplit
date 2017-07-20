@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="Inspector.cs" />
     <Compile Include="RunOncePerTestRun.cs" />
-    <Compile Include="TabExtensions.cs" />
     <Compile Include="TabInspector.cs" />
     <Compile Include="TabRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

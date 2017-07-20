@@ -80,7 +80,7 @@ namespace Cafe.Waiter.DAL.Tests
 
         private void WhenTabRetrievedFromRepository()
         {
-            _tabInspector = _tabRepository.Get(_tabId).GetInspector();
+            _tabInspector = new TabInspector(_tabRepository.Get(_tabId));
         }
 
         private void AssertTabReflectsAllSavedEvents()
