@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using CQRSTutorial.Core;
 using NUnit.Framework;
 
-namespace Cafe.Domain.Tests
+namespace CQRSTutorial.Core.Tests
 {
     [TestFixture]
     public class CommandDispatcherTests
