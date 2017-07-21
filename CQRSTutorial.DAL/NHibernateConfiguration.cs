@@ -6,14 +6,21 @@ using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public static class NHibernateConfiguration
+    public class NHibernateConfiguration
     {
-        public static ISessionFactory CreateSessionFactory(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
+        private readonly IConnectionStringProviderFactory _connectionStringProviderFactory;
+
+        public NHibernateConfiguration(IConnectionStringProviderFactory connectionStringProviderFactory)
+        {
+            _connectionStringProviderFactory = connectionStringProviderFactory;
+        }
+
+        public ISessionFactory CreateSessionFactory(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
         {
             var msSqlConfiguration = MsSqlConfiguration
                 .MsSql2012
                 .IsolationLevel(isolationLevel)
-                .ConnectionString(x => x.FromConnectionStringWithKey("CQRSTutorial"));
+                .ConnectionString(x => x.Is(_connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString()));
 
             var cfg = new CustomAutomappingConfiguration();
             return Fluently

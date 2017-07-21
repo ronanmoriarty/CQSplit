@@ -47,6 +47,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppConfigConnectionStringProvider.cs" />
+    <Compile Include="ConnectionStringOverride.cs" />
+    <Compile Include="ConnectionStringProviderFactory.cs" />
     <Compile Include="CustomAutomappingConfiguration.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="EventMapper.cs" />
@@ -65,6 +69,8 @@
     <Compile Include="EventToPublishMapper.cs" />
     <Compile Include="EventToPublishMapping.cs" />
     <Compile Include="EventToPublishRepository.cs" />
+    <Compile Include="IConnectionStringProvider.cs" />
+    <Compile Include="IConnectionStringProviderFactory.cs" />
     <Compile Include="IEventRepository.cs" />
     <Compile Include="IEventStore.cs" />
     <Compile Include="IHaveUnitOfWork.cs" />

@@ -11,8 +11,10 @@ namespace Cafe.Waiter.DAL.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            SessionFactory.WriteInstance = NHibernateConfiguration.CreateSessionFactory();
-            SessionFactory.ReadInstance = NHibernateConfiguration.CreateSessionFactory(IsolationLevel.ReadUncommitted);
+            var connectionStringProviderFactory = new ConnectionStringProviderFactory();
+            var nHibernateConfiguration = new NHibernateConfiguration(connectionStringProviderFactory);
+            SessionFactory.WriteInstance = nHibernateConfiguration.CreateSessionFactory();
+            SessionFactory.ReadInstance = nHibernateConfiguration.CreateSessionFactory(IsolationLevel.ReadUncommitted);
         }
     }
 }
