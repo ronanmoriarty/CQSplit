@@ -13,8 +13,8 @@ namespace Cafe.Waiter.DAL.Tests
         public void OneTimeSetUp()
         {
             var connectionString = ConfigurationManager.ConnectionStrings["CQRSTutorial"].ConnectionString;
-            SessionFactory.WriteInstance = new NHibernateConfiguration().CreateSessionFactory(connectionString);
-            SessionFactory.ReadInstance = new NHibernateConfiguration().CreateSessionFactory(connectionString, IsolationLevel.ReadUncommitted);
+            SessionFactory.WriteInstance = new NHibernateConfiguration(connectionString).CreateSessionFactory();
+            SessionFactory.ReadInstance = new NHibernateConfiguration(connectionString).CreateSessionFactory(IsolationLevel.ReadUncommitted);
         }
     }
 }
