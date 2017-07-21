@@ -6,9 +6,9 @@ using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public static class NHibernateConfiguration
+    public class NHibernateConfiguration
     {
-        public static ISessionFactory CreateSessionFactory(string connectionString, IsolationLevel isolationLevel = IsolationLevel.Unspecified)
+        public ISessionFactory CreateSessionFactory(string connectionString, IsolationLevel isolationLevel = IsolationLevel.Unspecified)
         {
             var msSqlConfiguration = MsSqlConfiguration
                 .MsSql2012
