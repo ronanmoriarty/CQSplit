@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfigConnectionStringProvider.cs" />
+    <Compile Include="ConnectionStringOverride.cs" />
     <Compile Include="ConnectionStringProviderFactory.cs" />
     <Compile Include="CustomAutomappingConfiguration.cs" />
     <Compile Include="Event.cs" />
