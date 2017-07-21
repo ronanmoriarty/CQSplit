@@ -8,11 +8,11 @@ namespace CQRSTutorial.DAL
 {
     public class NHibernateConfiguration
     {
-        private readonly string _connectionString;
+        private readonly IConnectionStringProviderFactory _connectionStringProviderFactory;
 
-        public NHibernateConfiguration(string connectionString)
+        public NHibernateConfiguration(IConnectionStringProviderFactory connectionStringProviderFactory)
         {
-            _connectionString = connectionString;
+            _connectionStringProviderFactory = connectionStringProviderFactory;
         }
 
         public ISessionFactory CreateSessionFactory(IsolationLevel isolationLevel = IsolationLevel.Unspecified)
@@ -20,7 +20,7 @@ namespace CQRSTutorial.DAL
             var msSqlConfiguration = MsSqlConfiguration
                 .MsSql2012
                 .IsolationLevel(isolationLevel)
-                .ConnectionString(x => x.Is(_connectionString));
+                .ConnectionString(x => x.Is(_connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString()));
 
             var cfg = new CustomAutomappingConfiguration();
             return Fluently
