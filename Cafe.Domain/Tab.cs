@@ -55,7 +55,7 @@ namespace Cafe.Domain
 
         public IEnumerable<IEvent> Handle(MarkFoodServed command)
         {
-            if (!AllItemsAwaitingServing(command.MenuNumbers, _foodAwaitingServing))
+            if (!AllItemsBeingServedWereOrdered(command.MenuNumbers, _foodAwaitingServing))
             {
                 throw new FoodNotOutstanding();
             }
@@ -74,7 +74,7 @@ namespace Cafe.Domain
 
         public IEnumerable<IEvent> Handle(MarkDrinksServed command)
         {
-            if (!AllItemsAwaitingServing(command.MenuNumbers, _drinksAwaitingServing))
+            if (!AllItemsBeingServedWereOrdered(command.MenuNumbers, _drinksAwaitingServing))
             {
                 throw new DrinksNotOutstanding();
             }
@@ -105,7 +105,7 @@ namespace Cafe.Domain
             };
         }
 
-        private bool AllItemsAwaitingServing(List<int> menuNumbers, List<OrderedItem> itemsAwaitingServing)
+        private bool AllItemsBeingServedWereOrdered(List<int> menuNumbers, List<OrderedItem> itemsAwaitingServing)
         {
             var currentItemsAwaitingServing = new List<OrderedItem>(itemsAwaitingServing);
             foreach (var menuNumber in menuNumbers)
