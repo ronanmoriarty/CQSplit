@@ -9,8 +9,7 @@ using CQRSTutorial.Core;
 namespace Cafe.Domain
 {
     public class Tab
-        : ICommandHandler<OpenTab>
-        , ICommandHandler<PlaceOrder>
+        : ICommandHandler<PlaceOrder>
         , ICommandHandler<MarkDrinksServed>
         , ICommandHandler<MarkFoodServed>
         , ICommandHandler<CloseTab>
@@ -24,21 +23,7 @@ namespace Cafe.Domain
         private readonly List<OrderedItem> _drinksAwaitingServing = new List<OrderedItem>();
         private readonly List<OrderedItem> _foodAwaitingServing = new List<OrderedItem>();
         private decimal _totalValueOfServedItems;
-
-        public IEnumerable<IEvent> Handle(OpenTab command)
-        {
-            Console.WriteLine("Handling OpenTab command...");
-            return new IEvent[]
-            {
-                new TabOpened
-                {
-                    AggregateId = command.TabId,
-                    TableNumber = command.TableNumber,
-                    Waiter = command.Waiter
-                }
-            };
-        }
-
+        
         public IEnumerable<IEvent> Handle(PlaceOrder command)
         {
             Console.WriteLine("Handling PlaceOrder command...");

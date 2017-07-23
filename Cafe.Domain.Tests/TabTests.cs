@@ -591,5 +591,10 @@ namespace Cafe.Domain.Tests
                 Price = DrinkPrice
             };
         }
+
+        protected override object[] GetCommandHandlers()
+        {
+            return new object[] {new Tab(), new TabFactory()};
+        }
     }
 }

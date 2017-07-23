@@ -19,11 +19,14 @@ namespace CQRSTutorial.Tests.Common
         [SetUp]
         public void SetUp()
         {
-            _commandHandler = new TCommandHandler();
+            var commandHandlers = GetCommandHandlers();
+            _commandHandler = commandHandlers.OfType<TCommandHandler>().Single();
             _eventReceiver = Substitute.For<IEventReceiver>();
-            _commandDispatcher = new CommandDispatcher(_eventReceiver, new object[] { _commandHandler }, new TypeInspector());
+            _commandDispatcher = new CommandDispatcher(_eventReceiver, commandHandlers, new TypeInspector());
             _eventApplier = new EventApplier(new TypeInspector());
         }
+
+        protected abstract object[] GetCommandHandlers();
 
         // TODO: need to consider what tests are required involving a sequence of commands, or do we potentially say that each command will execute in isolation from all other commands, on an object whose current state is entirely dependent on previous events (rather than being dependent on previous events AND commands).
         protected void Given(params IEvent[] events)
