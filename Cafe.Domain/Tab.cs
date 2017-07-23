@@ -13,13 +13,11 @@ namespace Cafe.Domain
         , ICommandHandler<MarkDrinksServed>
         , ICommandHandler<MarkFoodServed>
         , ICommandHandler<CloseTab>
-        , IApplyEvent<TabOpened>
         , IApplyEvent<DrinksOrdered>
         , IApplyEvent<DrinksServed>
         , IApplyEvent<FoodOrdered>
         , IApplyEvent<FoodServed>
     {
-        private bool _isOpened;
         private readonly List<OrderedItem> _drinksAwaitingServing = new List<OrderedItem>();
         private readonly List<OrderedItem> _foodAwaitingServing = new List<OrderedItem>();
         private decimal _totalValueOfServedItems;
@@ -27,11 +25,6 @@ namespace Cafe.Domain
         public IEnumerable<IEvent> Handle(PlaceOrder command)
         {
             Console.WriteLine("Handling PlaceOrder command...");
-            if (!_isOpened)
-            {
-                throw new TabNotOpen();
-            }
-
             var events = new List<IEvent>();
             events.AddRange(GetEventForAnyDrinksOrdered(command));
             events.AddRange(GetEventForAnyFoodOrdered(command));
@@ -143,11 +136,6 @@ namespace Cafe.Domain
                     Items = drinks
                 }
             };
-        }
-
-        public void Apply(TabOpened @event)
-        {
-            _isOpened = true;
         }
 
         public void Apply(DrinksOrdered @event)

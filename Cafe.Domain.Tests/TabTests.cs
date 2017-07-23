@@ -43,19 +43,7 @@ namespace Cafe.Domain.Tests
                 Waiter = _waiter
             });
         }
-
-        [Test]
-        public void CannotOrderWhenTabHasNotBeenOpenedYet()
-        {
-            When(new PlaceOrder
-            {
-                TabId = _tabId,
-                Items = null
-            });
-
-            ThenFailsWith<TabNotOpen>();
-        }
-
+        
         [Test]
         public void CanOrderFoodWhenTabHasAlreadyBeenOpened()
         {

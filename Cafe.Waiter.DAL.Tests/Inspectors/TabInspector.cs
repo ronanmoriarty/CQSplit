@@ -14,8 +14,7 @@ namespace Cafe.Waiter.DAL.Tests.Inspectors
         {
         }
 
-        public bool IsOpened => GetPrivateInstanceField<bool>("_isOpened");
-
         public List<OrderedItem> FoodAwaitingServing => GetPrivateInstanceField<List<OrderedItem>>("_foodAwaitingServing");
+        public List<OrderedItem> DrinksAwaitingServing => GetPrivateInstanceField<List<OrderedItem>>("_drinksAwaitingServing");
     }
 }

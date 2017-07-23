@@ -18,6 +18,9 @@ namespace Cafe.Waiter.DAL.Tests
         private const string FoodDescription = "Chicken Madras";
         private const int FoodMenuNumber = 234;
         private const decimal FoodPrice = 10.5m;
+        private const string DrinkDescription = "Coca Cola";
+        private const int DrinkMenuNumber = 345;
+        private const decimal DrinkPrice = 2.5m;
         private readonly TabRepository _tabRepository;
         private readonly SqlExecutor _sqlExecutor;
         private readonly int _tabId;
@@ -36,6 +39,7 @@ namespace Cafe.Waiter.DAL.Tests
             AssumingTabOpened();
 
             AssumingFoodOrdered();
+            AssumingDrinkOrdered();
 
             WhenTabRetrievedFromRepository();
 
@@ -79,6 +83,27 @@ namespace Cafe.Waiter.DAL.Tests
             Insert(foodOrdered);
         }
 
+        private void AssumingDrinkOrdered()
+        {
+            var foodOrdered = new DrinksOrdered
+            {
+                Id = GetNewId(),
+                AggregateId = _tabId,
+                Items = new List<OrderedItem>
+                {
+                    new OrderedItem
+                    {
+                        Description = DrinkDescription,
+                        IsDrink = true,
+                        MenuNumber = DrinkMenuNumber,
+                        Price = DrinkPrice
+                    }
+                }
+            };
+
+            Insert(foodOrdered);
+        }
+
         private void WhenTabRetrievedFromRepository()
         {
             _tabInspector = new TabInspector(_tabRepository.Get(_tabId));
@@ -86,12 +111,17 @@ namespace Cafe.Waiter.DAL.Tests
 
         private void AssertTabReflectsAllSavedEvents()
         {
-            Assert.That(_tabInspector.IsOpened);
             Assert.That(_tabInspector.FoodAwaitingServing.Single(x =>
                     x.Description == FoodDescription
                     && x.IsDrink == false
                     && x.MenuNumber == FoodMenuNumber
                     && x.Price == FoodPrice)
+                , Is.Not.Null);
+            Assert.That(_tabInspector.DrinksAwaitingServing.Single(x =>
+                    x.Description == DrinkDescription
+                    && x.IsDrink
+                    && x.MenuNumber == DrinkMenuNumber
+                    && x.Price == DrinkPrice)
                 , Is.Not.Null);
         }
 
