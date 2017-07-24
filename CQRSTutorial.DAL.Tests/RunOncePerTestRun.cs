@@ -10,7 +10,7 @@ namespace CQRSTutorial.DAL.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            var connectionStringProviderFactory = new ConnectionStringProviderFactory();
+            var connectionStringProviderFactory = new ConnectionStringProviderFactory("CQRSTutorial", "CQRS_CONNECTIONSTRING_OVERRIDE");
             var nHibernateConfiguration = new NHibernateConfiguration(connectionStringProviderFactory);
             SessionFactory.WriteInstance = nHibernateConfiguration.CreateSessionFactory();
             SessionFactory.ReadInstance = nHibernateConfiguration.CreateSessionFactory(IsolationLevel.ReadUncommitted);
