@@ -13,7 +13,7 @@ using NUnit.Framework;
 namespace Cafe.Waiter.DAL.Tests
 {
     [TestFixture]
-    public class TabRepositoryTests : InsertAndReadTest<EventStore, Event>
+    public class TabRepositoryTests
     {
         private const string FoodDescription = "Chicken Madras";
         private const int FoodMenuNumber = 234;
@@ -21,16 +21,21 @@ namespace Cafe.Waiter.DAL.Tests
         private const string DrinkDescription = "Coca Cola";
         private const int DrinkMenuNumber = 345;
         private const decimal DrinkPrice = 2.5m;
-        private readonly TabRepository _tabRepository;
-        private readonly SqlExecutor _sqlExecutor;
-        private readonly int _tabId;
+        private TabRepository _tabRepository;
+        private const int TabId = -1;
         private TabInspector _tabInspector;
+        private EventStore _repository;
+        private ISession _writeSession;
 
-        public TabRepositoryTests()
+        [SetUp]
+        public void SetUp()
         {
-            _sqlExecutor = new SqlExecutor();
+            var sqlExecutor = new SqlExecutor();
+            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = {TabId}");
             _tabRepository = new TabRepository(new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, new EventMapper(typeof(TabOpened).Assembly)), new EventApplier(new TypeInspector()));
-            _tabId = GetTabId();
+            _writeSession = SessionFactory.WriteInstance.OpenSession();
+            _repository = CreateRepository();
+            _repository.UnitOfWork = new NHibernateUnitOfWork(_writeSession);
         }
 
         [Test]
@@ -53,8 +58,8 @@ namespace Cafe.Waiter.DAL.Tests
 
             var tabOpened = new TabOpened
             {
-                Id = GetNewId(),
-                AggregateId = _tabId,
+                Id = -1,
+                AggregateId = TabId,
                 TableNumber = tableNumber,
                 Waiter = waiter
             };
@@ -66,8 +71,8 @@ namespace Cafe.Waiter.DAL.Tests
         {
             var foodOrdered = new FoodOrdered
             {
-                Id = GetNewId(),
-                AggregateId = _tabId,
+                Id = -2,
+                AggregateId = TabId,
                 Items = new List<OrderedItem>
                 {
                     new OrderedItem
@@ -87,8 +92,8 @@ namespace Cafe.Waiter.DAL.Tests
         {
             var foodOrdered = new DrinksOrdered
             {
-                Id = GetNewId(),
-                AggregateId = _tabId,
+                Id = -3,
+                AggregateId = TabId,
                 Items = new List<OrderedItem>
                 {
                     new OrderedItem
@@ -106,7 +111,7 @@ namespace Cafe.Waiter.DAL.Tests
 
         private void WhenTabRetrievedFromRepository()
         {
-            _tabInspector = new TabInspector(_tabRepository.Get(_tabId));
+            _tabInspector = new TabInspector(_tabRepository.Get(TabId));
         }
 
         private void AssertTabReflectsAllSavedEvents()
@@ -125,27 +130,18 @@ namespace Cafe.Waiter.DAL.Tests
                 , Is.Not.Null);
         }
 
-        private int GetTabId()
-        {
-            var maxValue = _sqlExecutor.ExecuteScalar<int?>("SELECT MIN(Id) FROM dbo.Events");
-            return maxValue - 1 ?? -1;
-        }
-
-        private int GetNewId()
-        {
-            var maxValue = _sqlExecutor.ExecuteScalar<int?>("SELECT MAX(Id) FROM dbo.EventsToPublish");
-            return maxValue + 1 ?? 1;
-        }
-
         private void Insert(IEvent @event)
         {
-            Repository.Add(@event);
-            WriteSession.Flush();
+            using (var transaction = _writeSession.BeginTransaction())
+            {
+                _repository.Add(@event);
+                transaction.Commit();
+            }
         }
 
-        protected override EventStore CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
+        private EventStore CreateRepository()
         {
-            return new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, new EventMapper(typeof(TabOpened).Assembly));
+            return new EventStore(SessionFactory.WriteInstance, IsolationLevel.ReadCommitted, new EventMapper(typeof(TabOpened).Assembly));
         }
     }
 }
