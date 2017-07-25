@@ -21,7 +21,7 @@ namespace Cafe.Waiter.DAL
             var tab = new Tab();
             foreach (var @event in events)
             {
-                _eventApplier.ApplyEvent(@event, new object[] { tab });
+                _eventApplier.ApplyEvent(@event, tab);
             }
 
             return tab;
