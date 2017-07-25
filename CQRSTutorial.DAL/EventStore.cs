@@ -12,9 +12,9 @@ namespace CQRSTutorial.DAL
     {
         private readonly EventMapper _eventMapper;
 
-        public EventStore(ISessionFactory readSessionFactory,
+        public EventStore(ISessionFactory sessionFactory,
             EventMapper eventMapper)
-            : base(readSessionFactory)
+            : base(sessionFactory)
         {
             _eventMapper = eventMapper;
         }
@@ -40,7 +40,7 @@ namespace CQRSTutorial.DAL
 
         public IEnumerable<IEvent> GetAllEventsFor(int aggregateId)
         {
-            using (var session = ReadSessionFactory.OpenSession())
+            using (var session = SessionFactory.OpenSession())
             {
                 using (session.BeginTransaction())
                 {

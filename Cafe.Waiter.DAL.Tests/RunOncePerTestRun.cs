@@ -12,8 +12,7 @@ namespace Cafe.Waiter.DAL.Tests
         {
             var connectionStringProviderFactory = new ConnectionStringProviderFactory("CQRSTutorial", "CQRS_CONNECTIONSTRING_OVERRIDE");
             var nHibernateConfiguration = new NHibernateConfiguration(connectionStringProviderFactory);
-            SessionFactory.WriteInstance = nHibernateConfiguration.CreateSessionFactory();
-            SessionFactory.ReadInstance = nHibernateConfiguration.CreateSessionFactory();
+            SessionFactory.Instance = nHibernateConfiguration.CreateSessionFactory();
         }
     }
 }

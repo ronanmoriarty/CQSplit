@@ -24,14 +24,14 @@ namespace Cafe.Waiter.DAL.Tests
         private const int TabId = -1;
         private TabInspector _tabInspector;
         private EventStore _repository;
-        private ISession _writeSession;
+        private ISession _session;
 
         [SetUp]
         public void SetUp()
         {
             var sqlExecutor = new SqlExecutor();
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = {TabId}");
-            _tabRepository = new TabRepository(new EventStore(SessionFactory.ReadInstance, new EventMapper(typeof(TabOpened).Assembly)), new EventApplier(new TypeInspector()));
+            _tabRepository = new TabRepository(new EventStore(SessionFactory.Instance, new EventMapper(typeof(TabOpened).Assembly)), new EventApplier(new TypeInspector()));
             _repository = CreateRepository();
         }
 
@@ -129,7 +129,7 @@ namespace Cafe.Waiter.DAL.Tests
 
         private void Insert(IEvent @event)
         {
-            using (var transaction = _writeSession.BeginTransaction())
+            using (var transaction = _session.BeginTransaction())
             {
                 _repository.Add(@event);
                 transaction.Commit();
@@ -138,12 +138,12 @@ namespace Cafe.Waiter.DAL.Tests
 
         private EventStore CreateRepository()
         {
-            _writeSession = SessionFactory.WriteInstance.OpenSession();
+            _session = SessionFactory.Instance.OpenSession();
             var eventStore = new EventStore(
-                SessionFactory.ReadInstance,
+                SessionFactory.Instance,
                 new EventMapper(typeof(TabOpened).Assembly))
             {
-                UnitOfWork = new NHibernateUnitOfWork(_writeSession)
+                UnitOfWork = new NHibernateUnitOfWork(_session)
             };
             return eventStore;
         }

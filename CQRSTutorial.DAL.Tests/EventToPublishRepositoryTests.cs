@@ -14,7 +14,7 @@ namespace CQRSTutorial.DAL.Tests
         private IPublishConfiguration _publishConfiguration;
         private const string PublishLocation = "some.rabbitmq.topic.*";
         private EventToPublishRepository _repository;
-        private ISession _writeSession;
+        private ISession _session;
         private const int Id = -1;
 
         [SetUp]
@@ -23,10 +23,10 @@ namespace CQRSTutorial.DAL.Tests
             var sqlExecutor = new SqlExecutor();
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = {Id}"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);
-            _writeSession = SessionFactory.WriteInstance.OpenSession();
-            _writeSession.BeginTransaction();
+            _session = SessionFactory.Instance.OpenSession();
+            _session.BeginTransaction();
             _repository = CreateRepository();
-            _repository.UnitOfWork = new NHibernateUnitOfWork(_writeSession);
+            _repository.UnitOfWork = new NHibernateUnitOfWork(_session);
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace CQRSTutorial.DAL.Tests
             };
 
             _repository.Add(testEvent);
-            _writeSession.Transaction.Commit();
+            _session.Transaction.Commit();
             var eventToPublish = _repository.Get(testEvent.Id);
 
             Assert.That(eventToPublish.PublishTo, Is.EqualTo(PublishLocation));
@@ -73,13 +73,13 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventToPublishRepository CreateRepository()
         {
-            return new EventToPublishRepository(SessionFactory.ReadInstance, _publishConfiguration, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
+            return new EventToPublishRepository(SessionFactory.Instance, _publishConfiguration, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
         }
 
         private void InsertAndRead(IEvent @event)
         {
             _repository.Add(@event);
-            _writeSession.Transaction.Commit();
+            _session.Transaction.Commit();
             _retrievedEvent = _repository.Read(@event.Id);
         }
     }

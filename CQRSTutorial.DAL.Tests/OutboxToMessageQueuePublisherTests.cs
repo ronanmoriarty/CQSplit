@@ -37,33 +37,33 @@ namespace CQRSTutorial.DAL.Tests
 
             try
             {
-                var readSessionFactory = SessionFactory.ReadInstance;
+                var sessionFactory = SessionFactory.Instance;
                 var publishLocation = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue1";
                 var eventToPublishMapper = new EventToPublishMapper(Assembly.GetExecutingAssembly());
-                using (var writeSession = SessionFactory.WriteInstance.OpenSession())
+                using (var session = SessionFactory.Instance.OpenSession())
                 {
-                    writeSession.BeginTransaction();
-                    var nHibernateUnitOfWork = new NHibernateUnitOfWork(writeSession);
+                    session.BeginTransaction();
+                    var nHibernateUnitOfWork = new NHibernateUnitOfWork(session);
                     var publishConfiguration = new TestPublishConfiguration(publishLocation);
                     var eventToPublishRepository = new EventToPublishRepository(
-                        readSessionFactory,
+                        sessionFactory,
                         publishConfiguration,
                         eventToPublishMapper)
                     {
                         UnitOfWork = nHibernateUnitOfWork
                     };
                     eventToPublishRepository.Add(testEvent);
-                    writeSession.Flush();
-                    writeSession.Transaction.Commit();
+                    session.Flush();
+                    session.Transaction.Commit();
                 }
 
                 var messagesPublished = 0;
                 var messageBusEventPublisher = new MessageBusEventPublisher(new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(), (sbc, host) => ConfigureTestReceiver(sbc, host, publishLocation, () => messagesPublished++)));
-                using (var writeSession = SessionFactory.WriteInstance.OpenSession())
+                using (var session = SessionFactory.Instance.OpenSession())
                 {
-                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, null, eventToPublishMapper)
+                    var eventToPublishRepository = new EventToPublishRepository(sessionFactory, null, eventToPublishMapper)
                     {
-                        UnitOfWork = new NHibernateUnitOfWork(writeSession)
+                        UnitOfWork = new NHibernateUnitOfWork(session)
                     };
                     var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventToPublishRepository, messageBusEventPublisher, eventToPublishMapper);
                     outboxToMessageQueuePublisher.PublishQueuedMessages();
@@ -82,17 +82,17 @@ namespace CQRSTutorial.DAL.Tests
         [Test, Ignore(Reason)]
         public void Deletes_published_messages_from_outbox()
         {
-            var readSessionFactory = SessionFactory.ReadInstance;
+            var sessionFactory = SessionFactory.Instance;
             int tabOpenedId;
             var publishLocation = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue2";
             var eventToPublishMapper = new EventToPublishMapper(Assembly.GetExecutingAssembly());
-            using (var writeSession = SessionFactory.WriteInstance.OpenSession())
+            using (var session = SessionFactory.Instance.OpenSession())
             {
-                writeSession.BeginTransaction();
-                var nHibernateUnitOfWork = new NHibernateUnitOfWork(writeSession);
+                session.BeginTransaction();
+                var nHibernateUnitOfWork = new NHibernateUnitOfWork(session);
                 var publishConfiguration = new TestPublishConfiguration(publishLocation);
                 var eventToPublishRepository = new EventToPublishRepository(
-                    readSessionFactory,
+                    sessionFactory,
                     publishConfiguration,
                     eventToPublishMapper)
                 {
@@ -107,18 +107,18 @@ namespace CQRSTutorial.DAL.Tests
                 };
 
                 eventToPublishRepository.Add(testEvent);
-                writeSession.Flush();
-                writeSession.Transaction.Commit();
+                session.Flush();
+                session.Transaction.Commit();
                 tabOpenedId = testEvent.Id;
             }
 
-            using (var writeSession = SessionFactory.WriteInstance.OpenSession())
+            using (var session = SessionFactory.Instance.OpenSession())
             {
-                using (var transaction = writeSession.BeginTransaction())
+                using (var transaction = session.BeginTransaction())
                 {
-                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, null, eventToPublishMapper)
+                    var eventToPublishRepository = new EventToPublishRepository(sessionFactory, null, eventToPublishMapper)
                     {
-                        UnitOfWork = new NHibernateUnitOfWork(writeSession)
+                        UnitOfWork = new NHibernateUnitOfWork(session)
                     };
                     var messageBusEventPublisher = new MessageBusEventPublisher(
                         new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(),

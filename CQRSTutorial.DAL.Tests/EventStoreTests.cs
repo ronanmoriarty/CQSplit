@@ -12,17 +12,17 @@ namespace CQRSTutorial.DAL.Tests
         private IEvent _retrievedEvent;
         private const int AggregateId = 234;
         private EventStore _repository;
-        private ISession _writeSession;
+        private ISession _session;
 
         [SetUp]
         public void SetUp()
         {
             var sqlExecutor = new SqlExecutor();
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = {AggregateId}"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
-            _writeSession = SessionFactory.WriteInstance.OpenSession();
-            _writeSession.BeginTransaction();
+            _session = SessionFactory.Instance.OpenSession();
+            _session.BeginTransaction();
             _repository = CreateRepository();
-            _repository.UnitOfWork = new NHibernateUnitOfWork(_writeSession);
+            _repository.UnitOfWork = new NHibernateUnitOfWork(_session);
         }
 
         [Test]
@@ -50,13 +50,13 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventStore CreateRepository()
         {
-            return new EventStore(SessionFactory.ReadInstance, new EventMapper(Assembly.GetExecutingAssembly()));
+            return new EventStore(SessionFactory.Instance, new EventMapper(Assembly.GetExecutingAssembly()));
         }
 
         private void InsertAndRead(IEvent @event)
         {
             _repository.Add(@event);
-            _writeSession.Transaction.Commit();
+            _session.Transaction.Commit();
             _retrievedEvent = _repository.Read(@event.Id);
         }
     }
