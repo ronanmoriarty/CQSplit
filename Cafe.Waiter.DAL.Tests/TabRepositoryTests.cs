@@ -141,7 +141,7 @@ namespace Cafe.Waiter.DAL.Tests
         {
             _writeSession = SessionFactory.WriteInstance.OpenSession();
             var eventStore = new EventStore(
-                SessionFactory.WriteInstance,
+                SessionFactory.ReadInstance,
                 IsolationLevel.ReadCommitted,
                 new EventMapper(typeof(TabOpened).Assembly))
             {
