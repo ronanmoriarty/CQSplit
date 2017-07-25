@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using Cafe.Domain;
 using Cafe.Domain.Events;
@@ -32,7 +31,7 @@ namespace Cafe.Waiter.DAL.Tests
         {
             var sqlExecutor = new SqlExecutor();
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = {TabId}");
-            _tabRepository = new TabRepository(new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, new EventMapper(typeof(TabOpened).Assembly)), new EventApplier(new TypeInspector()));
+            _tabRepository = new TabRepository(new EventStore(SessionFactory.ReadInstance, new EventMapper(typeof(TabOpened).Assembly)), new EventApplier(new TypeInspector()));
             _repository = CreateRepository();
         }
 
@@ -142,7 +141,6 @@ namespace Cafe.Waiter.DAL.Tests
             _writeSession = SessionFactory.WriteInstance.OpenSession();
             var eventStore = new EventStore(
                 SessionFactory.ReadInstance,
-                IsolationLevel.ReadCommitted,
                 new EventMapper(typeof(TabOpened).Assembly))
             {
                 UnitOfWork = new NHibernateUnitOfWork(_writeSession)

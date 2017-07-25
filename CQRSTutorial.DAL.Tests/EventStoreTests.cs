@@ -1,4 +1,3 @@
-using System.Data;
 using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
@@ -51,7 +50,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventStore CreateRepository()
         {
-            return new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new EventMapper(Assembly.GetExecutingAssembly()));
+            return new EventStore(SessionFactory.ReadInstance, new EventMapper(Assembly.GetExecutingAssembly()));
         }
 
         private void InsertAndRead(IEvent @event)

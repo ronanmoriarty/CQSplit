@@ -14,9 +14,8 @@ namespace CQRSTutorial.DAL
         private readonly EventMapper _eventMapper;
 
         public EventStore(ISessionFactory readSessionFactory,
-            IsolationLevel isolationLevel,
             EventMapper eventMapper)
-            : base(readSessionFactory, isolationLevel)
+            : base(readSessionFactory, IsolationLevel.ReadCommitted)
         {
             _eventMapper = eventMapper;
         }
