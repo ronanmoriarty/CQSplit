@@ -36,7 +36,6 @@ namespace Cafe.Domain.Tests
         {
             return typeof(Tab).Assembly.GetTypes()
                 .Where(type => typeof(ICommandHandler).IsAssignableFrom(type))
-                .Except(new[] {typeof(TabFactory)})
                 .Concat(new[] {typeof(FakeTabFactory)}).ToArray();
         }
 
