@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Events\TabOpened.cs" />
     <Compile Include="Tab.cs" />
+    <Compile Include="TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">

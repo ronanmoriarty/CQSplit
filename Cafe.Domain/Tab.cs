@@ -171,11 +171,7 @@ namespace Cafe.Domain
 
         public bool CanHandle(ICommand command)
         {
-            return (command.GetType() == typeof(PlaceOrder)
-                || command.GetType() == typeof(MarkFoodServed)
-                || command.GetType() == typeof(MarkDrinksServed)
-                || command.GetType() == typeof(CloseTab))
-                && ((ICommandWithAggregateId)command).AggregateId == Id;
+            return GetType().CanHandle(command, Id);
         }
     }
 }
