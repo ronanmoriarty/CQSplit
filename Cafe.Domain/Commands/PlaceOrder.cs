@@ -3,7 +3,7 @@ using CQRSTutorial.Core;
 
 namespace Cafe.Domain.Commands
 {
-    public class PlaceOrder : ICommand
+    public class PlaceOrder : ICommandWithAggregateId
     {
         public List<OrderedItem> Items { get; set; }
         public int AggregateId { get; set; }

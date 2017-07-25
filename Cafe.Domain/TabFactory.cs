@@ -15,13 +15,15 @@ namespace Cafe.Domain
             {
                 new TabOpened
                 {
-                    AggregateId = command.AggregateId,
                     TableNumber = command.TableNumber,
                     Waiter = command.Waiter
                 }
             };
         }
 
-        public int Id { get; set; } // TODO need to get rid of this
+        public bool CanHandle(ICommand command)
+        {
+            return command.GetType() == typeof(OpenTab);
+        }
     }
 }

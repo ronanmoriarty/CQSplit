@@ -3,7 +3,7 @@ using CQRSTutorial.Core;
 
 namespace Cafe.Domain.Commands
 {
-    public class MarkDrinksServed : ICommand
+    public class MarkDrinksServed : ICommandWithAggregateId
     {
         public List<int> MenuNumbers;
         public int AggregateId { get; set; }

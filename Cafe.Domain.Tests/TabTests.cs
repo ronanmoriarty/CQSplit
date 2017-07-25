@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using Cafe.Domain.Exceptions;
@@ -30,16 +32,12 @@ namespace Cafe.Domain.Tests
         private const int Drink2MenuNumber = 14;
         private const string Drink2Description = "Fanta";
 
-        protected override void AdditionalSetUp()
+        protected override Type[] GetCommandHandlerTypes()
         {
-            _tab1 = new Tab
-            {
-                Id = TabId1
-            };
-            _tab2 = new Tab
-            {
-                Id = TabId2
-            };
+            return typeof(Tab).Assembly.GetTypes()
+                .Where(type => typeof(ICommandHandler).IsAssignableFrom(type))
+                .Except(new[] {typeof(TabFactory)})
+                .Concat(new[] {typeof(FakeTabFactory)}).ToArray();
         }
 
         [Test]
@@ -47,7 +45,6 @@ namespace Cafe.Domain.Tests
         {
             When(new OpenTab
             {
-                AggregateId = TabId1,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
@@ -593,7 +590,44 @@ namespace Cafe.Domain.Tests
 
         protected override ICommandHandler[] GetCommandHandlers()
         {
-            return new ICommandHandler[] {_tab1, _tab2, new TabFactory()};
+            _tab1 = new Tab
+            {
+                Id = TabId1
+            };
+            _tab2 = new Tab
+            {
+                Id = TabId2
+            };
+
+            return new ICommandHandler[] {_tab1, _tab2, new FakeTabFactory(TabId1)};
+        }
+    }
+
+    public class FakeTabFactory : ICommandHandler<OpenTab>
+    {
+        private readonly int _tabId;
+
+        public FakeTabFactory(int tabId)
+        {
+            _tabId = tabId;
+        }
+
+        public IEnumerable<IEvent> Handle(OpenTab command)
+        {
+            return new IEvent[]
+            {
+                new TabOpened
+                {
+                    AggregateId = _tabId,
+                    TableNumber = command.TableNumber,
+                    Waiter = command.Waiter
+                }
+            };
+        }
+
+        public bool CanHandle(ICommand command)
+        {
+            return command.GetType() == typeof(OpenTab);
         }
     }
 }

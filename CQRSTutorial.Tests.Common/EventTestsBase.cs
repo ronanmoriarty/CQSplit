@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CQRSTutorial.Core;
@@ -19,17 +20,14 @@ namespace CQRSTutorial.Tests.Common
         [SetUp]
         public void SetUp()
         {
-            AdditionalSetUp();
             var commandHandlers = GetCommandHandlers();
             _commandHandler = GetSystemUnderTest();
             _eventReceiver = Substitute.For<IEventReceiver>();
-            _commandDispatcher = new CommandDispatcher(_eventReceiver, commandHandlers, new TypeInspector(), typeof(TCommandHandler).Assembly);
+            _commandDispatcher = new CommandDispatcher(_eventReceiver, commandHandlers, new TypeInspector(), GetCommandHandlerTypes());
             _eventApplier = new EventApplier(new TypeInspector());
         }
 
-        protected virtual void AdditionalSetUp()
-        {
-        }
+        protected abstract Type[] GetCommandHandlerTypes();
 
         protected abstract TCommandHandler GetSystemUnderTest();
 

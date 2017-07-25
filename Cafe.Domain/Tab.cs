@@ -168,5 +168,14 @@ namespace Cafe.Domain
                 _totalValueOfServedItems += firstItemMatchingMenuNumber.Price;
             }
         }
+
+        public bool CanHandle(ICommand command)
+        {
+            return (command.GetType() == typeof(PlaceOrder)
+                || command.GetType() == typeof(MarkFoodServed)
+                || command.GetType() == typeof(MarkDrinksServed)
+                || command.GetType() == typeof(CloseTab))
+                && ((ICommandWithAggregateId)command).AggregateId == Id;
+        }
     }
 }

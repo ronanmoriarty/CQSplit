@@ -9,11 +9,6 @@ namespace CQRSTutorial.Core
 
     public interface ICommandHandler
     {
-        int Id { get; set; }
-    }
-
-    public interface ICommand
-    {
-        int AggregateId { get; set; }
+        bool CanHandle(ICommand command);
     }
 }
