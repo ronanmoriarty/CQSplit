@@ -8,8 +8,8 @@ using CQRSTutorial.Core;
 
 namespace Cafe.Domain
 {
-    public class Tab
-        : ICommandHandler<PlaceOrder>
+    public class Tab : Aggregate
+        , ICommandHandler<PlaceOrder>
         , ICommandHandler<MarkDrinksServed>
         , ICommandHandler<MarkFoodServed>
         , ICommandHandler<CloseTab>
@@ -21,7 +21,6 @@ namespace Cafe.Domain
         private readonly List<OrderedItem> _drinksAwaitingServing = new List<OrderedItem>();
         private readonly List<OrderedItem> _foodAwaitingServing = new List<OrderedItem>();
         private decimal _totalValueOfServedItems;
-        public int Id { get; set; }
 
         public IEnumerable<IEvent> Handle(PlaceOrder command)
         {
@@ -167,11 +166,6 @@ namespace Cafe.Domain
                 itemsAwaitingServing.Remove(firstItemMatchingMenuNumber);
                 _totalValueOfServedItems += firstItemMatchingMenuNumber.Price;
             }
-        }
-
-        public bool CanHandle(ICommand command)
-        {
-            return GetType().CanHandle(command, Id);
         }
     }
 }
