@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
@@ -10,24 +9,24 @@ namespace CQRSTutorial.DAL.Tests
 {
     [TestFixture, Category(TestConstants.Integration)]
     public class EventToPublishRepositoryTests
-        : InsertAndReadTest<EventToPublishRepository, EventToPublish>
     {
         private IEvent _retrievedEvent;
-        private readonly IPublishConfiguration _publishConfiguration;
+        private IPublishConfiguration _publishConfiguration;
         private const string PublishLocation = "some.rabbitmq.topic.*";
-        private readonly EventToPublishRepository _eventToPublishRepository;
-        private readonly SqlExecutor _sqlExecutor;
+        private EventToPublishRepository _repository;
+        private ISession _session;
+        private const int Id = -1;
 
-        public EventToPublishRepositoryTests()
+        [SetUp]
+        public void SetUp()
         {
-            _eventToPublishRepository = new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, null, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
+            var sqlExecutor = new SqlExecutor();
+            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = {Id}"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);
-            _sqlExecutor = new SqlExecutor();
-        }
-
-        protected override EventToPublishRepository CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
-        {
-            return new EventToPublishRepository(readSessionFactory, isolationLevel, _publishConfiguration, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
+            _session = SessionFactory.Instance.OpenSession();
+            _session.BeginTransaction();
+            _repository = CreateRepository();
+            _repository.UnitOfWork = new NHibernateUnitOfWork(_session);
         }
 
         [Test]
@@ -38,7 +37,7 @@ namespace CQRSTutorial.DAL.Tests
 
             var testEvent = new TestEvent
             {
-                Id = GetNewId(),
+                Id = Id,
                 IntProperty = intPropertyValue,
                 StringProperty = stringPropertyValue
             };
@@ -60,29 +59,28 @@ namespace CQRSTutorial.DAL.Tests
 
             var testEvent = new TestEvent
             {
-                Id = GetNewId(),
+                Id = Id,
                 IntProperty = intPropertyValue,
                 StringProperty = stringPropertyValue
             };
 
-            Repository.Add(testEvent);
-            WriteSession.Flush();
-            var eventToPublish = _eventToPublishRepository.Get(testEvent.Id);
+            _repository.Add(testEvent);
+            _session.Transaction.Commit();
+            var eventToPublish = _repository.Get(testEvent.Id);
 
             Assert.That(eventToPublish.PublishTo, Is.EqualTo(PublishLocation));
         }
 
-        private int GetNewId()
+        private EventToPublishRepository CreateRepository()
         {
-            var maxValue = _sqlExecutor.ExecuteScalar<int?>("SELECT MAX(Id) FROM dbo.EventsToPublish");
-            return maxValue + 1 ?? 1;
+            return new EventToPublishRepository(SessionFactory.Instance, _publishConfiguration, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
         }
 
         private void InsertAndRead(IEvent @event)
         {
-            Repository.Add(@event);
-            WriteSession.Flush();
-            _retrievedEvent = Repository.Read(@event.Id);
+            _repository.Add(@event);
+            _session.Transaction.Commit();
+            _retrievedEvent = _repository.Read(@event.Id);
         }
     }
 

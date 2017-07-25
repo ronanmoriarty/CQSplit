@@ -1,17 +1,14 @@
-﻿using System.Data;
-using NHibernate;
+﻿using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
     public abstract class RepositoryBase<TTypeToPersist> where TTypeToPersist : class
     {
-        protected readonly ISessionFactory ReadSessionFactory;
-        protected readonly IsolationLevel IsolationLevel;
+        protected readonly ISessionFactory SessionFactory;
 
-        protected RepositoryBase(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
+        protected RepositoryBase(ISessionFactory sessionFactory)
         {
-            ReadSessionFactory = readSessionFactory;
-            IsolationLevel = isolationLevel;
+            SessionFactory = sessionFactory;
         }
 
         public IUnitOfWork UnitOfWork { get; set; } // TODO really don't like this property and the way the following method relies on it being set. Figure out a better way to deal with this.
@@ -23,9 +20,9 @@ namespace CQRSTutorial.DAL
 
         public TTypeToPersist Get(int id)
         {
-            using (var session = ReadSessionFactory.OpenSession())
+            using (var session = SessionFactory.OpenSession())
             {
-                using (session.BeginTransaction(IsolationLevel))
+                using (session.BeginTransaction())
                 {
                     return session.Get<TTypeToPersist>(id);
                 }

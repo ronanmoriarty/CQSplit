@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace CQRSTutorial.Core
@@ -13,33 +12,13 @@ namespace CQRSTutorial.Core
             _typeInspector = typeInspector;
         }
 
-        public void ApplyEvent(IEvent @event, object[] eventHandlers)
+        public void ApplyEvent(IEvent @event, object eventHandler)
         {
             var eventType = @event.GetType();
-            var eventHandler = eventHandlers.SingleOrDefault(CanApplyEventOfType(eventType));
             var applyEventMethodName = GetApplyEventMethodName();
-            if (eventHandler != null)
-            {
-                var applyMethodInfo = _typeInspector.FindMethodTakingSingleArgument(eventHandler, applyEventMethodName, eventType);
-                Console.WriteLine($"Invoking {applyEventMethodName}() for {eventType.FullName}...");
-                applyMethodInfo?.Invoke(eventHandler, new object[] {@event});
-            }
-            else
-            {
-                Console.WriteLine($"Could not find any registered aggregates with {applyEventMethodName}() taking argument of type {eventType.FullName}.");
-            }
-        }
-
-        private Func<object, bool> CanApplyEventOfType(Type eventType)
-        {
-            return commandHandler => commandHandler
-                .GetType()
-                .GetInterfaces()
-                .Any(interfaceType =>
-                    interfaceType.IsGenericType
-                    && interfaceType.GetGenericTypeDefinition() == typeof(IApplyEvent<>)
-                    && interfaceType.GenericTypeArguments.Single() == eventType
-                );
+            var applyMethodInfo = _typeInspector.FindMethodTakingSingleArgument(eventHandler, applyEventMethodName, eventType);
+            Console.WriteLine($"Invoking {applyEventMethodName}() for {eventType.FullName}...");
+            applyMethodInfo?.Invoke(eventHandler, new object[] {@event});
         }
 
         private string GetApplyEventMethodName()

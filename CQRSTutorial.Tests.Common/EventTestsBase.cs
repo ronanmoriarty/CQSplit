@@ -33,7 +33,7 @@ namespace CQRSTutorial.Tests.Common
         {
             foreach (var @event in events)
             {
-                _eventApplier.ApplyEvent(@event, new object[]{_commandHandler});
+                _eventApplier.ApplyEvent(@event, _commandHandler);
             }
         }
 

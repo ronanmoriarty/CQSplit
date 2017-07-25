@@ -1,5 +1,4 @@
-﻿using System.Data;
-using CQRSTutorial.DAL.Tests.Common;
+﻿using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
@@ -10,10 +9,9 @@ namespace CQRSTutorial.DAL.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            var connectionStringProviderFactory = new ConnectionStringProviderFactory();
+            var connectionStringProviderFactory = new ConnectionStringProviderFactory("CQRSTutorial", "CQRS_CONNECTIONSTRING_OVERRIDE");
             var nHibernateConfiguration = new NHibernateConfiguration(connectionStringProviderFactory);
-            SessionFactory.WriteInstance = nHibernateConfiguration.CreateSessionFactory();
-            SessionFactory.ReadInstance = nHibernateConfiguration.CreateSessionFactory(IsolationLevel.ReadUncommitted);
+            SessionFactory.Instance = nHibernateConfiguration.CreateSessionFactory();
         }
     }
 }

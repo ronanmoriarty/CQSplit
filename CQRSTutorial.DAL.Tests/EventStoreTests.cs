@@ -1,4 +1,3 @@
-using System.Data;
 using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
@@ -9,14 +8,21 @@ namespace CQRSTutorial.DAL.Tests
 {
     [TestFixture, Category(TestConstants.Integration)]
     public class EventStoreTests
-        : InsertAndReadTest<EventStore, Event>
     {
         private IEvent _retrievedEvent;
         private const int AggregateId = 234;
+        private EventStore _repository;
+        private ISession _session;
 
-        protected override EventStore CreateRepository(ISessionFactory readSessionFactory, IsolationLevel isolationLevel)
+        [SetUp]
+        public void SetUp()
         {
-            return new EventStore(readSessionFactory, isolationLevel, new EventMapper(Assembly.GetExecutingAssembly()));
+            var sqlExecutor = new SqlExecutor();
+            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = {AggregateId}"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
+            _session = SessionFactory.Instance.OpenSession();
+            _session.BeginTransaction();
+            _repository = CreateRepository();
+            _repository.UnitOfWork = new NHibernateUnitOfWork(_session);
         }
 
         [Test]
@@ -42,11 +48,16 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(retrievedTabOpenedEvent.StringProperty, Is.EqualTo(stringPropertyValue));
         }
 
+        private EventStore CreateRepository()
+        {
+            return new EventStore(SessionFactory.Instance, new EventMapper(Assembly.GetExecutingAssembly()));
+        }
+
         private void InsertAndRead(IEvent @event)
         {
-            Repository.Add(@event);
-            WriteSession.Flush();
-            _retrievedEvent = Repository.Read(@event.Id);
+            _repository.Add(@event);
+            _session.Transaction.Commit();
+            _retrievedEvent = _repository.Read(@event.Id);
         }
     }
 }
