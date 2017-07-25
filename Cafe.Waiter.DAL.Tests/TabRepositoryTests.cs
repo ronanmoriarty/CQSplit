@@ -33,9 +33,7 @@ namespace Cafe.Waiter.DAL.Tests
             var sqlExecutor = new SqlExecutor();
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = {TabId}");
             _tabRepository = new TabRepository(new EventStore(SessionFactory.ReadInstance, IsolationLevel.ReadUncommitted, new EventMapper(typeof(TabOpened).Assembly)), new EventApplier(new TypeInspector()));
-            _writeSession = SessionFactory.WriteInstance.OpenSession();
             _repository = CreateRepository();
-            _repository.UnitOfWork = new NHibernateUnitOfWork(_writeSession);
         }
 
         [Test]
@@ -141,7 +139,15 @@ namespace Cafe.Waiter.DAL.Tests
 
         private EventStore CreateRepository()
         {
-            return new EventStore(SessionFactory.WriteInstance, IsolationLevel.ReadCommitted, new EventMapper(typeof(TabOpened).Assembly));
+            _writeSession = SessionFactory.WriteInstance.OpenSession();
+            var eventStore = new EventStore(
+                SessionFactory.WriteInstance,
+                IsolationLevel.ReadCommitted,
+                new EventMapper(typeof(TabOpened).Assembly))
+            {
+                UnitOfWork = new NHibernateUnitOfWork(_writeSession)
+            };
+            return eventStore;
         }
     }
 }
