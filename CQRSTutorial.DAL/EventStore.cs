@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
@@ -15,7 +14,7 @@ namespace CQRSTutorial.DAL
 
         public EventStore(ISessionFactory readSessionFactory,
             EventMapper eventMapper)
-            : base(readSessionFactory, IsolationLevel.ReadCommitted)
+            : base(readSessionFactory)
         {
             _eventMapper = eventMapper;
         }
@@ -43,7 +42,7 @@ namespace CQRSTutorial.DAL
         {
             using (var session = ReadSessionFactory.OpenSession())
             {
-                using (session.BeginTransaction(IsolationLevel))
+                using (session.BeginTransaction())
                 {
                     var criteria = session.CreateCriteria<Event>();
                     criteria.Add(Restrictions.Eq("AggregateId", aggregateId));

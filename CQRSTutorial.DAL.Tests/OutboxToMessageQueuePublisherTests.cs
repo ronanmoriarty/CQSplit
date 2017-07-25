@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Reflection;
 using System.Threading;
 using CQRSTutorial.Core;
@@ -38,7 +37,6 @@ namespace CQRSTutorial.DAL.Tests
 
             try
             {
-                var isolationLevel = IsolationLevel.ReadCommitted;
                 var readSessionFactory = SessionFactory.ReadInstance;
                 var publishLocation = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue1";
                 var eventToPublishMapper = new EventToPublishMapper(Assembly.GetExecutingAssembly());
@@ -85,7 +83,6 @@ namespace CQRSTutorial.DAL.Tests
         public void Deletes_published_messages_from_outbox()
         {
             var readSessionFactory = SessionFactory.ReadInstance;
-            var isolationLevel = IsolationLevel.ReadCommitted;
             int tabOpenedId;
             var publishLocation = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue2";
             var eventToPublishMapper = new EventToPublishMapper(Assembly.GetExecutingAssembly());

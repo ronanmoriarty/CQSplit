@@ -1,5 +1,4 @@
-﻿using System.Data;
-using CQRSTutorial.DAL;
+﻿using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
 
@@ -14,7 +13,7 @@ namespace Cafe.Waiter.DAL.Tests
             var connectionStringProviderFactory = new ConnectionStringProviderFactory("CQRSTutorial", "CQRS_CONNECTIONSTRING_OVERRIDE");
             var nHibernateConfiguration = new NHibernateConfiguration(connectionStringProviderFactory);
             SessionFactory.WriteInstance = nHibernateConfiguration.CreateSessionFactory();
-            SessionFactory.ReadInstance = nHibernateConfiguration.CreateSessionFactory(IsolationLevel.ReadUncommitted);
+            SessionFactory.ReadInstance = nHibernateConfiguration.CreateSessionFactory();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
 using NHibernate;
@@ -14,7 +13,7 @@ namespace CQRSTutorial.DAL
         public EventToPublishRepository(ISessionFactory readSessionFactory,
             IPublishConfiguration publishConfiguration,
             EventToPublishMapper eventToPublishMapper)
-            : base(readSessionFactory, IsolationLevel.ReadCommitted)
+            : base(readSessionFactory)
         {
             _publishConfiguration = publishConfiguration;
             _eventToPublishMapper = eventToPublishMapper;
@@ -42,7 +41,7 @@ namespace CQRSTutorial.DAL
         {
             using (var session = ReadSessionFactory.OpenSession())
             {
-                using (session.BeginTransaction(IsolationLevel))
+                using (session.BeginTransaction())
                 {
                     return session.QueryOver<EventToPublish>().List();
                 }
