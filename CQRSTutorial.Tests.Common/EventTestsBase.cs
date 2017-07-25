@@ -58,14 +58,6 @@ namespace CQRSTutorial.Tests.Common
             return matchingEvents.Any();
         }
 
-        protected void ThenFailsWith<TException>()
-        {
-            Assert.That(
-                HandleCommands,
-                Throws.Exception.InstanceOf<TException>()
-            );
-        }
-
         private void HandleCommands()
         {
             _commandDispatcher.Dispatch(_commands);

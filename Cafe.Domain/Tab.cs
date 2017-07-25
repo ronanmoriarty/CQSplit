@@ -21,7 +21,7 @@ namespace Cafe.Domain
         private readonly List<OrderedItem> _drinksAwaitingServing = new List<OrderedItem>();
         private readonly List<OrderedItem> _foodAwaitingServing = new List<OrderedItem>();
         private decimal _totalValueOfServedItems;
-        
+
         public IEnumerable<IEvent> Handle(PlaceOrder command)
         {
             Console.WriteLine("Handling PlaceOrder command...");
@@ -35,7 +35,7 @@ namespace Cafe.Domain
         {
             if (!AllItemsBeingServedWereOrdered(command.MenuNumbers, _foodAwaitingServing))
             {
-                throw new FoodNotOutstanding();
+                return new IEvent[] { new FoodNotOutstanding() };
             }
 
             UpdateItemsAwaitingServing(command.MenuNumbers, _foodAwaitingServing);
@@ -54,7 +54,7 @@ namespace Cafe.Domain
         {
             if (!AllItemsBeingServedWereOrdered(command.MenuNumbers, _drinksAwaitingServing))
             {
-                throw new DrinksNotOutstanding();
+                return new IEvent[] { new DrinksNotOutstanding() };
             }
 
             UpdateItemsAwaitingServing(command.MenuNumbers, _drinksAwaitingServing);

@@ -43,7 +43,7 @@ namespace Cafe.Domain.Tests
                 Waiter = _waiter
             });
         }
-        
+
         [Test]
         public void CanOrderFoodWhenTabHasAlreadyBeenOpened()
         {
@@ -275,7 +275,7 @@ namespace Cafe.Domain.Tests
                 MenuNumbers = new List<int> { testDrink2.MenuNumber }
             });
 
-            ThenFailsWith<DrinksNotOutstanding>();
+            Then(new DrinksNotOutstanding());
         }
 
         [Test]
@@ -316,7 +316,7 @@ namespace Cafe.Domain.Tests
                 MenuNumbers = new List<int> { unorderedFoodItem.MenuNumber }
             });
 
-            ThenFailsWith<FoodNotOutstanding>();
+            Then(new FoodNotOutstanding());
         }
 
         [Test]
@@ -355,7 +355,7 @@ namespace Cafe.Domain.Tests
                 MenuNumbers = new List<int> { testDrink1.MenuNumber }
             });
 
-            ThenFailsWith<DrinksNotOutstanding>();
+            Then(new DrinksNotOutstanding());
         }
 
         [Test]
@@ -394,7 +394,7 @@ namespace Cafe.Domain.Tests
                 MenuNumbers = new List<int> { foodItem.MenuNumber }
             });
 
-            ThenFailsWith<FoodNotOutstanding>();
+            Then(new FoodNotOutstanding());
         }
 
         [Test]
@@ -429,18 +429,13 @@ namespace Cafe.Domain.Tests
                 }
             );
 
-            try
+            When(new MarkDrinksServed
             {
-                When(new MarkDrinksServed
-                {
-                    TabId = _tabId,
-                    MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber, drinkThatWasNotOrdered.MenuNumber }
-                });
-            }
-            catch (DrinksNotOutstanding)
-            {
-                // We'll swallow this, and try again with a valid command.
-            }
+                TabId = _tabId,
+                MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber, drinkThatWasNotOrdered.MenuNumber }
+            });
+
+            Then(new DrinksNotOutstanding());
 
             When(new MarkDrinksServed
             {
@@ -487,18 +482,13 @@ namespace Cafe.Domain.Tests
                 }
             );
 
-            try
+            When(new MarkFoodServed
             {
-                When(new MarkFoodServed
-                {
-                    TabId = _tabId,
-                    MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber, foodThatWasNotOrdered.MenuNumber }
-                });
-            }
-            catch (FoodNotOutstanding)
-            {
-                // We'll swallow this, and try again with a valid command.
-            }
+                TabId = _tabId,
+                MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber, foodThatWasNotOrdered.MenuNumber }
+            });
+
+            Then(new FoodNotOutstanding());
 
             When(new MarkFoodServed
             {
