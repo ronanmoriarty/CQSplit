@@ -6,10 +6,9 @@ namespace CQRSTutorial.Core
 {
     public class TypeInspector
     {
-        public MethodInfo FindMethodTakingSingleArgument(object objectToInspect, string methodName, Type singleParameterType)
+        public MethodInfo FindMethodTakingSingleArgument(Type typeToInspect, string methodName, Type singleParameterType)
         {
-            return objectToInspect
-                .GetType()
+            return typeToInspect
                 .GetMethods()
                 .SingleOrDefault(methodInfo => methodInfo.Name == methodName
                                                && methodInfo.GetParameters().Length == 1

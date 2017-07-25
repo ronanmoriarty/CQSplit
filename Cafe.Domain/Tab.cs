@@ -21,6 +21,7 @@ namespace Cafe.Domain
         private readonly List<OrderedItem> _drinksAwaitingServing = new List<OrderedItem>();
         private readonly List<OrderedItem> _foodAwaitingServing = new List<OrderedItem>();
         private decimal _totalValueOfServedItems;
+        public int Id { get; set; }
 
         public IEnumerable<IEvent> Handle(PlaceOrder command)
         {
@@ -44,7 +45,7 @@ namespace Cafe.Domain
             {
                 new FoodServed
                 {
-                    AggregateId = command.TabId,
+                    AggregateId = command.AggregateId,
                     MenuNumbers = command.MenuNumbers
                 }
             };
@@ -63,7 +64,7 @@ namespace Cafe.Domain
             {
                 new DrinksServed
                 {
-                    AggregateId = command.TabId,
+                    AggregateId = command.AggregateId,
                     MenuNumbers = command.MenuNumbers
                 }
             };
@@ -75,7 +76,7 @@ namespace Cafe.Domain
             {
                 new TabClosed
                 {
-                    AggregateId = command.TabId,
+                    AggregateId = command.AggregateId,
                     AmountPaid = command.AmountPaid,
                     OrderValue = _totalValueOfServedItems,
                     TipValue = command.AmountPaid - _totalValueOfServedItems
@@ -114,7 +115,7 @@ namespace Cafe.Domain
             {
                 new FoodOrdered
                 {
-                    AggregateId = command.TabId,
+                    AggregateId = command.AggregateId,
                     Items = food
                 }
             };
@@ -132,7 +133,7 @@ namespace Cafe.Domain
             {
                 new DrinksOrdered
                 {
-                    AggregateId = command.TabId,
+                    AggregateId = command.AggregateId,
                     Items = drinks
                 }
             };

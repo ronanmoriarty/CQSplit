@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using CQRSTutorial.Core;
 
 namespace Cafe.Domain.Commands
 {
-    public class PlaceOrder
+    public class PlaceOrder : ICommand
     {
-        public int TabId { get; set; }
         public List<OrderedItem> Items { get; set; }
+        public int AggregateId { get; set; }
     }
 }

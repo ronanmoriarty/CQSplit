@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using CQRSTutorial.Core;
 
 namespace Cafe.Domain.Commands
 {
-    public class MarkDrinksServed
+    public class MarkDrinksServed : ICommand
     {
-        public int TabId;
         public List<int> MenuNumbers;
+        public int AggregateId { get; set; }
     }
 }

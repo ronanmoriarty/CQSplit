@@ -1,9 +1,11 @@
-﻿namespace Cafe.Domain.Commands
+﻿using CQRSTutorial.Core;
+
+namespace Cafe.Domain.Commands
 {
-    public class OpenTab
+    public class OpenTab : ICommand
     {
-        public int TabId { get; set; }
         public int TableNumber { get; set; }
         public string Waiter { get; set; }
+        public int AggregateId { get; set; }
     }
 }

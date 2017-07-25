@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -8,23 +9,37 @@ namespace CQRSTutorial.Core
     public class CommandDispatcher
     {
         private readonly IEventReceiver _eventReceiver;
-        private Dictionary<Type, object> _commandHandlerMappings;
+        private readonly ICommandHandler[] _commandHandlers;
+        private Dictionary<Type, Type> _commandHandlerMappings;
         private readonly TypeInspector _typeInspector;
 
-        public CommandDispatcher(IEventReceiver eventReceiver, object[] commandHandlers, TypeInspector typeInspector)
+        public CommandDispatcher(IEventReceiver eventReceiver, ICommandHandler[] commandHandlers, TypeInspector typeInspector, Assembly assemblyContainingCommandHandlers)
         {
             _eventReceiver = eventReceiver;
-            MapCommandTypesToCommandHandlerInstance(commandHandlers);
+            _commandHandlers = commandHandlers;
+            MapCommandTypesToCommandHandlerTypes(assemblyContainingCommandHandlers);
             _typeInspector = typeInspector;
         }
 
-        public void Dispatch(params object[] commands)
+        public void Dispatch(params ICommand[] commands)
         {
             foreach (var command in commands)
             {
                 var commandType = command.GetType();
-                var handler = _commandHandlerMappings[commandType];
-                var handleMethod = _typeInspector.FindMethodTakingSingleArgument(handler, GetHandleMethodName(), commandType);
+                var handlerType = _commandHandlerMappings[commandType];
+                var handler = _commandHandlers
+                    .Where(commandHandler => commandHandler.GetType() == handlerType)
+                    .SingleOrDefault(x => x.Id == command.AggregateId);
+                if (handler == null)
+                {
+                    handler = _commandHandlers.Single(commandHandler => commandHandler.GetType() == handlerType); // e.g. TabFactory
+                }
+                if (handler == null)
+                {
+                    throw new ArgumentException("handler");
+                }
+
+                var handleMethod = _typeInspector.FindMethodTakingSingleArgument(handlerType, GetHandleMethodName(), commandType);
                 try
                 {
                     var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new[] { command });
@@ -44,22 +59,22 @@ namespace CQRSTutorial.Core
             return ((MethodCallExpression)objectExpression.Body).Method.Name;
         }
 
-        private void MapCommandTypesToCommandHandlerInstance(object[] commandHandlers)
+        private void MapCommandTypesToCommandHandlerTypes(Assembly assemblyContainingCommandHandlers)
         {
-            _commandHandlerMappings = new Dictionary<Type, object>();
-            foreach (var commandHandler in commandHandlers)
+            _commandHandlerMappings = new Dictionary<Type, Type>();
+            foreach (var type in assemblyContainingCommandHandlers.GetTypes())
             {
-                foreach (var interfaceType in commandHandler.GetType().GetInterfaces())
+                foreach (var interfaceType in type.GetInterfaces())
                 {
                     if (interfaceType.IsGenericType && interfaceType.GetGenericTypeDefinition() == typeof(ICommandHandler<>))
                     {
                         var commandType = interfaceType.GenericTypeArguments[0];
                         if (_commandHandlerMappings.ContainsKey(commandType))
                         {
-                            throw new ArgumentException($"More than one handler found for {commandType.FullName}");
+                            throw new ArgumentException($"More than one type found that can handle {commandType.FullName} commands");
                         }
 
-                        _commandHandlerMappings.Add(commandType, commandHandler);
+                        _commandHandlerMappings.Add(commandType, type);
                     }
                 }
             }
