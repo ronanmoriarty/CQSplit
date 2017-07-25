@@ -13,7 +13,7 @@ namespace Cafe.Waiter.Publisher.Console
         {
             var readSessionFactory = new NHibernateConfiguration(new ConnectionStringProviderFactory("CQRSTutorial", "CQRS_CONNECTIONSTRING_OVERRIDE")).CreateSessionFactory(IsolationLevel.ReadCommitted);
             var eventToPublishMapper = new EventToPublishMapper(Assembly.GetExecutingAssembly());
-            var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, IsolationLevel.ReadCommitted, null, eventToPublishMapper); // TODO: we might be able to get rid IPublishConfiguration. Need to do a little more reading around fanout exchanges / topics etc with respect to MassTransit. We're not adding EventsToPublish here anyway, so null is fine in this case.
+            var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, null, eventToPublishMapper); // TODO: we might be able to get rid IPublishConfiguration. Need to do a little more reading around fanout exchanges / topics etc with respect to MassTransit. We're not adding EventsToPublish here anyway, so null is fine in this case.
             var messageBusEventPublisher = new MessageBusEventPublisher(new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration()));
             var publisher = new OutboxToMessageQueuePublisher
             (

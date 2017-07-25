@@ -49,7 +49,6 @@ namespace CQRSTutorial.DAL.Tests
                     var publishConfiguration = new TestPublishConfiguration(publishLocation);
                     var eventToPublishRepository = new EventToPublishRepository(
                         readSessionFactory,
-                        isolationLevel,
                         publishConfiguration,
                         eventToPublishMapper)
                     {
@@ -64,7 +63,7 @@ namespace CQRSTutorial.DAL.Tests
                 var messageBusEventPublisher = new MessageBusEventPublisher(new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(), (sbc, host) => ConfigureTestReceiver(sbc, host, publishLocation, () => messagesPublished++)));
                 using (var writeSession = SessionFactory.WriteInstance.OpenSession())
                 {
-                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, isolationLevel, null, eventToPublishMapper)
+                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, null, eventToPublishMapper)
                     {
                         UnitOfWork = new NHibernateUnitOfWork(writeSession)
                     };
@@ -97,7 +96,6 @@ namespace CQRSTutorial.DAL.Tests
                 var publishConfiguration = new TestPublishConfiguration(publishLocation);
                 var eventToPublishRepository = new EventToPublishRepository(
                     readSessionFactory,
-                    isolationLevel,
                     publishConfiguration,
                     eventToPublishMapper)
                 {
@@ -121,7 +119,7 @@ namespace CQRSTutorial.DAL.Tests
             {
                 using (var transaction = writeSession.BeginTransaction())
                 {
-                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, isolationLevel, null, eventToPublishMapper)
+                    var eventToPublishRepository = new EventToPublishRepository(readSessionFactory, null, eventToPublishMapper)
                     {
                         UnitOfWork = new NHibernateUnitOfWork(writeSession)
                     };

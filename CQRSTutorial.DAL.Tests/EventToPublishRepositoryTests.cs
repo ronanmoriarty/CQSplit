@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
@@ -74,7 +73,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventToPublishRepository CreateRepository()
         {
-            return new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, _publishConfiguration, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
+            return new EventToPublishRepository(SessionFactory.ReadInstance, _publishConfiguration, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
         }
 
         private void InsertAndRead(IEvent @event)

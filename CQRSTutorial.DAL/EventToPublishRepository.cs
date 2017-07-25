@@ -12,10 +12,9 @@ namespace CQRSTutorial.DAL
         private readonly EventToPublishMapper _eventToPublishMapper;
 
         public EventToPublishRepository(ISessionFactory readSessionFactory,
-            IsolationLevel isolationLevel,
             IPublishConfiguration publishConfiguration,
             EventToPublishMapper eventToPublishMapper)
-            : base(readSessionFactory, isolationLevel)
+            : base(readSessionFactory, IsolationLevel.ReadCommitted)
         {
             _publishConfiguration = publishConfiguration;
             _eventToPublishMapper = eventToPublishMapper;

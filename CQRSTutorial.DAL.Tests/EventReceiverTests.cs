@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
@@ -24,7 +23,7 @@ namespace CQRSTutorial.DAL.Tests
         public void SetUp()
         {
             _sqlExecutor = new SqlExecutor();
-            _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventToPublishRepository(SessionFactory.ReadInstance, IsolationLevel.ReadCommitted, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper(Assembly.GetExecutingAssembly())));
+            _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventToPublishRepository(SessionFactory.ReadInstance, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper(Assembly.GetExecutingAssembly())));
             _eventStore = new EventStore(SessionFactory.ReadInstance, new EventMapper(Assembly.GetExecutingAssembly()));
             _eventReceiver = new EventReceiver(
                 new NHibernateUnitOfWorkFactory(SessionFactory.WriteInstance),
