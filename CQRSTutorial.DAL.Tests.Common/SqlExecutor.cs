@@ -34,7 +34,7 @@ namespace CQRSTutorial.DAL.Tests.Common
 
         private ConnectionStringProviderFactory GetConnectionStringProviderFactory()
         {
-            return new ConnectionStringProviderFactory("CQRSTutorial", "CQRS_CONNECTIONSTRING_OVERRIDE");
+            return new ConnectionStringProviderFactory("CQRSTutorial.Cafe.Waiter", "CQRSTUTORIAL_CAFE_WAITER_CONNECTIONSTRING_OVERRIDE");
         }
     }
 }
