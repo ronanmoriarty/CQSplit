@@ -7,5 +7,6 @@ namespace Cafe.Domain.Exceptions
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
+        public Guid CommandId { get; set; }
     }
 }

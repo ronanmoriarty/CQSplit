@@ -15,6 +15,7 @@ namespace Cafe.Domain
                 new TabOpened
                 {
                     Id = Guid.NewGuid(),
+                    CommandId = command.Id,
                     AggregateId = command.AggregateId,
                     TableNumber = command.TableNumber,
                     Waiter = command.Waiter

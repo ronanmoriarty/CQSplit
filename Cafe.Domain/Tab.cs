@@ -39,7 +39,8 @@ namespace Cafe.Domain
                 {
                     new FoodNotOutstanding
                     {
-                        Id = Guid.NewGuid()
+                        Id = Guid.NewGuid(),
+                        CommandId = command.Id
                     }
                 };
             }
@@ -51,6 +52,7 @@ namespace Cafe.Domain
                 new FoodServed
                 {
                     Id = Guid.NewGuid(),
+                    CommandId = command.Id,
                     AggregateId = command.AggregateId,
                     MenuNumbers = command.MenuNumbers
                 }
@@ -65,7 +67,8 @@ namespace Cafe.Domain
                 {
                     new DrinksNotOutstanding
                     {
-                        Id = Guid.NewGuid()
+                        Id = Guid.NewGuid(),
+                        CommandId = command.Id
                     }
                 };
             }
@@ -77,6 +80,7 @@ namespace Cafe.Domain
                 new DrinksServed
                 {
                     Id = Guid.NewGuid(),
+                    CommandId = command.Id,
                     AggregateId = command.AggregateId,
                     MenuNumbers = command.MenuNumbers
                 }
@@ -90,6 +94,7 @@ namespace Cafe.Domain
                 new TabClosed
                 {
                     Id = Guid.NewGuid(),
+                    CommandId = command.Id,
                     AggregateId = command.AggregateId,
                     AmountPaid = command.AmountPaid,
                     OrderValue = _totalValueOfServedItems,
@@ -130,6 +135,7 @@ namespace Cafe.Domain
                 new FoodOrdered
                 {
                     Id = Guid.NewGuid(),
+                    CommandId = command.Id,
                     AggregateId = command.AggregateId,
                     Items = food
                 }
@@ -149,6 +155,7 @@ namespace Cafe.Domain
                 new DrinksOrdered
                 {
                     Id = Guid.NewGuid(),
+                    CommandId = command.Id,
                     AggregateId = command.AggregateId,
                     Items = drinks
                 }
