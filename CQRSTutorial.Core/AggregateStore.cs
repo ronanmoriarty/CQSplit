@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CQRSTutorial.Core
@@ -14,7 +15,14 @@ namespace CQRSTutorial.Core
 
         public ICommandHandler GetCommandHandler(ICommand command)
         {
-            return _commandHandlers.SingleOrDefault(x => x.CanHandle(command));
+            try
+            {
+                return _commandHandlers.SingleOrDefault(x => x.CanHandle(command));
+            }
+            catch (InvalidOperationException)
+            {
+                throw new ArgumentException($"More than one type found that can handle {command.GetType()} commands");
+            }
         }
     }
 }
