@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace CQRSTutorial.Core
 {
-    public class CommandDispatcher
+    public class CommandDispatcher : ICommandDispatcher
     {
         private readonly IEventReceiver _eventReceiver;
         private readonly IAggregateStore _aggregateStore;

@@ -46,6 +46,7 @@
     <Compile Include="IAggregateStore.cs" />
     <Compile Include="IApplyEvent.cs" />
     <Compile Include="ICommand.cs" />
+    <Compile Include="ICommandDispatcher.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="IEventReceiver.cs" />
