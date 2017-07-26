@@ -84,6 +84,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cafe.Domain\Cafe.Domain.csproj">
+      <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
+      <Name>Cafe.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Web\Cafe.Waiter.Web.csproj">
       <Project>{f81c8b8f-d3ba-4517-b279-2f05769b7341}</Project>
       <Name>Cafe.Waiter.Web</Name>
