@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -20,6 +21,7 @@ namespace CQRSTutorial.Core
 
         public void Dispatch(params ICommand[] commands)
         {
+            EnsureAllCommandsHaveIdSet(commands);
             foreach (var command in commands)
             {
                 var handler = GetCommandHandlerFor(command);
@@ -35,6 +37,14 @@ namespace CQRSTutorial.Core
                     Console.WriteLine(exception.InnerException.StackTrace);
                     throw exception.InnerException; // allow any actual exceptions to bubble up, rather than wrapping up the original exception in the reflection-specific TargetInvocationException.
                 }
+            }
+        }
+
+        private void EnsureAllCommandsHaveIdSet(ICommand[] commands)
+        {
+            if (commands.Any(command => command.Id == Guid.Empty))
+            {
+                throw new ArgumentException("At least one command does not have Id set.");
             }
         }
 

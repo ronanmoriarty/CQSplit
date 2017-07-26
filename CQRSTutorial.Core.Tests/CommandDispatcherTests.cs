@@ -20,8 +20,21 @@ namespace CQRSTutorial.Core.Tests
         public void ExceptionThrownIfMoreThanOneTypeCanHandleAnyGivenCommand()
         {
 
-            Assert.That(() => _commandDispatcher.Dispatch(new TestCommand()),
+            Assert.That(() => _commandDispatcher.Dispatch(
+                new TestCommand
+                {
+                    Id = Guid.NewGuid()
+                }),
                 Throws.Exception.InstanceOf<ArgumentException>().With.Message.EqualTo($"More than one type found that can handle {typeof(TestCommand).FullName} commands"));
+        }
+
+        [Test]
+        public void ExceptionThrownIfCommandDoesNotHaveIdSet()
+        {
+
+            Assert.That(() => _commandDispatcher.Dispatch(
+                new TestCommand()),
+                Throws.Exception.InstanceOf<ArgumentException>().With.Message.EqualTo("At least one command does not have Id set."));
         }
 
         private CommandDispatcher CreateCommandDispatcher()
@@ -59,6 +72,7 @@ namespace CQRSTutorial.Core.Tests
 
         internal class TestCommand : ICommand
         {
+            public Guid Id { get; set; }
             public Guid AggregateId { get; set; }
         }
     }

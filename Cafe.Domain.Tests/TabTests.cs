@@ -54,6 +54,7 @@ namespace Cafe.Domain.Tests
         {
             When(new OpenTab
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
@@ -82,6 +83,7 @@ namespace Cafe.Domain.Tests
 
             When(new PlaceOrder
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 Items = orderedItems
             });
@@ -108,6 +110,7 @@ namespace Cafe.Domain.Tests
 
             When(new PlaceOrder
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 Items = orderedItems
             }
@@ -136,6 +139,7 @@ namespace Cafe.Domain.Tests
 
             When(new PlaceOrder
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 Items = orderedItems
             }
@@ -192,6 +196,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkDrinksServed
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 MenuNumbers = new List<int>
                 {
@@ -245,6 +250,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkFoodServed
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 MenuNumbers = new List<int>
                 {
@@ -294,6 +300,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkDrinksServed
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 MenuNumbers = new List<int> { testDrink2.MenuNumber }
             });
@@ -335,6 +342,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkFoodServed
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 MenuNumbers = new List<int> { unorderedFoodItem.MenuNumber }
             });
@@ -374,6 +382,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkDrinksServed
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 MenuNumbers = new List<int> { testDrink1.MenuNumber }
             });
@@ -413,6 +422,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkFoodServed
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 MenuNumbers = new List<int> { foodItem.MenuNumber }
             });
@@ -454,6 +464,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkDrinksServed
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber, drinkThatWasNotOrdered.MenuNumber }
             });
@@ -462,6 +473,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkDrinksServed
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber }
             });
@@ -507,6 +519,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkFoodServed
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber, foodThatWasNotOrdered.MenuNumber }
             });
@@ -515,6 +528,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkFoodServed
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber }
             });
@@ -558,6 +572,7 @@ namespace Cafe.Domain.Tests
 
             When(new CloseTab
             {
+                Id = Guid.NewGuid(),
                 AggregateId = _tabId1,
                 AmountPaid = drinkItem.Price + 0.50M
             });

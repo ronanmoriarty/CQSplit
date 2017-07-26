@@ -6,7 +6,8 @@ namespace Cafe.Domain.Commands
 {
     public class MarkFoodServed : ICommand
     {
-        public List<int> MenuNumbers;
+        public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
+        public List<int> MenuNumbers;
     }
 }

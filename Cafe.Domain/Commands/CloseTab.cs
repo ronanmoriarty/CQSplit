@@ -5,8 +5,8 @@ namespace Cafe.Domain.Commands
 {
     public class CloseTab : ICommand
     {
-        public int Id;
-        public decimal AmountPaid;
+        public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
+        public decimal AmountPaid;
     }
 }
