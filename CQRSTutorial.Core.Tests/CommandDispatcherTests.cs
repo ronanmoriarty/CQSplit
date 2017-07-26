@@ -27,8 +27,7 @@ namespace CQRSTutorial.Core.Tests
         {
             return new CommandDispatcher(null,
                 new ICommandHandler[] { new Handler1(), new Handler2() },
-                new TypeInspector(),
-                new[] { typeof(Handler1), typeof(Handler2) });
+                new TypeInspector());
         }
 
         internal class Handler1 : ICommandHandler<TestCommand>

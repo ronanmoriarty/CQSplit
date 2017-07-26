@@ -10,10 +10,9 @@ namespace CQRSTutorial.Core
     {
         private readonly IEventReceiver _eventReceiver;
         private readonly ICommandHandler[] _commandHandlers;
-        private Dictionary<Type, Type> _commandHandlerMappings;
         private readonly TypeInspector _typeInspector;
 
-        public CommandDispatcher(IEventReceiver eventReceiver, ICommandHandler[] commandHandlers, TypeInspector typeInspector, Type[] commandHandlerTypes)
+        public CommandDispatcher(IEventReceiver eventReceiver, ICommandHandler[] commandHandlers, TypeInspector typeInspector)
         {
             _eventReceiver = eventReceiver;
             _commandHandlers = commandHandlers;

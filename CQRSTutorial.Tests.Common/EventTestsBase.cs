@@ -23,7 +23,7 @@ namespace CQRSTutorial.Tests.Common
             var commandHandlers = GetCommandHandlers();
             _commandHandler = GetSystemUnderTest();
             _eventReceiver = Substitute.For<IEventReceiver>();
-            _commandDispatcher = new CommandDispatcher(_eventReceiver, commandHandlers, new TypeInspector(), GetCommandHandlerTypes());
+            _commandDispatcher = new CommandDispatcher(_eventReceiver, commandHandlers, new TypeInspector());
             _eventApplier = new EventApplier(new TypeInspector());
         }
 
