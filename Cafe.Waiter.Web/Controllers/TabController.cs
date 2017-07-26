@@ -11,7 +11,7 @@ namespace Cafe.Waiter.Web.Controllers
 {
     public class TabController : Controller
     {
-        private readonly CommandDispatcher _commandDispatcher;
+        private readonly ICommandDispatcher _commandDispatcher;
 
         public TabController()
             : this(new CommandDispatcher(
@@ -26,7 +26,7 @@ namespace Cafe.Waiter.Web.Controllers
         {
         }
 
-        public TabController(CommandDispatcher commandDispatcher)
+        public TabController(ICommandDispatcher commandDispatcher)
         {
             _commandDispatcher = commandDispatcher;
         }
@@ -45,10 +45,11 @@ namespace Cafe.Waiter.Web.Controllers
             return Redirect("Index");
         }
 
-        private static OpenTab CreateOpenTabCommand()
+        private OpenTab CreateOpenTabCommand()
         {
             return new OpenTab
             {
+                Id = Guid.NewGuid(),
                 AggregateId = Guid.NewGuid(),
                 Waiter = "John",
                 TableNumber = 5
