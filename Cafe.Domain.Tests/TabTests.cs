@@ -595,33 +595,33 @@ namespace Cafe.Domain.Tests
         {
             return _tab1;
         }
-    }
 
-    public class FakeTabFactory : ICommandHandler<OpenTab>
-    {
-        private readonly int _tabId;
-
-        public FakeTabFactory(int tabId)
+        private class FakeTabFactory : ICommandHandler<OpenTab>
         {
-            _tabId = tabId;
-        }
+            private readonly int _tabId;
 
-        public IEnumerable<IEvent> Handle(OpenTab command)
-        {
-            return new IEvent[]
+            public FakeTabFactory(int tabId)
             {
+                _tabId = tabId;
+            }
+
+            public IEnumerable<IEvent> Handle(OpenTab command)
+            {
+                return new IEvent[]
+                {
                 new TabOpened
                 {
                     AggregateId = _tabId,
                     TableNumber = command.TableNumber,
                     Waiter = command.Waiter
                 }
-            };
-        }
+                };
+            }
 
-        public bool CanHandle(ICommand command)
-        {
-            return command.GetType() == typeof(OpenTab);
+            public bool CanHandle(ICommand command)
+            {
+                return command.GetType() == typeof(OpenTab);
+            }
         }
     }
 }
