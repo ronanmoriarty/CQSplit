@@ -34,7 +34,7 @@ namespace Cafe.Domain.Tests
         protected override IAggregateStore GetAggregateStore()
         {
             ReinitialiseTabs();
-            return new FakeAggregateStore(new List<ICommandHandler> { _tab1, _tab2, new FakeTabFactory() });
+            return new FakeAggregateStore(new List<ICommandHandler> { _tab1, _tab2, new TabFactory() });
         }
 
         private void ReinitialiseTabs()
@@ -596,27 +596,6 @@ namespace Cafe.Domain.Tests
         protected override Tab GetSystemUnderTest()
         {
             return _tab1;
-        }
-
-        private class FakeTabFactory : ICommandHandler<OpenTab>
-        {
-            public IEnumerable<IEvent> Handle(OpenTab command)
-            {
-                return new IEvent[]
-                {
-                new TabOpened
-                {
-                    AggregateId = command.AggregateId,
-                    TableNumber = command.TableNumber,
-                    Waiter = command.Waiter
-                }
-                };
-            }
-
-            public bool CanHandle(ICommand command)
-            {
-                return command.GetType() == typeof(OpenTab);
-            }
         }
     }
 }

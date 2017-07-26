@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregateStore.cs" />
     <Compile Include="CommandDispatcher.cs" />
     <Compile Include="EventApplier.cs" />
     <Compile Include="IAggregateStore.cs" />
