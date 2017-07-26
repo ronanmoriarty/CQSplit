@@ -33,7 +33,7 @@ namespace Cafe.Domain.Tests
         protected override IAggregateStore GetAggregateStore()
         {
             ReinitialiseTabs();
-            return new AggregateStore(new List<ICommandHandler> { _tab1, _tab2, new FakeTabFactory(TabId1) });
+            return new FakeAggregateStore(new List<ICommandHandler> { _tab1, _tab2, new FakeTabFactory(TabId1) });
         }
 
         private void ReinitialiseTabs()

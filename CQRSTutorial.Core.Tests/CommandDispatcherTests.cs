@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CQRSTutorial.Tests.Common;
 using NUnit.Framework;
 
 namespace CQRSTutorial.Core.Tests
@@ -26,7 +27,7 @@ namespace CQRSTutorial.Core.Tests
         private CommandDispatcher CreateCommandDispatcher()
         {
             return new CommandDispatcher(null,
-                new AggregateStore(new ICommandHandler[] { new Handler1(), new Handler2() }),
+                new FakeAggregateStore(new ICommandHandler[] { new Handler1(), new Handler2() }),
                 new TypeInspector());
         }
 

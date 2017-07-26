@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CQRSTutorial.Core;
 
-namespace CQRSTutorial.Core
+namespace CQRSTutorial.Tests.Common
 {
-    public class AggregateStore : IAggregateStore
+    public class FakeAggregateStore : IAggregateStore
     {
         private readonly IEnumerable<ICommandHandler> _commandHandlers;
 
-        public AggregateStore(IEnumerable<ICommandHandler> commandHandlers)
+        public FakeAggregateStore(IEnumerable<ICommandHandler> commandHandlers)
         {
             _commandHandlers = commandHandlers;
         }

@@ -55,6 +55,10 @@
       <Project>{d9a17521-4b50-403c-8a7f-d9f82051049b}</Project>
       <Name>CQRSTutorial.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.Tests.Common\CQRSTutorial.Tests.Common.csproj">
+      <Project>{0f8c4ec3-415f-4571-bcb9-8bb224a63e90}</Project>
+      <Name>CQRSTutorial.Tests.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
