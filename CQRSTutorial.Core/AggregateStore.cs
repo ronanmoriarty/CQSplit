@@ -15,14 +15,22 @@ namespace CQRSTutorial.Core
 
         public ICommandHandler GetCommandHandler(ICommand command)
         {
+            ICommandHandler handler;
             try
             {
-                return _commandHandlers.SingleOrDefault(x => x.CanHandle(command));
+                handler = _commandHandlers.SingleOrDefault(x => x.CanHandle(command));
             }
             catch (InvalidOperationException)
             {
                 throw new ArgumentException($"More than one type found that can handle {command.GetType()} commands");
             }
+
+            if (handler == null)
+            {
+                throw new ArgumentException($"Could not find any handler to handle command of type {command.GetType()}");
+            }
+
+            return handler;
         }
     }
 }

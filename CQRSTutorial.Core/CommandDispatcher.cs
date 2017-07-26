@@ -51,11 +51,6 @@ namespace CQRSTutorial.Core
         private object GetCommandHandlerFor(ICommand command)
         {
             object handler = _aggregateStore.GetCommandHandler(command);
-            if (handler == null)
-            {
-                throw new Exception($"Could not find any handler to handle command of type {command.GetType()}");
-            }
-
             return handler;
         }
 

@@ -16,9 +16,8 @@ namespace CQRSTutorial.Core.Tests
         }
 
         [Test]
-        public void ExceptionThrownIfMoreThanOneTypeCanHandleAnyGivenCommand()
+        public void ExceptionThrownIfMoreThanOneHandlerCanHandleCommand()
         {
-
             Assert.That(() => _commandDispatcher.Dispatch(
                 new TestCommand
                 {
@@ -28,9 +27,19 @@ namespace CQRSTutorial.Core.Tests
         }
 
         [Test]
+        public void ExceptionThrownIfNothingCanHandleCommand()
+        {
+            Assert.That(() => _commandDispatcher.Dispatch(
+                new UnhandledTestCommand
+                {
+                    Id = Guid.NewGuid()
+                }),
+                Throws.Exception.InstanceOf<ArgumentException>().With.Message.EqualTo($"Could not find any handler to handle command of type {typeof(UnhandledTestCommand)}"));
+        }
+
+        [Test]
         public void ExceptionThrownIfCommandDoesNotHaveIdSet()
         {
-
             Assert.That(() => _commandDispatcher.Dispatch(
                 new TestCommand()),
                 Throws.Exception.InstanceOf<ArgumentException>().With.Message.EqualTo("At least one command does not have Id set."));
@@ -52,7 +61,7 @@ namespace CQRSTutorial.Core.Tests
 
             public bool CanHandle(ICommand command)
             {
-                return true;
+                return command.GetType() == typeof(TestCommand);
             }
         }
 
@@ -65,11 +74,17 @@ namespace CQRSTutorial.Core.Tests
 
             public bool CanHandle(ICommand command)
             {
-                return true;
+                return command.GetType() == typeof(TestCommand);
             }
         }
 
         internal class TestCommand : ICommand
+        {
+            public Guid Id { get; set; }
+            public Guid AggregateId { get; set; }
+        }
+
+        internal class UnhandledTestCommand : ICommand
         {
             public Guid Id { get; set; }
             public Guid AggregateId { get; set; }
