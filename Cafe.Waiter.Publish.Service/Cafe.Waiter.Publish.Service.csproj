@@ -54,6 +54,28 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cafe.Domain\Cafe.Domain.csproj">
+      <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
+      <Name>Cafe.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRS.Publisher\CQRSTutorial.Publisher.csproj">
+      <Project>{16b09e97-f528-4225-871d-ced500f9d659}</Project>
+      <Name>CQRSTutorial.Publisher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
+      <Project>{d9a17521-4b50-403c-8a7f-d9f82051049b}</Project>
+      <Name>CQRSTutorial.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
+      <Project>{92221377-f43d-4c30-9a94-9e5e8fb0c969}</Project>
+      <Name>CQRSTutorial.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.Infrastructure\CQRSTutorial.Infrastructure.csproj">
+      <Project>{6d6c34d5-5ae9-41e5-b55a-b47552f83bc9}</Project>
+      <Name>CQRSTutorial.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
