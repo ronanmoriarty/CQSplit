@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -9,13 +8,13 @@ namespace CQRSTutorial.Core
     public class CommandDispatcher
     {
         private readonly IEventReceiver _eventReceiver;
-        private readonly ICommandHandler[] _commandHandlers;
+        private readonly IAggregateStore _aggregateStore;
         private readonly TypeInspector _typeInspector;
 
-        public CommandDispatcher(IEventReceiver eventReceiver, ICommandHandler[] commandHandlers, TypeInspector typeInspector)
+        public CommandDispatcher(IEventReceiver eventReceiver, IAggregateStore aggregateStore, TypeInspector typeInspector)
         {
             _eventReceiver = eventReceiver;
-            _commandHandlers = commandHandlers;
+            _aggregateStore = aggregateStore;
             _typeInspector = typeInspector;
         }
 
@@ -43,7 +42,7 @@ namespace CQRSTutorial.Core
         {
             try
             {
-                object handler = _commandHandlers.SingleOrDefault(x => x.CanHandle(command));
+                object handler = _aggregateStore.GetCommandHandler(command);
                 if (handler == null)
                 {
                     throw new Exception($"Could not find any handler to handle command of type {command.GetType()}");

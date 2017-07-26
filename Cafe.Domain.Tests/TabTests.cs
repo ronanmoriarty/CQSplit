@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using Cafe.Domain.Exceptions;
@@ -32,11 +30,22 @@ namespace Cafe.Domain.Tests
         private const int Drink2MenuNumber = 14;
         private const string Drink2Description = "Fanta";
 
-        protected override Type[] GetCommandHandlerTypes()
+        protected override IAggregateStore GetAggregateStore()
         {
-            return typeof(Tab).Assembly.GetTypes()
-                .Where(type => typeof(ICommandHandler).IsAssignableFrom(type))
-                .Concat(new[] {typeof(FakeTabFactory)}).ToArray();
+            ReinitialiseTabs();
+            return new AggregateStore(new List<ICommandHandler> { _tab1, _tab2, new FakeTabFactory(TabId1) });
+        }
+
+        private void ReinitialiseTabs()
+        {
+            _tab1 = new Tab
+            {
+                Id = TabId1
+            };
+            _tab2 = new Tab
+            {
+                Id = TabId2
+            };
         }
 
         [Test]
@@ -536,12 +545,12 @@ namespace Cafe.Domain.Tests
                 new DrinksOrdered
                 {
                     AggregateId = TabId1,
-                    Items = new List<OrderedItem> {drinkItem}
+                    Items = new List<OrderedItem> { drinkItem }
                 },
                 new DrinksServed
                 {
                     AggregateId = TabId1,
-                    MenuNumbers = new List<int> {drinkItem.MenuNumber}
+                    MenuNumbers = new List<int> { drinkItem.MenuNumber }
                 }
             );
 
@@ -585,20 +594,6 @@ namespace Cafe.Domain.Tests
         protected override Tab GetSystemUnderTest()
         {
             return _tab1;
-        }
-
-        protected override ICommandHandler[] GetCommandHandlers()
-        {
-            _tab1 = new Tab
-            {
-                Id = TabId1
-            };
-            _tab2 = new Tab
-            {
-                Id = TabId2
-            };
-
-            return new ICommandHandler[] {_tab1, _tab2, new FakeTabFactory(TabId1)};
         }
     }
 

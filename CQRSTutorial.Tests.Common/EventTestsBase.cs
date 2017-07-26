@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using CQRSTutorial.Core;
@@ -16,22 +15,21 @@ namespace CQRSTutorial.Tests.Common
         private TCommandHandler _commandHandler;
         private EventApplier _eventApplier;
         private ICommand[] _commands;
+        private IAggregateStore _aggregateStore;
 
         [SetUp]
         public void SetUp()
         {
-            var commandHandlers = GetCommandHandlers();
-            _commandHandler = GetSystemUnderTest();
+            _aggregateStore = GetAggregateStore();
             _eventReceiver = Substitute.For<IEventReceiver>();
-            _commandDispatcher = new CommandDispatcher(_eventReceiver, commandHandlers, new TypeInspector());
+            _commandDispatcher = new CommandDispatcher(_eventReceiver, _aggregateStore, new TypeInspector());
             _eventApplier = new EventApplier(new TypeInspector());
+            _commandHandler = GetSystemUnderTest();
         }
 
-        protected abstract Type[] GetCommandHandlerTypes();
+        protected abstract IAggregateStore GetAggregateStore();
 
         protected abstract TCommandHandler GetSystemUnderTest();
-
-        protected abstract ICommandHandler[] GetCommandHandlers();
 
         // TODO: need to consider what tests are required involving a sequence of commands, or do we potentially say that each command will execute in isolation from all other commands, on an object whose current state is entirely dependent on previous events (rather than being dependent on previous events AND commands).
         protected void Given(params IEvent[] events)

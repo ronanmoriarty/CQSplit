@@ -26,7 +26,7 @@ namespace CQRSTutorial.Core.Tests
         private CommandDispatcher CreateCommandDispatcher()
         {
             return new CommandDispatcher(null,
-                new ICommandHandler[] { new Handler1(), new Handler2() },
+                new AggregateStore(new ICommandHandler[] { new Handler1(), new Handler2() }),
                 new TypeInspector());
         }
 
