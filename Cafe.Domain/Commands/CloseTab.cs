@@ -1,4 +1,5 @@
-﻿using CQRSTutorial.Core;
+﻿using System;
+using CQRSTutorial.Core;
 
 namespace Cafe.Domain.Commands
 {
@@ -6,6 +7,6 @@ namespace Cafe.Domain.Commands
     {
         public int Id;
         public decimal AmountPaid;
-        public int AggregateId { get; set; }
+        public Guid AggregateId { get; set; }
     }
 }

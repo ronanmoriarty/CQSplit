@@ -1,8 +1,9 @@
-﻿namespace CQRSTutorial.Core
+﻿using System;
+
+namespace CQRSTutorial.Core
 {
     public interface ICommand
     {
-        int AggregateId { get; set; }
-
+        Guid AggregateId { get; set; }
     }
 }

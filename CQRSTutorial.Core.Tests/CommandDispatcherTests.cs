@@ -59,7 +59,7 @@ namespace CQRSTutorial.Core.Tests
 
         internal class TestCommand : ICommand
         {
-            public int AggregateId { get; set; }
+            public Guid AggregateId { get; set; }
         }
     }
 }

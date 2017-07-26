@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using Cafe.Domain.Exceptions;
@@ -11,8 +12,8 @@ namespace Cafe.Domain.Tests
     [TestFixture]
     public class TabTests : EventTestsBase<Tab>
     {
-        private const int TabId1 = 321;
-        private int TabId2 = 234;
+        private readonly Guid _tabId1 = new Guid("17BEED1C-2084-4ADA-938A-4F850212EB5D");
+        private readonly Guid _tabId2 = new Guid("88CEC1FD-A666-4A51-ABD4-3AA49AE35001");
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
         private Tab _tab1;
@@ -40,11 +41,11 @@ namespace Cafe.Domain.Tests
         {
             _tab1 = new Tab
             {
-                Id = TabId1
+                Id = _tabId1
             };
             _tab2 = new Tab
             {
-                Id = TabId2
+                Id = _tabId2
             };
         }
 
@@ -53,14 +54,14 @@ namespace Cafe.Domain.Tests
         {
             When(new OpenTab
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
 
             Then(new TabOpened
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
@@ -74,20 +75,20 @@ namespace Cafe.Domain.Tests
 
             Given(new TabOpened
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
 
             When(new PlaceOrder
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 Items = orderedItems
             });
 
             Then(new FoodOrdered
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 Items = orderedItems
             });
         }
@@ -100,21 +101,21 @@ namespace Cafe.Domain.Tests
 
             Given(new TabOpened
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
 
             When(new PlaceOrder
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 Items = orderedItems
             }
             );
 
             Then(new DrinksOrdered
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 Items = orderedItems
             });
         }
@@ -128,14 +129,14 @@ namespace Cafe.Domain.Tests
 
             Given(new TabOpened
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
 
             When(new PlaceOrder
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 Items = orderedItems
             }
             );
@@ -143,12 +144,12 @@ namespace Cafe.Domain.Tests
             Then(
                 new DrinksOrdered
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     Items = new List<OrderedItem> { drinksOrderedItem }
                 },
                 new FoodOrdered
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     Items = new List<OrderedItem> { foodOrderedItem }
                 }
             );
@@ -175,13 +176,13 @@ namespace Cafe.Domain.Tests
             Given(
                 new TabOpened
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     TableNumber = _tableNumber,
                     Waiter = _waiter
                 },
                 new DrinksOrdered
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     Items = new List<OrderedItem>
                     {
                         testDrink1,
@@ -191,7 +192,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkDrinksServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int>
                 {
                     testDrink1.MenuNumber,
@@ -201,7 +202,7 @@ namespace Cafe.Domain.Tests
 
             Then(new DrinksServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int>
                         { testDrink1.MenuNumber, testDrink2.MenuNumber }
             });
@@ -228,13 +229,13 @@ namespace Cafe.Domain.Tests
             Given(
                 new TabOpened
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     TableNumber = _tableNumber,
                     Waiter = _waiter
                 },
                 new FoodOrdered
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     Items = new List<OrderedItem>
                     {
                         foodItem1,
@@ -244,7 +245,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkFoodServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int>
                 {
                     foodItem1.MenuNumber,
@@ -254,7 +255,7 @@ namespace Cafe.Domain.Tests
 
             Then(new FoodServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int> { foodItem1.MenuNumber, foodItem2.MenuNumber }
             });
         }
@@ -280,20 +281,20 @@ namespace Cafe.Domain.Tests
             Given(
                 new TabOpened
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     TableNumber = _tableNumber,
                     Waiter = _waiter
                 },
                 new DrinksOrdered
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     Items = new List<OrderedItem> { testDrink1 }
                 }
             );
 
             When(new MarkDrinksServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int> { testDrink2.MenuNumber }
             });
 
@@ -321,20 +322,20 @@ namespace Cafe.Domain.Tests
             Given(
                 new TabOpened
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     TableNumber = _tableNumber,
                     Waiter = _waiter
                 },
                 new FoodOrdered
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     Items = new List<OrderedItem> { orderedFoodItem }
                 }
             );
 
             When(new MarkFoodServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int> { unorderedFoodItem.MenuNumber }
             });
 
@@ -355,25 +356,25 @@ namespace Cafe.Domain.Tests
             Given(
                 new TabOpened
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     TableNumber = _tableNumber,
                     Waiter = _waiter
                 },
                 new DrinksOrdered
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     Items = new List<OrderedItem> { testDrink1 }
                 },
                 new DrinksServed
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     MenuNumbers = new List<int> { testDrink1.MenuNumber }
                 }
             );
 
             When(new MarkDrinksServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int> { testDrink1.MenuNumber }
             });
 
@@ -394,25 +395,25 @@ namespace Cafe.Domain.Tests
             Given(
                 new TabOpened
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     TableNumber = _tableNumber,
                     Waiter = _waiter
                 },
                 new FoodOrdered
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     Items = new List<OrderedItem> { foodItem }
                 },
                 new FoodServed
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     MenuNumbers = new List<int> { foodItem.MenuNumber }
                 }
             );
 
             When(new MarkFoodServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int> { foodItem.MenuNumber }
             });
 
@@ -440,20 +441,20 @@ namespace Cafe.Domain.Tests
             Given(
                 new TabOpened
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     TableNumber = _tableNumber,
                     Waiter = _waiter
                 },
                 new DrinksOrdered
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     Items = new List<OrderedItem> { drinkThatWasOrdered }
                 }
             );
 
             When(new MarkDrinksServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber, drinkThatWasNotOrdered.MenuNumber }
             });
 
@@ -461,13 +462,13 @@ namespace Cafe.Domain.Tests
 
             When(new MarkDrinksServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber }
             });
 
             Then(new DrinksServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber }
             });
         }
@@ -493,20 +494,20 @@ namespace Cafe.Domain.Tests
             Given(
                 new TabOpened
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     TableNumber = _tableNumber,
                     Waiter = _waiter
                 },
                 new FoodOrdered
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     Items = new List<OrderedItem> { foodThatWasOrdered }
                 }
             );
 
             When(new MarkFoodServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber, foodThatWasNotOrdered.MenuNumber }
             });
 
@@ -514,13 +515,13 @@ namespace Cafe.Domain.Tests
 
             When(new MarkFoodServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber }
             });
 
             Then(new FoodServed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 MenuNumbers = new List<int> { foodThatWasOrdered.MenuNumber }
             });
         }
@@ -539,31 +540,31 @@ namespace Cafe.Domain.Tests
             Given(
                 new TabOpened
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     TableNumber = _tableNumber,
                     Waiter = _waiter
                 },
                 new DrinksOrdered
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     Items = new List<OrderedItem> { drinkItem }
                 },
                 new DrinksServed
                 {
-                    AggregateId = TabId1,
+                    AggregateId = _tabId1,
                     MenuNumbers = new List<int> { drinkItem.MenuNumber }
                 }
             );
 
             When(new CloseTab
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 AmountPaid = drinkItem.Price + 0.50M
             });
 
             Then(new TabClosed
             {
-                AggregateId = TabId1,
+                AggregateId = _tabId1,
                 AmountPaid = drinkItem.Price + 0.50M,
                 OrderValue = drinkItem.Price,
                 TipValue = 0.50M

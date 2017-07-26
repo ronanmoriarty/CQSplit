@@ -38,7 +38,7 @@ namespace CQRSTutorial.DAL
             return _eventMapper.MapToEvent(storedEvent);
         }
 
-        public IEnumerable<IEvent> GetAllEventsFor(int aggregateId)
+        public IEnumerable<IEvent> GetAllEventsFor(Guid aggregateId)
         {
             using (var session = SessionFactory.OpenSession())
             {

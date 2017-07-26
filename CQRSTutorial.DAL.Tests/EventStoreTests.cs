@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
@@ -10,7 +11,7 @@ namespace CQRSTutorial.DAL.Tests
     public class EventStoreTests
     {
         private IEvent _retrievedEvent;
-        private const int AggregateId = 234;
+        private readonly Guid _aggregateId = new Guid("0227C779-D2FC-4A26-B549-DA82FB00C87C");
         private EventStore _repository;
         private ISession _session;
 
@@ -18,7 +19,7 @@ namespace CQRSTutorial.DAL.Tests
         public void SetUp()
         {
             var sqlExecutor = new SqlExecutor();
-            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = {AggregateId}"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
+            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId}'"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
             _session = SessionFactory.Instance.OpenSession();
             _session.BeginTransaction();
             _repository = CreateRepository();
@@ -33,7 +34,7 @@ namespace CQRSTutorial.DAL.Tests
 
             var testEvent = new TestEvent
             {
-                AggregateId = AggregateId,
+                AggregateId = _aggregateId,
                 IntProperty = intPropertyValue,
                 StringProperty = stringPropertyValue
             };

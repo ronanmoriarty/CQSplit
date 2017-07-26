@@ -9,7 +9,7 @@ namespace CQRSTutorial.DAL.Tests
     [TestFixture]
     public class EventReceiverTests
     {
-        private const int AggregateId = 321;
+        private readonly Guid _aggregateId = new Guid();
         private EventReceiver _eventReceiver;
         private TestEvent _testEvent;
         private TestEvent2 _testEvent2;
@@ -32,11 +32,11 @@ namespace CQRSTutorial.DAL.Tests
 
             _testEvent = new TestEvent
             {
-                AggregateId = AggregateId
+                AggregateId = _aggregateId
             };
             _testEvent2 = new TestEvent2
             {
-                AggregateId = AggregateId
+                AggregateId = _aggregateId
             };
         }
 

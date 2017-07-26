@@ -22,7 +22,7 @@ namespace CQRSTutorial.Infrastructure.Tests
         public class TestEvent : IEvent
         {
             public int Id { get; set; }
-            public int AggregateId { get; set; }
+            public Guid AggregateId { get; set; }
         }
 
         private void ConfigureTestReceiver(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host)

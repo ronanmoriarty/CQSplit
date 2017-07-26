@@ -6,7 +6,7 @@ namespace Cafe.Domain
 {
     public static class TypeExtensions
     {
-        public static bool CanHandle(this Type type, ICommand command, int id)
+        public static bool CanHandle(this Type type, ICommand command, Guid aggregateId)
         {
             var canHandleThisTypeOfCommand = type.GetInterfaces()
                 .Any(interfaceType =>
@@ -14,7 +14,7 @@ namespace Cafe.Domain
                     && interfaceType.GetGenericTypeDefinition() == typeof(ICommandHandler<>)
                     && interfaceType.GenericTypeArguments.Single() == command.GetType());
 
-            return canHandleThisTypeOfCommand && command.AggregateId == id;
+            return canHandleThisTypeOfCommand && command.AggregateId == aggregateId;
         }
     }
 }

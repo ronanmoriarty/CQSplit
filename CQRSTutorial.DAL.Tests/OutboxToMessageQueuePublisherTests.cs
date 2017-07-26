@@ -30,7 +30,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             var testEvent = new TestEvent
             {
-                AggregateId = 123,
+                AggregateId = new Guid(),
                 IntProperty = 234,
                 StringProperty = "John"
             };
@@ -101,7 +101,7 @@ namespace CQRSTutorial.DAL.Tests
 
                 var testEvent = new TestEvent
                 {
-                    AggregateId = 345,
+                    AggregateId = new Guid(),
                     IntProperty = 456,
                     StringProperty = "Mary"
                 };
