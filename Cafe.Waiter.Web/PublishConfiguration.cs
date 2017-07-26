@@ -1,7 +1,7 @@
 ﻿using System;
 using CQRSTutorial.DAL;
 
-namespace Cafe.Waiter.Web.Controllers
+namespace Cafe.Waiter.Web
 {
     public class PublishConfiguration : IPublishConfiguration
     {

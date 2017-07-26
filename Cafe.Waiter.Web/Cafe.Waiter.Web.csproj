@@ -183,8 +183,8 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\PublishConfiguration.cs" />
-    <Compile Include="Controllers\SessionFactory.cs" />
+    <Compile Include="PublishConfiguration.cs" />
+    <Compile Include="SessionFactory.cs" />
     <Compile Include="Controllers\TabController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
