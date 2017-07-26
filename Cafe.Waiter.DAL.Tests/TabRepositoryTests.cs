@@ -56,7 +56,7 @@ namespace Cafe.Waiter.DAL.Tests
 
             var tabOpened = new TabOpened
             {
-                Id = -1,
+                Id = new Guid("7F85BE15-94E4-4536-80B8-DF301ACA47F2"),
                 AggregateId = _tabId,
                 TableNumber = tableNumber,
                 Waiter = waiter
@@ -69,7 +69,7 @@ namespace Cafe.Waiter.DAL.Tests
         {
             var foodOrdered = new FoodOrdered
             {
-                Id = -2,
+                Id = new Guid("E259269A-F46E-4524-92A1-60DAC14339A6"),
                 AggregateId = _tabId,
                 Items = new List<OrderedItem>
                 {
@@ -90,7 +90,7 @@ namespace Cafe.Waiter.DAL.Tests
         {
             var foodOrdered = new DrinksOrdered
             {
-                Id = -3,
+                Id = new Guid("ACA9FBEF-F005-4F7F-99B8-9ED9B7855264"),
                 AggregateId = _tabId,
                 Items = new List<OrderedItem>
                 {

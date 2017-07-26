@@ -15,13 +15,13 @@ namespace CQRSTutorial.DAL.Tests
         private const string PublishLocation = "some.rabbitmq.topic.*";
         private EventToPublishRepository _repository;
         private ISession _session;
-        private const int Id = -1;
+        private readonly Guid _id = new Guid("8BDD0C3C-2680-4678-BFB9-4D379C2DD208");
 
         [SetUp]
         public void SetUp()
         {
             var sqlExecutor = new SqlExecutor();
-            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = {Id}"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
+            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = '{_id}'"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);
             _session = SessionFactory.Instance.OpenSession();
             _session.BeginTransaction();
@@ -37,7 +37,7 @@ namespace CQRSTutorial.DAL.Tests
 
             var testEvent = new TestEvent
             {
-                Id = Id,
+                Id = _id,
                 IntProperty = intPropertyValue,
                 StringProperty = stringPropertyValue
             };
@@ -59,7 +59,7 @@ namespace CQRSTutorial.DAL.Tests
 
             var testEvent = new TestEvent
             {
-                Id = Id,
+                Id = _id,
                 IntProperty = intPropertyValue,
                 StringProperty = stringPropertyValue
             };

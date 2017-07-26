@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
@@ -9,7 +10,7 @@ namespace CQRSTutorial.DAL.Tests
     [TestFixture]
     public class EventReceiverTests
     {
-        private readonly Guid _aggregateId = new Guid();
+        private readonly Guid _aggregateId = new Guid("8E3337B6-7378-445B-BD43-61D56624C10E");
         private EventReceiver _eventReceiver;
         private TestEvent _testEvent;
         private TestEvent2 _testEvent2;
@@ -32,10 +33,12 @@ namespace CQRSTutorial.DAL.Tests
 
             _testEvent = new TestEvent
             {
+                Id = new Guid("B3C9CBC3-E09B-4C9E-A331-FA11BC3185F9"),
                 AggregateId = _aggregateId
             };
             _testEvent2 = new TestEvent2
             {
+                Id = new Guid("259C8A26-5BCC-4986-8C15-6BE305195923"),
                 AggregateId = _aggregateId
             };
         }
@@ -106,28 +109,28 @@ namespace CQRSTutorial.DAL.Tests
 
         private void AssertThatEventSavedToTable(string tableName)
         {
-            var sql = $"SELECT COUNT(*) FROM {tableName} WHERE Id = {_testEvent.Id}";
+            var sql = $"SELECT COUNT(*) FROM {tableName} WHERE Id = '{_testEvent.Id}'";
             Console.WriteLine(sql);
             var numberOfEventsInserted =
                 _sqlExecutor.ExecuteScalar<int>(sql);
             Assert.That(numberOfEventsInserted, Is.EqualTo(1));
         }
 
-        private void AssertThatNoEventsSavedToEventsToPublishTable(params int[] ids)
+        private void AssertThatNoEventsSavedToEventsToPublishTable(params Guid[] ids)
         {
             AssertThatNoEventsSavedToTable(ids, EventsToPublishTableName);
         }
 
-        private void AssertThatNoEventsSavedToEventStore(params int[] ids)
+        private void AssertThatNoEventsSavedToEventStore(params Guid[] ids)
         {
             AssertThatNoEventsSavedToTable(ids, EventStoreTableName);
         }
 
-        private void AssertThatNoEventsSavedToTable(int[] ids, string tableName)
+        private void AssertThatNoEventsSavedToTable(Guid[] ids, string tableName)
         {
-            var commaSeparatedIds = string.Join(",", ids);
+            var commaSeparatedIdsEnclosedInSingleQuotes = string.Join(",", ids.Select(id => $"'{id}'"));
             var numberOfEventsInserted =
-                _sqlExecutor.ExecuteScalar<int>($"SELECT COUNT(*) FROM {tableName} WHERE Id IN ({commaSeparatedIds})");
+                _sqlExecutor.ExecuteScalar<int>($"SELECT COUNT(*) FROM {tableName} WHERE Id IN ({commaSeparatedIdsEnclosedInSingleQuotes})");
             Assert.That(numberOfEventsInserted, Is.EqualTo(0));
         }
 
@@ -143,7 +146,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private void DeleteNewlyInsertedEventFromTable(string tableName)
         {
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM {tableName} WHERE Id = {_testEvent.Id}");
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM {tableName} WHERE Id = '{_testEvent.Id}'");
         }
     }
 }

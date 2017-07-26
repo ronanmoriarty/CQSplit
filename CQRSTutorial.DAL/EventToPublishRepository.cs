@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CQRSTutorial.Core;
 using Newtonsoft.Json;
 using NHibernate;
@@ -31,7 +32,7 @@ namespace CQRSTutorial.DAL
             SaveOrUpdate(eventToPublish);
         }
 
-        public IEvent Read(int id)
+        public IEvent Read(Guid id)
         {
             var eventToPublish = Get(id);
             return _eventToPublishMapper.MapToEvent(eventToPublish);

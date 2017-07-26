@@ -25,7 +25,7 @@ namespace CQRSTutorial.DAL.Tests
         public Action<IEvent> OnBeforeAdding { get; set; } = @event => { };
         public Action<IEvent> OnAfterAdding { get; set; } = @event => { };
 
-        public IEvent Read(int id)
+        public IEvent Read(Guid id)
         {
             return _eventRepository.Read(id);
         }

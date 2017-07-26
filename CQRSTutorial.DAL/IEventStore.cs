@@ -7,7 +7,7 @@ namespace CQRSTutorial.DAL
     public interface IEventStore : IHaveUnitOfWork
     {
         void Add(IEvent @event);
-        IEvent Read(int id);
+        IEvent Read(Guid id);
         IEnumerable<IEvent> GetAllEventsFor(Guid aggregateId);
     }
 }

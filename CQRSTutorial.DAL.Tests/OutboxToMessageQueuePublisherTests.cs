@@ -30,7 +30,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             var testEvent = new TestEvent
             {
-                AggregateId = new Guid(),
+                AggregateId = new Guid("97288F2F-E4FB-40FB-A848-5BBF824F1B38"),
                 IntProperty = 234,
                 StringProperty = "John"
             };
@@ -83,7 +83,7 @@ namespace CQRSTutorial.DAL.Tests
         public void Deletes_published_messages_from_outbox()
         {
             var sessionFactory = SessionFactory.Instance;
-            int tabOpenedId;
+            Guid tabOpenedId;
             var publishLocation = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue2";
             var eventToPublishMapper = new EventToPublishMapper(Assembly.GetExecutingAssembly());
             using (var session = SessionFactory.Instance.OpenSession())
@@ -101,7 +101,7 @@ namespace CQRSTutorial.DAL.Tests
 
                 var testEvent = new TestEvent
                 {
-                    AggregateId = new Guid(),
+                    AggregateId = new Guid("45BE9A71-AEE0-44D8-B31F-33C9F6417377"),
                     IntProperty = 456,
                     StringProperty = "Mary"
                 };
@@ -133,7 +133,7 @@ namespace CQRSTutorial.DAL.Tests
                 const int oneSecond = 1000; // i.e. 1000 ms.
                 Thread.Sleep(oneSecond);
 
-                var numberOfEvents = _sqlExecutor.ExecuteScalar<int>($"SELECT COUNT(*) FROM dbo.EventsToPublish WHERE Id = {tabOpenedId}");
+                var numberOfEvents = _sqlExecutor.ExecuteScalar<int>($"SELECT COUNT(*) FROM dbo.EventsToPublish WHERE Id = '{tabOpenedId}'");
                 Assert.That(numberOfEvents, Is.EqualTo(0));
             }
         }
@@ -157,9 +157,9 @@ namespace CQRSTutorial.DAL.Tests
             });
         }
 
-        private void DeleteNewlyInsertedRow(int id)
+        private void DeleteNewlyInsertedRow(Guid id)
         {
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = {id}");
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = '{id}'");
         }
     }
 }

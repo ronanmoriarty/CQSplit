@@ -23,16 +23,18 @@ namespace CQRSTutorial.DAL
         {
             var eventToStore = new Event
             {
+                Id = @event.Id,
                 AggregateId = @event.AggregateId,
                 EventType = @event.GetType().Name,
                 Data = JsonConvert.SerializeObject(@event),
                 Created = DateTime.Now
             };
             SaveOrUpdate(eventToStore);
+
             UpdateEventIdToReflectIdAssignedByNHibernateToEventToStore(@event, eventToStore);
         }
 
-        public IEvent Read(int id)
+        public IEvent Read(Guid id)
         {
             var storedEvent = Get(id);
             return _eventMapper.MapToEvent(storedEvent);
