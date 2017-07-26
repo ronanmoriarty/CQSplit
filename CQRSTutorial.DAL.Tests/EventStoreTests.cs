@@ -12,6 +12,7 @@ namespace CQRSTutorial.DAL.Tests
     {
         private IEvent _retrievedEvent;
         private readonly Guid _aggregateId = new Guid("0227C779-D2FC-4A26-B549-DA82FB00C87C");
+        private readonly Guid _commandId = new Guid("5C81C689-FEAA-4420-9B92-AE6C8D08EF3D");
         private EventStore _repository;
         private ISession _session;
 
@@ -35,6 +36,7 @@ namespace CQRSTutorial.DAL.Tests
             var testEvent = new TestEvent
             {
                 AggregateId = _aggregateId,
+                CommandId = _commandId,
                 IntProperty = intPropertyValue,
                 StringProperty = stringPropertyValue
             };
@@ -45,6 +47,7 @@ namespace CQRSTutorial.DAL.Tests
             var retrievedTabOpenedEvent = (TestEvent) _retrievedEvent;
             Assert.That(retrievedTabOpenedEvent.Id, Is.Not.Null);
             Assert.That(retrievedTabOpenedEvent.AggregateId, Is.EqualTo(testEvent.AggregateId));
+            Assert.That(retrievedTabOpenedEvent.CommandId, Is.EqualTo(testEvent.CommandId));
             Assert.That(retrievedTabOpenedEvent.IntProperty, Is.EqualTo(intPropertyValue));
             Assert.That(retrievedTabOpenedEvent.StringProperty, Is.EqualTo(stringPropertyValue));
         }

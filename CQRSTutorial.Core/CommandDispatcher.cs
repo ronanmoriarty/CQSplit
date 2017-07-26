@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
 namespace CQRSTutorial.Core
 {
-    public class CommandDispatcher
+    public class CommandDispatcher : ICommandDispatcher
     {
         private readonly IEventReceiver _eventReceiver;
         private readonly IAggregateStore _aggregateStore;
@@ -20,6 +21,7 @@ namespace CQRSTutorial.Core
 
         public void Dispatch(params ICommand[] commands)
         {
+            EnsureAllCommandsHaveIdSet(commands);
             foreach (var command in commands)
             {
                 var handler = GetCommandHandlerFor(command);
@@ -38,22 +40,18 @@ namespace CQRSTutorial.Core
             }
         }
 
+        private void EnsureAllCommandsHaveIdSet(ICommand[] commands)
+        {
+            if (commands.Any(command => command.Id == Guid.Empty))
+            {
+                throw new ArgumentException("At least one command does not have Id set.");
+            }
+        }
+
         private object GetCommandHandlerFor(ICommand command)
         {
-            try
-            {
-                object handler = _aggregateStore.GetCommandHandler(command);
-                if (handler == null)
-                {
-                    throw new Exception($"Could not find any handler to handle command of type {command.GetType()}");
-                }
-
-                return handler;
-            }
-            catch (InvalidOperationException)
-            {
-                throw new ArgumentException($"More than one type found that can handle {command.GetType()} commands");
-            }
+            object handler = _aggregateStore.GetCommandHandler(command);
+            return handler;
         }
 
         private string GetHandleMethodName()

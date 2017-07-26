@@ -40,11 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AggregateStore.cs" />
     <Compile Include="CommandDispatcher.cs" />
     <Compile Include="EventApplier.cs" />
     <Compile Include="IAggregateStore.cs" />
     <Compile Include="IApplyEvent.cs" />
     <Compile Include="ICommand.cs" />
+    <Compile Include="ICommandDispatcher.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="IEventReceiver.cs" />

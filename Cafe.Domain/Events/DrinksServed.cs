@@ -8,6 +8,7 @@ namespace Cafe.Domain.Events
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
+        public Guid CommandId { get; set; }
 
         public List<int> MenuNumbers;
     }

@@ -6,7 +6,8 @@ namespace Cafe.Domain.Commands
 {
     public class PlaceOrder : ICommand
     {
-        public List<OrderedItem> Items { get; set; }
+        public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
+        public List<OrderedItem> Items { get; set; }
     }
 }

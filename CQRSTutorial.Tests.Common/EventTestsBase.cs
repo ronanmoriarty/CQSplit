@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CQRSTutorial.Core;
@@ -56,9 +57,30 @@ namespace CQRSTutorial.Tests.Common
 
         private bool AtLeastOneEventMatches(object expectedEvent, IEnumerable<IEvent> events)
         {
-            var compareLogic = new CompareLogic();
-            var matchingEvents = events.Where(@event => compareLogic.Compare(@event, expectedEvent).AreEqual);
+            var compareEverythingExceptIdProperty = CompareEverythingExceptIdProperty();
+            var matchingEvents = events.Where(@event =>
+                compareEverythingExceptIdProperty.Compare(@event, expectedEvent).AreEqual
+                && EnsureIdHasNonEmptyValue(@event)
+            );
+
             return matchingEvents.Any();
+        }
+
+        private static bool EnsureIdHasNonEmptyValue(IEvent @event)
+        {
+            return @event.Id != Guid.Empty;
+        }
+
+        private static CompareLogic CompareEverythingExceptIdProperty()
+        {
+            var compareLogic = new CompareLogic
+            {
+                Config =
+                {
+                    MembersToIgnore = new List<string> {"Id"}
+                }
+            };
+            return compareLogic;
         }
 
         private void HandleCommands()
