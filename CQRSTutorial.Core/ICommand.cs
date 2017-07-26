@@ -2,6 +2,7 @@
 {
     public interface ICommand
     {
-        // just a marker interface
+        int AggregateId { get; set; }
+
     }
 }

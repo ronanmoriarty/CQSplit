@@ -14,7 +14,7 @@ namespace Cafe.Domain
                     && interfaceType.GetGenericTypeDefinition() == typeof(ICommandHandler<>)
                     && interfaceType.GenericTypeArguments.Single() == command.GetType());
 
-            return canHandleThisTypeOfCommand && ((ICommandWithAggregateId)command).AggregateId == id;
+            return canHandleThisTypeOfCommand && command.AggregateId == id;
         }
     }
 }

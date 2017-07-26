@@ -6,5 +6,6 @@ namespace Cafe.Domain.Commands
     {
         public int TableNumber { get; set; }
         public string Waiter { get; set; }
+        public int AggregateId { get; set; }
     }
 }

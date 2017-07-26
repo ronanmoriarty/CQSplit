@@ -46,7 +46,6 @@
     <Compile Include="IApplyEvent.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="ICommandHandler.cs" />
-    <Compile Include="ICommandWithAggregateId.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="IEventReceiver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

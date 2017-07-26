@@ -2,7 +2,7 @@
 
 namespace Cafe.Domain.Commands
 {
-    public class CloseTab : ICommandWithAggregateId
+    public class CloseTab : ICommand
     {
         public int Id;
         public decimal AmountPaid;
