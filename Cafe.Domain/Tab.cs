@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
-using Cafe.Domain.Exceptions;
 using CQRSTutorial.Core;
 
 namespace Cafe.Domain

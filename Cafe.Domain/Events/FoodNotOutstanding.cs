@@ -1,7 +1,7 @@
 ﻿using System;
 using CQRSTutorial.Core;
 
-namespace Cafe.Domain.Exceptions
+namespace Cafe.Domain.Events
 {
     public class FoodNotOutstanding : IEvent
     {
