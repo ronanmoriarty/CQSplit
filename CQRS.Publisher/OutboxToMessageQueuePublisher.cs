@@ -6,26 +6,36 @@ namespace CQRSTutorial.Publisher
 {
     public class OutboxToMessageQueuePublisher
     {
-        private readonly EventToPublishRepository _repository;
+        private readonly EventToPublishRepository _eventToPublishRepository;
         private readonly MessageBusEventPublisher _messageBusEventPublisher;
         private readonly EventToPublishMapper _eventToPublishMapper;
+        private readonly Func<IUnitOfWork> _createUnitOfWork;
 
-        public OutboxToMessageQueuePublisher(EventToPublishRepository repository, MessageBusEventPublisher messageBusEventPublisher, EventToPublishMapper eventToPublishMapper)
+        public OutboxToMessageQueuePublisher(EventToPublishRepository eventToPublishRepository,
+            MessageBusEventPublisher messageBusEventPublisher,
+            EventToPublishMapper eventToPublishMapper,
+            Func<IUnitOfWork> createUnitOfWork)
         {
-            _repository = repository;
+            _eventToPublishRepository = eventToPublishRepository;
             _messageBusEventPublisher = messageBusEventPublisher;
             _eventToPublishMapper = eventToPublishMapper;
+            _createUnitOfWork = createUnitOfWork;
         }
 
         public void PublishQueuedMessages()
         {
-            var eventsToPublish = _repository.GetEventsAwaitingPublishing();
+            var eventsToPublish = _eventToPublishRepository.GetEventsAwaitingPublishing();
             foreach (var eventToPublish in eventsToPublish)
             {
                 var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
                 Console.WriteLine($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]..."); // TODO need to see how to specify queue / channel / topic when publishing
                 _messageBusEventPublisher.Receive(new []{ @event });
-                _repository.Delete(eventToPublish);
+                using (var unitOfWork = _createUnitOfWork())
+                {
+                    _eventToPublishRepository.UnitOfWork = unitOfWork;
+                    _eventToPublishRepository.Delete(eventToPublish);
+                    unitOfWork.Commit();
+                }
             }
         }
     }

@@ -18,7 +18,8 @@ namespace Cafe.Waiter.Publisher.Console
             (
                 eventToPublishRepository,
                 messageBusEventPublisher,
-                eventToPublishMapper
+                eventToPublishMapper,
+                () => new NHibernateUnitOfWork(sessionFactory.OpenSession())
             );
 
             publisher.PublishQueuedMessages();

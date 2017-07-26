@@ -65,7 +65,7 @@ namespace CQRSTutorial.DAL.Tests
                     {
                         UnitOfWork = new NHibernateUnitOfWork(session)
                     };
-                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventToPublishRepository, messageBusEventPublisher, eventToPublishMapper);
+                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventToPublishRepository, messageBusEventPublisher, eventToPublishMapper, () => new NHibernateUnitOfWork(session));
                     outboxToMessageQueuePublisher.PublishQueuedMessages();
                     const int oneSecond = 1000; // i.e. 1000 ms.
                     Thread.Sleep(oneSecond);
@@ -124,7 +124,7 @@ namespace CQRSTutorial.DAL.Tests
                         new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(),
                         (sbc, host) => ConfigureTestReceiver(sbc, host, publishLocation))
                     );
-                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventToPublishRepository, messageBusEventPublisher, eventToPublishMapper);
+                    var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(eventToPublishRepository, messageBusEventPublisher, eventToPublishMapper, () => new NHibernateUnitOfWork(session));
 
                     outboxToMessageQueuePublisher.PublishQueuedMessages();
                     transaction.Commit();
