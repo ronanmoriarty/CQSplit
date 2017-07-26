@@ -35,7 +35,13 @@ namespace Cafe.Domain
         {
             if (!AllItemsBeingServedWereOrdered(command.MenuNumbers, _foodAwaitingServing))
             {
-                return new IEvent[] { new FoodNotOutstanding() };
+                return new IEvent[]
+                {
+                    new FoodNotOutstanding
+                    {
+                        Id = Guid.NewGuid()
+                    }
+                };
             }
 
             UpdateItemsAwaitingServing(command.MenuNumbers, _foodAwaitingServing);
@@ -44,6 +50,7 @@ namespace Cafe.Domain
             {
                 new FoodServed
                 {
+                    Id = Guid.NewGuid(),
                     AggregateId = command.AggregateId,
                     MenuNumbers = command.MenuNumbers
                 }
@@ -54,7 +61,13 @@ namespace Cafe.Domain
         {
             if (!AllItemsBeingServedWereOrdered(command.MenuNumbers, _drinksAwaitingServing))
             {
-                return new IEvent[] { new DrinksNotOutstanding() };
+                return new IEvent[]
+                {
+                    new DrinksNotOutstanding
+                    {
+                        Id = Guid.NewGuid()
+                    }
+                };
             }
 
             UpdateItemsAwaitingServing(command.MenuNumbers, _drinksAwaitingServing);
@@ -63,6 +76,7 @@ namespace Cafe.Domain
             {
                 new DrinksServed
                 {
+                    Id = Guid.NewGuid(),
                     AggregateId = command.AggregateId,
                     MenuNumbers = command.MenuNumbers
                 }
@@ -75,6 +89,7 @@ namespace Cafe.Domain
             {
                 new TabClosed
                 {
+                    Id = Guid.NewGuid(),
                     AggregateId = command.AggregateId,
                     AmountPaid = command.AmountPaid,
                     OrderValue = _totalValueOfServedItems,
@@ -114,6 +129,7 @@ namespace Cafe.Domain
             {
                 new FoodOrdered
                 {
+                    Id = Guid.NewGuid(),
                     AggregateId = command.AggregateId,
                     Items = food
                 }
@@ -132,6 +148,7 @@ namespace Cafe.Domain
             {
                 new DrinksOrdered
                 {
+                    Id = Guid.NewGuid(),
                     AggregateId = command.AggregateId,
                     Items = drinks
                 }

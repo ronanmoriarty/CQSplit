@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using CQRSTutorial.Core;
@@ -13,6 +14,7 @@ namespace Cafe.Domain
             {
                 new TabOpened
                 {
+                    Id = Guid.NewGuid(),
                     AggregateId = command.AggregateId,
                     TableNumber = command.TableNumber,
                     Waiter = command.Waiter
