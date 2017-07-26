@@ -40,6 +40,7 @@ namespace Cafe.Domain
                     new FoodNotOutstanding
                     {
                         Id = Guid.NewGuid(),
+                        AggregateId = command.AggregateId,
                         CommandId = command.Id
                     }
                 };
@@ -68,6 +69,7 @@ namespace Cafe.Domain
                     new DrinksNotOutstanding
                     {
                         Id = Guid.NewGuid(),
+                        AggregateId = command.AggregateId,
                         CommandId = command.Id
                     }
                 };

@@ -316,6 +316,7 @@ namespace Cafe.Domain.Tests
 
             Then(new DrinksNotOutstanding
             {
+                AggregateId = _tabId1,
                 CommandId = _commandId
             });
         }
@@ -361,6 +362,7 @@ namespace Cafe.Domain.Tests
 
             Then(new FoodNotOutstanding
             {
+                AggregateId = _tabId1,
                 CommandId = _commandId
             });
         }
@@ -404,6 +406,7 @@ namespace Cafe.Domain.Tests
 
             Then(new DrinksNotOutstanding
             {
+                AggregateId = _tabId1,
                 CommandId = _commandId
             });
         }
@@ -447,6 +450,7 @@ namespace Cafe.Domain.Tests
 
             Then(new FoodNotOutstanding
             {
+                AggregateId = _tabId1,
                 CommandId = _commandId
             });
         }
@@ -493,6 +497,7 @@ namespace Cafe.Domain.Tests
 
             Then(new DrinksNotOutstanding
             {
+                AggregateId = _tabId1,
                 CommandId = markDrinksServedCommandId
             });
 
@@ -553,6 +558,7 @@ namespace Cafe.Domain.Tests
 
             Then(new FoodNotOutstanding
             {
+                AggregateId = _tabId1,
                 CommandId = markFoodServedCommandId
             });
 
