@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cafe.Domain;
 using Cafe.Domain.Events;
@@ -21,7 +22,7 @@ namespace Cafe.Waiter.DAL.Tests
         private const int DrinkMenuNumber = 345;
         private const decimal DrinkPrice = 2.5m;
         private TabRepository _tabRepository;
-        private const int TabId = -1;
+        private readonly Guid _tabId = new Guid("E6BC4329-FE80-4EF7-9F4C-EBF2F10DC37A");
         private TabInspector _tabInspector;
         private EventStore _repository;
         private ISession _session;
@@ -30,7 +31,7 @@ namespace Cafe.Waiter.DAL.Tests
         public void SetUp()
         {
             var sqlExecutor = new SqlExecutor();
-            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = {TabId}");
+            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_tabId}'");
             _tabRepository = new TabRepository(new EventStore(SessionFactory.Instance, new EventMapper(typeof(TabOpened).Assembly)), new EventApplier(new TypeInspector()));
             _repository = CreateRepository();
         }
@@ -55,8 +56,8 @@ namespace Cafe.Waiter.DAL.Tests
 
             var tabOpened = new TabOpened
             {
-                Id = -1,
-                AggregateId = TabId,
+                Id = new Guid("7F85BE15-94E4-4536-80B8-DF301ACA47F2"),
+                AggregateId = _tabId,
                 TableNumber = tableNumber,
                 Waiter = waiter
             };
@@ -68,8 +69,8 @@ namespace Cafe.Waiter.DAL.Tests
         {
             var foodOrdered = new FoodOrdered
             {
-                Id = -2,
-                AggregateId = TabId,
+                Id = new Guid("E259269A-F46E-4524-92A1-60DAC14339A6"),
+                AggregateId = _tabId,
                 Items = new List<OrderedItem>
                 {
                     new OrderedItem
@@ -89,8 +90,8 @@ namespace Cafe.Waiter.DAL.Tests
         {
             var foodOrdered = new DrinksOrdered
             {
-                Id = -3,
-                AggregateId = TabId,
+                Id = new Guid("ACA9FBEF-F005-4F7F-99B8-9ED9B7855264"),
+                AggregateId = _tabId,
                 Items = new List<OrderedItem>
                 {
                     new OrderedItem
@@ -108,7 +109,7 @@ namespace Cafe.Waiter.DAL.Tests
 
         private void WhenTabRetrievedFromRepository()
         {
-            _tabInspector = new TabInspector(_tabRepository.Get(TabId));
+            _tabInspector = new TabInspector(_tabRepository.Get(_tabId));
         }
 
         private void AssertTabReflectsAllSavedEvents()

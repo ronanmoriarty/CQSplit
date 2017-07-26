@@ -1,10 +1,11 @@
+using System;
 using CQRSTutorial.Core;
 
 namespace Cafe.Domain
 {
     public abstract class Aggregate
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public bool CanHandle(ICommand command)
         {

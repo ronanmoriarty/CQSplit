@@ -1,7 +1,9 @@
-﻿namespace CQRSTutorial.Core
+﻿using System;
+
+namespace CQRSTutorial.Core
 {
     public interface ICommand
     {
-        // just a marker interface
+        Guid AggregateId { get; set; }
     }
 }

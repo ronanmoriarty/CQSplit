@@ -1,10 +1,11 @@
-﻿using CQRSTutorial.Core;
+﻿using System;
+using CQRSTutorial.Core;
 
 namespace CQRSTutorial.DAL
 {
     public interface IEventRepository : IHaveUnitOfWork
     {
         void Add(IEvent @event);
-        IEvent Read(int id);
+        IEvent Read(Guid id);
     }
 }

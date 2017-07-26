@@ -1,4 +1,5 @@
-﻿using Cafe.Domain;
+﻿using System;
+using Cafe.Domain;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 
@@ -15,7 +16,7 @@ namespace Cafe.Waiter.DAL
             _eventApplier = eventApplier;
         }
 
-        public Tab Get(int tabId)
+        public Tab Get(Guid tabId)
         {
             var events = _eventStore.GetAllEventsFor(tabId);
             var tab = new Tab();

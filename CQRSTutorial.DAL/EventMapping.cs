@@ -7,7 +7,7 @@ namespace CQRSTutorial.DAL
     {
         public void Override(AutoMapping<Event> mapping)
         {
-            mapping.Id(x => x.Id).GeneratedBy.Identity();
+            mapping.Id(x => x.Id).GeneratedBy.Assigned();
             mapping.Table("Events");
         }
     }
