@@ -42,7 +42,7 @@ namespace Cafe.Waiter.Web.Controllers
         {
             var openTabCommand = CreateOpenTabCommand();
             _commandDispatcher.Dispatch(openTabCommand);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new {tabId = openTabCommand.Id});
         }
 
         private OpenTab CreateOpenTabCommand()

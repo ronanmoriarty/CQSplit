@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Cafe.Domain.Commands;
 using Cafe.Waiter.Web.Controllers;
@@ -30,16 +31,25 @@ namespace Cafe.Waiter.Web.Tests
         }
 
         [Test]
-        public void Creating_tab_redirects_to_index_action()
+        public void Creating_tab_redirects_to_index_action_indicating_id_of_newly_created_tab()
         {
+            var commandId = GetOpenTabCommandId();
             var redirectToRouteResult = (RedirectToRouteResult)_actionResult;
             Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("Index"));
+            Assert.That(redirectToRouteResult.RouteValues["tabId"], Is.EqualTo(commandId));
         }
 
         private bool HasIdPropertiesSet(OpenTab command)
         {
             return command.Id != Guid.Empty
                 && command.AggregateId != Guid.Empty;
+        }
+
+        private Guid GetOpenTabCommandId()
+        {
+            var commands = (ICommand[])_commandDispatcher.ReceivedCalls().Single().GetArguments().Single();
+            var openTabCommand = (OpenTab)commands[0];
+            return openTabCommand.Id;
         }
     }
 }
