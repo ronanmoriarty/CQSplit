@@ -15,7 +15,7 @@ namespace CQRSTutorial.DAL.Tests
         private TestEvent _testEvent;
         private TestEvent2 _testEvent2;
         private SqlExecutor _sqlExecutor;
-        private EventRepositoryDecorator _eventRepositoryDecorator;
+        private EventToPublishRepositoryDecorator _eventToPublishRepositoryDecorator;
         private IEventStore _eventStore;
         private const string EventsToPublishTableName = "dbo.EventsToPublish";
         private const string EventStoreTableName = "dbo.Events";
@@ -24,12 +24,18 @@ namespace CQRSTutorial.DAL.Tests
         public void SetUp()
         {
             _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
-            _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventToPublishRepository(SessionFactory.Instance, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper(Assembly.GetExecutingAssembly())));
+            _eventToPublishRepositoryDecorator = CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(
+                new EventToPublishRepository(
+                    SessionFactory.Instance,
+                    new TestPublishConfiguration("some.rabbitmq.topic.*"),
+                    new EventToPublishMapper(Assembly.GetExecutingAssembly())
+                )
+            );
             _eventStore = new EventStore(SessionFactory.Instance, new EventMapper(Assembly.GetExecutingAssembly()));
             _eventReceiver = new EventReceiver(
                 new NHibernateUnitOfWorkFactory(SessionFactory.Instance),
                 _eventStore,
-                _eventRepositoryDecorator);
+                _eventToPublishRepositoryDecorator);
 
             _testEvent = new TestEvent
             {
@@ -79,15 +85,15 @@ namespace CQRSTutorial.DAL.Tests
             }
         }
 
-        private EventRepositoryDecorator CreateEventRepositoryThatCanSimulateSqlExceptions(IEventRepository eventRepositoryToWrap)
+        private EventToPublishRepositoryDecorator CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(EventToPublishRepository innerEventToPublishRepository)
         {
-            return new EventRepositoryDecorator(eventRepositoryToWrap);
+            return new EventToPublishRepositoryDecorator(innerEventToPublishRepository);
         }
 
         private void AssumingSecondSaveCausesException()
         {
             int numberOfEventsAdded = 0;
-            _eventRepositoryDecorator.OnBeforeAdding = @event =>
+            _eventToPublishRepositoryDecorator.OnBeforeAdding = @event =>
             {
                 numberOfEventsAdded++;
                 if (numberOfEventsAdded == 2)

@@ -13,7 +13,7 @@ namespace CQRSTutorial.DAL.Tests
         private IEvent _retrievedEvent;
         private IPublishConfiguration _publishConfiguration;
         private const string PublishLocation = "some.rabbitmq.topic.*";
-        private EventToPublishRepository _repository;
+        private EventToPublishRepository _eventToPublishRepository;
         private ISession _session;
         private readonly Guid _id = new Guid("8BDD0C3C-2680-4678-BFB9-4D379C2DD208");
 
@@ -25,8 +25,8 @@ namespace CQRSTutorial.DAL.Tests
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);
             _session = SessionFactory.Instance.OpenSession();
             _session.BeginTransaction();
-            _repository = CreateRepository();
-            _repository.UnitOfWork = new NHibernateUnitOfWork(_session);
+            _eventToPublishRepository = CreateRepository();
+            _eventToPublishRepository.UnitOfWork = new NHibernateUnitOfWork(_session);
         }
 
         [Test]
@@ -64,9 +64,9 @@ namespace CQRSTutorial.DAL.Tests
                 StringProperty = stringPropertyValue
             };
 
-            _repository.Add(testEvent);
+            _eventToPublishRepository.Add(testEvent);
             _session.Transaction.Commit();
-            var eventToPublish = _repository.Get(testEvent.Id);
+            var eventToPublish = _eventToPublishRepository.Get(testEvent.Id);
 
             Assert.That(eventToPublish.PublishTo, Is.EqualTo(PublishLocation));
         }
@@ -78,9 +78,9 @@ namespace CQRSTutorial.DAL.Tests
 
         private void InsertAndRead(IEvent @event)
         {
-            _repository.Add(@event);
+            _eventToPublishRepository.Add(@event);
             _session.Transaction.Commit();
-            _retrievedEvent = _repository.Read(@event.Id);
+            _retrievedEvent = _eventToPublishRepository.Read(@event.Id);
         }
     }
 

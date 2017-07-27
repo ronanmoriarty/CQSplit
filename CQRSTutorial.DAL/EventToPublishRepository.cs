@@ -6,7 +6,7 @@ using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventToPublishRepository : RepositoryBase<EventToPublish>, IEventRepository
+    public class EventToPublishRepository : RepositoryBase<EventToPublish>, IEventToPublishRepository
     {
         private readonly IPublishConfiguration _publishConfiguration;
         private readonly EventToPublishMapper _eventToPublishMapper;
