@@ -17,7 +17,7 @@ namespace CQRSTutorial.DAL.Tests
         private const string Reason = @"These tests are very flaky. These tests trip over each other as they don't take account of the fact that
             MassTransit uses fanout exchanges, and so the queues that were intended to be test-specific receive messages created by both tests.
             These tests are completely unreadable too but will refactor after I figure out how I want to test with fanout exchanges.";
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor();
+        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
 
         [SetUp]
         public void SetUp()

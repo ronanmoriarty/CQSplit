@@ -20,7 +20,7 @@ namespace CQRSTutorial.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            var sqlExecutor = new SqlExecutor();
+            var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = '{_id}'"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
             _publishConfiguration = new TestPublishConfiguration(PublishLocation);
             _session = SessionFactory.Instance.OpenSession();

@@ -9,7 +9,7 @@ namespace CQRSTutorial.DAL.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            var connectionStringProviderFactory = new ConnectionStringProviderFactory("CQRSTutorial.Cafe.Waiter", "CQRSTUTORIAL_CAFE_WAITER_CONNECTIONSTRING_OVERRIDE");
+            var connectionStringProviderFactory = WriteModelConnectionStringProviderFactory.Instance;
             var nHibernateConfiguration = new NHibernateConfiguration(connectionStringProviderFactory);
             SessionFactory.Instance = nHibernateConfiguration.CreateSessionFactory();
         }

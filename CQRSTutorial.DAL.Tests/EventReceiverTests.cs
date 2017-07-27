@@ -23,7 +23,7 @@ namespace CQRSTutorial.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            _sqlExecutor = new SqlExecutor();
+            _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
             _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventToPublishRepository(SessionFactory.Instance, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper(Assembly.GetExecutingAssembly())));
             _eventStore = new EventStore(SessionFactory.Instance, new EventMapper(Assembly.GetExecutingAssembly()));
             _eventReceiver = new EventReceiver(

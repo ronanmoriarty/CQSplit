@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Cafe.Domain.Events;
+using Cafe.Waiter.DAL;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
 using CQRSTutorial.Publisher;
@@ -13,7 +14,7 @@ namespace Cafe.Waiter.Publish.Service
 
         static void Main(string[] args)
         {
-            var connectionStringProviderFactory = new ConnectionStringProviderFactory("CQRSTutorial.Cafe.Waiter", "CQRSTUTORIAL_CAFE_WAITER_CONNECTIONSTRING_OVERRIDE");
+            var connectionStringProviderFactory = WriteModelConnectionStringProviderFactory.Instance;
             var sessionFactory = new NHibernateConfiguration(connectionStringProviderFactory).CreateSessionFactory();
             var eventToPublishMapper = new EventToPublishMapper(typeof(TabOpened).Assembly);
             var eventToPublishRepository = new EventToPublishRepository(sessionFactory, new PublishConfiguration(), eventToPublishMapper);

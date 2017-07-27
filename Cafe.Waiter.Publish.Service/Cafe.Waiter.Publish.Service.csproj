@@ -95,6 +95,10 @@
       <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
       <Name>Cafe.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cafe.Waiter.DAL\Cafe.Waiter.DAL.csproj">
+      <Project>{AFCE4964-C829-415E-9E8E-4286C5914496}</Project>
+      <Name>Cafe.Waiter.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CQRS.Publisher\CQRSTutorial.Publisher.csproj">
       <Project>{16b09e97-f528-4225-871d-ced500f9d659}</Project>
       <Name>CQRSTutorial.Publisher</Name>

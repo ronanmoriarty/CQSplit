@@ -5,9 +5,16 @@ namespace CQRSTutorial.DAL.Tests.Common
 {
     public class SqlExecutor
     {
+        private readonly ConnectionStringProviderFactory _connectionStringProviderFactory;
+
+        public SqlExecutor(ConnectionStringProviderFactory connectionStringProviderFactory)
+        {
+            _connectionStringProviderFactory = connectionStringProviderFactory;
+        }
+
         public T ExecuteScalar<T>(string commandText)
         {
-            using (var sqlConnection = new SqlConnection(GetConnectionStringProviderFactory().GetConnectionStringProvider().GetConnectionString()))
+            using (var sqlConnection = new SqlConnection(_connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString()))
             {
                 sqlConnection.Open();
                 using (var command = sqlConnection.CreateCommand())
@@ -21,7 +28,7 @@ namespace CQRSTutorial.DAL.Tests.Common
 
         public void ExecuteNonQuery(string commandText)
         {
-            using (var sqlConnection = new SqlConnection(GetConnectionStringProviderFactory().GetConnectionStringProvider().GetConnectionString()))
+            using (var sqlConnection = new SqlConnection(_connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString()))
             {
                 sqlConnection.Open();
                 using (var command = sqlConnection.CreateCommand())
@@ -30,11 +37,6 @@ namespace CQRSTutorial.DAL.Tests.Common
                     command.ExecuteNonQuery();
                 }
             }
-        }
-
-        private ConnectionStringProviderFactory GetConnectionStringProviderFactory()
-        {
-            return new ConnectionStringProviderFactory("CQRSTutorial.Cafe.Waiter", "CQRSTUTORIAL_CAFE_WAITER_CONNECTIONSTRING_OVERRIDE");
         }
     }
 }
