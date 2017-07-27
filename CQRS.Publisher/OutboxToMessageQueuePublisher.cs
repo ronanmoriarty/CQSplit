@@ -32,6 +32,7 @@ namespace CQRSTutorial.Publisher
                 _messageBusEventPublisher.Receive(new []{ @event });
                 using (var unitOfWork = _createUnitOfWork())
                 {
+                    unitOfWork.Start();
                     _eventToPublishRepository.UnitOfWork = unitOfWork;
                     _eventToPublishRepository.Delete(eventToPublish);
                     unitOfWork.Commit();
