@@ -28,7 +28,7 @@ namespace CQRSTutorial.Publisher
             foreach (var eventToPublish in eventsToPublish)
             {
                 var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
-                Console.WriteLine($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]..."); // TODO need to see how to specify queue / channel / topic when publishing
+                Console.WriteLine($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
                 _messageBusEventPublisher.Receive(new []{ @event });
                 using (var unitOfWork = _createUnitOfWork())
                 {
