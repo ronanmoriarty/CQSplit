@@ -136,8 +136,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private void CleanUpBeforeRunningTests()
         {
-            _sqlExecutor.ExecuteNonQuery(
-                $"DELETE FROM dbo.EventsToPublish WHERE PublishTo IN ('{nameof(OutboxToMessageQueuePublisherTests)}_queue1','{nameof(OutboxToMessageQueuePublisherTests)}_queue2')");
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{MessageId1}','{MessageId2}')");
         }
 
         private void ConfigureTestReceiver(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host, string queueName, Action onEventHandled)
