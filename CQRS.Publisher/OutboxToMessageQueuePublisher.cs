@@ -10,21 +10,24 @@ namespace CQRSTutorial.Publisher
         private readonly MessageBusEventPublisher _messageBusEventPublisher;
         private readonly EventToPublishMapper _eventToPublishMapper;
         private readonly Func<IUnitOfWork> _createUnitOfWork;
+        private readonly IOutboxToMessageQueuePublisherConfiguration _outboxToMessageQueuePublisherConfiguration;
 
         public OutboxToMessageQueuePublisher(EventToPublishRepository eventToPublishRepository,
             MessageBusEventPublisher messageBusEventPublisher,
             EventToPublishMapper eventToPublishMapper,
-            Func<IUnitOfWork> createUnitOfWork)
+            Func<IUnitOfWork> createUnitOfWork,
+            IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration)
         {
             _eventToPublishRepository = eventToPublishRepository;
             _messageBusEventPublisher = messageBusEventPublisher;
             _eventToPublishMapper = eventToPublishMapper;
             _createUnitOfWork = createUnitOfWork;
+            _outboxToMessageQueuePublisherConfiguration = outboxToMessageQueuePublisherConfiguration;
         }
 
         public void PublishQueuedMessages()
         {
-            var eventsToPublish = _eventToPublishRepository.GetEventsAwaitingPublishing();
+            var eventsToPublish = _eventToPublishRepository.GetEventsAwaitingPublishing(_outboxToMessageQueuePublisherConfiguration.BatchSize);
             foreach (var eventToPublish in eventsToPublish)
             {
                 var @event = _eventToPublishMapper.MapToEvent(eventToPublish);

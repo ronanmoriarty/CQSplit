@@ -24,7 +24,8 @@ namespace Cafe.Waiter.Publish.Service
                 eventToPublishRepository,
                 messageBusEventPublisher,
                 eventToPublishMapper,
-                () => new NHibernateUnitOfWork(sessionFactory.OpenSession())
+                () => new NHibernateUnitOfWork(sessionFactory.OpenSession()),
+                new OutboxToMessageQueuePublisherConfiguration()
             );
             var thread = new Thread(PublishQueuedEvents);
             thread.Start();

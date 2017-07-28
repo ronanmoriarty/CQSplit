@@ -35,7 +35,7 @@ namespace CQRSTutorial.DAL
             return _eventToPublishMapper.MapToEvent(eventToPublish);
         }
 
-        public IList<EventToPublish> GetEventsAwaitingPublishing(int batchSize = 10) // TODO: get rid of optional default (using default for now to minimise scope of changes required for newest tests).
+        public IList<EventToPublish> GetEventsAwaitingPublishing(int batchSize)
         {
             using (var session = SessionFactory.OpenSession())
             {

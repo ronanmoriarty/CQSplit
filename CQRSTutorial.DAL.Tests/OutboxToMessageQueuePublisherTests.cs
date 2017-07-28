@@ -8,6 +8,7 @@ using CQRSTutorial.Publisher;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
 using NHibernate;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
@@ -20,14 +21,17 @@ namespace CQRSTutorial.DAL.Tests
         private readonly EventToPublishMapper _eventToPublishMapper = new EventToPublishMapper(Assembly.GetExecutingAssembly());
         private static readonly string Queue1 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue1";
         private static readonly string Queue2 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue2";
+        private static readonly string Queue3 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue3";
         private static readonly Guid MessageId1 = new Guid("837505FF-F7C5-4F51-A6C6-F76A4980DF36");
         private static readonly Guid MessageId2 = new Guid("533DD041-5FC0-4C19-A574-0AD17C61639E");
         private static readonly Guid AggregateId1 = new Guid("97288F2F-E4FB-40FB-A848-5BBF824F1B38");
         private static readonly Guid AggregateId2 = new Guid("45BE9A71-AEE0-44D8-B31F-33C9F6417377");
         private readonly ManualResetEvent _manualResetEvent = new ManualResetEvent(false);
         private readonly ManualResetEvent _manualResetEvent2 = new ManualResetEvent(false);
+        private readonly ManualResetEvent _manualResetEvent3 = new ManualResetEvent(false);
         private TestEvent _testEvent1;
         private TestEvent _testEvent2;
+        private const int BatchSize = 123;
 
         [SetUp]
         public void SetUp()
@@ -63,7 +67,7 @@ namespace CQRSTutorial.DAL.Tests
                     _manualResetEvent.Set();
                 });
 
-            WhenQueuedMessageGetsPublished(messageBusEventPublisher);
+            WhenQueuedMessageGetsPublished(messageBusEventPublisher, new OutboxToMessageQueuePublisherConfiguration());
 
             var isSignalled = _manualResetEvent.WaitOne(3000);
             Console.WriteLine(isSignalled ? "Another thread unblocked this thread." : "Timeout");
@@ -77,12 +81,25 @@ namespace CQRSTutorial.DAL.Tests
 
             var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue2, () => _manualResetEvent2.Set());
 
-            WhenQueuedMessageGetsPublished(messageBusEventPublisher);
+            WhenQueuedMessageGetsPublished(messageBusEventPublisher, new OutboxToMessageQueuePublisherConfiguration());
 
             var isSignalled = _manualResetEvent2.WaitOne(3000);
             Console.WriteLine(isSignalled ? "Another thread unblocked this thread." : "Timeout");
             var numberOfEvents = _sqlExecutor.ExecuteScalar<int>($"SELECT COUNT(*) FROM dbo.EventsToPublish WHERE Id = '{MessageId2}'");
             Assert.That(numberOfEvents, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void Uses_batch_size_from_configuration()
+        {
+            var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue3, () => _manualResetEvent3.Set());
+            var outboxToMessageQueuePublisherConfiguration = Substitute.For<IOutboxToMessageQueuePublisherConfiguration>();
+            outboxToMessageQueuePublisherConfiguration.BatchSize.Returns(BatchSize);
+            WhenQueuedMessageGetsPublished(messageBusEventPublisher, outboxToMessageQueuePublisherConfiguration);
+
+            var isSignalled = _manualResetEvent3.WaitOne(3000);
+            Console.WriteLine(isSignalled ? "Another thread unblocked this thread." : "Timeout");
+            _eventToPublishRepository.Received(1).GetEventsAwaitingPublishing(Arg.Is(BatchSize));
         }
 
         private void AssumingMessageHasBeenQueuedForPublishing(IEvent testEvent)
@@ -99,20 +116,23 @@ namespace CQRSTutorial.DAL.Tests
             }
         }
 
-        private void WhenQueuedMessageGetsPublished(MessageBusEventPublisher messageBusEventPublisher)
+        private void WhenQueuedMessageGetsPublished(MessageBusEventPublisher messageBusEventPublisher,
+            IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration)
         {
-            var outboxToMessageQueuePublisher = CreateOutboxToMessageQueuePublisher(messageBusEventPublisher);
+            var outboxToMessageQueuePublisher = CreateOutboxToMessageQueuePublisher(messageBusEventPublisher, outboxToMessageQueuePublisherConfiguration);
             outboxToMessageQueuePublisher.PublishQueuedMessages();
         }
 
-        private OutboxToMessageQueuePublisher CreateOutboxToMessageQueuePublisher(MessageBusEventPublisher messageBusEventPublisher)
+        private OutboxToMessageQueuePublisher CreateOutboxToMessageQueuePublisher(MessageBusEventPublisher messageBusEventPublisher,
+            IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration)
         {
             var eventToPublishRepository = CreateEventToPublishRepository(new NHibernateUnitOfWork(_sessionFactory.OpenSession()));
             var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(
                 eventToPublishRepository,
                 messageBusEventPublisher,
                 _eventToPublishMapper,
-                () => new NHibernateUnitOfWork(_sessionFactory.OpenSession()));
+                () => new NHibernateUnitOfWork(_sessionFactory.OpenSession()),
+                outboxToMessageQueuePublisherConfiguration);
             return outboxToMessageQueuePublisher;
         }
 
