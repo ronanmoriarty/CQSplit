@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
+using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
 using NHibernate;
@@ -13,14 +15,17 @@ namespace CQRSTutorial.DAL.Tests
         private IEvent _retrievedEvent;
         private EventToPublishRepository _eventToPublishRepository;
         private ISession _session;
-        private readonly Guid _id = new Guid("8BDD0C3C-2680-4678-BFB9-4D379C2DD208");
         private SqlExecutor _sqlExecutor;
+        private readonly Guid _id = new Guid("8BDD0C3C-2680-4678-BFB9-4D379C2DD208");
+        private readonly Guid _id1 = new Guid("75BD91C8-AE33-4EA3-B7BF-8E2140433A62");
+        private readonly Guid _id2 = new Guid("DB0CBB04-4773-425F-A6B2-17A939568433");
+        private readonly Guid _id3 = new Guid("3A0A042A-D107-4876-B43C-347C0A7C0DAD");
 
         [SetUp]
         public void SetUp()
         {
             _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = '{_id}'"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
             _session = SessionFactory.Instance.OpenSession();
             _session.BeginTransaction();
             _eventToPublishRepository = CreateRepository();
@@ -47,12 +52,43 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(retrievedTabOpenedEvent.Id, Is.EqualTo(testEvent.Id));
             Assert.That(retrievedTabOpenedEvent.IntProperty, Is.EqualTo(intPropertyValue));
             Assert.That(retrievedTabOpenedEvent.StringProperty, Is.EqualTo(stringPropertyValue));
-            AssertCreated();
+            AssertCreated(_id);
         }
 
-        private void AssertCreated()
+        [Test]
+        public void WhenPublishing_MessagesReadOffQueueInChronologicalOrder()
         {
-            var createdDate = _sqlExecutor.ExecuteScalar<DateTime>($"SELECT Created FROM dbo.EventsToPublish WHERE Id = '{_id}'");
+            var testEvent1 = new TestEvent
+            {
+                Id = _id1
+            };
+            _eventToPublishRepository.Add(testEvent1);
+
+            Thread.Sleep(1000); // to ensure they don't get recorded with the same time. Doesn't seem to pick up values smaller than this in database for some reason (even though datetime held in DB to millisecond precision).
+            var testEvent2 = new TestEvent
+            {
+                Id = _id2
+            };
+            _eventToPublishRepository.Add(testEvent2);
+
+            Thread.Sleep(1000);
+            var testEvent3 = new TestEvent
+            {
+                Id = _id3
+            };
+            _eventToPublishRepository.Add(testEvent3);
+
+            _session.Transaction.Commit();
+
+            var batch = _eventToPublishRepository.GetEventsAwaitingPublishing(2);
+            Assert.That(batch.Count, Is.EqualTo(2));
+            Assert.That(batch.First().Id, Is.EqualTo(_id1));
+            Assert.That(batch.Last().Id, Is.EqualTo(_id2));
+        }
+
+        private void AssertCreated(Guid id)
+        {
+            var createdDate = _sqlExecutor.ExecuteScalar<DateTime>($"SELECT Created FROM dbo.EventsToPublish WHERE Id = '{id}'");
             var oneSecond = new TimeSpan(0,0,1);
             Assert.That(createdDate, Is.EqualTo(DateTime.Now).Within(oneSecond));
         }

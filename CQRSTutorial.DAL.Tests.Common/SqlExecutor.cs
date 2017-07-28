@@ -28,6 +28,7 @@ namespace CQRSTutorial.DAL.Tests.Common
 
         public void ExecuteNonQuery(string commandText)
         {
+            Console.WriteLine(commandText);
             using (var sqlConnection = new SqlConnection(_connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString()))
             {
                 sqlConnection.Open();
