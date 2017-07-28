@@ -23,7 +23,8 @@ namespace CQRSTutorial.DAL
             {
                 Id = @event.Id,
                 EventType = @event.GetType().Name,
-                Data = JsonConvert.SerializeObject(@event)
+                Data = JsonConvert.SerializeObject(@event),
+                Created = DateTime.Now
             };
             SaveOrUpdate(eventToPublish);
         }

@@ -14,12 +14,13 @@ namespace CQRSTutorial.DAL.Tests
         private EventToPublishRepository _eventToPublishRepository;
         private ISession _session;
         private readonly Guid _id = new Guid("8BDD0C3C-2680-4678-BFB9-4D379C2DD208");
+        private SqlExecutor _sqlExecutor;
 
         [SetUp]
         public void SetUp()
         {
-            var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
-            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = '{_id}'"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
+            _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = '{_id}'"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
             _session = SessionFactory.Instance.OpenSession();
             _session.BeginTransaction();
             _eventToPublishRepository = CreateRepository();
@@ -46,6 +47,14 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(retrievedTabOpenedEvent.Id, Is.EqualTo(testEvent.Id));
             Assert.That(retrievedTabOpenedEvent.IntProperty, Is.EqualTo(intPropertyValue));
             Assert.That(retrievedTabOpenedEvent.StringProperty, Is.EqualTo(stringPropertyValue));
+            AssertCreated();
+        }
+
+        private void AssertCreated()
+        {
+            var createdDate = _sqlExecutor.ExecuteScalar<DateTime>($"SELECT Created FROM dbo.EventsToPublish WHERE Id = '{_id}'");
+            var oneSecond = new TimeSpan(0,0,1);
+            Assert.That(createdDate, Is.EqualTo(DateTime.Now).Within(oneSecond));
         }
 
         private EventToPublishRepository CreateRepository()
