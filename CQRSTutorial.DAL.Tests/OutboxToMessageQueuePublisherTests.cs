@@ -20,8 +20,6 @@ namespace CQRSTutorial.DAL.Tests
         private readonly EventToPublishMapper _eventToPublishMapper = new EventToPublishMapper(Assembly.GetExecutingAssembly());
         private static readonly string Queue1 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue1";
         private static readonly string Queue2 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue2";
-        private readonly TestPublishConfiguration _publishConfiguration1 = new TestPublishConfiguration(Queue1);
-        private readonly TestPublishConfiguration _publishConfiguration2 = new TestPublishConfiguration(Queue2);
         private static readonly Guid MessageId1 = new Guid("837505FF-F7C5-4F51-A6C6-F76A4980DF36");
         private static readonly Guid MessageId2 = new Guid("533DD041-5FC0-4C19-A574-0AD17C61639E");
         private static readonly Guid AggregateId1 = new Guid("97288F2F-E4FB-40FB-A848-5BBF824F1B38");
@@ -55,7 +53,7 @@ namespace CQRSTutorial.DAL.Tests
         [Test]
         public void Publishes_messages_from_outbox()
         {
-            AssumingMessageHasBeenQueuedForPublishing(_testEvent1, _publishConfiguration1);
+            AssumingMessageHasBeenQueuedForPublishing(_testEvent1);
 
             var messagesPublished = 0;
             var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue1,
@@ -75,7 +73,7 @@ namespace CQRSTutorial.DAL.Tests
         [Test]
         public void Deletes_published_messages_from_outbox()
         {
-            AssumingMessageHasBeenQueuedForPublishing(_testEvent2, _publishConfiguration2);
+            AssumingMessageHasBeenQueuedForPublishing(_testEvent2);
 
             var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue2, () => _manualResetEvent2.Set());
 
@@ -87,13 +85,13 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(numberOfEvents, Is.EqualTo(0));
         }
 
-        private void AssumingMessageHasBeenQueuedForPublishing(IEvent testEvent, IPublishConfiguration publishConfiguration)
+        private void AssumingMessageHasBeenQueuedForPublishing(IEvent testEvent)
         {
             using (var session = _sessionFactory.OpenSession())
             {
                 using (session.BeginTransaction())
                 {
-                    var eventToPublishRepository = CreateEventToPublishRepository(new NHibernateUnitOfWork(session), publishConfiguration);
+                    var eventToPublishRepository = CreateEventToPublishRepository(new NHibernateUnitOfWork(session));
                     eventToPublishRepository.Add(testEvent);
                     session.Flush();
                     session.Transaction.Commit();
@@ -109,7 +107,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private OutboxToMessageQueuePublisher CreateOutboxToMessageQueuePublisher(MessageBusEventPublisher messageBusEventPublisher)
         {
-            var eventToPublishRepository = CreateEventToPublishRepository(new NHibernateUnitOfWork(_sessionFactory.OpenSession()), null);
+            var eventToPublishRepository = CreateEventToPublishRepository(new NHibernateUnitOfWork(_sessionFactory.OpenSession()));
             var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(
                 eventToPublishRepository,
                 messageBusEventPublisher,
@@ -118,12 +116,10 @@ namespace CQRSTutorial.DAL.Tests
             return outboxToMessageQueuePublisher;
         }
 
-        private EventToPublishRepository CreateEventToPublishRepository(NHibernateUnitOfWork unitOfWork,
-            IPublishConfiguration publishConfiguration)
+        private EventToPublishRepository CreateEventToPublishRepository(NHibernateUnitOfWork unitOfWork)
         {
             return new EventToPublishRepository(
                 _sessionFactory,
-                publishConfiguration,
                 _eventToPublishMapper)
             {
                 UnitOfWork = unitOfWork

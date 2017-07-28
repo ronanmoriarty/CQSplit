@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using Cafe.Domain.Events;
 using Cafe.Waiter.DAL;
 using CQRSTutorial.DAL;
@@ -17,7 +16,7 @@ namespace Cafe.Waiter.Publish.Service
             var connectionStringProviderFactory = WriteModelConnectionStringProviderFactory.Instance;
             var sessionFactory = new NHibernateConfiguration(connectionStringProviderFactory).CreateSessionFactory();
             var eventToPublishMapper = new EventToPublishMapper(typeof(TabOpened).Assembly);
-            var eventToPublishRepository = new EventToPublishRepository(sessionFactory, new PublishConfiguration(), eventToPublishMapper);
+            var eventToPublishRepository = new EventToPublishRepository(sessionFactory, eventToPublishMapper);
             var messageBusFactory = new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration());
             var messageBusEventPublisher = new MessageBusEventPublisher(messageBusFactory);
             _outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher
@@ -34,14 +33,6 @@ namespace Cafe.Waiter.Publish.Service
         private static void PublishQueuedEvents()
         {
             _outboxToMessageQueuePublisher.PublishQueuedMessages();
-        }
-
-        private class PublishConfiguration : IPublishConfiguration
-        {
-            public string GetPublishLocationFor(Type typeToPublish)
-            {
-                return "dunno"; // TODO: I think this class might be leaving us very shortly.
-            }
         }
     }
 }

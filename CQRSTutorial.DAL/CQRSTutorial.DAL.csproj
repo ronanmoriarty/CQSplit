@@ -75,7 +75,6 @@
     <Compile Include="IEventStore.cs" />
     <Compile Include="IHaveUnitOfWork.cs" />
     <Compile Include="IMapToTable.cs" />
-    <Compile Include="IPublishConfiguration.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="IUnitOfWorkFactory.cs" />
     <Compile Include="NHibernateConfiguration.cs" />

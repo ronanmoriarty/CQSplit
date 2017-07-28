@@ -27,7 +27,6 @@ namespace CQRSTutorial.DAL.Tests
             _eventToPublishRepositoryDecorator = CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(
                 new EventToPublishRepository(
                     SessionFactory.Instance,
-                    new TestPublishConfiguration("some.rabbitmq.topic.*"),
                     new EventToPublishMapper(Assembly.GetExecutingAssembly())
                 )
             );

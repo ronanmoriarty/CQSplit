@@ -11,8 +11,6 @@ namespace CQRSTutorial.DAL.Tests
     public class EventToPublishRepositoryTests
     {
         private IEvent _retrievedEvent;
-        private IPublishConfiguration _publishConfiguration;
-        private const string PublishLocation = "some.rabbitmq.topic.*";
         private EventToPublishRepository _eventToPublishRepository;
         private ISession _session;
         private readonly Guid _id = new Guid("8BDD0C3C-2680-4678-BFB9-4D379C2DD208");
@@ -22,7 +20,6 @@ namespace CQRSTutorial.DAL.Tests
         {
             var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = '{_id}'"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
-            _publishConfiguration = new TestPublishConfiguration(PublishLocation);
             _session = SessionFactory.Instance.OpenSession();
             _session.BeginTransaction();
             _eventToPublishRepository = CreateRepository();
@@ -51,29 +48,9 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(retrievedTabOpenedEvent.StringProperty, Is.EqualTo(stringPropertyValue));
         }
 
-        [Test]
-        public void Event_PublishTo_set_according_to_PublishConfiguration()
-        {
-            const string stringPropertyValue = "John";
-            const int intPropertyValue = 123;
-
-            var testEvent = new TestEvent
-            {
-                Id = _id,
-                IntProperty = intPropertyValue,
-                StringProperty = stringPropertyValue
-            };
-
-            _eventToPublishRepository.Add(testEvent);
-            _session.Transaction.Commit();
-            var eventToPublish = _eventToPublishRepository.Get(testEvent.Id);
-
-            Assert.That(eventToPublish.PublishTo, Is.EqualTo(PublishLocation));
-        }
-
         private EventToPublishRepository CreateRepository()
         {
-            return new EventToPublishRepository(SessionFactory.Instance, _publishConfiguration, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
+            return new EventToPublishRepository(SessionFactory.Instance, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
         }
 
         private void InsertAndRead(IEvent @event)
@@ -81,20 +58,6 @@ namespace CQRSTutorial.DAL.Tests
             _eventToPublishRepository.Add(@event);
             _session.Transaction.Commit();
             _retrievedEvent = _eventToPublishRepository.Read(@event.Id);
-        }
-    }
-
-    public class TestPublishConfiguration : IPublishConfiguration
-    {
-        private readonly string _location;
-
-        public TestPublishConfiguration(string location)
-        {
-            _location = location;
-        }
-        public string GetPublishLocationFor(Type typeToPublish)
-        {
-            return _location;
         }
     }
 }

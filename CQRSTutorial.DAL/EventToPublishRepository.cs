@@ -8,15 +8,12 @@ namespace CQRSTutorial.DAL
 {
     public class EventToPublishRepository : RepositoryBase<EventToPublish>, IEventToPublishRepository
     {
-        private readonly IPublishConfiguration _publishConfiguration;
         private readonly EventToPublishMapper _eventToPublishMapper;
 
         public EventToPublishRepository(ISessionFactory sessionFactory,
-            IPublishConfiguration publishConfiguration,
             EventToPublishMapper eventToPublishMapper)
             : base(sessionFactory)
         {
-            _publishConfiguration = publishConfiguration;
             _eventToPublishMapper = eventToPublishMapper;
         }
 
@@ -26,8 +23,7 @@ namespace CQRSTutorial.DAL
             {
                 Id = @event.Id,
                 EventType = @event.GetType().Name,
-                Data = JsonConvert.SerializeObject(@event),
-                PublishTo = _publishConfiguration.GetPublishLocationFor(@event.GetType())
+                Data = JsonConvert.SerializeObject(@event)
             };
             SaveOrUpdate(eventToPublish);
         }
