@@ -93,7 +93,6 @@
     <Compile Include="WriteModelConnectionStringProviderFactory.cs" />
     <Compile Include="RunOncePerTestRun.cs" />
     <Compile Include="TestConstants.cs" />
-    <Compile Include="TestEvent2.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CQRS.Publisher\CQRSTutorial.Publisher.csproj">
