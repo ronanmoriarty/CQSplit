@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 using CQRSTutorial.Core;
@@ -31,6 +32,7 @@ namespace CQRSTutorial.DAL.Tests
         private readonly ManualResetEvent _manualResetEvent3 = new ManualResetEvent(false);
         private TestEvent _testEvent1;
         private TestEvent _testEvent2;
+        private IEventToPublishRepository _eventToPublishRepository;
         private const int BatchSize = 123;
 
         [SetUp]
@@ -51,6 +53,8 @@ namespace CQRSTutorial.DAL.Tests
                 IntProperty = 456,
                 StringProperty = "Mary"
             };
+            _eventToPublishRepository = Substitute.For<IEventToPublishRepository>();
+
             CleanUpBeforeRunningTests();
         }
 
@@ -104,16 +108,10 @@ namespace CQRSTutorial.DAL.Tests
 
         private void AssumingMessageHasBeenQueuedForPublishing(IEvent testEvent)
         {
-            using (var session = _sessionFactory.OpenSession())
-            {
-                using (session.BeginTransaction())
-                {
-                    var eventToPublishRepository = CreateEventToPublishRepository(new NHibernateUnitOfWork(session));
-                    eventToPublishRepository.Add(testEvent);
-                    session.Flush();
-                    session.Transaction.Commit();
-                }
-            }
+            var eventToPublish = _eventToPublishMapper.MapToEventToPublish(testEvent);
+            _eventToPublishRepository
+                .GetEventsAwaitingPublishing(Arg.Any<int>())
+                .Returns(new List<EventToPublish> { eventToPublish });
         }
 
         private void WhenQueuedMessageGetsPublished(MessageBusEventPublisher messageBusEventPublisher,
@@ -126,24 +124,13 @@ namespace CQRSTutorial.DAL.Tests
         private OutboxToMessageQueuePublisher CreateOutboxToMessageQueuePublisher(MessageBusEventPublisher messageBusEventPublisher,
             IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration)
         {
-            var eventToPublishRepository = CreateEventToPublishRepository(new NHibernateUnitOfWork(_sessionFactory.OpenSession()));
             var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(
-                eventToPublishRepository,
+                _eventToPublishRepository,
                 messageBusEventPublisher,
                 _eventToPublishMapper,
                 () => new NHibernateUnitOfWork(_sessionFactory.OpenSession()),
                 outboxToMessageQueuePublisherConfiguration);
             return outboxToMessageQueuePublisher;
-        }
-
-        private EventToPublishRepository CreateEventToPublishRepository(NHibernateUnitOfWork unitOfWork)
-        {
-            return new EventToPublishRepository(
-                _sessionFactory,
-                _eventToPublishMapper)
-            {
-                UnitOfWork = unitOfWork
-            };
         }
 
         private MessageBusEventPublisher CreateMessageBusEventPublisher(string queueName, Action onMessagePublished)

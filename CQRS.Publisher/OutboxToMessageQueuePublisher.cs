@@ -6,13 +6,13 @@ namespace CQRSTutorial.Publisher
 {
     public class OutboxToMessageQueuePublisher
     {
-        private readonly EventToPublishRepository _eventToPublishRepository;
+        private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly MessageBusEventPublisher _messageBusEventPublisher;
         private readonly EventToPublishMapper _eventToPublishMapper;
         private readonly Func<IUnitOfWork> _createUnitOfWork;
         private readonly IOutboxToMessageQueuePublisherConfiguration _outboxToMessageQueuePublisherConfiguration;
 
-        public OutboxToMessageQueuePublisher(EventToPublishRepository eventToPublishRepository,
+        public OutboxToMessageQueuePublisher(IEventToPublishRepository eventToPublishRepository,
             MessageBusEventPublisher messageBusEventPublisher,
             EventToPublishMapper eventToPublishMapper,
             Func<IUnitOfWork> createUnitOfWork,
