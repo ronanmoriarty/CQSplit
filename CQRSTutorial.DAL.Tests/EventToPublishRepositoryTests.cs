@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
@@ -26,7 +25,7 @@ namespace CQRSTutorial.DAL.Tests
         public void SetUp()
         {
             _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')");
             _session = SessionFactory.Instance.OpenSession();
             _session.BeginTransaction();
             _eventToPublishRepository = CreateRepository();
