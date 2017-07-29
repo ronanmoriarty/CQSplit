@@ -55,6 +55,7 @@
     <Compile Include="EventTestsBase.cs" />
     <Compile Include="FakeAggregateStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

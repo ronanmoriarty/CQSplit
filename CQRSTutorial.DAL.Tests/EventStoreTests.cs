@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
+using CQRSTutorial.Tests.Common;
 using NHibernate;
 using NUnit.Framework;
 
@@ -54,7 +55,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventStore CreateRepository()
         {
-            return new EventStore(SessionFactory.Instance, new EventMapper(Assembly.GetExecutingAssembly()));
+            return new EventStore(SessionFactory.Instance, new EventMapper(typeof(TestEvent).Assembly));
         }
 
         private void InsertAndRead(IEvent @event)

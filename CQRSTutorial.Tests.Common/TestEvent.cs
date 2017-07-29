@@ -1,9 +1,9 @@
 ﻿using System;
 using CQRSTutorial.Core;
 
-namespace CQRSTutorial.DAL.Tests
+namespace CQRSTutorial.Tests.Common
 {
-    internal class TestEvent : IEvent
+    public class TestEvent : IEvent
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }

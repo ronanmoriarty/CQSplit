@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
+using CQRSTutorial.Tests.Common;
 using NHibernate;
 using NUnit.Framework;
 
@@ -95,7 +96,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventToPublishRepository CreateRepository()
         {
-            return new EventToPublishRepository(SessionFactory.Instance, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
+            return new EventToPublishRepository(SessionFactory.Instance, new EventToPublishMapper(typeof(TestEvent).Assembly));
         }
 
         private void InsertAndRead(IEvent @event)

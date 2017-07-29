@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Infrastructure;
 using CQRSTutorial.Publisher;
+using CQRSTutorial.Tests.Common;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
 using NHibernate;
@@ -19,7 +19,7 @@ namespace CQRSTutorial.DAL.Tests
     {
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
         private ISessionFactory _sessionFactory;
-        private readonly EventToPublishMapper _eventToPublishMapper = new EventToPublishMapper(Assembly.GetExecutingAssembly());
+        private readonly EventToPublishMapper _eventToPublishMapper = new EventToPublishMapper(typeof(TestEvent).Assembly);
         private static readonly string Queue1 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue1";
         private static readonly string Queue2 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue2";
         private static readonly string Queue3 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue3";
