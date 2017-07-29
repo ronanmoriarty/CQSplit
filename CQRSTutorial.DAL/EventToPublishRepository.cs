@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using CQRSTutorial.Core;
-using Newtonsoft.Json;
 using NHibernate;
 
 namespace CQRSTutorial.DAL
@@ -19,13 +18,7 @@ namespace CQRSTutorial.DAL
 
         public void Add(IEvent @event)
         {
-            var eventToPublish = new EventToPublish
-            {
-                Id = @event.Id,
-                EventType = @event.GetType().Name,
-                Data = JsonConvert.SerializeObject(@event),
-                Created = DateTime.Now
-            };
+            var eventToPublish = _eventToPublishMapper.MapToEventToPublish(@event);
             SaveOrUpdate(eventToPublish);
         }
 
