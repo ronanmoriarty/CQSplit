@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL;
+using CQRSTutorial.DAL.Tests;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Infrastructure;
-using CQRSTutorial.Publisher;
 using CQRSTutorial.Tests.Common;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
@@ -12,7 +13,7 @@ using NHibernate;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace CQRSTutorial.DAL.Tests
+namespace CQRSTutorial.Publisher.Tests
 {
     [TestFixture]
     public class OutboxToMessageQueuePublisherTests
