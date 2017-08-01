@@ -72,8 +72,6 @@ namespace CQRSTutorial.Publisher.Tests
 
             WhenQueuedMessageGetsPublished(messageBusEventPublisher, new OutboxToMessageQueuePublisherConfiguration());
 
-            var isSignalled = _manualResetEvent.WaitOne(3000);
-            Console.WriteLine(isSignalled ? "Another thread unblocked this thread." : "Timeout");
             Assert.That(messagesPublished, Is.EqualTo(1));
         }
 
@@ -86,8 +84,6 @@ namespace CQRSTutorial.Publisher.Tests
 
             WhenQueuedMessageGetsPublished(messageBusEventPublisher, new OutboxToMessageQueuePublisherConfiguration());
 
-            var isSignalled = _manualResetEvent.WaitOne(3000);
-            Console.WriteLine(isSignalled ? "Another thread unblocked this thread." : "Timeout");
             var numberOfEvents = _sqlExecutor.ExecuteScalar<int>($"SELECT COUNT(*) FROM dbo.EventsToPublish WHERE Id = '{MessageId2}'");
             Assert.That(numberOfEvents, Is.EqualTo(0));
         }
@@ -98,10 +94,9 @@ namespace CQRSTutorial.Publisher.Tests
             var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue3, () => _manualResetEvent.Set());
             var outboxToMessageQueuePublisherConfiguration = Substitute.For<IOutboxToMessageQueuePublisherConfiguration>();
             outboxToMessageQueuePublisherConfiguration.BatchSize.Returns(BatchSize);
+
             WhenQueuedMessageGetsPublished(messageBusEventPublisher, outboxToMessageQueuePublisherConfiguration);
 
-            var isSignalled = _manualResetEvent.WaitOne(3000);
-            Console.WriteLine(isSignalled ? "Another thread unblocked this thread." : "Timeout");
             _eventToPublishRepository.Received(1).GetEventsAwaitingPublishing(Arg.Is(BatchSize));
         }
 
@@ -118,6 +113,8 @@ namespace CQRSTutorial.Publisher.Tests
         {
             var outboxToMessageQueuePublisher = CreateOutboxToMessageQueuePublisher(messageBusEventPublisher, outboxToMessageQueuePublisherConfiguration);
             outboxToMessageQueuePublisher.PublishQueuedMessages();
+            var isSignalled = _manualResetEvent.WaitOne(3000);
+            Console.WriteLine(isSignalled ? "Another thread unblocked this thread." : "Timeout");
         }
 
         private OutboxToMessageQueuePublisher CreateOutboxToMessageQueuePublisher(MessageBusEventPublisher messageBusEventPublisher,
