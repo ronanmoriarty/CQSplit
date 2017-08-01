@@ -24,8 +24,7 @@ namespace CQRSTutorial.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')");
+            CleanUp();
             _session = SessionFactory.Instance.OpenSession();
             _session.BeginTransaction();
             _eventToPublishRepository = CreateRepository();
@@ -103,6 +102,18 @@ namespace CQRSTutorial.DAL.Tests
             _eventToPublishRepository.Add(@event);
             _session.Transaction.Commit();
             _retrievedEvent = _eventToPublishRepository.Read(@event.Id);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            CleanUp(); // would rather leave these records in database after tests finish for diagnosing problems but these records are causing interference in other integration tests.
+        }
+
+        private void CleanUp()
+        {
+            _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')");
         }
     }
 }

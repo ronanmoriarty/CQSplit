@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using CQRSTutorial.DAL;
@@ -62,20 +63,23 @@ namespace CQRSTutorial.Publisher.Tests
         {
             var unblockThreadSignalSent = _manualResetEvent.WaitOne(3000);
             Console.WriteLine(unblockThreadSignalSent ? "New-events-published handler invoked" : "Timed out waiting for new-events-published handler to be invoked");
+            if (_numberOfNotificationsReceived > 0)
+            {
+                OutputUnexpectedIdsFound();
+            }
+
             Assert.That(_numberOfNotificationsReceived, Is.EqualTo(0));
         }
 
-        [TearDown]
-        public void TearDown()
+        private void OutputUnexpectedIdsFound()
         {
-            _eventToPublishNotifier.Stop();
-            CleanUp(); // would rather leave these rows here for investigation if tests ever fail, but these records are causing problems for other integration tests.
-        }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
-            SqlDependency.Stop(_connectionString, _outboxToMessageQueuePublisherConfiguration.QueueName);
+            var ids = new List<Guid>();
+            var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
+            sqlExecutor.ExecuteReader("SELECT Id FROM dbo.EventsToPublish", reader => ids.Add(reader.GetGuid(reader.GetOrdinal("Id"))));
+            foreach (var id in ids)
+            {
+                Console.WriteLine($"Unexpected id found:{id}");
+            }
         }
 
         private TestEvent CreateTestEvent()
@@ -102,6 +106,19 @@ namespace CQRSTutorial.Publisher.Tests
                     unitOfWork.Commit();
                 }
             }
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            _eventToPublishNotifier.Stop();
+            CleanUp(); // would rather leave these rows here for investigation if tests ever fail, but these records are causing problems for other integration tests.
+        }
+
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            SqlDependency.Stop(_connectionString, _outboxToMessageQueuePublisherConfiguration.QueueName);
         }
 
         private void CleanUp()
