@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
-using CQRSTutorial.DAL.Tests;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Infrastructure;
 using CQRSTutorial.Tests.Common;
@@ -18,7 +17,6 @@ namespace CQRSTutorial.Publisher.Tests
     [TestFixture]
     public class OutboxToMessageQueuePublisherTests
     {
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
         private ISessionFactory _sessionFactory;
         private readonly EventToPublishMapper _eventToPublishMapper = new EventToPublishMapper(typeof(TestEvent).Assembly);
         private static readonly string Queue1 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue1";
@@ -53,15 +51,12 @@ namespace CQRSTutorial.Publisher.Tests
                 StringProperty = "Mary"
             };
             _eventToPublishRepository = Substitute.For<IEventToPublishRepository>();
-
-            CleanUpBeforeRunningTests();
         }
 
         [Test]
         public void Publishes_messages_from_outbox()
         {
             AssumingMessageHasBeenQueuedForPublishing(_testEvent1);
-
             var messagesPublished = 0;
             var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue1,
                 () =>
@@ -79,13 +74,11 @@ namespace CQRSTutorial.Publisher.Tests
         public void Deletes_published_messages_from_outbox()
         {
             AssumingMessageHasBeenQueuedForPublishing(_testEvent2);
-
             var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue2, () => _manualResetEvent.Set());
 
             WhenQueuedMessageGetsPublished(messageBusEventPublisher, new OutboxToMessageQueuePublisherConfiguration());
 
-            var numberOfEvents = _sqlExecutor.ExecuteScalar<int>($"SELECT COUNT(*) FROM dbo.EventsToPublish WHERE Id = '{MessageId2}'");
-            Assert.That(numberOfEvents, Is.EqualTo(0));
+            _eventToPublishRepository.Received(1).Delete(Arg.Is<EventToPublish>(x => x.Id == MessageId2));
         }
 
         [Test]
@@ -135,11 +128,6 @@ namespace CQRSTutorial.Publisher.Tests
                 new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(),
                 (sbc, host) => ConfigureTestReceiver(sbc, host, queueName,
                 onMessagePublished)));
-        }
-
-        private void CleanUpBeforeRunningTests()
-        {
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{MessageId1}','{MessageId2}')");
         }
 
         private void ConfigureTestReceiver(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host, string queueName, Action onEventHandled)
