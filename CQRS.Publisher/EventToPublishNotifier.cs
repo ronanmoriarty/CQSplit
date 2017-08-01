@@ -7,18 +7,15 @@ namespace CQRSTutorial.Publisher
     public class EventToPublishNotifier : IDisposable
     {
         private readonly IConnectionStringProviderFactory _connectionStringProviderFactory;
-        private readonly IOutboxToMessageQueuePublisherConfiguration _outboxToMessageQueuePublisherConfiguration;
         private readonly Action _onNewEventQueuedForPublishing;
         private SqlConnection _connection;
         private SqlDependency _sqlDependency;
         private bool _subscribedToOnChangeEvent;
 
-        public EventToPublishNotifier(IConnectionStringProviderFactory connectionStringProviderFactory, 
-            IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration, 
+        public EventToPublishNotifier(IConnectionStringProviderFactory connectionStringProviderFactory,
             Action onNewEventQueuedForPublishing)
         {
             _connectionStringProviderFactory = connectionStringProviderFactory;
-            _outboxToMessageQueuePublisherConfiguration = outboxToMessageQueuePublisherConfiguration;
             _onNewEventQueuedForPublishing = onNewEventQueuedForPublishing;
         }
 
@@ -26,8 +23,10 @@ namespace CQRSTutorial.Publisher
         {
             var connectionString = GetConnectionString();
             _connection = new SqlConnection(connectionString);
-            var command = new SqlCommand("SELECT Id, EventType, Data, Created FROM dbo.EventsToPublish", _connection);
-            command.Notification = null;
+            var command = new SqlCommand("SELECT Id, EventType, Data, Created FROM dbo.EventsToPublish", _connection)
+            {
+                Notification = null
+            };
             _sqlDependency = new SqlDependency(command, "SERVICE=EventsToPublishChangeNotifications", int.MaxValue);
             _sqlDependency.OnChange += OnChange;
             _subscribedToOnChangeEvent = true;
@@ -42,7 +41,6 @@ namespace CQRSTutorial.Publisher
 
         public void Stop()
         {
-            var connectionString = GetConnectionString();
             if (_subscribedToOnChangeEvent)
             {
                 _sqlDependency.OnChange -= OnChange;

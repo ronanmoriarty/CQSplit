@@ -38,7 +38,6 @@ namespace CQRSTutorial.Publisher.Tests
             _numberOfNotificationsReceived = 0;
             _eventToPublishNotifier = new EventToPublishNotifier(
                 WriteModelConnectionStringProviderFactory.Instance,
-                _outboxToMessageQueuePublisherConfiguration,
                 () =>
                 {
                     _numberOfNotificationsReceived++;
