@@ -4,7 +4,7 @@ using CQRSTutorial.DAL;
 
 namespace CQRSTutorial.Publisher
 {
-    public class EventToPublishNotifier : IDisposable
+    public class PublishService : IDisposable
     {
         private readonly IConnectionStringProviderFactory _connectionStringProviderFactory;
         private readonly Action _onNewEventQueuedForPublishing;
@@ -12,7 +12,7 @@ namespace CQRSTutorial.Publisher
         private SqlDependency _sqlDependency;
         private bool _subscribedToOnChangeEvent;
 
-        public EventToPublishNotifier(IConnectionStringProviderFactory connectionStringProviderFactory,
+        public PublishService(IConnectionStringProviderFactory connectionStringProviderFactory,
             Action onNewEventQueuedForPublishing)
         {
             _connectionStringProviderFactory = connectionStringProviderFactory;

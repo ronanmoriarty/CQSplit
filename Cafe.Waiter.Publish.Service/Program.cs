@@ -15,9 +15,9 @@ namespace Cafe.Waiter.Publish.Service
         {
             HostFactory.Run(x =>
             {
-                x.Service<EventToPublishNotifier>(publishService =>
+                x.Service<PublishService>(publishService =>
                 {
-                    publishService.ConstructUsing(CreateEventToPublishNotifier);
+                    publishService.ConstructUsing(CreatePublishService);
                     publishService.WhenStarted(tc => tc.Start());
                     publishService.WhenStopped(tc => tc.Stop());
                 });
@@ -29,7 +29,7 @@ namespace Cafe.Waiter.Publish.Service
             });
         }
 
-        private static EventToPublishNotifier CreateEventToPublishNotifier()
+        private static PublishService CreatePublishService()
         {
             var connectionStringProviderFactory = WriteModelConnectionStringProviderFactory.Instance;
             var sessionFactory = new NHibernateConfiguration(connectionStringProviderFactory).CreateSessionFactory();
@@ -46,7 +46,7 @@ namespace Cafe.Waiter.Publish.Service
                 new OutboxToMessageQueuePublisherConfiguration()
             );
 
-            return new EventToPublishNotifier(connectionStringProviderFactory, () =>
+            return new PublishService(connectionStringProviderFactory, () =>
             {
                 _outboxToMessageQueuePublisher.PublishQueuedMessages(); // TODO: we want to publish *all* the messages waiting. This call will only process one batch.
             });

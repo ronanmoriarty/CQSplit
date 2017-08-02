@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace CQRSTutorial.Publisher.Tests
 {
     [TestFixture]
-    public class EventToPublishNotifierTests
+    public class PublishServiceTests
     {
         private readonly Guid _id = new Guid("6893FEEC-548F-4EB2-8306-6396C9BD2522");
         private readonly Guid _aggregateId = new Guid("E6CA5D4D-39EC-4E98-88D5-7444EAECF77E");
@@ -19,7 +19,7 @@ namespace CQRSTutorial.Publisher.Tests
         private EventToPublishRepository _eventToPublishRepository;
         private readonly ManualResetEvent _manualResetEvent = new ManualResetEvent(false);
         private int _numberOfNotificationsReceived;
-        private EventToPublishNotifier _eventToPublishNotifier;
+        private PublishService _publishService;
         private OutboxToMessageQueuePublisherConfiguration _outboxToMessageQueuePublisherConfiguration;
         private string _connectionString;
 
@@ -37,14 +37,14 @@ namespace CQRSTutorial.Publisher.Tests
             CleanUp();
             _eventToPublishRepository = new EventToPublishRepository(SessionFactory.Instance, new EventToPublishMapper(typeof(TestEvent).Assembly));
             _numberOfNotificationsReceived = 0;
-            _eventToPublishNotifier = new EventToPublishNotifier(
+            _publishService = new PublishService(
                 WriteModelConnectionStringProviderFactory.Instance,
                 () =>
                 {
                     _numberOfNotificationsReceived++;
                     _manualResetEvent.Set();
                 });
-            _eventToPublishNotifier.Start();
+            _publishService.Start();
         }
 
         [Test]
@@ -111,7 +111,7 @@ namespace CQRSTutorial.Publisher.Tests
         [TearDown]
         public void TearDown()
         {
-            _eventToPublishNotifier.Stop();
+            _publishService.Stop();
             CleanUp(); // would rather leave these rows here for investigation if tests ever fail, but these records are causing problems for other integration tests.
         }
 

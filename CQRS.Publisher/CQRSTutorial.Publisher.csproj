@@ -65,7 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventToPublishNotifier.cs" />
+    <Compile Include="PublishService.cs" />
     <Compile Include="IOutboxToMessageQueuePublisherConfiguration.cs" />
     <Compile Include="OutboxToMessageQueuePublisher.cs" />
     <Compile Include="OutboxToMessageQueuePublisherConfiguration.cs" />
