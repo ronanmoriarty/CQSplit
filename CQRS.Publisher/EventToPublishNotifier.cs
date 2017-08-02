@@ -56,7 +56,11 @@ namespace CQRSTutorial.Publisher
 
         private void OnChange(object sender, SqlNotificationEventArgs e)
         {
-            _onNewEventQueuedForPublishing();
+            Console.WriteLine($"SqlNotificationInfo: {e.Info}");
+            if (e.Info == SqlNotificationInfo.Insert)
+            {
+                _onNewEventQueuedForPublishing();
+            }
         }
     }
 }
