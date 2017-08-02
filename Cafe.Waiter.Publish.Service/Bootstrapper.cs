@@ -1,5 +1,6 @@
 ﻿using Cafe.Domain.Events;
 using Cafe.Waiter.DAL;
+using Castle.Windsor;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
 using CQRSTutorial.Publisher;
@@ -7,6 +8,16 @@ using log4net;
 
 namespace Cafe.Waiter.Publish.Service
 {
+    public static class Container
+    {
+        static Container()
+        {
+            Instance = new WindsorContainer();
+        }
+
+        public static IWindsorContainer Instance { get; }
+    }
+
     public class Bootstrapper
     {
         public static PublishService CreatePublishService()
