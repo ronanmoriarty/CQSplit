@@ -114,6 +114,10 @@ namespace CQRSTutorial.DAL.Tests
         {
             _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')");
+            if (_session != null && _session.IsOpen)
+            {
+                _session?.Close();
+            }
         }
     }
 }
