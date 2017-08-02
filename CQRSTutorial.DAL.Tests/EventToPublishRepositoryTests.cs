@@ -84,6 +84,7 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(eventsToPublish.Count, Is.EqualTo(2));
             Assert.That(eventsToPublish.First().Id, Is.EqualTo(_id1));
             Assert.That(eventsToPublish.Last().Id, Is.EqualTo(_id2));
+            Assert.That(eventsToPublishResult.TotalNumberOfEventsToPublish, Is.EqualTo(3));
         }
 
         private void AssertCreated(Guid id)

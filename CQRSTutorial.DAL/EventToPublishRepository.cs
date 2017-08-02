@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using CQRSTutorial.Core;
 using NHibernate;
 
@@ -40,9 +39,14 @@ namespace CQRSTutorial.DAL
                         .Take(batchSize)
                         .List();
 
+                    var totalNumberOfEventsToPublish = session
+                        .QueryOver<EventToPublish>()
+                        .RowCount();
+
                     return new EventsToPublishResult
                     {
-                        EventsToPublish = eventsToPublish
+                        EventsToPublish = eventsToPublish,
+                        TotalNumberOfEventsToPublish = totalNumberOfEventsToPublish
                     };
                 }
             }
