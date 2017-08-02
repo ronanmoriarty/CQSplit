@@ -1,9 +1,9 @@
-﻿using System.Threading;
-using Cafe.Domain.Events;
+﻿using Cafe.Domain.Events;
 using Cafe.Waiter.DAL;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
 using CQRSTutorial.Publisher;
+using Topshelf;
 
 namespace Cafe.Waiter.Publish.Service
 {
@@ -12,6 +12,24 @@ namespace Cafe.Waiter.Publish.Service
         private static OutboxToMessageQueuePublisher _outboxToMessageQueuePublisher;
 
         static void Main(string[] args)
+        {
+            HostFactory.Run(x =>
+            {
+                x.Service<EventToPublishNotifier>(publishService =>
+                {
+                    publishService.ConstructUsing(CreateEventToPublishNotifier);
+                    publishService.WhenStarted(tc => tc.Start());
+                    publishService.WhenStopped(tc => tc.Stop());
+                });
+                x.RunAsLocalSystem();
+
+                x.SetDisplayName("CQRSTutorial Event Publishing Service");
+                x.SetServiceName("cqrstutorial-event-publishing-service");
+                x.SetDescription("Service to publish events queue-tables to message queues");
+            });
+        }
+
+        private static EventToPublishNotifier CreateEventToPublishNotifier()
         {
             var connectionStringProviderFactory = WriteModelConnectionStringProviderFactory.Instance;
             var sessionFactory = new NHibernateConfiguration(connectionStringProviderFactory).CreateSessionFactory();
@@ -27,13 +45,11 @@ namespace Cafe.Waiter.Publish.Service
                 () => new NHibernateUnitOfWork(sessionFactory.OpenSession()),
                 new OutboxToMessageQueuePublisherConfiguration()
             );
-            var thread = new Thread(PublishQueuedEvents);
-            thread.Start();
-        }
 
-        private static void PublishQueuedEvents()
-        {
-            _outboxToMessageQueuePublisher.PublishQueuedMessages();
+            return new EventToPublishNotifier(connectionStringProviderFactory, () =>
+            {
+                _outboxToMessageQueuePublisher.PublishQueuedMessages(); // TODO: we want to publish *all* the messages waiting. This call will only process one batch.
+            });
         }
     }
 }
