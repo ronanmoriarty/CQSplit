@@ -48,7 +48,7 @@ namespace Cafe.Waiter.Publish.Service
 
             return new PublishService(connectionStringProviderFactory, () =>
             {
-                _outboxToMessageQueuePublisher.PublishQueuedMessages(); // TODO: we want to publish *all* the messages waiting. This call will only process one batch.
+                _outboxToMessageQueuePublisher.PublishQueuedMessages();
             });
         }
     }

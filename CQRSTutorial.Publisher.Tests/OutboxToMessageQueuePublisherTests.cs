@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
@@ -26,11 +27,10 @@ namespace CQRSTutorial.Publisher.Tests
         private static readonly Guid MessageId2 = new Guid("533DD041-5FC0-4C19-A574-0AD17C61639E");
         private static readonly Guid AggregateId1 = new Guid("97288F2F-E4FB-40FB-A848-5BBF824F1B38");
         private static readonly Guid AggregateId2 = new Guid("45BE9A71-AEE0-44D8-B31F-33C9F6417377");
-        private readonly ManualResetEvent _manualResetEvent = new ManualResetEvent(false);
         private TestEvent _testEvent1;
         private TestEvent _testEvent2;
         private IEventToPublishRepository _eventToPublishRepository;
-        private const int BatchSize = 123;
+        private IOutboxToMessageQueuePublisherConfiguration _outboxToMessageQueuePublisherConfiguration;
 
         [SetUp]
         public void SetUp()
@@ -51,32 +51,44 @@ namespace CQRSTutorial.Publisher.Tests
                 StringProperty = "Mary"
             };
             _eventToPublishRepository = Substitute.For<IEventToPublishRepository>();
+            _outboxToMessageQueuePublisherConfiguration = Substitute.For<IOutboxToMessageQueuePublisherConfiguration>();
         }
 
         [Test]
-        public void Publishes_messages_from_outbox()
+        public void Publishes_messages_from_outbox_until_there_are_no_more_events_to_publish()
         {
-            AssumingMessageHasBeenQueuedForPublishing(_testEvent1);
+            var batchSize = 1;
+            AssumingMessageHasBeenQueuedForPublishing(batchSize, _testEvent1, _testEvent2);
             var messagesPublished = 0;
+            const int expectedNumberOfMessagesPublished = 2;
+            var manualResetEvent = new ManualResetEvent(false);
             var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue1,
                 () =>
                 {
                     messagesPublished++;
-                    _manualResetEvent.Set();
+                    if (ReadyToReturnControlToMainTestThreadToAssertMessageCount(messagesPublished, expectedNumberOfMessagesPublished))
+                    {
+                        ReturnControlToMainTestThread(manualResetEvent);
+                    }
                 });
 
-            WhenQueuedMessageGetsPublished(messageBusEventPublisher, new OutboxToMessageQueuePublisherConfiguration());
+            _outboxToMessageQueuePublisherConfiguration.BatchSize.Returns(batchSize);
 
-            Assert.That(messagesPublished, Is.EqualTo(1));
+            WhenQueuedMessageGetsPublished(messageBusEventPublisher, manualResetEvent);
+
+            Assert.That(messagesPublished, Is.EqualTo(expectedNumberOfMessagesPublished));
         }
 
         [Test]
         public void Deletes_published_messages_from_outbox()
         {
-            AssumingMessageHasBeenQueuedForPublishing(_testEvent2);
-            var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue2, () => _manualResetEvent.Set());
+            var batchSize = 123;
+            AssumingMessageHasBeenQueuedForPublishing(batchSize, _testEvent2);
+            var manualResetEvent = new ManualResetEvent(false);
+            var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue2, () => ReturnControlToMainTestThread(manualResetEvent));
+            _outboxToMessageQueuePublisherConfiguration.BatchSize.Returns(batchSize);
 
-            WhenQueuedMessageGetsPublished(messageBusEventPublisher, new OutboxToMessageQueuePublisherConfiguration());
+            WhenQueuedMessageGetsPublished(messageBusEventPublisher, manualResetEvent);
 
             _eventToPublishRepository.Received(1).Delete(Arg.Is<EventToPublish>(x => x.Id == MessageId2));
         }
@@ -84,14 +96,15 @@ namespace CQRSTutorial.Publisher.Tests
         [Test]
         public void Uses_batch_size_from_configuration()
         {
+            var batchSize = 123;
             AssumingNothingHasBeenQueuedForPublishing();
-            var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue3, () => _manualResetEvent.Set());
-            var outboxToMessageQueuePublisherConfiguration = Substitute.For<IOutboxToMessageQueuePublisherConfiguration>();
-            outboxToMessageQueuePublisherConfiguration.BatchSize.Returns(BatchSize);
+            var manualResetEvent = new ManualResetEvent(false);
+            var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue3, () => ReturnControlToMainTestThread(manualResetEvent));
+            _outboxToMessageQueuePublisherConfiguration.BatchSize.Returns(batchSize);
 
-            WhenQueuedMessageGetsPublished(messageBusEventPublisher, outboxToMessageQueuePublisherConfiguration);
+            WhenQueuedMessageGetsPublished(messageBusEventPublisher, manualResetEvent);
 
-            _eventToPublishRepository.Received(1).GetEventsAwaitingPublishing(Arg.Is(BatchSize));
+            _eventToPublishRepository.Received(1).GetEventsAwaitingPublishing(Arg.Is(batchSize));
         }
 
         private void AssumingNothingHasBeenQueuedForPublishing()
@@ -104,30 +117,46 @@ namespace CQRSTutorial.Publisher.Tests
                 });
         }
 
-        private void AssumingMessageHasBeenQueuedForPublishing(IEvent testEvent)
+        private void AssumingMessageHasBeenQueuedForPublishing(int batchSize, params IEvent[] events)
         {
-            var eventToPublish = _eventToPublishMapper.MapToEventToPublish(testEvent);
+            var eventsToPublishResults = new List<EventsToPublishResult>();
+            int index = 0;
+            EventsToPublishResult currentEventsToPublishResult = null;
+            foreach (var @event in events)
+            {
+                if (index % batchSize == 0)
+                {
+                    currentEventsToPublishResult = new EventsToPublishResult
+                    {
+                        EventsToPublish = new List<EventToPublish>(),
+                        TotalNumberOfEventsToPublish = events.Length - index
+                    };
+
+                    eventsToPublishResults.Add(currentEventsToPublishResult);
+                }
+
+                var eventToPublish = _eventToPublishMapper.MapToEventToPublish(@event);
+                currentEventsToPublishResult.EventsToPublish.Add(eventToPublish);
+                index++;
+            }
+
             _eventToPublishRepository
                 .GetEventsAwaitingPublishing(Arg.Any<int>())
-                .Returns(new EventsToPublishResult
-                {
-                    EventsToPublish = new List<EventToPublish>
-                    {
-                        eventToPublish
-                    }
-                });
+                .Returns(eventsToPublishResults.First(), eventsToPublishResults.Skip(1).ToArray());
         }
 
-        private void WhenQueuedMessageGetsPublished(MessageBusEventPublisher messageBusEventPublisher,
-            IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration)
+        private void WhenQueuedMessageGetsPublished(
+            MessageBusEventPublisher messageBusEventPublisher,
+            ManualResetEvent manualResetEvent)
         {
-            var outboxToMessageQueuePublisher = CreateOutboxToMessageQueuePublisher(messageBusEventPublisher, outboxToMessageQueuePublisherConfiguration);
+            var outboxToMessageQueuePublisher = CreateOutboxToMessageQueuePublisher(messageBusEventPublisher, _outboxToMessageQueuePublisherConfiguration);
             outboxToMessageQueuePublisher.PublishQueuedMessages();
-            var isSignalled = _manualResetEvent.WaitOne(3000);
+            var isSignalled = manualResetEvent.WaitOne(3000);
             Console.WriteLine(isSignalled ? "Another thread unblocked this thread." : "Timeout");
         }
 
-        private OutboxToMessageQueuePublisher CreateOutboxToMessageQueuePublisher(MessageBusEventPublisher messageBusEventPublisher,
+        private OutboxToMessageQueuePublisher CreateOutboxToMessageQueuePublisher(
+            MessageBusEventPublisher messageBusEventPublisher,
             IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration)
         {
             var outboxToMessageQueuePublisher = new OutboxToMessageQueuePublisher(
@@ -165,22 +194,14 @@ namespace CQRSTutorial.Publisher.Tests
             });
         }
 
-        //internal class TestMessage1 : IEvent
-        //{
-        //    public Guid Id { get; set; }
-        //    public Guid AggregateId { get; set; }
-        //    public Guid CommandId { get; set; }
-        //    public int IntProperty { get; set; }
-        //    public string StringProperty { get; set; }
-        //}
+        private bool ReadyToReturnControlToMainTestThreadToAssertMessageCount(int messagesPublished, int expectedNumberOfMessagesPublished)
+        {
+            return messagesPublished == expectedNumberOfMessagesPublished;
+        }
 
-        //internal class TestMessage2 : IEvent
-        //{
-        //    public Guid Id { get; set; }
-        //    public Guid AggregateId { get; set; }
-        //    public Guid CommandId { get; set; }
-        //    public int IntProperty { get; set; }
-        //    public string StringProperty { get; set; }
-        //}
+        private void ReturnControlToMainTestThread(ManualResetEvent manualResetEvent)
+        {
+            manualResetEvent.Set();
+        }
     }
 }

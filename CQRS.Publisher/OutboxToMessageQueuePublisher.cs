@@ -28,21 +28,27 @@ namespace CQRSTutorial.Publisher
 
         public void PublishQueuedMessages()
         {
-            var eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing(_batchSize);
-            var eventsToPublish = eventsToPublishResult.EventsToPublish;
-            Console.WriteLine($"Retrieved {eventsToPublish.Count} events to publish to message queue.");
-            foreach (var eventToPublish in eventsToPublish)
+            var firstPass = true;
+            EventsToPublishResult eventsToPublishResult = null;
+            while (firstPass || eventsToPublishResult.TotalNumberOfEventsToPublish > _batchSize)
             {
-                var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
-                Console.WriteLine($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
-                _messageBusEventPublisher.Receive(new []{ @event });
-                using (var unitOfWork = _createUnitOfWork())
+                eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing(_batchSize);
+                var eventsToPublish = eventsToPublishResult.EventsToPublish;
+                Console.WriteLine($"Retrieved {eventsToPublish.Count} events to publish to message queue.");
+                foreach (var eventToPublish in eventsToPublish)
                 {
-                    unitOfWork.Start();
-                    _eventToPublishRepository.UnitOfWork = unitOfWork;
-                    _eventToPublishRepository.Delete(eventToPublish);
-                    unitOfWork.Commit();
+                    var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
+                    Console.WriteLine($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
+                    _messageBusEventPublisher.Receive(new[] { @event });
+                    using (var unitOfWork = _createUnitOfWork())
+                    {
+                        unitOfWork.Start();
+                        _eventToPublishRepository.UnitOfWork = unitOfWork;
+                        _eventToPublishRepository.Delete(eventToPublish);
+                        unitOfWork.Commit();
+                    }
                 }
+                firstPass = false;
             }
         }
     }
