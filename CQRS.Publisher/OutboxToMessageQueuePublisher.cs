@@ -1,6 +1,7 @@
 ﻿using System;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
+using log4net;
 
 namespace CQRSTutorial.Publisher
 {
@@ -11,19 +12,22 @@ namespace CQRSTutorial.Publisher
         private readonly EventToPublishMapper _eventToPublishMapper;
         private readonly Func<IUnitOfWork> _createUnitOfWork;
         private readonly int _batchSize;
+        private readonly ILog _logger;
 
         public OutboxToMessageQueuePublisher(IEventToPublishRepository eventToPublishRepository,
             MessageBusEventPublisher messageBusEventPublisher,
             EventToPublishMapper eventToPublishMapper,
             Func<IUnitOfWork> createUnitOfWork,
-            IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration)
+            IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration,
+            ILog logger)
         {
             _eventToPublishRepository = eventToPublishRepository;
             _messageBusEventPublisher = messageBusEventPublisher;
             _eventToPublishMapper = eventToPublishMapper;
             _createUnitOfWork = createUnitOfWork;
+            _logger = logger;
             _batchSize = outboxToMessageQueuePublisherConfiguration.BatchSize;
-            Console.WriteLine($"Batch size: {_batchSize}");
+            _logger.Info($"Batch size: {_batchSize}");
         }
 
         public void PublishQueuedMessages()
@@ -34,11 +38,11 @@ namespace CQRSTutorial.Publisher
             {
                 eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing(_batchSize);
                 var eventsToPublish = eventsToPublishResult.EventsToPublish;
-                Console.WriteLine($"Retrieved {eventsToPublish.Count} events to publish to message queue.");
+                _logger.Debug($"Retrieved {eventsToPublish.Count} events to publish to message queue.");
                 foreach (var eventToPublish in eventsToPublish)
                 {
                     var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
-                    Console.WriteLine($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
+                    _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
                     _messageBusEventPublisher.Receive(new[] { @event });
                     using (var unitOfWork = _createUnitOfWork())
                     {

@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using log4net;
 
 namespace CQRSTutorial.DAL.Tests.Common
 {
     public class SqlExecutor
     {
         private readonly ConnectionStringProviderFactory _connectionStringProviderFactory;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(SqlExecutor));
 
         public SqlExecutor(ConnectionStringProviderFactory connectionStringProviderFactory)
         {
@@ -31,7 +31,7 @@ namespace CQRSTutorial.DAL.Tests.Common
 
         public void ExecuteNonQuery(string commandText)
         {
-            Console.WriteLine(commandText);
+            _logger.Debug(commandText);
             using (var sqlConnection = new SqlConnection(_connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString()))
             {
                 sqlConnection.Open();
@@ -45,7 +45,7 @@ namespace CQRSTutorial.DAL.Tests.Common
 
         public void ExecuteReader(string commandText, Action<IDataReader> readerAction)
         {
-            Console.WriteLine(commandText);
+            _logger.Debug(commandText);
             using (var sqlConnection = new SqlConnection(_connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString()))
             {
                 sqlConnection.Open();

@@ -3,6 +3,8 @@ using Cafe.Waiter.DAL;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
 using CQRSTutorial.Publisher;
+using log4net;
+using log4net.Config;
 using Topshelf;
 
 namespace Cafe.Waiter.Publish.Service
@@ -13,6 +15,7 @@ namespace Cafe.Waiter.Publish.Service
 
         static void Main(string[] args)
         {
+            XmlConfigurator.Configure();
             HostFactory.Run(x =>
             {
                 x.Service<PublishService>(publishService =>
@@ -43,7 +46,8 @@ namespace Cafe.Waiter.Publish.Service
                 messageBusEventPublisher,
                 eventToPublishMapper,
                 () => new NHibernateUnitOfWork(sessionFactory.OpenSession()),
-                new OutboxToMessageQueuePublisherConfiguration()
+                new OutboxToMessageQueuePublisherConfiguration(),
+                LogManager.GetLogger(typeof(Program))
             );
 
             return new PublishService(connectionStringProviderFactory, () =>

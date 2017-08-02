@@ -1,11 +1,13 @@
 using System;
 using System.Linq.Expressions;
+using log4net;
 
 namespace CQRSTutorial.Core
 {
     public class EventApplier
     {
         private readonly TypeInspector _typeInspector;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EventApplier));
 
         public EventApplier(TypeInspector typeInspector)
         {
@@ -17,7 +19,7 @@ namespace CQRSTutorial.Core
             var eventType = @event.GetType();
             var applyEventMethodName = GetApplyEventMethodName();
             var applyMethodInfo = _typeInspector.FindMethodTakingSingleArgument(eventHandler.GetType(), applyEventMethodName, eventType);
-            Console.WriteLine($"Invoking {applyEventMethodName}() for {eventType.FullName}...");
+            _logger.Debug($"Invoking {applyEventMethodName}() for {eventType.FullName}...");
             applyMethodInfo?.Invoke(eventHandler, new object[] {@event});
         }
 

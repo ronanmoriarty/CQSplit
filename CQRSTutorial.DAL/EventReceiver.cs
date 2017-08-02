@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CQRSTutorial.Core;
+using log4net;
 
 namespace CQRSTutorial.DAL
 {
@@ -9,6 +10,7 @@ namespace CQRSTutorial.DAL
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly IEventStore _eventStore;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EventReceiver));
 
         public EventReceiver(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore, IEventToPublishRepository eventToPublishRepository)
         {
@@ -35,7 +37,7 @@ namespace CQRSTutorial.DAL
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception);
+                    _logger.Error(exception);
                     unitOfWork.Rollback();
                 }
             }

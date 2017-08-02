@@ -6,6 +6,7 @@ using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Tests;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Tests.Common;
+using log4net;
 using NUnit.Framework;
 
 namespace CQRSTutorial.Publisher.Tests
@@ -22,6 +23,7 @@ namespace CQRSTutorial.Publisher.Tests
         private PublishService _publishService;
         private OutboxToMessageQueuePublisherConfiguration _outboxToMessageQueuePublisherConfiguration;
         private string _connectionString;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(PublishServiceTests));
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -54,7 +56,7 @@ namespace CQRSTutorial.Publisher.Tests
             WhenEventQueuedForPublishing(testEvent);
 
             var unblockThreadSignalSent = _manualResetEvent.WaitOne(3000);
-            Console.WriteLine(unblockThreadSignalSent ? "New-events-published handler invoked" : "Timed out waiting for new-events-published handler to be invoked");
+            _logger.Debug(unblockThreadSignalSent ? "New-events-published handler invoked" : "Timed out waiting for new-events-published handler to be invoked");
             Assert.That(_numberOfNotificationsReceived, Is.EqualTo(1));
         }
 
@@ -62,7 +64,7 @@ namespace CQRSTutorial.Publisher.Tests
         public void Notifications_not_received_when_there_are_no_EventsToPublish_table_changes()
         {
             var unblockThreadSignalSent = _manualResetEvent.WaitOne(3000);
-            Console.WriteLine(unblockThreadSignalSent ? "New-events-published handler invoked" : "Timed out waiting for new-events-published handler to be invoked");
+            _logger.Debug(unblockThreadSignalSent ? "New-events-published handler invoked" : "Timed out waiting for new-events-published handler to be invoked");
             if (_numberOfNotificationsReceived > 0)
             {
                 OutputUnexpectedIdsFound();
@@ -78,7 +80,7 @@ namespace CQRSTutorial.Publisher.Tests
             sqlExecutor.ExecuteReader("SELECT Id FROM dbo.EventsToPublish", reader => ids.Add(reader.GetGuid(reader.GetOrdinal("Id"))));
             foreach (var id in ids)
             {
-                Console.WriteLine($"Unexpected id found:{id}");
+                _logger.Debug($"Unexpected id found:{id}");
             }
         }
 

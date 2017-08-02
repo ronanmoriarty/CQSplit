@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Infrastructure;
 using CQRSTutorial.Tests.Common;
+using log4net;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
 using NHibernate;
@@ -31,6 +33,7 @@ namespace CQRSTutorial.Publisher.Tests
         private TestEvent _testEvent2;
         private IEventToPublishRepository _eventToPublishRepository;
         private IOutboxToMessageQueuePublisherConfiguration _outboxToMessageQueuePublisherConfiguration;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(OutboxToMessageQueuePublisherTests));
 
         [SetUp]
         public void SetUp()
@@ -152,7 +155,7 @@ namespace CQRSTutorial.Publisher.Tests
             var outboxToMessageQueuePublisher = CreateOutboxToMessageQueuePublisher(messageBusEventPublisher, _outboxToMessageQueuePublisherConfiguration);
             outboxToMessageQueuePublisher.PublishQueuedMessages();
             var isSignalled = manualResetEvent.WaitOne(3000);
-            Console.WriteLine(isSignalled ? "Another thread unblocked this thread." : "Timeout");
+            _logger.Debug(isSignalled ? "Another thread unblocked this thread." : "Timeout");
         }
 
         private OutboxToMessageQueuePublisher CreateOutboxToMessageQueuePublisher(
@@ -164,7 +167,8 @@ namespace CQRSTutorial.Publisher.Tests
                 messageBusEventPublisher,
                 _eventToPublishMapper,
                 () => new NHibernateUnitOfWork(_sessionFactory.OpenSession()),
-                outboxToMessageQueuePublisherConfiguration);
+                outboxToMessageQueuePublisherConfiguration,
+                _logger);
             return outboxToMessageQueuePublisher;
         }
 

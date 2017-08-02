@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using log4net;
 
 namespace CQRSTutorial.Core
 {
@@ -11,6 +12,7 @@ namespace CQRSTutorial.Core
         private readonly IEventReceiver _eventReceiver;
         private readonly IAggregateStore _aggregateStore;
         private readonly TypeInspector _typeInspector;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(CommandDispatcher));
 
         public CommandDispatcher(IEventReceiver eventReceiver, IAggregateStore aggregateStore, TypeInspector typeInspector)
         {
@@ -34,7 +36,7 @@ namespace CQRSTutorial.Core
                 }
                 catch (TargetInvocationException exception)
                 {
-                    Console.WriteLine(exception.InnerException.StackTrace);
+                    _logger.Error(exception.InnerException.StackTrace);
                     throw exception.InnerException; // allow any actual exceptions to bubble up, rather than wrapping up the original exception in the reflection-specific TargetInvocationException.
                 }
             }

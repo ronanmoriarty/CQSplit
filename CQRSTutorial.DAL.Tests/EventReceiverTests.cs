@@ -4,6 +4,7 @@ using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Tests.Common;
+using log4net;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
@@ -20,6 +21,7 @@ namespace CQRSTutorial.DAL.Tests
         private IEventStore _eventStore;
         private const string EventsToPublishTableName = "dbo.EventsToPublish";
         private const string EventStoreTableName = "dbo.Events";
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EventReceiverTests));
 
         [SetUp]
         public void SetUp()
@@ -116,7 +118,7 @@ namespace CQRSTutorial.DAL.Tests
         private void AssertThatEventSavedToTable(string tableName)
         {
             var sql = $"SELECT COUNT(*) FROM {tableName} WHERE Id = '{_testEvent.Id}'";
-            Console.WriteLine(sql);
+            _logger.Debug(sql);
             var numberOfEventsInserted =
                 _sqlExecutor.ExecuteScalar<int>(sql);
             Assert.That(numberOfEventsInserted, Is.EqualTo(1));

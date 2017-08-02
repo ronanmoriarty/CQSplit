@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using CQRSTutorial.DAL;
+using log4net;
 
 namespace CQRSTutorial.Publisher
 {
@@ -11,6 +12,7 @@ namespace CQRSTutorial.Publisher
         private SqlConnection _connection;
         private SqlDependency _sqlDependency;
         private bool _subscribedToOnChangeEvent;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(PublishService));
 
         public PublishService(IConnectionStringProviderFactory connectionStringProviderFactory,
             Action onNewEventQueuedForPublishing)
@@ -56,7 +58,7 @@ namespace CQRSTutorial.Publisher
 
         private void OnChange(object sender, SqlNotificationEventArgs e)
         {
-            Console.WriteLine($"SqlNotificationInfo: {e.Info}");
+            _logger.Debug($"SqlNotificationInfo: {e.Info}");
             if (e.Info == SqlNotificationInfo.Insert)
             {
                 _onNewEventQueuedForPublishing();
