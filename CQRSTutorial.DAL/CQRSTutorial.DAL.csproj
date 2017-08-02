@@ -64,6 +64,7 @@
     <Compile Include="Event.cs" />
     <Compile Include="EventMapper.cs" />
     <Compile Include="EventMapping.cs" />
+    <Compile Include="EventsToPublishResult.cs" />
     <Compile Include="EventStore.cs" />
     <Compile Include="EventToPublish.cs" />
     <Compile Include="EventToPublishMapper.cs" />

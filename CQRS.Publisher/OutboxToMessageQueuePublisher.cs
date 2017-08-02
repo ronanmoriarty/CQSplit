@@ -28,7 +28,8 @@ namespace CQRSTutorial.Publisher
 
         public void PublishQueuedMessages()
         {
-            var eventsToPublish = _eventToPublishRepository.GetEventsAwaitingPublishing(_batchSize);
+            var eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing(_batchSize);
+            var eventsToPublish = eventsToPublishResult.EventsToPublish;
             Console.WriteLine($"Retrieved {eventsToPublish.Count} events to publish to message queue.");
             foreach (var eventToPublish in eventsToPublish)
             {

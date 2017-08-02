@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using CQRSTutorial.Core;
 
 namespace CQRSTutorial.DAL
@@ -8,7 +7,7 @@ namespace CQRSTutorial.DAL
     {
         void Add(IEvent @event);
         IEvent Read(Guid id);
-        IList<EventToPublish> GetEventsAwaitingPublishing(int batchSize);
+        EventsToPublishResult GetEventsAwaitingPublishing(int batchSize);
         void Delete(EventToPublish eventToPublish);
     }
 }

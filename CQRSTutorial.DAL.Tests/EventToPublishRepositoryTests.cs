@@ -79,10 +79,11 @@ namespace CQRSTutorial.DAL.Tests
 
             _session.Transaction.Commit();
 
-            var batch = _eventToPublishRepository.GetEventsAwaitingPublishing(2);
-            Assert.That(batch.Count, Is.EqualTo(2));
-            Assert.That(batch.First().Id, Is.EqualTo(_id1));
-            Assert.That(batch.Last().Id, Is.EqualTo(_id2));
+            var eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing(2);
+            var eventsToPublish = eventsToPublishResult.EventsToPublish;
+            Assert.That(eventsToPublish.Count, Is.EqualTo(2));
+            Assert.That(eventsToPublish.First().Id, Is.EqualTo(_id1));
+            Assert.That(eventsToPublish.Last().Id, Is.EqualTo(_id2));
         }
 
         private void AssertCreated(Guid id)

@@ -84,6 +84,7 @@ namespace CQRSTutorial.Publisher.Tests
         [Test]
         public void Uses_batch_size_from_configuration()
         {
+            AssumingNothingHasBeenQueuedForPublishing();
             var messageBusEventPublisher = CreateMessageBusEventPublisher(Queue3, () => _manualResetEvent.Set());
             var outboxToMessageQueuePublisherConfiguration = Substitute.For<IOutboxToMessageQueuePublisherConfiguration>();
             outboxToMessageQueuePublisherConfiguration.BatchSize.Returns(BatchSize);
@@ -93,12 +94,28 @@ namespace CQRSTutorial.Publisher.Tests
             _eventToPublishRepository.Received(1).GetEventsAwaitingPublishing(Arg.Is(BatchSize));
         }
 
+        private void AssumingNothingHasBeenQueuedForPublishing()
+        {
+            _eventToPublishRepository
+                .GetEventsAwaitingPublishing(Arg.Any<int>())
+                .Returns(new EventsToPublishResult
+                {
+                    EventsToPublish = new List<EventToPublish>()
+                });
+        }
+
         private void AssumingMessageHasBeenQueuedForPublishing(IEvent testEvent)
         {
             var eventToPublish = _eventToPublishMapper.MapToEventToPublish(testEvent);
             _eventToPublishRepository
                 .GetEventsAwaitingPublishing(Arg.Any<int>())
-                .Returns(new List<EventToPublish> { eventToPublish });
+                .Returns(new EventsToPublishResult
+                {
+                    EventsToPublish = new List<EventToPublish>
+                    {
+                        eventToPublish
+                    }
+                });
         }
 
         private void WhenQueuedMessageGetsPublished(MessageBusEventPublisher messageBusEventPublisher,

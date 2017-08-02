@@ -28,17 +28,22 @@ namespace CQRSTutorial.DAL
             return _eventToPublishMapper.MapToEvent(eventToPublish);
         }
 
-        public IList<EventToPublish> GetEventsAwaitingPublishing(int batchSize)
+        public EventsToPublishResult GetEventsAwaitingPublishing(int batchSize)
         {
             using (var session = SessionFactory.OpenSession())
             {
                 using (session.BeginTransaction())
                 {
-                    return session
+                    var eventsToPublish = session
                         .QueryOver<EventToPublish>()
                         .OrderBy(x => x.Created).Asc
                         .Take(batchSize)
                         .List();
+
+                    return new EventsToPublishResult
+                    {
+                        EventsToPublish = eventsToPublish
+                    };
                 }
             }
         }
