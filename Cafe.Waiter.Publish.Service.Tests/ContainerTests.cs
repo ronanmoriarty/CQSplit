@@ -9,6 +9,8 @@ namespace Cafe.Waiter.Publish.Service.Tests
         [Test]
         public void CanResolvePublishService()
         {
+            Bootstrapper.Initialize();
+
             var publishService = Container.Instance.Resolve<PublishService>();
 
             Assert.That(publishService, Is.Not.Null);
