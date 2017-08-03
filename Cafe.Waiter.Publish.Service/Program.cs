@@ -9,11 +9,13 @@ namespace Cafe.Waiter.Publish.Service
         static void Main(string[] args)
         {
             XmlConfigurator.Configure();
+            Bootstrapper.Initialize();
+
             HostFactory.Run(x =>
             {
                 x.Service<PublishService>(publishService =>
                 {
-                    publishService.ConstructUsing(Bootstrapper.CreatePublishService);
+                    publishService.ConstructUsing(Container.Instance.Resolve<PublishService>);
                     publishService.WhenStarted(tc => tc.Start());
                     publishService.WhenStopped(tc => tc.Stop());
                 });
