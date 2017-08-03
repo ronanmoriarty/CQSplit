@@ -1,5 +1,4 @@
-﻿using System;
-using CQRSTutorial.DAL;
+﻿using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
 using log4net;
 
@@ -10,21 +9,21 @@ namespace CQRSTutorial.Publisher
         private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly MessageBusEventPublisher _messageBusEventPublisher;
         private readonly EventToPublishMapper _eventToPublishMapper;
-        private readonly Func<IUnitOfWork> _createUnitOfWork;
+        private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly int _batchSize;
         private readonly ILog _logger;
 
         public OutboxToMessageQueuePublisher(IEventToPublishRepository eventToPublishRepository,
             MessageBusEventPublisher messageBusEventPublisher,
             EventToPublishMapper eventToPublishMapper,
-            Func<IUnitOfWork> createUnitOfWork,
+            IUnitOfWorkFactory unitOfWorkFactory,
             IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration,
             ILog logger)
         {
             _eventToPublishRepository = eventToPublishRepository;
             _messageBusEventPublisher = messageBusEventPublisher;
             _eventToPublishMapper = eventToPublishMapper;
-            _createUnitOfWork = createUnitOfWork;
+            _unitOfWorkFactory = unitOfWorkFactory;
             _logger = logger;
             _batchSize = outboxToMessageQueuePublisherConfiguration.BatchSize;
             _logger.Info($"Batch size: {_batchSize}");
@@ -44,7 +43,7 @@ namespace CQRSTutorial.Publisher
                     var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
                     _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
                     _messageBusEventPublisher.Receive(new[] { @event });
-                    using (var unitOfWork = _createUnitOfWork())
+                    using (var unitOfWork = _unitOfWorkFactory.Create())
                     {
                         unitOfWork.Start();
                         _eventToPublishRepository.UnitOfWork = unitOfWork;

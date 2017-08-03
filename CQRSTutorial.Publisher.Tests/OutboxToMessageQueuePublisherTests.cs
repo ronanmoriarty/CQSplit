@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
@@ -166,7 +165,7 @@ namespace CQRSTutorial.Publisher.Tests
                 _eventToPublishRepository,
                 messageBusEventPublisher,
                 _eventToPublishMapper,
-                () => new NHibernateUnitOfWork(_sessionFactory.OpenSession()),
+                new NHibernateUnitOfWorkFactory(_sessionFactory),
                 outboxToMessageQueuePublisherConfiguration,
                 _logger);
             return outboxToMessageQueuePublisher;

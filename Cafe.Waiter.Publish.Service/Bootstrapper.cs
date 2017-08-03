@@ -28,7 +28,7 @@ namespace Cafe.Waiter.Publish.Service
                 eventToPublishRepository,
                 messageBusEventPublisher,
                 eventToPublishMapper,
-                () => new NHibernateUnitOfWork(sessionFactory.OpenSession()),
+                new NHibernateUnitOfWorkFactory(sessionFactory),
                 new OutboxToMessageQueuePublisherConfiguration(),
                 LogManager.GetLogger(typeof(Program))
             );

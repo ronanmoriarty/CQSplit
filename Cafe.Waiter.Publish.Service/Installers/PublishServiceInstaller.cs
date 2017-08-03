@@ -57,22 +57,13 @@ namespace Cafe.Waiter.Publish.Service.Installers
                     .Named("eventsAssembly"),
                 Component.For<EventToPublishMapper>()
                     .DependsOn(Dependency.OnComponent("assemblyToInspectForEvents", "eventsAssembly")),
-                Component.For<Func<IUnitOfWork>>()
-                    .UsingFactoryMethod(() => CreateUnitOfWork(container))
-                    .Named("createUnitOfWork"),
                 Component.For<ILog>()
                     .Instance(LogManager.GetLogger(typeof(OutboxToMessageQueuePublisher)))
                     .Named("outboxToMessageQueuePublisherLogger"),
                 Component.For<OutboxToMessageQueuePublisher>()
                     .Forward(typeof(IOutboxToMessageQueuePublisher))
-                    .DependsOn(Dependency.OnComponent("createUnitOfWork", "createUnitOfWork"))
                     .DependsOn(Dependency.OnComponent("logger", "outboxToMessageQueuePublisherLogger"))
             );
-        }
-
-        private Func<IUnitOfWork> CreateUnitOfWork(IWindsorContainer container)
-        {
-            return () => new NHibernateUnitOfWork(container.Resolve<ISessionFactory>().OpenSession());
         }
     }
 }
