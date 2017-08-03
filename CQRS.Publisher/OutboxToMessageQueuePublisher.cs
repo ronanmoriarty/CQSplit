@@ -5,7 +5,7 @@ using log4net;
 
 namespace CQRSTutorial.Publisher
 {
-    public class OutboxToMessageQueuePublisher
+    public class OutboxToMessageQueuePublisher : IOutboxToMessageQueuePublisher
     {
         private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly MessageBusEventPublisher _messageBusEventPublisher;

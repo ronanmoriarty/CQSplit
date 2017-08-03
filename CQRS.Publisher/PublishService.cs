@@ -9,16 +9,19 @@ namespace CQRSTutorial.Publisher
     {
         private readonly IConnectionStringProviderFactory _connectionStringProviderFactory;
         private readonly Action _onNewEventQueuedForPublishing;
+        private readonly IOutboxToMessageQueuePublisher _outboxToMessageQueuePublisher;
         private SqlConnection _connection;
         private SqlDependency _sqlDependency;
         private bool _subscribedToOnChangeEvent;
         private readonly ILog _logger = LogManager.GetLogger(typeof(PublishService));
 
         public PublishService(IConnectionStringProviderFactory connectionStringProviderFactory,
-            Action onNewEventQueuedForPublishing)
+            Action onNewEventQueuedForPublishing,
+            IOutboxToMessageQueuePublisher outboxToMessageQueuePublisher)
         {
             _connectionStringProviderFactory = connectionStringProviderFactory;
             _onNewEventQueuedForPublishing = onNewEventQueuedForPublishing;
+            _outboxToMessageQueuePublisher = outboxToMessageQueuePublisher;
         }
 
         public void Start()

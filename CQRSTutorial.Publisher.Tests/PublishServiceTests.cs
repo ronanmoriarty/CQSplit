@@ -7,6 +7,7 @@ using CQRSTutorial.DAL.Tests;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Tests.Common;
 using log4net;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace CQRSTutorial.Publisher.Tests
@@ -45,7 +46,8 @@ namespace CQRSTutorial.Publisher.Tests
                 {
                     _numberOfNotificationsReceived++;
                     _manualResetEvent.Set();
-                });
+                },
+                Substitute.For<IOutboxToMessageQueuePublisher>());
             _publishService.Start();
         }
 

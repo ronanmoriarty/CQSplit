@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IOutboxToMessageQueuePublisher.cs" />
     <Compile Include="PublishService.cs" />
     <Compile Include="IOutboxToMessageQueuePublisherConfiguration.cs" />
     <Compile Include="OutboxToMessageQueuePublisher.cs" />
