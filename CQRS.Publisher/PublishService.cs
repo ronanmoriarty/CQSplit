@@ -8,7 +8,6 @@ namespace CQRSTutorial.Publisher
     public class PublishService : IDisposable
     {
         private readonly IConnectionStringProviderFactory _connectionStringProviderFactory;
-        private readonly Action _onNewEventQueuedForPublishing;
         private readonly IOutboxToMessageQueuePublisher _outboxToMessageQueuePublisher;
         private SqlConnection _connection;
         private SqlDependency _sqlDependency;
@@ -16,11 +15,9 @@ namespace CQRSTutorial.Publisher
         private readonly ILog _logger = LogManager.GetLogger(typeof(PublishService));
 
         public PublishService(IConnectionStringProviderFactory connectionStringProviderFactory,
-            Action onNewEventQueuedForPublishing,
             IOutboxToMessageQueuePublisher outboxToMessageQueuePublisher)
         {
             _connectionStringProviderFactory = connectionStringProviderFactory;
-            _onNewEventQueuedForPublishing = onNewEventQueuedForPublishing;
             _outboxToMessageQueuePublisher = outboxToMessageQueuePublisher;
         }
 
@@ -64,7 +61,7 @@ namespace CQRSTutorial.Publisher
             _logger.Debug($"SqlNotificationInfo: {e.Info}");
             if (e.Info == SqlNotificationInfo.Insert)
             {
-                _onNewEventQueuedForPublishing();
+                _outboxToMessageQueuePublisher.PublishQueuedMessages();
             }
         }
     }

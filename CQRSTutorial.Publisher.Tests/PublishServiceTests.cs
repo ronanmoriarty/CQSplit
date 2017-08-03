@@ -40,14 +40,16 @@ namespace CQRSTutorial.Publisher.Tests
             CleanUp();
             _eventToPublishRepository = new EventToPublishRepository(SessionFactory.Instance, new EventToPublishMapper(typeof(TestEvent).Assembly));
             _numberOfNotificationsReceived = 0;
-            _publishService = new PublishService(
-                WriteModelConnectionStringProviderFactory.Instance,
-                () =>
-                {
-                    _numberOfNotificationsReceived++;
-                    _manualResetEvent.Set();
-                },
-                Substitute.For<IOutboxToMessageQueuePublisher>());
+            var outboxToMessageQueuePublisher = Substitute.For<IOutboxToMessageQueuePublisher>();
+            outboxToMessageQueuePublisher
+                .When(x => x.PublishQueuedMessages())
+                .Do(x =>
+                    {
+                        _numberOfNotificationsReceived++;
+                        _manualResetEvent.Set();
+                    }
+            );
+            _publishService = new PublishService(WriteModelConnectionStringProviderFactory.Instance, outboxToMessageQueuePublisher);
             _publishService.Start();
         }
 

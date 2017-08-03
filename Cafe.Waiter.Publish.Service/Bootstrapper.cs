@@ -33,12 +33,7 @@ namespace Cafe.Waiter.Publish.Service
                 LogManager.GetLogger(typeof(Program))
             );
 
-            return new PublishService(connectionStringProviderFactory,
-                () =>
-                {
-                    outboxToMessageQueuePublisher.PublishQueuedMessages();
-                },
-                outboxToMessageQueuePublisher);
+            return new PublishService(connectionStringProviderFactory, outboxToMessageQueuePublisher);
         }
     }
 }
