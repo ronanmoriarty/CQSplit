@@ -1,34 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
-using Cafe.Domain;
 using Cafe.Domain.Commands;
-using Cafe.Domain.Events;
-using CQRSTutorial.Core;
-using CQRSTutorial.DAL;
 
 namespace Cafe.Waiter.Web.Controllers
 {
     public class TabController : Controller
     {
-        private readonly ICommandDispatcher _commandDispatcher;
-
-        public TabController()
-            : this(new CommandDispatcher(
-                new EventReceiver(
-                    new NHibernateUnitOfWorkFactory(SessionFactory.Instance),
-                    new EventStore(SessionFactory.Instance, new EventMapper(typeof(TabOpened).Assembly)),
-                    new EventToPublishRepository(SessionFactory.Instance, new EventToPublishMapper(typeof(TabOpened).Assembly))
-                ),
-                new AggregateStore(new List<ICommandHandler> { new TabFactory() }),
-                new TypeInspector())
-            )
-        {
-        }
+        private readonly IMessageBus _messageBus;
         
-        public TabController(ICommandDispatcher commandDispatcher)
+        public TabController(IMessageBus messageBus)
         {
-            _commandDispatcher = commandDispatcher;
+            _messageBus = messageBus;
         }
 
         // GET: Tab
@@ -41,7 +23,7 @@ namespace Cafe.Waiter.Web.Controllers
         public ActionResult Create()
         {
             var openTabCommand = CreateOpenTabCommand();
-            _commandDispatcher.Dispatch(openTabCommand);
+            _messageBus.Send(openTabCommand);
             return RedirectToAction("Index", new {tabId = openTabCommand.AggregateId});
         }
 

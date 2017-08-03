@@ -12,21 +12,21 @@ namespace Cafe.Waiter.Web.Tests.TabController
     public class When_creating_tab
     {
         private Controllers.TabController _tabController;
-        private ICommandDispatcher _commandDispatcher;
+        private IMessageBus _messageBus;
         private ActionResult _actionResult;
 
         [SetUp]
         public void SetUp()
         {
-            _commandDispatcher = Substitute.For<ICommandDispatcher>();
-            _tabController = new Controllers.TabController(_commandDispatcher);
+            _messageBus = Substitute.For<IMessageBus>();
+            _tabController = new Controllers.TabController(_messageBus);
             _actionResult = _tabController.Create();
         }
 
         [Test]
-        public void OpenTab_command_dispatched_with_ids_set()
+        public void OpenTab_command_sent_to_message_bus_with_ids_set()
         {
-            _commandDispatcher.Received().Dispatch(Arg.Is<OpenTab>(command => HasIdPropertiesSet(command))); // don't care too much about other values (TableNumber and waiter name) at the moment - happy setting them to arbitrary values for display purposes - no need to assert them.
+            _messageBus.Received().Send(Arg.Is<OpenTab>(command => HasIdPropertiesSet(command))); // don't care too much about other values (TableNumber and waiter name) at the moment - happy setting them to arbitrary values for display purposes - no need to assert them.
         }
 
         [Test]
@@ -46,8 +46,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
 
         private Guid GetTabId()
         {
-            var commands = (ICommand[])_commandDispatcher.ReceivedCalls().Single().GetArguments().Single();
-            var openTabCommand = (OpenTab)commands[0];
+            var openTabCommand = (OpenTab)_messageBus.ReceivedCalls().Single().GetArguments().Single();
             return openTabCommand.AggregateId;
         }
     }
