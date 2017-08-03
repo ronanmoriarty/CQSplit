@@ -32,10 +32,10 @@ namespace Cafe.Waiter.Web.Tests.TabController
         [Test]
         public void Redirects_to_index_action_indicating_id_of_newly_created_tab()
         {
-            var commandId = GetOpenTabCommandId();
+            var tabId = GetTabId();
             var redirectToRouteResult = (RedirectToRouteResult)_actionResult;
             Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("Index"));
-            Assert.That(redirectToRouteResult.RouteValues["tabId"], Is.EqualTo(commandId));
+            Assert.That(redirectToRouteResult.RouteValues["tabId"], Is.EqualTo(tabId));
         }
 
         private bool HasIdPropertiesSet(OpenTab command)
@@ -44,11 +44,11 @@ namespace Cafe.Waiter.Web.Tests.TabController
                 && command.AggregateId != Guid.Empty;
         }
 
-        private Guid GetOpenTabCommandId()
+        private Guid GetTabId()
         {
             var commands = (ICommand[])_commandDispatcher.ReceivedCalls().Single().GetArguments().Single();
             var openTabCommand = (OpenTab)commands[0];
-            return openTabCommand.Id;
+            return openTabCommand.AggregateId;
         }
     }
 }
