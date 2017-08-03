@@ -13,6 +13,7 @@ namespace Cafe.Waiter.Web
         protected void Application_Start()
         {
             XmlConfigurator.Configure();
+            Bootstrapper.Start();
             _logger.Info("Cafe.Waiter.Web application started");
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

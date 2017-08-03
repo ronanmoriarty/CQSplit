@@ -113,6 +113,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContainerTests.cs" />
     <Compile Include="RunOncePerTestRun.cs" />
     <Compile Include="TabController\When_creating_tab.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
