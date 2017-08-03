@@ -1,5 +1,4 @@
-﻿using log4net.Config;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Cafe.Waiter.Web.Tests
 {
@@ -9,7 +8,7 @@ namespace Cafe.Waiter.Web.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            XmlConfigurator.Configure();
+            Bootstrapper.Start();
         }
     }
 }

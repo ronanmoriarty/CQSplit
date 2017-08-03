@@ -2,7 +2,6 @@
 using System.Web.Optimization;
 using System.Web.Routing;
 using log4net;
-using log4net.Config;
 
 namespace Cafe.Waiter.Web
 {
@@ -12,7 +11,6 @@ namespace Cafe.Waiter.Web
 
         protected void Application_Start()
         {
-            XmlConfigurator.Configure();
             Bootstrapper.Start();
             _logger.Info("Cafe.Waiter.Web application started");
             AreaRegistration.RegisterAllAreas();

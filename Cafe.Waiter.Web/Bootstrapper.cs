@@ -1,4 +1,5 @@
 using Castle.Windsor.Installer;
+using log4net.Config;
 
 namespace Cafe.Waiter.Web
 {
@@ -6,6 +7,7 @@ namespace Cafe.Waiter.Web
     {
         public static void Start()
         {
+            XmlConfigurator.Configure();
             Container.Instance.Install(FromAssembly.This());
         }
     }

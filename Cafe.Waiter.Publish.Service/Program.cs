@@ -1,5 +1,4 @@
 ﻿using CQRSTutorial.Publisher;
-using log4net.Config;
 using Topshelf;
 
 namespace Cafe.Waiter.Publish.Service
@@ -8,7 +7,6 @@ namespace Cafe.Waiter.Publish.Service
     {
         static void Main(string[] args)
         {
-            XmlConfigurator.Configure();
             Bootstrapper.Initialize();
 
             HostFactory.Run(x =>

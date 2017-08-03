@@ -25,7 +25,7 @@ namespace Cafe.Waiter.Web.Controllers
             )
         {
         }
-
+        
         public TabController(ICommandDispatcher commandDispatcher)
         {
             _commandDispatcher = commandDispatcher;
