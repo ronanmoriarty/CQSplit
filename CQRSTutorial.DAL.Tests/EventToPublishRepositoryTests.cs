@@ -1,7 +1,9 @@
 ﻿using System;
-using System.Reflection;
+using System.Linq;
+using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
+using CQRSTutorial.Tests.Common;
 using NHibernate;
 using NUnit.Framework;
 
@@ -11,22 +13,22 @@ namespace CQRSTutorial.DAL.Tests
     public class EventToPublishRepositoryTests
     {
         private IEvent _retrievedEvent;
-        private IPublishConfiguration _publishConfiguration;
-        private const string PublishLocation = "some.rabbitmq.topic.*";
-        private EventToPublishRepository _repository;
+        private EventToPublishRepository _eventToPublishRepository;
         private ISession _session;
+        private SqlExecutor _sqlExecutor;
         private readonly Guid _id = new Guid("8BDD0C3C-2680-4678-BFB9-4D379C2DD208");
+        private readonly Guid _id1 = new Guid("75BD91C8-AE33-4EA3-B7BF-8E2140433A62");
+        private readonly Guid _id2 = new Guid("DB0CBB04-4773-425F-A6B2-17A939568433");
+        private readonly Guid _id3 = new Guid("3A0A042A-D107-4876-B43C-347C0A7C0DAD");
 
         [SetUp]
         public void SetUp()
         {
-            var sqlExecutor = new SqlExecutor();
-            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = '{_id}'"); // do clean-up before test runs instead of after, so that if a test fails, we can investigate data.
-            _publishConfiguration = new TestPublishConfiguration(PublishLocation);
+            CleanUp();
             _session = SessionFactory.Instance.OpenSession();
             _session.BeginTransaction();
-            _repository = CreateRepository();
-            _repository.UnitOfWork = new NHibernateUnitOfWork(_session);
+            _eventToPublishRepository = CreateRepository();
+            _eventToPublishRepository.UnitOfWork = new NHibernateUnitOfWork(_session);
         }
 
         [Test]
@@ -49,52 +51,75 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(retrievedTabOpenedEvent.Id, Is.EqualTo(testEvent.Id));
             Assert.That(retrievedTabOpenedEvent.IntProperty, Is.EqualTo(intPropertyValue));
             Assert.That(retrievedTabOpenedEvent.StringProperty, Is.EqualTo(stringPropertyValue));
+            AssertCreated(_id);
         }
 
         [Test]
-        public void Event_PublishTo_set_according_to_PublishConfiguration()
+        public void WhenPublishing_MessagesReadOffQueueInChronologicalOrder()
         {
-            const string stringPropertyValue = "John";
-            const int intPropertyValue = 123;
-
-            var testEvent = new TestEvent
+            var testEvent1 = new TestEvent
             {
-                Id = _id,
-                IntProperty = intPropertyValue,
-                StringProperty = stringPropertyValue
+                Id = _id1
             };
+            _eventToPublishRepository.Add(testEvent1);
 
-            _repository.Add(testEvent);
+            Thread.Sleep(1000); // to ensure they don't get recorded with the same time. Doesn't seem to pick up values smaller than this in database for some reason (even though datetime held in DB to millisecond precision).
+            var testEvent2 = new TestEvent
+            {
+                Id = _id2
+            };
+            _eventToPublishRepository.Add(testEvent2);
+
+            Thread.Sleep(1000);
+            var testEvent3 = new TestEvent
+            {
+                Id = _id3
+            };
+            _eventToPublishRepository.Add(testEvent3);
+
             _session.Transaction.Commit();
-            var eventToPublish = _repository.Get(testEvent.Id);
 
-            Assert.That(eventToPublish.PublishTo, Is.EqualTo(PublishLocation));
+            var eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing(2);
+            var eventsToPublish = eventsToPublishResult.EventsToPublish;
+            Assert.That(eventsToPublish.Count, Is.EqualTo(2));
+            Assert.That(eventsToPublish.First().Id, Is.EqualTo(_id1));
+            Assert.That(eventsToPublish.Last().Id, Is.EqualTo(_id2));
+            Assert.That(eventsToPublishResult.TotalNumberOfEventsToPublish, Is.EqualTo(3));
+        }
+
+        private void AssertCreated(Guid id)
+        {
+            var createdDate = _sqlExecutor.ExecuteScalar<DateTime>($"SELECT Created FROM dbo.EventsToPublish WHERE Id = '{id}'");
+            var oneSecond = new TimeSpan(0,0,1);
+            Assert.That(createdDate, Is.EqualTo(DateTime.Now).Within(oneSecond));
         }
 
         private EventToPublishRepository CreateRepository()
         {
-            return new EventToPublishRepository(SessionFactory.Instance, _publishConfiguration, new EventToPublishMapper(Assembly.GetExecutingAssembly()));
+            return new EventToPublishRepository(SessionFactory.Instance, new EventToPublishMapper(typeof(TestEvent).Assembly));
         }
 
         private void InsertAndRead(IEvent @event)
         {
-            _repository.Add(@event);
+            _eventToPublishRepository.Add(@event);
             _session.Transaction.Commit();
-            _retrievedEvent = _repository.Read(@event.Id);
+            _retrievedEvent = _eventToPublishRepository.Read(@event.Id);
         }
-    }
 
-    public class TestPublishConfiguration : IPublishConfiguration
-    {
-        private readonly string _location;
-
-        public TestPublishConfiguration(string location)
+        [TearDown]
+        public void TearDown()
         {
-            _location = location;
+            CleanUp(); // would rather leave these records in database after tests finish for diagnosing problems but these records are causing interference in other integration tests.
         }
-        public string GetPublishLocationFor(Type typeToPublish)
+
+        private void CleanUp()
         {
-            return _location;
+            _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')");
+            if (_session != null && _session.IsOpen)
+            {
+                _session?.Close();
+            }
         }
     }
 }

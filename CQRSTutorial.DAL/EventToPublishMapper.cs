@@ -22,6 +22,17 @@ namespace CQRSTutorial.DAL
             return @event;
         }
 
+        public EventToPublish MapToEventToPublish(IEvent @event)
+        {
+            return new EventToPublish
+            {
+                Id = @event.Id,
+                EventType = @event.GetType().Name,
+                Data = JsonConvert.SerializeObject(@event),
+                Created = DateTime.Now
+            };
+        }
+
         private Type GetEventTypeFrom(string eventType)
         {
             return _assemblyToInspectForEvents.GetTypes()

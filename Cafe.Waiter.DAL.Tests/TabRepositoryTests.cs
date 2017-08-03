@@ -30,7 +30,7 @@ namespace Cafe.Waiter.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            var sqlExecutor = new SqlExecutor();
+            var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_tabId}'");
             _tabRepository = new TabRepository(new EventStore(SessionFactory.Instance, new EventMapper(typeof(TabOpened).Assembly)), new EventApplier(new TypeInspector()));
             _repository = CreateRepository();

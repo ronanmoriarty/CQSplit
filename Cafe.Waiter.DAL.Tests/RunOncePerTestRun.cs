@@ -1,5 +1,6 @@
 ﻿using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Tests.Common;
+using log4net.Config;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.DAL.Tests
@@ -10,7 +11,8 @@ namespace Cafe.Waiter.DAL.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            var connectionStringProviderFactory = new ConnectionStringProviderFactory("CQRSTutorial.Cafe.Waiter", "CQRSTUTORIAL_CAFE_WAITER_CONNECTIONSTRING_OVERRIDE");
+            XmlConfigurator.Configure();
+            var connectionStringProviderFactory = WriteModelConnectionStringProviderFactory.Instance;
             var nHibernateConfiguration = new NHibernateConfiguration(connectionStringProviderFactory);
             SessionFactory.Instance = nHibernateConfiguration.CreateSessionFactory();
         }

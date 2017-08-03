@@ -1,4 +1,5 @@
-﻿using CQRSTutorial.DAL;
+﻿using Cafe.Waiter.DAL;
+using CQRSTutorial.DAL;
 using NHibernate;
 
 namespace Cafe.Waiter.Web
@@ -7,7 +8,7 @@ namespace Cafe.Waiter.Web
     {
         static SessionFactory()
         {
-            var connectionStringProviderFactory = new ConnectionStringProviderFactory("CQRSTutorial.Cafe.Waiter", "CQRSTUTORIAL_CAFE_WAITER_CONNECTIONSTRING_OVERRIDE");
+            var connectionStringProviderFactory = WriteModelConnectionStringProviderFactory.Instance;
             Instance = new NHibernateConfiguration(connectionStringProviderFactory).CreateSessionFactory();
         }
 

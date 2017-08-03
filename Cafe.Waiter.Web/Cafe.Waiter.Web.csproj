@@ -52,6 +52,10 @@
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -183,7 +187,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="PublishConfiguration.cs" />
     <Compile Include="SessionFactory.cs" />
     <Compile Include="Controllers\TabController.cs" />
     <Compile Include="Global.asax.cs">
@@ -267,6 +270,10 @@
     <ProjectReference Include="..\Cafe.Domain\Cafe.Domain.csproj">
       <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
       <Name>Cafe.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cafe.Waiter.DAL\Cafe.Waiter.DAL.csproj">
+      <Project>{AFCE4964-C829-415E-9E8E-4286C5914496}</Project>
+      <Name>Cafe.Waiter.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
       <Project>{d9a17521-4b50-403c-8a7f-d9f82051049b}</Project>

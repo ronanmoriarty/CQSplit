@@ -4,6 +4,7 @@ using System.Linq;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using CQRSTutorial.Core;
+using log4net;
 
 namespace Cafe.Domain
 {
@@ -20,10 +21,11 @@ namespace Cafe.Domain
         private readonly List<OrderedItem> _drinksAwaitingServing = new List<OrderedItem>();
         private readonly List<OrderedItem> _foodAwaitingServing = new List<OrderedItem>();
         private decimal _totalValueOfServedItems;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(Tab));
 
         public IEnumerable<IEvent> Handle(PlaceOrder command)
         {
-            Console.WriteLine("Handling PlaceOrder command...");
+            _logger.Info("Handling PlaceOrder command...");
             var events = new List<IEvent>();
             events.AddRange(GetEventForAnyDrinksOrdered(command));
             events.AddRange(GetEventForAnyFoodOrdered(command));

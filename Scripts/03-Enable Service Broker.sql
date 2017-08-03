@@ -1,0 +1,1 @@
+ALTER DATABASE [CQRSTutorial.Cafe.Waiter.WriteModel] SET ENABLE_BROKER

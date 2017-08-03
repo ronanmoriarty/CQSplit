@@ -3,6 +3,8 @@ using System.Linq;
 using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
+using CQRSTutorial.Tests.Common;
+using log4net;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
@@ -15,21 +17,27 @@ namespace CQRSTutorial.DAL.Tests
         private TestEvent _testEvent;
         private TestEvent2 _testEvent2;
         private SqlExecutor _sqlExecutor;
-        private EventRepositoryDecorator _eventRepositoryDecorator;
+        private EventToPublishRepositoryDecorator _eventToPublishRepositoryDecorator;
         private IEventStore _eventStore;
         private const string EventsToPublishTableName = "dbo.EventsToPublish";
         private const string EventStoreTableName = "dbo.Events";
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EventReceiverTests));
 
         [SetUp]
         public void SetUp()
         {
-            _sqlExecutor = new SqlExecutor();
-            _eventRepositoryDecorator = CreateEventRepositoryThatCanSimulateSqlExceptions(new EventToPublishRepository(SessionFactory.Instance, new TestPublishConfiguration("some.rabbitmq.topic.*"), new EventToPublishMapper(Assembly.GetExecutingAssembly())));
+            _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
+            _eventToPublishRepositoryDecorator = CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(
+                new EventToPublishRepository(
+                    SessionFactory.Instance,
+                    new EventToPublishMapper(Assembly.GetExecutingAssembly())
+                )
+            );
             _eventStore = new EventStore(SessionFactory.Instance, new EventMapper(Assembly.GetExecutingAssembly()));
             _eventReceiver = new EventReceiver(
                 new NHibernateUnitOfWorkFactory(SessionFactory.Instance),
                 _eventStore,
-                _eventRepositoryDecorator);
+                _eventToPublishRepositoryDecorator);
 
             _testEvent = new TestEvent
             {
@@ -79,15 +87,15 @@ namespace CQRSTutorial.DAL.Tests
             }
         }
 
-        private EventRepositoryDecorator CreateEventRepositoryThatCanSimulateSqlExceptions(IEventRepository eventRepositoryToWrap)
+        private EventToPublishRepositoryDecorator CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(EventToPublishRepository innerEventToPublishRepository)
         {
-            return new EventRepositoryDecorator(eventRepositoryToWrap);
+            return new EventToPublishRepositoryDecorator(innerEventToPublishRepository);
         }
 
         private void AssumingSecondSaveCausesException()
         {
             int numberOfEventsAdded = 0;
-            _eventRepositoryDecorator.OnBeforeAdding = @event =>
+            _eventToPublishRepositoryDecorator.OnBeforeAdding = @event =>
             {
                 numberOfEventsAdded++;
                 if (numberOfEventsAdded == 2)
@@ -110,7 +118,7 @@ namespace CQRSTutorial.DAL.Tests
         private void AssertThatEventSavedToTable(string tableName)
         {
             var sql = $"SELECT COUNT(*) FROM {tableName} WHERE Id = '{_testEvent.Id}'";
-            Console.WriteLine(sql);
+            _logger.Debug(sql);
             var numberOfEventsInserted =
                 _sqlExecutor.ExecuteScalar<int>(sql);
             Assert.That(numberOfEventsInserted, Is.EqualTo(1));

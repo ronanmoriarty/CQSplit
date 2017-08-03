@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using CQRSTutorial.Core;
+using log4net;
 
 namespace CQRSTutorial.DAL
 {
     public class EventReceiver : IEventReceiver
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-        private readonly IEventRepository _eventRepository;
+        private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly IEventStore _eventStore;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EventReceiver));
 
-        public EventReceiver(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore, IEventRepository eventRepository)
+        public EventReceiver(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore, IEventToPublishRepository eventToPublishRepository)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _eventStore = eventStore;
-            _eventRepository = eventRepository;
+            _eventToPublishRepository = eventToPublishRepository;
         }
 
         public void Receive(IEnumerable<IEvent> events)
@@ -22,20 +24,20 @@ namespace CQRSTutorial.DAL
             using (var unitOfWork = _unitOfWorkFactory.Create())
             {
                 unitOfWork.Start();
-                unitOfWork.Enlist(_eventRepository);
+                unitOfWork.Enlist(_eventToPublishRepository);
                 unitOfWork.Enlist(_eventStore);
                 try
                 {
                     foreach (var @event in events)
                     {
                         _eventStore.Add(@event);
-                        _eventRepository.Add(@event);
+                        _eventToPublishRepository.Add(@event);
                     }
                     unitOfWork.Commit();
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception);
+                    _logger.Error(exception);
                     unitOfWork.Rollback();
                 }
             }

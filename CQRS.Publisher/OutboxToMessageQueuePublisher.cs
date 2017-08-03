@@ -1,31 +1,57 @@
-﻿using System;
-using CQRSTutorial.DAL;
+﻿using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
+using log4net;
 
 namespace CQRSTutorial.Publisher
 {
-    public class OutboxToMessageQueuePublisher
+    public class OutboxToMessageQueuePublisher : IOutboxToMessageQueuePublisher
     {
-        private readonly EventToPublishRepository _repository;
+        private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly MessageBusEventPublisher _messageBusEventPublisher;
         private readonly EventToPublishMapper _eventToPublishMapper;
+        private readonly IUnitOfWorkFactory _unitOfWorkFactory;
+        private readonly int _batchSize;
+        private readonly ILog _logger;
 
-        public OutboxToMessageQueuePublisher(EventToPublishRepository repository, MessageBusEventPublisher messageBusEventPublisher, EventToPublishMapper eventToPublishMapper)
+        public OutboxToMessageQueuePublisher(IEventToPublishRepository eventToPublishRepository,
+            MessageBusEventPublisher messageBusEventPublisher,
+            EventToPublishMapper eventToPublishMapper,
+            IUnitOfWorkFactory unitOfWorkFactory,
+            IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration,
+            ILog logger)
         {
-            _repository = repository;
+            _eventToPublishRepository = eventToPublishRepository;
             _messageBusEventPublisher = messageBusEventPublisher;
             _eventToPublishMapper = eventToPublishMapper;
+            _unitOfWorkFactory = unitOfWorkFactory;
+            _logger = logger;
+            _batchSize = outboxToMessageQueuePublisherConfiguration.BatchSize;
+            _logger.Info($"Batch size: {_batchSize}");
         }
 
         public void PublishQueuedMessages()
         {
-            var eventsToPublish = _repository.GetEventsAwaitingPublishing();
-            foreach (var eventToPublish in eventsToPublish)
+            var firstPass = true;
+            EventsToPublishResult eventsToPublishResult = null;
+            while (firstPass || eventsToPublishResult.TotalNumberOfEventsToPublish > _batchSize)
             {
-                var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
-                Console.WriteLine($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]..."); // TODO need to see how to specify queue / channel / topic when publishing
-                _messageBusEventPublisher.Receive(new []{ @event });
-                _repository.Delete(eventToPublish);
+                eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing(_batchSize);
+                var eventsToPublish = eventsToPublishResult.EventsToPublish;
+                _logger.Debug($"Retrieved {eventsToPublish.Count} events to publish to message queue.");
+                foreach (var eventToPublish in eventsToPublish)
+                {
+                    var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
+                    _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
+                    _messageBusEventPublisher.Receive(new[] { @event });
+                    using (var unitOfWork = _unitOfWorkFactory.Create())
+                    {
+                        unitOfWork.Start();
+                        _eventToPublishRepository.UnitOfWork = unitOfWork;
+                        _eventToPublishRepository.Delete(eventToPublish);
+                        unitOfWork.Commit();
+                    }
+                }
+                firstPass = false;
             }
         }
     }

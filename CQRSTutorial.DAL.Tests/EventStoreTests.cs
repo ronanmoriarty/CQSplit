@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
+using CQRSTutorial.Tests.Common;
 using NHibernate;
 using NUnit.Framework;
 
@@ -19,7 +20,7 @@ namespace CQRSTutorial.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            var sqlExecutor = new SqlExecutor();
+            var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId}'"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
             _session = SessionFactory.Instance.OpenSession();
             _session.BeginTransaction();
@@ -54,7 +55,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventStore CreateRepository()
         {
-            return new EventStore(SessionFactory.Instance, new EventMapper(Assembly.GetExecutingAssembly()));
+            return new EventStore(SessionFactory.Instance, new EventMapper(typeof(TestEvent).Assembly));
         }
 
         private void InsertAndRead(IEvent @event)

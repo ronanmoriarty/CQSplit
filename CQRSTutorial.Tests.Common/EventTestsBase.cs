@@ -32,7 +32,6 @@ namespace CQRSTutorial.Tests.Common
 
         protected abstract TCommandHandler GetSystemUnderTest();
 
-        // TODO: need to consider what tests are required involving a sequence of commands, or do we potentially say that each command will execute in isolation from all other commands, on an object whose current state is entirely dependent on previous events (rather than being dependent on previous events AND commands).
         protected void Given(params IEvent[] events)
         {
             foreach (var @event in events)

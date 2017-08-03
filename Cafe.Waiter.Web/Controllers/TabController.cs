@@ -18,7 +18,7 @@ namespace Cafe.Waiter.Web.Controllers
                 new EventReceiver(
                     new NHibernateUnitOfWorkFactory(SessionFactory.Instance),
                     new EventStore(SessionFactory.Instance, new EventMapper(typeof(TabOpened).Assembly)),
-                    new EventToPublishRepository(SessionFactory.Instance, new PublishConfiguration(), new EventToPublishMapper(typeof(TabOpened).Assembly))
+                    new EventToPublishRepository(SessionFactory.Instance, new EventToPublishMapper(typeof(TabOpened).Assembly))
                 ),
                 new AggregateStore(new List<ICommandHandler> { new TabFactory() }),
                 new TypeInspector())

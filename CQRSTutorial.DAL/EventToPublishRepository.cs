@@ -1,34 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using CQRSTutorial.Core;
-using Newtonsoft.Json;
 using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventToPublishRepository : RepositoryBase<EventToPublish>, IEventRepository
+    public class EventToPublishRepository : RepositoryBase<EventToPublish>, IEventToPublishRepository
     {
-        private readonly IPublishConfiguration _publishConfiguration;
         private readonly EventToPublishMapper _eventToPublishMapper;
 
         public EventToPublishRepository(ISessionFactory sessionFactory,
-            IPublishConfiguration publishConfiguration,
             EventToPublishMapper eventToPublishMapper)
             : base(sessionFactory)
         {
-            _publishConfiguration = publishConfiguration;
             _eventToPublishMapper = eventToPublishMapper;
         }
 
         public void Add(IEvent @event)
         {
-            var eventToPublish = new EventToPublish
-            {
-                Id = @event.Id,
-                EventType = @event.GetType().Name,
-                Data = JsonConvert.SerializeObject(@event),
-                PublishTo = _publishConfiguration.GetPublishLocationFor(@event.GetType())
-            };
+            var eventToPublish = _eventToPublishMapper.MapToEventToPublish(@event);
             SaveOrUpdate(eventToPublish);
         }
 
@@ -38,13 +27,27 @@ namespace CQRSTutorial.DAL
             return _eventToPublishMapper.MapToEvent(eventToPublish);
         }
 
-        public IList<EventToPublish> GetEventsAwaitingPublishing()
+        public EventsToPublishResult GetEventsAwaitingPublishing(int batchSize)
         {
             using (var session = SessionFactory.OpenSession())
             {
                 using (session.BeginTransaction())
                 {
-                    return session.QueryOver<EventToPublish>().List();
+                    var eventsToPublish = session
+                        .QueryOver<EventToPublish>()
+                        .OrderBy(x => x.Created).Asc
+                        .Take(batchSize)
+                        .List();
+
+                    var totalNumberOfEventsToPublish = session
+                        .QueryOver<EventToPublish>()
+                        .RowCount();
+
+                    return new EventsToPublishResult
+                    {
+                        EventsToPublish = eventsToPublish,
+                        TotalNumberOfEventsToPublish = totalNumberOfEventsToPublish
+                    };
                 }
             }
         }
