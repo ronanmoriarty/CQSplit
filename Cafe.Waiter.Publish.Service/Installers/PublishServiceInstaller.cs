@@ -23,7 +23,7 @@ namespace Cafe.Waiter.Publish.Service.Installers
                 Classes
                     .FromAssemblyContaining<PublishService>()
                     .InSameNamespaceAs<PublishService>()
-                    .Unless(type => type == typeof(PublishService) || type == typeof(OutboxToMessageQueuePublisher))
+                    .Unless(type => type == typeof(OutboxToMessageQueuePublisher))
                     .WithService
                         .Self()
                         .WithServiceDefaultInterfaces()
@@ -50,8 +50,6 @@ namespace Cafe.Waiter.Publish.Service.Installers
                 Component.For<Action>()
                     .Instance(() => container.Resolve<OutboxToMessageQueuePublisher>().PublishQueuedMessages())
                     .Named(publishQueuedMessages),
-                Component.For<PublishService>()
-                    .DependsOn(Dependency.OnComponent("onNewEventQueuedForPublishing", publishQueuedMessages)),
                 Component.For<Assembly>()
                     .Instance(typeof(TabOpened).Assembly)
                     .Named("eventsAssembly"),
