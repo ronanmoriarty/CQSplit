@@ -12,5 +12,13 @@ namespace Cafe.Waiter.Web.Tests
 
             Assert.That(messageBus, Is.Not.Null);
         }
+
+        [Test]
+        public void Can_instantiate_TabController()
+        {
+            var tabController = Container.Instance.Resolve<Controllers.TabController>();
+
+            Assert.That(tabController, Is.Not.Null);
+        }
     }
 }
