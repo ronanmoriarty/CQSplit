@@ -192,13 +192,17 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="ControllerLifestyleConfigurator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="ILifestyle.cs" />
     <Compile Include="IMessageBus.cs" />
     <Compile Include="MessageBus.cs" />
+    <Compile Include="PerWebRequestLifestyle.cs" />
+    <Compile Include="TransientLifestyle.cs" />
     <Compile Include="WebWindsorInstaller.cs" />
     <Compile Include="SessionFactory.cs" />
     <Compile Include="Controllers\TabController.cs" />
@@ -210,6 +214,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="WindsorDependencyResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

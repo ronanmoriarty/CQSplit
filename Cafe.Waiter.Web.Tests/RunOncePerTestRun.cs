@@ -8,6 +8,7 @@ namespace Cafe.Waiter.Web.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
+            ControllerLifestyleConfigurator.Instance = new TransientLifestyle();
             Bootstrapper.Start();
         }
     }

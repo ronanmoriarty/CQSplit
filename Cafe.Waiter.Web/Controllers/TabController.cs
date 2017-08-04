@@ -7,7 +7,7 @@ namespace Cafe.Waiter.Web.Controllers
     public class TabController : Controller
     {
         private readonly IMessageBus _messageBus;
-        
+
         public TabController(IMessageBus messageBus)
         {
             _messageBus = messageBus;

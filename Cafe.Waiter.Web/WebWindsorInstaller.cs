@@ -9,18 +9,25 @@ namespace Cafe.Waiter.Web
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            var controllerBasedOnDescriptor = Classes
+                .FromAssemblyContaining<HomeController>()
+                .InSameNamespaceAs<HomeController>()
+                .WithServiceSelf()
+                .WithServiceAllInterfaces();
+
             container.Register(
                 Classes
                     .FromAssemblyContaining<MessageBus>()
                     .InSameNamespaceAs<MessageBus>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
-                Classes
-                    .FromAssemblyContaining<HomeController>()
-                    .InSameNamespaceAs<HomeController>()
-                    .WithServiceSelf()
-                    .WithServiceAllInterfaces()
+                SetControllerLifestyle(controllerBasedOnDescriptor)
             );
+        }
+
+        private BasedOnDescriptor SetControllerLifestyle(BasedOnDescriptor controllerBasedOnDescriptor)
+        {
+            return ControllerLifestyleConfigurator.Instance.SetLifestyle(controllerBasedOnDescriptor);
         }
     }
 }
