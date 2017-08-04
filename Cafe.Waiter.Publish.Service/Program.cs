@@ -7,7 +7,7 @@ namespace Cafe.Waiter.Publish.Service
     {
         static void Main(string[] args)
         {
-            Bootstrapper.Initialize();
+            Bootstrapper.Start();
 
             HostFactory.Run(x =>
             {
