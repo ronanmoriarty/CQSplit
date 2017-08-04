@@ -4,7 +4,7 @@ using MassTransit;
 
 namespace CQRSTutorial.Infrastructure
 {
-    public class MessageBusEventPublisher : IEventReceiver
+    public class MessageBusEventPublisher : IEventPublisher
     {
         private readonly IBusControl _bus;
 
@@ -14,7 +14,7 @@ namespace CQRSTutorial.Infrastructure
             _bus.Start();
         }
 
-        public void Receive(IEnumerable<IEvent> events)
+        public void Publish(IEnumerable<IEvent> events)
         {
             foreach (var @event in events)
             {

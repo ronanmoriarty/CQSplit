@@ -13,7 +13,7 @@ namespace CQRSTutorial.DAL.Tests
     public class EventReceiverTests
     {
         private readonly Guid _aggregateId = new Guid("8E3337B6-7378-445B-BD43-61D56624C10E");
-        private EventReceiver _eventReceiver;
+        private EventPublisher _eventPublisher;
         private TestEvent _testEvent;
         private TestEvent2 _testEvent2;
         private SqlExecutor _sqlExecutor;
@@ -34,7 +34,7 @@ namespace CQRSTutorial.DAL.Tests
                 )
             );
             _eventStore = new EventStore(SessionFactory.Instance, new EventMapper(Assembly.GetExecutingAssembly()));
-            _eventReceiver = new EventReceiver(
+            _eventPublisher = new EventPublisher(
                 new NHibernateUnitOfWorkFactory(SessionFactory.Instance),
                 _eventStore,
                 _eventToPublishRepositoryDecorator);
@@ -56,7 +56,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             try
             {
-                _eventReceiver.Receive(new[] { _testEvent });
+                _eventPublisher.Publish(new[] { _testEvent });
 
                 AssertThatEventSavedToEventsToPublishTable();
                 AssertThatEventSavedToEventStore();
@@ -75,7 +75,7 @@ namespace CQRSTutorial.DAL.Tests
             {
                 AssumingSecondSaveCausesException();
 
-                _eventReceiver.Receive(new IEvent[] { _testEvent, _testEvent2 });
+                _eventPublisher.Publish(new IEvent[] { _testEvent, _testEvent2 });
 
                 AssertThatNoEventsSavedToEventsToPublishTable(_testEvent.Id,_testEvent2.Id);
                 AssertThatNoEventsSavedToEventStore(_testEvent.Id,_testEvent2.Id);
