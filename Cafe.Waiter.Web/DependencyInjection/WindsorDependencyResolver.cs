@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Castle.Windsor;
 
-namespace Cafe.Waiter.Web
+namespace Cafe.Waiter.Web.DependencyInjection
 {
     internal sealed class WindsorDependencyResolver : IDependencyResolver
     {

@@ -1,6 +1,6 @@
 ﻿using Castle.Windsor;
 
-namespace Cafe.Waiter.Web
+namespace Cafe.Waiter.Web.DependencyInjection
 {
     public static class Container
     {

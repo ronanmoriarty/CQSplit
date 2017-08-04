@@ -1,6 +1,6 @@
 using Castle.MicroKernel.Registration;
 
-namespace Cafe.Waiter.Web
+namespace Cafe.Waiter.Web.DependencyInjection
 {
     public interface ILifestyle
     {

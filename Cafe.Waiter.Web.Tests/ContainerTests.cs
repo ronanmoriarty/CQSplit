@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Cafe.Waiter.Web.DependencyInjection;
+using NUnit.Framework;
 
 namespace Cafe.Waiter.Web.Tests
 {

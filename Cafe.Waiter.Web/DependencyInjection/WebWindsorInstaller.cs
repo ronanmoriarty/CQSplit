@@ -3,7 +3,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 
-namespace Cafe.Waiter.Web
+namespace Cafe.Waiter.Web.DependencyInjection
 {
     public class WebWindsorInstaller : IWindsorInstaller
     {

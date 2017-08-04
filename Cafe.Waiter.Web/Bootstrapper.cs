@@ -1,4 +1,5 @@
 using System.Web.Mvc;
+using Cafe.Waiter.Web.DependencyInjection;
 using Castle.Windsor.Installer;
 using log4net.Config;
 
