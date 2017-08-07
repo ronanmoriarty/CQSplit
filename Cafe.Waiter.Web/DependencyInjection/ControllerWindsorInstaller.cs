@@ -5,7 +5,7 @@ using Castle.Windsor;
 
 namespace Cafe.Waiter.Web.DependencyInjection
 {
-    public class WebWindsorInstaller : IWindsorInstaller
+    public class ControllerWindsorInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
