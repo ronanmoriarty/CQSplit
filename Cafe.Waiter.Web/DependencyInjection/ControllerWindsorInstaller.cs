@@ -10,8 +10,8 @@ namespace Cafe.Waiter.Web.DependencyInjection
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             var controllerBasedOnDescriptor = Classes
-                .FromAssemblyContaining<HomeController>()
-                .InSameNamespaceAs<HomeController>()
+                .FromAssemblyContaining<TabController>()
+                .InSameNamespaceAs<TabController>()
                 .WithServiceSelf()
                 .WithServiceAllInterfaces();
 
