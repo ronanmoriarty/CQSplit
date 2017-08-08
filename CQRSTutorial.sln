@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Publisher.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Publish.Service.Tests", "Cafe.Waiter.Publish.Service.Tests\Cafe.Waiter.Publish.Service.Tests.csproj", "{3FF2D544-CC60-4883-AECB-81BEA2065533}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Contracts", "Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj", "{2D4C28BD-D280-40F7-A1B5-D3F0E0F2BBAC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,10 @@ Global
 		{3FF2D544-CC60-4883-AECB-81BEA2065533}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FF2D544-CC60-4883-AECB-81BEA2065533}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FF2D544-CC60-4883-AECB-81BEA2065533}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D4C28BD-D280-40F7-A1B5-D3F0E0F2BBAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D4C28BD-D280-40F7-A1B5-D3F0E0F2BBAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D4C28BD-D280-40F7-A1B5-D3F0E0F2BBAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D4C28BD-D280-40F7-A1B5-D3F0E0F2BBAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,5 +143,6 @@ Global
 		{BDB98A94-3FFA-40CF-8FDB-49B5E4C7397F} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 		{5D35DD1D-D820-4146-83E0-79F2D77C7773} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
 		{3FF2D544-CC60-4883-AECB-81BEA2065533} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
+		{2D4C28BD-D280-40F7-A1B5-D3F0E0F2BBAC} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 	EndGlobalSection
 EndGlobal
