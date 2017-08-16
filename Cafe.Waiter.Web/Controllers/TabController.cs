@@ -1,48 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Cafe.Domain;
 using Cafe.Domain.Commands;
-using Cafe.Domain.Events;
-using CQRSTutorial.Core;
-using CQRSTutorial.DAL;
+using Cafe.Waiter.Contracts;
+using CQRSTutorial.Infrastructure;
 
 namespace Cafe.Waiter.Web.Controllers
 {
     public class TabController : Controller
     {
-        private readonly ICommandDispatcher _commandDispatcher;
+        private readonly IEndpointProvider _endpointProvider;
 
-        public TabController()
-            : this(new CommandDispatcher(
-                new EventReceiver(
-                    new NHibernateUnitOfWorkFactory(SessionFactory.Instance),
-                    new EventStore(SessionFactory.Instance, new EventMapper(typeof(TabOpened).Assembly)),
-                    new EventToPublishRepository(SessionFactory.Instance, new EventToPublishMapper(typeof(TabOpened).Assembly))
-                ),
-                new AggregateStore(new List<ICommandHandler> { new TabFactory() }),
-                new TypeInspector())
-            )
+        public TabController(IEndpointProvider endpointProvider)
         {
+            _endpointProvider = endpointProvider;
         }
 
-        public TabController(ICommandDispatcher commandDispatcher)
-        {
-            _commandDispatcher = commandDispatcher;
-        }
-
-        // GET: Tab
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             var openTabCommand = CreateOpenTabCommand();
-            _commandDispatcher.Dispatch(openTabCommand);
-            return RedirectToAction("Index", new {tabId = openTabCommand.Id});
+            var sendEndpoint = await _endpointProvider.GetSendEndpointFor<IOpenTab>();
+            await sendEndpoint.Send(openTabCommand);
+            return RedirectToAction("Index", new {tabId = openTabCommand.AggregateId});
         }
 
         private OpenTab CreateOpenTabCommand()

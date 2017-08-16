@@ -1,9 +1,9 @@
 ﻿using System;
-using CQRSTutorial.Core;
+using Cafe.Waiter.Contracts;
 
 namespace Cafe.Domain.Commands
 {
-    public class OpenTab : ICommand
+    public class OpenTab : IOpenTab
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }

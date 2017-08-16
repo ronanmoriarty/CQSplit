@@ -1,4 +1,4 @@
-﻿using log4net.Config;
+﻿using Cafe.Waiter.Web.DependencyInjection;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Web.Tests
@@ -9,7 +9,8 @@ namespace Cafe.Waiter.Web.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            XmlConfigurator.Configure();
+            ControllerLifestyleConfigurator.Instance = new TransientLifestyle();
+            Bootstrapper.Start();
         }
     }
 }

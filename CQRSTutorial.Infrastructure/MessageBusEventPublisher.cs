@@ -1,30 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using CQRSTutorial.Core;
 using MassTransit;
+using MassTransit.RabbitMqTransport;
 
 namespace CQRSTutorial.Infrastructure
 {
-    public class MessageBusEventPublisher : IEventReceiver
+    public class MessageBusEventPublisher : IEventPublisher
     {
-        private readonly IBusControl _bus;
+        private readonly IMessageBusFactory _messageBusFactory;
 
-        public MessageBusEventPublisher(MessageBusFactory messageBusFactory)
+        public MessageBusEventPublisher(IMessageBusFactory messageBusFactory)
         {
-            _bus = messageBusFactory.Create();
-            _bus.Start();
+            _messageBusFactory = messageBusFactory;
         }
 
-        public void Receive(IEnumerable<IEvent> events)
+        public Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> Configure  { get; set; }
+
+        public void Publish(IEnumerable<IEvent> events)
         {
+            var bus = _messageBusFactory.Create(Configure);
+            bus.Start();
             foreach (var @event in events)
             {
-                _bus.Publish(@event);
+                bus.Publish(@event);
             }
-        }
-
-        public void Stop()
-        {
-            _bus.Stop();
+            bus.Stop();
         }
     }
 }

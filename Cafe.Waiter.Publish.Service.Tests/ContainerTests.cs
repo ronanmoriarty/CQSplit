@@ -9,7 +9,7 @@ namespace Cafe.Waiter.Publish.Service.Tests
         [Test]
         public void CanResolvePublishService()
         {
-            Bootstrapper.Initialize();
+            Bootstrapper.Start();
 
             var publishService = Container.Instance.Resolve<PublishService>();
 

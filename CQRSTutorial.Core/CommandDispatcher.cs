@@ -9,14 +9,14 @@ namespace CQRSTutorial.Core
 {
     public class CommandDispatcher : ICommandDispatcher
     {
-        private readonly IEventReceiver _eventReceiver;
+        private readonly IEventPublisher _eventPublisher;
         private readonly IAggregateStore _aggregateStore;
         private readonly TypeInspector _typeInspector;
         private readonly ILog _logger = LogManager.GetLogger(typeof(CommandDispatcher));
 
-        public CommandDispatcher(IEventReceiver eventReceiver, IAggregateStore aggregateStore, TypeInspector typeInspector)
+        public CommandDispatcher(IEventPublisher eventPublisher, IAggregateStore aggregateStore, TypeInspector typeInspector)
         {
-            _eventReceiver = eventReceiver;
+            _eventPublisher = eventPublisher;
             _aggregateStore = aggregateStore;
             _typeInspector = typeInspector;
         }
@@ -32,7 +32,7 @@ namespace CQRSTutorial.Core
                 try
                 {
                     var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new[] { command });
-                    _eventReceiver.Receive(events);
+                    _eventPublisher.Publish(events);
                 }
                 catch (TargetInvocationException exception)
                 {
