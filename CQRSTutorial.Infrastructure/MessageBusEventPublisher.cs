@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CQRSTutorial.Core;
 using MassTransit;
-using MassTransit.RabbitMqTransport;
 
 namespace CQRSTutorial.Infrastructure
 {
@@ -15,11 +13,9 @@ namespace CQRSTutorial.Infrastructure
             _messageBusFactory = messageBusFactory;
         }
 
-        public Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> Configure  { get; set; }
-
         public void Publish(IEnumerable<IEvent> events)
         {
-            var bus = _messageBusFactory.Create(Configure);
+            var bus = _messageBusFactory.Create();
             bus.Start();
             foreach (var @event in events)
             {

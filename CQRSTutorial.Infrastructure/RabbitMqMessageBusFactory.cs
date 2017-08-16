@@ -1,4 +1,3 @@
-using System;
 using log4net;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
@@ -18,12 +17,11 @@ namespace CQRSTutorial.Infrastructure
             _messageBusConfigurator = messageBusConfigurator;
         }
 
-        public IBusControl Create(Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> configure = null)
+        public IBusControl Create()
         {
             return Bus.Factory.CreateUsingRabbitMq(sbc =>
             {
                 var host = ConfigureHost(sbc);
-                configure?.Invoke(sbc, host);
                 _messageBusConfigurator.ConfigureEndpoints(sbc, host);
             });
         }
