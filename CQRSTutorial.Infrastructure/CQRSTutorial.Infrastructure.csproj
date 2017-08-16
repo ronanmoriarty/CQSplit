@@ -69,7 +69,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ServiceAddressProvider.cs" />
     <Compile Include="EnvironmentVariableMessageBusConfiguration.cs" />
+    <Compile Include="IServiceAddressProvider.cs" />
     <Compile Include="IMessageBusConfiguration.cs" />
     <Compile Include="MessageBusEventPublisher.cs" />
     <Compile Include="MessageBusFactory.cs" />
