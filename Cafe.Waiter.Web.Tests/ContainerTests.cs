@@ -1,5 +1,5 @@
 ﻿using Cafe.Waiter.Web.DependencyInjection;
-using CQRSTutorial.Infrastructure;
+using MassTransit;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Web.Tests
@@ -16,11 +16,11 @@ namespace Cafe.Waiter.Web.Tests
         }
 
         [Test]
-        public void Can_instantiate_MessageBusFactory()
+        public void BusControl_is_instantiated_as_singleton()
         {
-            var tabController = Container.Instance.Resolve<MessageBusFactory>();
-
-            Assert.That(tabController, Is.Not.Null);
+            var busControl = Container.Instance.Resolve<IBusControl>();
+            var busControl2 = Container.Instance.Resolve<IBusControl>();
+            Assert.That(ReferenceEquals(busControl, busControl2));
         }
     }
 }

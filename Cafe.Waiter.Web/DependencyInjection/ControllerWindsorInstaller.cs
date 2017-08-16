@@ -1,7 +1,10 @@
 using Cafe.Waiter.Web.Controllers;
+using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using CQRSTutorial.Infrastructure;
+using MassTransit;
 
 namespace Cafe.Waiter.Web.DependencyInjection
 {
@@ -17,17 +20,28 @@ namespace Cafe.Waiter.Web.DependencyInjection
 
             container.Register(
                 Classes
-                    .FromAssemblyContaining<MessageBus>()
-                    .InSameNamespaceAs<MessageBus>()
+                    .FromAssemblyContaining<IMessageBusFactory>()
+                    .InSameNamespaceAs<IMessageBusFactory>()
                     .WithServiceSelf()
-                    .WithServiceAllInterfaces(),
-                SetControllerLifestyle(controllerBasedOnDescriptor)
+                    .WithServiceAllInterfaces()
+                    .LifestyleTransient(),
+                SetControllerLifestyle(controllerBasedOnDescriptor),
+                Component
+                    .For<IBusControl>()
+                    .UsingFactoryMethod(GetBusControl)
+                    .LifestyleSingleton()
             );
         }
 
         private BasedOnDescriptor SetControllerLifestyle(BasedOnDescriptor controllerBasedOnDescriptor)
         {
             return ControllerLifestyleConfigurator.Instance.SetLifestyle(controllerBasedOnDescriptor);
+        }
+
+        private IBusControl GetBusControl(IKernel kernel)
+        {
+            var messageBusFactory = kernel.Resolve<MessageBusFactory>();
+            return messageBusFactory.Create();
         }
     }
 }
