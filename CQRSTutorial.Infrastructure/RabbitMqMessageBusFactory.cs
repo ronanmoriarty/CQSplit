@@ -24,6 +24,7 @@ namespace CQRSTutorial.Infrastructure
             {
                 var host = ConfigureHost(sbc);
                 configure?.Invoke(sbc, host);
+                ConfigureEndpoints(sbc, host);
             });
         }
 
@@ -37,6 +38,15 @@ namespace CQRSTutorial.Infrastructure
                 h.Password(_messageBusConfiguration.Password);
             });
             return host;
+        }
+
+        private void ConfigureEndpoints(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host)
+        {
+            foreach (var endpoint in _messageBusEndpointConfiguration.ReceiveEndpoints)
+            {
+                sbc.ReceiveEndpoint(host, endpoint.ServiceAddress,
+                    endpointConfigurator => { endpointConfigurator.Consumer(endpoint.ConsumerType, Activator.CreateInstance); });
+            }
         }
     }
 }
