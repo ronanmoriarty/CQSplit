@@ -12,7 +12,7 @@ namespace Cafe.Waiter.Service
 
         public async Task Consume(ConsumeContext<IOpenTab> context)
         {
-            var message = $@"Received IOpenTab message: Id: {context.Message.Id}";
+            var message = $"Received command: Type: {typeof(IOpenTab).Name}; Command Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
             await Console.Out.WriteLineAsync(message);
             _logger.Debug(message);
         }
