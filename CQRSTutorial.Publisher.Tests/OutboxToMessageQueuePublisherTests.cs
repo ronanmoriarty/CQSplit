@@ -174,7 +174,8 @@ namespace CQRSTutorial.Publisher.Tests
         private MessageBusEventPublisher CreateMessageBusEventPublisher(string queueName, Action onMessagePublished)
         {
             var messageBusFactory = new RabbitMqMessageBusFactory(new EnvironmentVariableMessageBusConfiguration(),
-                Substitute.For<IMessageBusEndpointConfiguration>());
+                Substitute.For<IMessageBusEndpointConfiguration>(),
+                Substitute.For<IMessageBusConfigurator>());
             var messageBusEventPublisher = new MessageBusEventPublisher(messageBusFactory)
             {
                 Configure = (sbc, host) => ConfigureTestReceiver(sbc, host, queueName, onMessagePublished)

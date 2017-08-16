@@ -9,13 +9,16 @@ namespace CQRSTutorial.Infrastructure
     {
         private readonly IMessageBusConfiguration _messageBusConfiguration;
         private readonly IMessageBusEndpointConfiguration _messageBusEndpointConfiguration;
+        private readonly IMessageBusConfigurator _messageBusConfigurator;
         private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactory));
 
         public RabbitMqMessageBusFactory(IMessageBusConfiguration messageBusConfiguration,
-            IMessageBusEndpointConfiguration messageBusEndpointConfiguration)
+            IMessageBusEndpointConfiguration messageBusEndpointConfiguration,
+            IMessageBusConfigurator messageBusConfigurator)
         {
             _messageBusConfiguration = messageBusConfiguration;
             _messageBusEndpointConfiguration = messageBusEndpointConfiguration;
+            _messageBusConfigurator = messageBusConfigurator;
         }
 
         public IBusControl Create(Action<IRabbitMqBusFactoryConfigurator, IRabbitMqHost> configure = null)
