@@ -5,12 +5,12 @@ using MassTransit.RabbitMqTransport;
 
 namespace CQRSTutorial.Infrastructure
 {
-    public class MessageBusFactory : IMessageBusFactory
+    public class RabbitMqMessageBusFactory : IMessageBusFactory
     {
         private readonly IMessageBusConfiguration _messageBusConfiguration;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(MessageBusFactory));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactory));
 
-        public MessageBusFactory(IMessageBusConfiguration messageBusConfiguration)
+        public RabbitMqMessageBusFactory(IMessageBusConfiguration messageBusConfiguration)
         {
             _messageBusConfiguration = messageBusConfiguration;
         }

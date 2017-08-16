@@ -40,7 +40,7 @@ namespace Cafe.Waiter.Web.DependencyInjection
 
         private IBusControl GetBusControl(IKernel kernel)
         {
-            var messageBusFactory = kernel.Resolve<MessageBusFactory>();
+            var messageBusFactory = kernel.Resolve<RabbitMqMessageBusFactory>();
             return messageBusFactory.Create();
         }
     }

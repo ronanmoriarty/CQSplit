@@ -8,12 +8,12 @@ namespace Cafe.Waiter.Service
 {
     public class WaiterService
     {
-        private readonly MessageBusFactory _messageBusFactory;
+        private readonly IMessageBusFactory _messageBusFactory;
         private readonly ILog _logger = LogManager.GetLogger(typeof(WaiterService));
         private readonly IServiceAddressProvider _serviceAddressProvider;
         private IBusControl _busControl;
 
-        public WaiterService(MessageBusFactory messageBusFactory, IServiceAddressProvider serviceAddressProvider)
+        public WaiterService(IMessageBusFactory messageBusFactory, IServiceAddressProvider serviceAddressProvider)
         {
             _messageBusFactory = messageBusFactory;
             _serviceAddressProvider = serviceAddressProvider;

@@ -77,7 +77,7 @@
     <Compile Include="IServiceAddressProvider.cs" />
     <Compile Include="IMessageBusConfiguration.cs" />
     <Compile Include="MessageBusEventPublisher.cs" />
-    <Compile Include="MessageBusFactory.cs" />
+    <Compile Include="RabbitMqMessageBusFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
