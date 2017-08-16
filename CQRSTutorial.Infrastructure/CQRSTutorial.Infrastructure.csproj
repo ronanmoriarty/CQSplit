@@ -69,6 +69,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EndpointProvider.cs" />
+    <Compile Include="IEndpointProvider.cs" />
     <Compile Include="IMessageBusFactory.cs" />
     <Compile Include="ServiceAddressProvider.cs" />
     <Compile Include="EnvironmentVariableMessageBusConfiguration.cs" />
