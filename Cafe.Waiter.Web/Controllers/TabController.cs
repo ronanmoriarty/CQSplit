@@ -1,29 +1,32 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cafe.Domain.Commands;
+using Cafe.Waiter.Contracts;
+using CQRSTutorial.Infrastructure;
 
 namespace Cafe.Waiter.Web.Controllers
 {
     public class TabController : Controller
     {
-        private readonly IMessageBus _messageBus;
+        private readonly IEndpointProvider _endpointProvider;
 
-        public TabController(IMessageBus messageBus)
+        public TabController(IEndpointProvider endpointProvider)
         {
-            _messageBus = messageBus;
+            _endpointProvider = endpointProvider;
         }
 
-        // GET: Tab
         public ActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             var openTabCommand = CreateOpenTabCommand();
-            _messageBus.Send(openTabCommand);
+            var sendEndpoint = await _endpointProvider.GetSendEndpointFor<IOpenTab>();
+            await sendEndpoint.Send(openTabCommand);
             return RedirectToAction("Index", new {tabId = openTabCommand.AggregateId});
         }
 
