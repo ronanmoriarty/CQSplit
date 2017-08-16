@@ -173,10 +173,13 @@ namespace CQRSTutorial.Publisher.Tests
 
         private MessageBusEventPublisher CreateMessageBusEventPublisher(string queueName, Action onMessagePublished)
         {
-            return new MessageBusEventPublisher(
-                new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration(),
-                (sbc, host) => ConfigureTestReceiver(sbc, host, queueName,
-                onMessagePublished)));
+            var messageBusFactory = new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration());
+            var messageBusEventPublisher = new MessageBusEventPublisher(messageBusFactory)
+            {
+                Configure = (sbc, host) => ConfigureTestReceiver(sbc, host, queueName, onMessagePublished)
+            };
+
+            return messageBusEventPublisher;
         }
 
         private void ConfigureTestReceiver(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host, string queueName, Action onEventHandled)

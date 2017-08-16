@@ -211,7 +211,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DependencyInjection\ILifestyle.cs" />
-    <Compile Include="DependencyInjection\MessageBusInstaller.cs" />
     <Compile Include="IMessageBus.cs" />
     <Compile Include="MessageBus.cs" />
     <Compile Include="DependencyInjection\PerWebRequestLifestyle.cs" />
