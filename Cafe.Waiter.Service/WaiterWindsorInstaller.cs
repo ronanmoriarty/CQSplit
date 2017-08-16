@@ -1,3 +1,4 @@
+using Cafe.Waiter.Service.Messaging;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -13,6 +14,11 @@ namespace Cafe.Waiter.Service
                 Classes
                     .FromThisAssembly()
                     .InSameNamespaceAs<WaiterWindsorInstaller>()
+                    .WithServiceSelf()
+                    .WithServiceAllInterfaces(),
+                Classes
+                    .FromThisAssembly()
+                    .InSameNamespaceAs<RabbitMqMessageBusEndpointConfiguration>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes

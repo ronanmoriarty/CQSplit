@@ -1,4 +1,5 @@
 using Cafe.Waiter.Web.Controllers;
+using Cafe.Waiter.Web.Messaging;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -22,6 +23,12 @@ namespace Cafe.Waiter.Web.DependencyInjection
                 Classes
                     .FromAssemblyContaining<IMessageBusFactory>()
                     .InSameNamespaceAs<IMessageBusFactory>()
+                    .WithServiceSelf()
+                    .WithServiceAllInterfaces()
+                    .LifestyleTransient(),
+                Classes
+                    .FromThisAssembly()
+                    .InSameNamespaceAs<RabbitMqMessageBusEndpointConfiguration>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces()
                     .LifestyleTransient(),

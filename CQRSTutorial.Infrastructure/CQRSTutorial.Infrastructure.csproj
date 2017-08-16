@@ -71,6 +71,7 @@
   <ItemGroup>
     <Compile Include="EndpointProvider.cs" />
     <Compile Include="IEndpointProvider.cs" />
+    <Compile Include="IMessageBusEndpointConfiguration.cs" />
     <Compile Include="IMessageBusFactory.cs" />
     <Compile Include="ServiceAddressProvider.cs" />
     <Compile Include="EnvironmentVariableMessageBusConfiguration.cs" />
