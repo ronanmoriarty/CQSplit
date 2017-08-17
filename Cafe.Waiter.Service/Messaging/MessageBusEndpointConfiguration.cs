@@ -7,7 +7,14 @@ namespace Cafe.Waiter.Service.Messaging
     {
         public MessageBusEndpointConfiguration()
         {
-            ReceiveEndpoints = new List<ReceiveEndpointMapping> { new ReceiveEndpointMapping("open_tab", typeof(OpenTabCommandHandler)) };
+            ReceiveEndpoints = new List<ReceiveEndpointMapping>
+            {
+                new ReceiveEndpointMapping(null, typeof(OpenTabCommandHandler)),
+                new ReceiveEndpointMapping(null, typeof(CloseTabCommandHandler)),
+                new ReceiveEndpointMapping(null, typeof(MarkDrinksServedCommandHandler)),
+                new ReceiveEndpointMapping(null, typeof(MarkFoodServedCommandHandler)),
+                new ReceiveEndpointMapping(null, typeof(PlaceOrderCommandHandler)),
+            };
         }
 
         public IEnumerable<ReceiveEndpointMapping> ReceiveEndpoints { get; }

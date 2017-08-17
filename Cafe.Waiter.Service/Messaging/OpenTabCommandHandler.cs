@@ -4,7 +4,7 @@ using Cafe.Waiter.Contracts;
 using log4net;
 using MassTransit;
 
-namespace Cafe.Waiter.Service
+namespace Cafe.Waiter.Service.Messaging
 {
     public class OpenTabCommandHandler : IConsumer<IOpenTab>
     {

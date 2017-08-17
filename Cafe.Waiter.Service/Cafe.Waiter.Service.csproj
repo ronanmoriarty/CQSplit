@@ -84,8 +84,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Messaging\CloseTabCommandHandler.cs" />
     <Compile Include="Container.cs" />
-    <Compile Include="OpenTabCommandHandler.cs" />
+    <Compile Include="Messaging\MarkDrinksServedCommandHandler.cs" />
+    <Compile Include="Messaging\MarkFoodServedCommandHandler.cs" />
+    <Compile Include="Messaging\OpenTabCommandHandler.cs" />
+    <Compile Include="Messaging\PlaceOrderCommandHandler.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Messaging\MessageBusEndpointConfiguration.cs" />

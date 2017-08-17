@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
+using Cafe.Waiter.Contracts;
 using CQRSTutorial.Core;
 using CQRSTutorial.Tests.Common;
 using NUnit.Framework;

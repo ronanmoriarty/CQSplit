@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cafe.Domain;
 using Cafe.Domain.Events;
+using Cafe.Waiter.Contracts;
 using Cafe.Waiter.DAL.Tests.Inspectors;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;

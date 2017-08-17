@@ -40,7 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICloseTab.cs" />
+    <Compile Include="IMarkDrinksServed.cs" />
+    <Compile Include="IMarkFoodServed.cs" />
     <Compile Include="IOpenTab.cs" />
+    <Compile Include="IPlaceOrder.cs" />
+    <Compile Include="OrderedItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

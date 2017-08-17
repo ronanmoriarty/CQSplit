@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
+using Cafe.Waiter.Contracts;
 using CQRSTutorial.Core;
 using log4net;
 
