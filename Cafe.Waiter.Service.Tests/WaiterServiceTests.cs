@@ -12,17 +12,30 @@ namespace Cafe.Waiter.Service.Tests
         private IMessageBusFactory _messageBusFactory;
         private IBusControl _busControl;
 
-        [Test]
-        public void Starting_waiter_service_starts_the_bus()
+        [SetUp]
+        public void SetUp()
         {
             _busControl = Substitute.For<IBusControl>();
             _messageBusFactory = Substitute.For<IMessageBusFactory>();
             _messageBusFactory.Create().Returns(_busControl);
             _waiterService = new WaiterService(_messageBusFactory);
+        }
 
+        [Test]
+        public void Starting_waiter_service_starts_the_bus()
+        {
             _waiterService.Start();
 
             _busControl.Received(1).Start();
+        }
+
+        [Test]
+        public void Stopping_waiter_service_stops_the_bus()
+        {
+            _waiterService.Start();
+            _waiterService.Stop();
+
+            _busControl.Received(1).Stop();
         }
     }
 }
