@@ -3,9 +3,9 @@ using CQRSTutorial.Infrastructure;
 
 namespace Cafe.Waiter.Service.Messaging
 {
-    public class RabbitMqMessageBusEndpointConfiguration : IMessageBusEndpointConfiguration
+    public class MessageBusEndpointConfiguration : IMessageBusEndpointConfiguration
     {
-        public RabbitMqMessageBusEndpointConfiguration()
+        public MessageBusEndpointConfiguration()
         {
             ReceiveEndpoints = new List<ReceiveEndpointMapping> { new ReceiveEndpointMapping("open_tab", typeof(OpenTabCommandHandler)) };
         }

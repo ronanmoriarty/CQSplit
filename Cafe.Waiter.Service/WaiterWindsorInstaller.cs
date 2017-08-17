@@ -18,7 +18,7 @@ namespace Cafe.Waiter.Service
                     .WithServiceAllInterfaces(),
                 Classes
                     .FromThisAssembly()
-                    .InSameNamespaceAs<RabbitMqMessageBusEndpointConfiguration>()
+                    .InSameNamespaceAs<MessageBusEndpointConfiguration>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
