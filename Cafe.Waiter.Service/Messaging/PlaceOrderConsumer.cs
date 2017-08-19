@@ -6,11 +6,11 @@ using MassTransit;
 
 namespace Cafe.Waiter.Service.Messaging
 {
-    public class MarkDrinksServedCommandHandler : IConsumer<IMarkDrinksServed>
+    public class PlaceOrderConsumer : IConsumer<IPlaceOrder>
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(MarkDrinksServedCommandHandler));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(PlaceOrderConsumer));
 
-        public async Task Consume(ConsumeContext<IMarkDrinksServed> context)
+        public async Task Consume(ConsumeContext<IPlaceOrder> context)
         {
             var message = $"Received command: Type: {typeof(IOpenTab).Name}; Command Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
             await Console.Out.WriteLineAsync(message);
