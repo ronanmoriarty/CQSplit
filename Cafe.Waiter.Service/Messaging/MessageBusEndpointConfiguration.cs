@@ -9,11 +9,12 @@ namespace Cafe.Waiter.Service.Messaging
         {
             ReceiveEndpoints = new List<ReceiveEndpointMapping>
             {
-                new ReceiveEndpointMapping(null, typeof(OpenTabCommandHandler)),
-                new ReceiveEndpointMapping(null, typeof(CloseTabCommandHandler)),
-                new ReceiveEndpointMapping(null, typeof(MarkDrinksServedCommandHandler)),
-                new ReceiveEndpointMapping(null, typeof(MarkFoodServedCommandHandler)),
-                new ReceiveEndpointMapping(null, typeof(PlaceOrderCommandHandler)),
+                // TODO Will have a thnk about what kind of tests I want around these mappings. Not sure at this stage.
+                new ReceiveEndpointMapping("open_tab", typeof(OpenTabCommandHandler)),
+                new ReceiveEndpointMapping("close_tab", typeof(CloseTabCommandHandler)),
+                new ReceiveEndpointMapping("mark_drinks_served", typeof(MarkDrinksServedCommandHandler)),
+                new ReceiveEndpointMapping("mark_food_served", typeof(MarkFoodServedCommandHandler)),
+                new ReceiveEndpointMapping("place_order", typeof(PlaceOrderCommandHandler)),
             };
         }
 
