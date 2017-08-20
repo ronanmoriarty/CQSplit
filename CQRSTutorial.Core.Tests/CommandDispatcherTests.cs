@@ -42,7 +42,7 @@ namespace CQRSTutorial.Core.Tests
         {
             Assert.That(() => _commandDispatcher.Dispatch(
                 new TestCommand()),
-                Throws.Exception.InstanceOf<ArgumentException>().With.Message.EqualTo("At least one command does not have Id set."));
+                Throws.Exception.InstanceOf<ArgumentException>().With.Message.EqualTo("Command does not have Id set."));
         }
 
         private CommandDispatcher CreateCommandDispatcher()

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using log4net;
@@ -21,32 +20,29 @@ namespace CQRSTutorial.Core
             _typeInspector = typeInspector;
         }
 
-        public void Dispatch(params ICommand[] commands)
+        public void Dispatch(ICommand command)
         {
-            EnsureAllCommandsHaveIdSet(commands);
-            foreach (var command in commands)
+            EnsureCommandHasIdSet(command);
+            var handler = _aggregateStore.GetCommandHandler(command);
+            var commandType = command.GetType();
+            var handleMethod = _typeInspector.FindMethodTakingSingleArgument(handler.GetType(), GetHandleMethodName(), commandType);
+            try
             {
-                var handler = _aggregateStore.GetCommandHandler(command);
-                var commandType = command.GetType();
-                var handleMethod = _typeInspector.FindMethodTakingSingleArgument(handler.GetType(), GetHandleMethodName(), commandType);
-                try
-                {
-                    var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new[] { command });
-                    _eventPublisher.Publish(events);
-                }
-                catch (TargetInvocationException exception)
-                {
-                    _logger.Error(exception.InnerException.StackTrace);
-                    throw exception.InnerException; // allow any actual exceptions to bubble up, rather than wrapping up the original exception in the reflection-specific TargetInvocationException.
-                }
+                var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new[] { command });
+                _eventPublisher.Publish(events);
+            }
+            catch (TargetInvocationException exception)
+            {
+                _logger.Error(exception.InnerException.StackTrace);
+                throw exception.InnerException; // allow any actual exceptions to bubble up, rather than wrapping up the original exception in the reflection-specific TargetInvocationException.
             }
         }
 
-        private void EnsureAllCommandsHaveIdSet(ICommand[] commands)
+        private void EnsureCommandHasIdSet(ICommand command)
         {
-            if (commands.Any(command => command.Id == Guid.Empty))
+            if (command.Id == Guid.Empty)
             {
-                throw new ArgumentException("At least one command does not have Id set.");
+                throw new ArgumentException("Command does not have Id set.");
             }
         }
 
