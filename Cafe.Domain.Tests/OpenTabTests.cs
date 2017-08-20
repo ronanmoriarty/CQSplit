@@ -1,0 +1,66 @@
+﻿using System;
+using System.Collections.Generic;
+using Cafe.Domain.Commands;
+using Cafe.Domain.Events;
+using CQRSTutorial.Core;
+using CQRSTutorial.Tests.Common;
+using NUnit.Framework;
+
+namespace Cafe.Domain.Tests
+{
+    [TestFixture]
+    public class OpenTabTests : EventTestsBase<Tab>
+    {
+        private readonly Guid _tabId1 = new Guid("17BEED1C-2084-4ADA-938A-4F850212EB5D");
+        private readonly Guid _tabId2 = new Guid("88CEC1FD-A666-4A51-ABD4-3AA49AE35001");
+        private readonly int _tableNumber = 123;
+        private readonly string _waiter = "John Smith";
+        private Tab _tab1;
+        private Tab _tab2;
+        private Guid _commandId;
+
+        protected override IAggregateStore GetAggregateStore()
+        {
+            ReinitialiseForNextTest();
+            return new FakeAggregateStore(new List<ICommandHandler> { _tab1, _tab2, new TabFactory() });
+        }
+
+        private void ReinitialiseForNextTest()
+        {
+            _commandId = Guid.NewGuid();
+            _tab1 = new Tab
+            {
+                Id = _tabId1
+            };
+            _tab2 = new Tab
+            {
+                Id = _tabId2
+            };
+        }
+
+        [Test]
+        public void CanOpenANewTab()
+        {
+            When(new OpenTab
+            {
+                Id = _commandId,
+                AggregateId = _tabId1,
+                TableNumber = _tableNumber,
+                Waiter = _waiter
+            });
+
+            Then(new TabOpened
+            {
+                AggregateId = _tabId1,
+                CommandId = _commandId,
+                TableNumber = _tableNumber,
+                Waiter = _waiter
+            });
+        }
+
+        protected override Tab GetSystemUnderTest()
+        {
+            return _tab1;
+        }
+    }
+}
