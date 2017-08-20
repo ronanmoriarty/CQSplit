@@ -25,6 +25,11 @@ namespace Cafe.Waiter.Service
                     .FromAssemblyContaining<EnvironmentVariableMessageBusConfiguration>()
                     .InSameNamespaceAs<EnvironmentVariableMessageBusConfiguration>()
                     .WithServiceSelf()
+                    .WithServiceAllInterfaces(),
+                Classes
+                    .FromAssemblyContaining<OpenTabConsumer>()
+                    .InSameNamespaceAs<OpenTabConsumer>()
+                    .WithServiceSelf()
                     .WithServiceAllInterfaces()
                 );
         }
