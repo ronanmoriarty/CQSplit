@@ -8,14 +8,15 @@ using NUnit.Framework;
 
 namespace CQRSTutorial.Tests.Common
 {
-    public abstract class EventTestsBase<TCommandHandler>
+    public abstract class EventTestsBase<TCommandHandler, TCommand>
         where TCommandHandler : new()
+        where TCommand : ICommand
     {
         private IEventPublisher _eventPublisher;
         private CommandDispatcher _commandDispatcher;
         private TCommandHandler _commandHandler;
         private EventApplier _eventApplier;
-        private ICommand[] _commands;
+        private TCommand _command;
         private IAggregateStore _aggregateStore;
 
         [SetUp]
@@ -40,9 +41,9 @@ namespace CQRSTutorial.Tests.Common
             }
         }
 
-        protected void When(params ICommand[] commands)
+        protected void When(TCommand command)
         {
-            _commands = commands;
+            _command = command;
         }
 
         protected void Then(params object[] expectedEvents)
@@ -84,7 +85,7 @@ namespace CQRSTutorial.Tests.Common
 
         private void HandleCommands()
         {
-            _commandDispatcher.Dispatch(_commands);
+            _commandDispatcher.Dispatch(_command);
         }
     }
 }

@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace Cafe.Domain.Tests
 {
     [TestFixture]
-    public class OpenTabTests : EventTestsBase<Tab>
+    public class OpenTabTests : EventTestsBase<Tab, OpenTab>
     {
         private readonly Guid _tabId1 = new Guid("17BEED1C-2084-4ADA-938A-4F850212EB5D");
         private readonly Guid _tabId2 = new Guid("88CEC1FD-A666-4A51-ABD4-3AA49AE35001");
