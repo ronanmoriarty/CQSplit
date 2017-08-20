@@ -13,9 +13,10 @@ namespace CQRSTutorial.Tests.Common
             _commandHandlers = commandHandlers;
         }
 
-        public ICommandHandler GetCommandHandler(ICommand command)
+        public ICommandHandler<TCommand> GetCommandHandler<TCommand>(TCommand command)
+            where TCommand : ICommand
         {
-            return _commandHandlers.SingleOrDefault(x => x.CanHandle(command));
+            return (ICommandHandler<TCommand>)_commandHandlers.SingleOrDefault(x => x.CanHandle(command));
         }
     }
 }

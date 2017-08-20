@@ -2,6 +2,6 @@
 {
     public interface IAggregateStore
     {
-        ICommandHandler GetCommandHandler(ICommand command);
+        ICommandHandler<TCommand> GetCommandHandler<TCommand>(TCommand command) where TCommand : ICommand;
     }
 }

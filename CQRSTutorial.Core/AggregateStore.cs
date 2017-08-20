@@ -13,12 +13,13 @@ namespace CQRSTutorial.Core
             _commandHandlers = commandHandlers;
         }
 
-        public ICommandHandler GetCommandHandler(ICommand command)
+        public ICommandHandler<TCommand> GetCommandHandler<TCommand>(TCommand command)
+            where TCommand : ICommand
         {
-            ICommandHandler handler;
+            ICommandHandler<TCommand> handler;
             try
             {
-                handler = _commandHandlers.SingleOrDefault(x => x.CanHandle(command));
+                handler = (ICommandHandler<TCommand>)_commandHandlers.SingleOrDefault(x => x.CanHandle(command));
             }
             catch (InvalidOperationException)
             {
