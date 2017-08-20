@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -65,7 +64,9 @@ namespace Cafe.Waiter.Publish.Service.Installers
                     .Forward(typeof(IOutboxToMessageQueuePublisher))
                     .DependsOn(Dependency.OnComponent("logger", "outboxToMessageQueuePublisherLogger")),
                 Component.For<IMessageBusEndpointConfiguration>()
-                    .ImplementedBy<EmptyMessageBusEndpointConfiguration>()
+                    .ImplementedBy<EmptyMessageBusEndpointConfiguration>(),
+                Component.For<IConsumerFactory>()
+                    .ImplementedBy<ConsumerFactory>()
             );
         }
 
