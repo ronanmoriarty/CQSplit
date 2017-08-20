@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+using Cafe.Domain;
 using Cafe.Waiter.Service.Messaging;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using CQRSTutorial.Core;
 using CQRSTutorial.Infrastructure;
 
 namespace Cafe.Waiter.Service
@@ -19,6 +22,7 @@ namespace Cafe.Waiter.Service
                 Classes
                     .FromThisAssembly()
                     .InSameNamespaceAs<MessageBusEndpointConfiguration>()
+                    .Unless(type => type == typeof(OpenTabConsumer))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
@@ -26,11 +30,18 @@ namespace Cafe.Waiter.Service
                     .InSameNamespaceAs<EnvironmentVariableMessageBusConfiguration>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
-                Classes
-                    .FromAssemblyContaining<OpenTabConsumer>()
-                    .InSameNamespaceAs<OpenTabConsumer>()
-                    .WithServiceSelf()
-                    .WithServiceAllInterfaces()
+                Component
+                    .For<IEnumerable<ICommandHandler>>()
+                    .Instance(new List<ICommandHandler> {new TabFactory()})
+                    .Named("openTabConsumerCommandHandlers"),
+                Component
+                    .For<IAggregateStore>()
+                    .ImplementedBy<AggregateStore>()
+                    .DependsOn(Dependency.OnComponent("commandHandlers", "openTabConsumerCommandHandlers"))
+                    .Named("openTabConsumerAggregateStore"),
+                Component
+                    .For<OpenTabConsumer>()
+                    .DependsOn(Dependency.OnComponent("aggregateStore", "openTabConsumerAggregateStore"))
                 );
         }
     }
