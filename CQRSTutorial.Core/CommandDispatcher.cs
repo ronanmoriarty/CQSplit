@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using log4net;
@@ -10,14 +9,12 @@ namespace CQRSTutorial.Core
     {
         private readonly IEventPublisher _eventPublisher;
         private readonly IAggregateStore _aggregateStore;
-        private readonly TypeInspector _typeInspector;
         private readonly ILog _logger = LogManager.GetLogger(typeof(CommandDispatcher));
 
-        public CommandDispatcher(IEventPublisher eventPublisher, IAggregateStore aggregateStore, TypeInspector typeInspector)
+        public CommandDispatcher(IEventPublisher eventPublisher, IAggregateStore aggregateStore)
         {
             _eventPublisher = eventPublisher;
             _aggregateStore = aggregateStore;
-            _typeInspector = typeInspector;
         }
 
         public void Dispatch<TCommand>(TCommand command)
@@ -25,11 +22,9 @@ namespace CQRSTutorial.Core
         {
             EnsureCommandHasIdSet(command);
             var handler = _aggregateStore.GetCommandHandler(command);
-            var commandType = command.GetType();
-            var handleMethod = _typeInspector.FindMethodTakingSingleArgument(handler.GetType(), GetHandleMethodName(), commandType);
             try
             {
-                var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new object[] { command });
+                var events = handler.Handle(command);
                 _eventPublisher.Publish(events);
             }
             catch (TargetInvocationException exception)

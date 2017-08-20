@@ -24,7 +24,7 @@ namespace CQRSTutorial.Tests.Common
         {
             _aggregateStore = GetAggregateStore();
             _eventPublisher = Substitute.For<IEventPublisher>();
-            _commandDispatcher = new CommandDispatcher(_eventPublisher, _aggregateStore, new TypeInspector());
+            _commandDispatcher = new CommandDispatcher(_eventPublisher, _aggregateStore);
             _eventApplier = new EventApplier(new TypeInspector());
             _commandHandler = GetSystemUnderTest();
         }
