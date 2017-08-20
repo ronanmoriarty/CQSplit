@@ -12,7 +12,7 @@ namespace Cafe.Domain
                 .Any(interfaceType =>
                     interfaceType.IsGenericType
                     && interfaceType.GetGenericTypeDefinition() == typeof(ICommandHandler<>)
-                    && interfaceType.GenericTypeArguments.Single() == command.GetType());
+                    && interfaceType.GenericTypeArguments.Single().IsInstanceOfType(command));
 
             return canHandleThisTypeOfCommand && command.AggregateId == aggregateId;
         }

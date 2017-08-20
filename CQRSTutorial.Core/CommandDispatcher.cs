@@ -26,7 +26,7 @@ namespace CQRSTutorial.Core
             EnsureAllCommandsHaveIdSet(commands);
             foreach (var command in commands)
             {
-                var handler = GetCommandHandlerFor(command);
+                var handler = _aggregateStore.GetCommandHandler(command);
                 var commandType = command.GetType();
                 var handleMethod = _typeInspector.FindMethodTakingSingleArgument(handler.GetType(), GetHandleMethodName(), commandType);
                 try
@@ -48,12 +48,6 @@ namespace CQRSTutorial.Core
             {
                 throw new ArgumentException("At least one command does not have Id set.");
             }
-        }
-
-        private object GetCommandHandlerFor(ICommand command)
-        {
-            object handler = _aggregateStore.GetCommandHandler(command);
-            return handler;
         }
 
         private string GetHandleMethodName()

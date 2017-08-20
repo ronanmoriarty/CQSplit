@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using Cafe.Waiter.Contracts;
 using CQRSTutorial.Core;
@@ -10,10 +9,10 @@ using log4net;
 namespace Cafe.Domain
 {
     public class Tab : Aggregate
-        , ICommandHandler<PlaceOrder>
-        , ICommandHandler<MarkDrinksServed>
-        , ICommandHandler<MarkFoodServed>
-        , ICommandHandler<CloseTab>
+        , ICommandHandler<IPlaceOrder>
+        , ICommandHandler<IMarkDrinksServed>
+        , ICommandHandler<IMarkFoodServed>
+        , ICommandHandler<ICloseTab>
         , IApplyEvent<DrinksOrdered>
         , IApplyEvent<DrinksServed>
         , IApplyEvent<FoodOrdered>
@@ -24,7 +23,7 @@ namespace Cafe.Domain
         private decimal _totalValueOfServedItems;
         private readonly ILog _logger = LogManager.GetLogger(typeof(Tab));
 
-        public IEnumerable<IEvent> Handle(PlaceOrder command)
+        public IEnumerable<IEvent> Handle(IPlaceOrder command)
         {
             _logger.Info("Handling PlaceOrder command...");
             var events = new List<IEvent>();
@@ -33,7 +32,7 @@ namespace Cafe.Domain
             return events;
         }
 
-        public IEnumerable<IEvent> Handle(MarkFoodServed command)
+        public IEnumerable<IEvent> Handle(IMarkFoodServed command)
         {
             if (!AllItemsBeingServedWereOrdered(command.MenuNumbers, _foodAwaitingServing))
             {
@@ -62,7 +61,7 @@ namespace Cafe.Domain
             };
         }
 
-        public IEnumerable<IEvent> Handle(MarkDrinksServed command)
+        public IEnumerable<IEvent> Handle(IMarkDrinksServed command)
         {
             if (!AllItemsBeingServedWereOrdered(command.MenuNumbers, _drinksAwaitingServing))
             {
@@ -91,7 +90,7 @@ namespace Cafe.Domain
             };
         }
 
-        public IEnumerable<IEvent> Handle(CloseTab command)
+        public IEnumerable<IEvent> Handle(ICloseTab command)
         {
             return new IEvent[]
             {
@@ -126,7 +125,7 @@ namespace Cafe.Domain
             return true;
         }
 
-        private IEnumerable<IEvent> GetEventForAnyFoodOrdered(PlaceOrder command)
+        private IEnumerable<IEvent> GetEventForAnyFoodOrdered(IPlaceOrder command)
         {
             var food = command.Items.Where(i => !i.IsDrink).ToList();
             if (!food.Any())
@@ -146,7 +145,7 @@ namespace Cafe.Domain
             };
         }
 
-        private IEnumerable<IEvent> GetEventForAnyDrinksOrdered(PlaceOrder command)
+        private IEnumerable<IEvent> GetEventForAnyDrinksOrdered(IPlaceOrder command)
         {
             var drinks = command.Items.Where(i => i.IsDrink).ToList();
             if (!drinks.Any())

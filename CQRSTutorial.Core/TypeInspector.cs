@@ -12,7 +12,7 @@ namespace CQRSTutorial.Core
                 .GetMethods()
                 .SingleOrDefault(methodInfo => methodInfo.Name == methodName
                                                && methodInfo.GetParameters().Length == 1
-                                               && methodInfo.GetParameters().Single().ParameterType == singleParameterType);
+                                               && methodInfo.GetParameters().Single().ParameterType.IsAssignableFrom(singleParameterType));
         }
     }
 }

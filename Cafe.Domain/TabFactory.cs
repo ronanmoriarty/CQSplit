@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
+using Cafe.Waiter.Contracts;
 using CQRSTutorial.Core;
 
 namespace Cafe.Domain
 {
-    public class TabFactory : ICommandHandler<OpenTab>
+    public class TabFactory : ICommandHandler<IOpenTab>
     {
-        public IEnumerable<IEvent> Handle(OpenTab command)
+        public IEnumerable<IEvent> Handle(IOpenTab command)
         {
             return new IEvent[]
             {
@@ -25,7 +26,7 @@ namespace Cafe.Domain
 
         public bool CanHandle(ICommand command)
         {
-            return command.GetType() == typeof(OpenTab);
+            return command is IOpenTab;
         }
     }
 }
