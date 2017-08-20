@@ -1,6 +1,6 @@
 ﻿namespace CQRSTutorial.Core
 {
-    public interface IAggregateStore
+    public interface ICommandHandlerProvider
     {
         ICommandHandler<TCommand> GetCommandHandler<TCommand>(TCommand command) where TCommand : ICommand;
     }

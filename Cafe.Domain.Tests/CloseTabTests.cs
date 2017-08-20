@@ -23,10 +23,10 @@ namespace Cafe.Domain.Tests
         private const int DrinkMenuNumber = 13;
         private const string DrinkDescription = "Coca Cola";
 
-        protected override IAggregateStore GetAggregateStore()
+        protected override ICommandHandlerProvider GetAggregateStore()
         {
             ReinitialiseForNextTest();
-            return new FakeAggregateStore(new List<ICommandHandler> { _tab1, _tab2, new TabFactory() });
+            return new FakeCommandHandlerProvider(new List<ICommandHandler> { _tab1, _tab2, new TabFactory() });
         }
 
         private void ReinitialiseForNextTest()

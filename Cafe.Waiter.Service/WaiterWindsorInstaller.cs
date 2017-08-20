@@ -56,13 +56,13 @@ namespace Cafe.Waiter.Service
                     .Instance(new List<ICommandHandler> {new TabFactory()})
                     .Named("openTabConsumerCommandHandlers"),
                 Component
-                    .For<IAggregateStore>()
-                    .ImplementedBy<AggregateStore>()
+                    .For<ICommandHandlerProvider>()
+                    .ImplementedBy<CommandHandlerProvider>()
                     .DependsOn(Dependency.OnComponent("commandHandlers", "openTabConsumerCommandHandlers"))
                     .Named("openTabConsumerAggregateStore"),
                 Component
                     .For<OpenTabConsumer>()
-                    .DependsOn(Dependency.OnComponent("aggregateStore", "openTabConsumerAggregateStore")),
+                    .DependsOn(Dependency.OnComponent("commandHandlerProvider", "openTabConsumerAggregateStore")),
                 Component
                     .For<ISessionFactory>()
                     .UsingFactoryMethod(kernel => kernel.Resolve<NHibernateConfiguration>().CreateSessionFactory())

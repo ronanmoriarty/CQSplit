@@ -48,7 +48,7 @@ namespace CQRSTutorial.Core.Tests
         private CommandDispatcher CreateCommandDispatcher()
         {
             return new CommandDispatcher(null,
-                new AggregateStore(new ICommandHandler[] { new Handler1(), new Handler2() }));
+                new CommandHandlerProvider(new ICommandHandler[] { new Handler1(), new Handler2() }));
         }
 
         internal class Handler1 : ICommandHandler<TestCommand>

@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace CQRSTutorial.Core
 {
-    public class AggregateStore : IAggregateStore
+    public class CommandHandlerProvider : ICommandHandlerProvider
     {
         private readonly IEnumerable<ICommandHandler> _commandHandlers;
 
-        public AggregateStore(IEnumerable<ICommandHandler> commandHandlers)
+        public CommandHandlerProvider(IEnumerable<ICommandHandler> commandHandlers)
         {
             _commandHandlers = commandHandlers;
         }

@@ -10,12 +10,12 @@ namespace Cafe.Waiter.Service.Messaging
     public class OpenTabConsumer : IConsumer<IOpenTab>
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(OpenTabConsumer));
-        private readonly IAggregateStore _aggregateStore;
+        private readonly ICommandHandlerProvider _commandHandlerProvider;
         private readonly IEventPublisher _eventPublisher;
 
-        public OpenTabConsumer(IAggregateStore aggregateStore, IEventPublisher eventPublisher)
+        public OpenTabConsumer(ICommandHandlerProvider commandHandlerProvider, IEventPublisher eventPublisher)
         {
-            _aggregateStore = aggregateStore;
+            _commandHandlerProvider = commandHandlerProvider;
             _eventPublisher = eventPublisher;
         }
 
@@ -26,7 +26,7 @@ namespace Cafe.Waiter.Service.Messaging
             _logger.Debug(text);
 
             // TODO: just spiking this for now - need to get tests around following three lines.
-            var commandHandler = _aggregateStore.GetCommandHandler(context.Message);
+            var commandHandler = _commandHandlerProvider.GetCommandHandler(context.Message);
             var events = commandHandler.Handle(context.Message);
             _eventPublisher.Publish(events);
         }
