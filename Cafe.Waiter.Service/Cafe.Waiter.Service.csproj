@@ -45,6 +45,10 @@
       <HintPath>..\packages\GreenPipes.1.0.9\lib\net452\GreenPipes.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -63,6 +67,10 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RabbitMQ.Client, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
@@ -110,9 +118,17 @@
       <Project>{2d4c28bd-d280-40f7-a1b5-d3f0e0f2bbac}</Project>
       <Name>Cafe.Waiter.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cafe.Waiter.DAL\Cafe.Waiter.DAL.csproj">
+      <Project>{AFCE4964-C829-415E-9E8E-4286C5914496}</Project>
+      <Name>Cafe.Waiter.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
       <Project>{d9a17521-4b50-403c-8a7f-d9f82051049b}</Project>
       <Name>CQRSTutorial.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
+      <Project>{92221377-F43D-4C30-9A94-9E5E8FB0C969}</Project>
+      <Name>CQRSTutorial.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Infrastructure\CQRSTutorial.Infrastructure.csproj">
       <Project>{6d6c34d5-5ae9-41e5-b55a-b47552f83bc9}</Project>

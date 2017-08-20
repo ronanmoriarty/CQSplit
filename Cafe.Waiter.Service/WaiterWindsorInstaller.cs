@@ -1,11 +1,16 @@
 using System.Collections.Generic;
+using System.Reflection;
 using Cafe.Domain;
+using Cafe.Domain.Events;
+using Cafe.Waiter.DAL;
 using Cafe.Waiter.Service.Messaging;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
+using NHibernate;
 
 namespace Cafe.Waiter.Service
 {
@@ -28,6 +33,22 @@ namespace Cafe.Waiter.Service
                 Classes
                     .FromAssemblyContaining<EnvironmentVariableMessageBusConfiguration>()
                     .InSameNamespaceAs<EnvironmentVariableMessageBusConfiguration>()
+                    .Unless(type => type == typeof(MessageBusEventPublisher))
+                    .WithServiceSelf()
+                    .WithServiceAllInterfaces(),
+                Component
+                    .For<Assembly>()
+                    .Instance(typeof(TabOpened).Assembly)
+                    .Named("assemblyForEventMapper"),
+                Component
+                    .For<EventMapper>()
+                    .DependsOn(Dependency.OnComponent("assemblyContainingEvents", "assemblyForEventMapper")),
+                Component
+                    .For<IConnectionStringProviderFactory>()
+                    .Instance(WriteModelConnectionStringProviderFactory.Instance),
+                Classes
+                    .FromAssemblyContaining<IUnitOfWorkFactory>()
+                    .InSameNamespaceAs<IUnitOfWorkFactory>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
@@ -41,7 +62,11 @@ namespace Cafe.Waiter.Service
                     .Named("openTabConsumerAggregateStore"),
                 Component
                     .For<OpenTabConsumer>()
-                    .DependsOn(Dependency.OnComponent("aggregateStore", "openTabConsumerAggregateStore"))
+                    .DependsOn(Dependency.OnComponent("aggregateStore", "openTabConsumerAggregateStore")),
+                Component
+                    .For<ISessionFactory>()
+                    .UsingFactoryMethod(kernel => kernel.Resolve<NHibernateConfiguration>().CreateSessionFactory())
+                    .LifestyleSingleton()
                 );
         }
     }

@@ -21,9 +21,14 @@ namespace Cafe.Waiter.Service.Messaging
 
         public async Task Consume(ConsumeContext<IOpenTab> context)
         {
-            var message = $"Received command: Type: {typeof(IOpenTab).Name}; Command Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
-            await Console.Out.WriteLineAsync(message);
-            _logger.Debug(message);
+            var text = $"Received command: Type: {typeof(IOpenTab).Name}; Command Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
+            await Console.Out.WriteLineAsync(text);
+            _logger.Debug(text);
+
+            // TODO: just spiking this for now - need to get tests around following three lines.
+            var commandHandler = _aggregateStore.GetCommandHandler(context.Message);
+            var events = commandHandler.Handle(context.Message);
+            _eventPublisher.Publish(events);
         }
     }
 }
