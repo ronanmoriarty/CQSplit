@@ -20,7 +20,8 @@ namespace CQRSTutorial.Core
             _typeInspector = typeInspector;
         }
 
-        public void Dispatch(ICommand command)
+        public void Dispatch<TCommand>(TCommand command)
+            where TCommand : ICommand
         {
             EnsureCommandHasIdSet(command);
             var handler = _aggregateStore.GetCommandHandler(command);
@@ -28,7 +29,7 @@ namespace CQRSTutorial.Core
             var handleMethod = _typeInspector.FindMethodTakingSingleArgument(handler.GetType(), GetHandleMethodName(), commandType);
             try
             {
-                var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new[] { command });
+                var events = (IEnumerable<IEvent>)handleMethod.Invoke(handler, new object[] { command });
                 _eventPublisher.Publish(events);
             }
             catch (TargetInvocationException exception)
