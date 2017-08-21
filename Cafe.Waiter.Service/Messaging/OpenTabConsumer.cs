@@ -9,14 +9,12 @@ namespace Cafe.Waiter.Service.Messaging
 {
     public class OpenTabConsumer : IConsumer<IOpenTab>
     {
+        private readonly ICommandDispatcher _commandDispatcher;
         private readonly ILog _logger = LogManager.GetLogger(typeof(OpenTabConsumer));
-        private readonly ICommandHandlerProvider _commandHandlerProvider;
-        private readonly IEventPublisher _eventPublisher;
 
-        public OpenTabConsumer(ICommandHandlerProvider commandHandlerProvider, IEventPublisher eventPublisher)
+        public OpenTabConsumer(ICommandDispatcher commandDispatcher)
         {
-            _commandHandlerProvider = commandHandlerProvider;
-            _eventPublisher = eventPublisher;
+            _commandDispatcher = commandDispatcher;
         }
 
         public async Task Consume(ConsumeContext<IOpenTab> context)
@@ -25,10 +23,8 @@ namespace Cafe.Waiter.Service.Messaging
             await Console.Out.WriteLineAsync(text);
             _logger.Debug(text);
 
-            // TODO: just spiking this for now - need to get tests around following three lines.
-            var commandHandler = _commandHandlerProvider.GetCommandHandler(context.Message);
-            var events = commandHandler.Handle(context.Message);
-            _eventPublisher.Publish(events);
+            // TODO: can't see how to instantiate a ConsumeContext for unit testing. Will continue to spike this for now.
+            _commandDispatcher.Dispatch(context.Message);
         }
     }
 }

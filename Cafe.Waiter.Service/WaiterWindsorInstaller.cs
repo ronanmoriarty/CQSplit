@@ -56,6 +56,9 @@ namespace Cafe.Waiter.Service
                     .Instance(new List<ICommandHandler> {new TabFactory()})
                     .Named("openTabConsumerCommandHandlers"),
                 Component
+                    .For<ICommandDispatcher>()
+                    .ImplementedBy<CommandDispatcher>(),
+                Component
                     .For<ICommandHandlerProvider>()
                     .ImplementedBy<CommandHandlerProvider>()
                     .DependsOn(Dependency.OnComponent("commandHandlers", "openTabConsumerCommandHandlers"))
