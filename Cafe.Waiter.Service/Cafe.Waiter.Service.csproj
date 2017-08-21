@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="CommandHandlerFactory.cs" />
     <Compile Include="Messaging\CloseTabConsumer.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Messaging\Consumer.cs" />

@@ -7,10 +7,13 @@ namespace CQRSTutorial.Core
     public class CommandHandlerProvider : ICommandHandlerProvider
     {
         private readonly IEnumerable<ICommandHandler> _commandHandlers;
+        private readonly ICommandHandlerFactory _commandHandlerFactory;
 
-        public CommandHandlerProvider(IEnumerable<ICommandHandler> commandHandlers)
+        public CommandHandlerProvider(IEnumerable<ICommandHandler> commandHandlers,
+            ICommandHandlerFactory commandHandlerFactory)
         {
             _commandHandlers = commandHandlers;
+            _commandHandlerFactory = commandHandlerFactory;
         }
 
         public ICommandHandler<TCommand> GetCommandHandler<TCommand>(TCommand command)
@@ -24,6 +27,11 @@ namespace CQRSTutorial.Core
             catch (InvalidOperationException)
             {
                 throw new ArgumentException($"More than one type found that can handle {command.GetType()} commands");
+            }
+
+            if (handler == null)
+            {
+                handler = _commandHandlerFactory.CreateHandlerFor(command);
             }
 
             if (handler == null)

@@ -47,6 +47,7 @@
     <Compile Include="CommandHandlerProvider.cs" />
     <Compile Include="CommandDispatcher.cs" />
     <Compile Include="EventApplier.cs" />
+    <Compile Include="ICommandHandlerFactory.cs" />
     <Compile Include="ICommandHandlerProvider.cs" />
     <Compile Include="IApplyEvent.cs" />
     <Compile Include="ICommand.cs" />

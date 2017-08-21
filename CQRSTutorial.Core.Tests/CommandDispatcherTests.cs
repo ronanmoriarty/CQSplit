@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace CQRSTutorial.Core.Tests
@@ -8,11 +9,14 @@ namespace CQRSTutorial.Core.Tests
     public class CommandDispatcherTests
     {
         private CommandDispatcher _commandDispatcher;
+        private ICommandHandlerFactory _commandHandlerFactory;
 
         [SetUp]
         public void SetUp()
         {
-            _commandDispatcher = CreateCommandDispatcher();
+            _commandHandlerFactory = Substitute.For<ICommandHandlerFactory>();
+            _commandDispatcher = new CommandDispatcher(Substitute.For<IEventPublisher>(),
+                new CommandHandlerProvider(new ICommandHandler[] { new Handler1(), new Handler2() }, _commandHandlerFactory));
         }
 
         [Test]
@@ -29,6 +33,7 @@ namespace CQRSTutorial.Core.Tests
         [Test]
         public void ExceptionThrownIfNothingCanHandleCommand()
         {
+            _commandHandlerFactory.CreateHandlerFor(Arg.Any<UnhandledTestCommand>()).Returns((ICommandHandler<UnhandledTestCommand>)null);
             Assert.That(() => _commandDispatcher.Dispatch(
                 new UnhandledTestCommand
                 {
@@ -43,12 +48,6 @@ namespace CQRSTutorial.Core.Tests
             Assert.That(() => _commandDispatcher.Dispatch(
                 new TestCommand()),
                 Throws.Exception.InstanceOf<ArgumentException>().With.Message.EqualTo("Command does not have Id set."));
-        }
-
-        private CommandDispatcher CreateCommandDispatcher()
-        {
-            return new CommandDispatcher(null,
-                new CommandHandlerProvider(new ICommandHandler[] { new Handler1(), new Handler2() }));
         }
 
         internal class Handler1 : ICommandHandler<TestCommand>
@@ -83,7 +82,7 @@ namespace CQRSTutorial.Core.Tests
             public Guid AggregateId { get; set; }
         }
 
-        internal class UnhandledTestCommand : ICommand
+        public class UnhandledTestCommand : ICommand
         {
             public Guid Id { get; set; }
             public Guid AggregateId { get; set; }

@@ -26,7 +26,7 @@ namespace Cafe.Waiter.Service.Tests
         private IEnumerable<Type> GetAllConsumerTypes()
         {
             return typeof(OpenTabConsumer).Assembly.GetTypes()
-                .Where(IsConsumerType)
+                .Where(type => IsConsumerType(type) && !type.IsAbstract)
                 .ToList();
         }
 
