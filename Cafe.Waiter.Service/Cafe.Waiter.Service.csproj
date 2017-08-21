@@ -94,6 +94,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Messaging\CloseTabConsumer.cs" />
     <Compile Include="Container.cs" />
+    <Compile Include="Messaging\Consumer.cs" />
     <Compile Include="Messaging\ConsumerFactory.cs" />
     <Compile Include="Messaging\MarkDrinksServedConsumer.cs" />
     <Compile Include="Messaging\MarkFoodServedConsumer.cs" />
