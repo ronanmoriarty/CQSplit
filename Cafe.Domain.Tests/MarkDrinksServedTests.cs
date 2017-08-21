@@ -251,7 +251,7 @@ namespace Cafe.Domain.Tests
             });
         }
 
-        protected override Tab GetSystemUnderTest()
+        protected override Tab GetAggregateToApplyEventsTo()
         {
             return _tab1;
         }

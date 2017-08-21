@@ -26,12 +26,12 @@ namespace CQRSTutorial.Tests.Common
             _eventPublisher = Substitute.For<IEventPublisher>();
             _commandDispatcher = new CommandDispatcher(_eventPublisher, _commandHandlerProvider);
             _eventApplier = new EventApplier(new TypeInspector());
-            _commandHandler = GetSystemUnderTest();
+            _commandHandler = GetAggregateToApplyEventsTo();
         }
 
         protected abstract ICommandHandlerProvider GetCommandHandlerProvider();
 
-        protected abstract TCommandHandler GetSystemUnderTest();
+        protected abstract TCommandHandler GetAggregateToApplyEventsTo();
 
         protected void Given(params IEvent[] events)
         {
