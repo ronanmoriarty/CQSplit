@@ -17,7 +17,7 @@ namespace Cafe.Domain.Tests
         private Tab _tab1;
         private Guid _commandId;
 
-        protected override ICommandHandlerProvider GetAggregateStore()
+        protected override ICommandHandlerProvider GetCommandHandlerProvider()
         {
             _commandId = Guid.NewGuid();
             _tab1 = new Tab

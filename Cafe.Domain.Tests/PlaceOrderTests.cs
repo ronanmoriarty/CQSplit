@@ -26,7 +26,7 @@ namespace Cafe.Domain.Tests
         private const int DrinkMenuNumber = 13;
         private const string DrinkDescription = "Coca Cola";
 
-        protected override ICommandHandlerProvider GetAggregateStore()
+        protected override ICommandHandlerProvider GetCommandHandlerProvider()
         {
             ReinitialiseForNextTest();
             return new FakeCommandHandlerProvider(new List<ICommandHandler> { _tab1, _tab2, new TabFactory() });

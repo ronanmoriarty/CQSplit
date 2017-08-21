@@ -22,14 +22,14 @@ namespace CQRSTutorial.Tests.Common
         [SetUp]
         public void SetUp()
         {
-            _commandHandlerProvider = GetAggregateStore();
+            _commandHandlerProvider = GetCommandHandlerProvider();
             _eventPublisher = Substitute.For<IEventPublisher>();
             _commandDispatcher = new CommandDispatcher(_eventPublisher, _commandHandlerProvider);
             _eventApplier = new EventApplier(new TypeInspector());
             _commandHandler = GetSystemUnderTest();
         }
 
-        protected abstract ICommandHandlerProvider GetAggregateStore();
+        protected abstract ICommandHandlerProvider GetCommandHandlerProvider();
 
         protected abstract TCommandHandler GetSystemUnderTest();
 
