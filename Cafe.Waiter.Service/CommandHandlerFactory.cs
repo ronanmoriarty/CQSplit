@@ -7,8 +7,10 @@ namespace Cafe.Waiter.Service
     {
         public ICommandHandler<TCommand> CreateHandlerFor<TCommand>(TCommand testCommand) where TCommand : ICommand
         {
-            //return (ICommandHandler<TCommand>)new Tab(); // TODO: get tests around this before uncommenting
-            return null;
+            return (ICommandHandler<TCommand>)new Tab
+            {
+                Id = testCommand.AggregateId
+            };
         }
     }
 }
