@@ -101,6 +101,10 @@
       <Project>{D9A17521-4B50-403C-8A7F-D9F82051049B}</Project>
       <Name>CQRSTutorial.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
+      <Project>{92221377-F43D-4C30-9A94-9E5E8FB0C969}</Project>
+      <Name>CQRSTutorial.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Infrastructure\CQRSTutorial.Infrastructure.csproj">
       <Project>{6d6c34d5-5ae9-41e5-b55a-b47552f83bc9}</Project>
       <Name>CQRSTutorial.Infrastructure</Name>

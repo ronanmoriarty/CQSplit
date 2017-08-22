@@ -1,16 +1,27 @@
 ﻿using Cafe.Domain;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL;
 
 namespace Cafe.Waiter.Service
 {
     public class CommandHandlerFactory : ICommandHandlerFactory
     {
-        public ICommandHandler<TCommand> CreateHandlerFor<TCommand>(TCommand testCommand) where TCommand : ICommand
+        private readonly IEventStore _eventStore;
+
+        public CommandHandlerFactory(IEventStore eventStore)
         {
-            return (ICommandHandler<TCommand>)new Tab
+            _eventStore = eventStore;
+        }
+
+        public ICommandHandler<TCommand> CreateHandlerFor<TCommand>(TCommand command) where TCommand : ICommand
+        {
+            var tab = new Tab
             {
-                Id = testCommand.AggregateId
+                Id = command.AggregateId
             };
+
+            _eventStore.GetAllEventsFor(command.AggregateId);
+            return (ICommandHandler<TCommand>)tab;
         }
     }
 }
