@@ -6,7 +6,7 @@ using KellermanSoftware.CompareNetObjects;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace CQRSTutorial.Tests.Common
+namespace Cafe.Domain.Tests
 {
     public abstract class EventTestsBase<TCommandHandler, TCommand>
         where TCommandHandler : new()

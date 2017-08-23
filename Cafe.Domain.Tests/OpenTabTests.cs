@@ -2,7 +2,6 @@
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using CQRSTutorial.Core;
-using CQRSTutorial.Tests.Common;
 using NUnit.Framework;
 
 namespace Cafe.Domain.Tests
