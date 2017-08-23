@@ -24,7 +24,7 @@ namespace Cafe.Domain.Tests
             {
                 Id = _tabId1
             };
-            return new FakeCommandHandlerProvider(new List<ICommandHandler> { _tab1, new TabFactory() });
+            return new FakeCommandHandlerProvider(new List<ICommandHandler> { _tab1, new OpenTabCommandHandler() });
         }
 
         [Test]

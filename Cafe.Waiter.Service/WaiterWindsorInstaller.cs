@@ -53,7 +53,7 @@ namespace Cafe.Waiter.Service
                     .WithServiceAllInterfaces(),
                 Component
                     .For<IEnumerable<ICommandHandler>>()
-                    .Instance(new List<ICommandHandler> {new TabFactory()})
+                    .Instance(new List<ICommandHandler> {new OpenTabCommandHandler()})
                     .Named("openTabConsumerCommandHandlers"),
                 Component
                     .For<ICommandDispatcher>()

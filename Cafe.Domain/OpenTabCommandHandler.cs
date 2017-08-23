@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using Cafe.Waiter.Contracts;
 using CQRSTutorial.Core;
 
 namespace Cafe.Domain
 {
-    public class TabFactory : ICommandHandler<IOpenTab>
+    public class OpenTabCommandHandler : ICommandHandler<IOpenTab>
     {
         public IEnumerable<IEvent> Handle(IOpenTab command)
         {
