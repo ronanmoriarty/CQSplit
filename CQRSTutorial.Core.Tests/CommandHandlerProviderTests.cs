@@ -14,7 +14,7 @@ namespace CQRSTutorial.Core.Tests
         public void SetUp()
         {
             _commandHandlerFactory = Substitute.For<ICommandHandlerFactory>();
-            _commandHandlerProvider = new CommandHandlerProvider(new ICommandHandler[] {}, _commandHandlerFactory);
+            _commandHandlerProvider = new CommandHandlerProvider(_commandHandlerFactory);
         }
 
         [Test]
