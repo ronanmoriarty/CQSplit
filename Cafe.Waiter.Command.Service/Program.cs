@@ -10,9 +10,9 @@ namespace Cafe.Waiter.Command.Service
 
             HostFactory.Run(x =>
             {
-                x.Service<WaiterService>(waiterService =>
+                x.Service<WaiterCommandService>(waiterService =>
                 {
-                    waiterService.ConstructUsing(Container.Instance.Resolve<WaiterService>);
+                    waiterService.ConstructUsing(Container.Instance.Resolve<WaiterCommandService>);
                     waiterService.WhenStarted(tc => tc.Start());
                     waiterService.WhenStopped(tc => tc.Stop());
                 });

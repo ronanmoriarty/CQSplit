@@ -106,7 +106,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Messaging\MessageBusEndpointConfiguration.cs" />
     <Compile Include="TabFactory.cs" />
-    <Compile Include="WaiterService.cs" />
+    <Compile Include="WaiterCommandService.cs" />
     <Compile Include="WaiterWindsorInstaller.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -78,7 +78,7 @@
     <Compile Include="MessageBusEndpointConfigurationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunOncePerTestRun.cs" />
-    <Compile Include="WaiterServiceTests.cs" />
+    <Compile Include="WaiterCommandServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

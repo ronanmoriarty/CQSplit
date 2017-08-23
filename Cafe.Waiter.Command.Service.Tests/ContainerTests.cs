@@ -12,9 +12,9 @@ namespace Cafe.Waiter.Command.Service.Tests
         private readonly Guid _aggregateId = new Guid("F51210BC-4D80-4F6A-990F-D55E891DA251");
 
         [Test]
-        public void Can_resolve_WaiterService()
+        public void Can_resolve_WaiterCommandService()
         {
-            var waiterService = Container.Instance.Resolve<WaiterService>();
+            var waiterService = Container.Instance.Resolve<WaiterCommandService>();
 
             Assert.That(waiterService, Is.Not.Null);
         }
