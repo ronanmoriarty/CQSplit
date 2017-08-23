@@ -7,8 +7,8 @@
     <ProjectGuid>{AD5EF53E-A25F-43CC-9CE7-232A6F844426}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cafe.Waiter.Service.Tests</RootNamespace>
-    <AssemblyName>Cafe.Waiter.Service.Tests</AssemblyName>
+    <RootNamespace>Cafe.Waiter.Command.Service.Tests</RootNamespace>
+    <AssemblyName>Cafe.Waiter.Command.Service.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

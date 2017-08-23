@@ -5,7 +5,7 @@ using Cafe.Waiter.Command.Service.Messaging;
 using MassTransit;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Service.Tests
+namespace Cafe.Waiter.Command.Service.Tests
 {
     [TestFixture]
     public class ConsumerFactoryTests

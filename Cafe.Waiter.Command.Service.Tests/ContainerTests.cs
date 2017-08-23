@@ -1,10 +1,9 @@
 ﻿using System;
 using Cafe.Domain.Commands;
-using Cafe.Waiter.Command.Service;
 using CQRSTutorial.Core;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Service.Tests
+namespace Cafe.Waiter.Command.Service.Tests
 {
     [TestFixture]
     public class ContainerTests

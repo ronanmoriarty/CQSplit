@@ -47,7 +47,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Command.Service", "Cafe.Waiter.Command.Service\Cafe.Waiter.Command.Service.csproj", "{5B5CD546-4344-4600-B424-637D2CA4D8CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Service.Tests", "Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Service.Tests.csproj", "{AD5EF53E-A25F-43CC-9CE7-232A6F844426}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Command.Service.Tests", "Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.csproj", "{AD5EF53E-A25F-43CC-9CE7-232A6F844426}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Query.Service", "Cafe.Waiter.Query.Service\Cafe.Waiter.Query.Service.csproj", "{915D1A12-4595-4A1F-AED6-3EDBEE3C5758}"
 EndProject

@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using Cafe.Domain;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
-using Cafe.Waiter.Command.Service;
-using Cafe.Waiter.Contracts;
 using Cafe.Waiter.Contracts.Commands;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Service.Tests
+namespace Cafe.Waiter.Command.Service.Tests
 {
     [TestFixture]
     public class CommandHandlerFactoryTests
