@@ -27,7 +27,7 @@ namespace Cafe.Domain.Tests
         private const int Food2MenuNumber = 102;
         private const string Food2Description = "Chicken Madras";
 
-        protected override void ConfigureCommandHandlerProvider(ICommandHandlerFactory commandHandlerFactory, CommandHandlerProvider commandHandlerProvider)
+        protected override void ConfigureCommandHandlerProvider(ICommandHandlerFactory commandHandlerFactory)
         {
             ReinitialiseForNextTest();
             commandHandlerFactory.CreateHandlerFor(Arg.Is<MarkFoodServed>(markFoodServed => markFoodServed.AggregateId == _tabId1)).Returns(_tab1);

@@ -24,14 +24,15 @@ namespace Cafe.Domain.Tests
         {
             var commandHandlerFactory = Substitute.For<ICommandHandlerFactory>();
             _commandHandlerProvider = new CommandHandlerProvider(commandHandlerFactory);
-            ConfigureCommandHandlerProvider(commandHandlerFactory, _commandHandlerProvider);
+            _commandHandlerProvider.RegisterCommandHandler(new OpenTabCommandHandler());
+            ConfigureCommandHandlerProvider(commandHandlerFactory);
             _eventPublisher = Substitute.For<IEventPublisher>();
             _commandDispatcher = new CommandDispatcher(_eventPublisher, _commandHandlerProvider);
             _eventApplier = new EventApplier(new TypeInspector());
             _commandHandler = GetAggregateToApplyEventsTo();
         }
 
-        protected abstract void ConfigureCommandHandlerProvider(ICommandHandlerFactory commandHandlerFactory, CommandHandlerProvider commandHandlerProvider);
+        protected abstract void ConfigureCommandHandlerProvider(ICommandHandlerFactory commandHandlerFactory);
 
         protected abstract TCommandHandler GetAggregateToApplyEventsTo();
 

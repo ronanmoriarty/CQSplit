@@ -15,14 +15,13 @@ namespace Cafe.Domain.Tests
         private Tab _tab1;
         private Guid _commandId;
 
-        protected override void ConfigureCommandHandlerProvider(ICommandHandlerFactory commandHandlerFactory, CommandHandlerProvider commandHandlerProvider)
+        protected override void ConfigureCommandHandlerProvider(ICommandHandlerFactory commandHandlerFactory)
         {
             _commandId = Guid.NewGuid();
             _tab1 = new Tab
             {
                 Id = _tabId1
             };
-            commandHandlerProvider.RegisterCommandHandler(new OpenTabCommandHandler());
         }
 
         [Test]
