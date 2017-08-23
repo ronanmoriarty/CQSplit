@@ -21,7 +21,7 @@ namespace Cafe.Domain.Tests
         protected TCommandHandler CommandHandler;
         protected readonly Guid CommandId = new Guid("0E72CCC8-2C6C-4F02-B524-2FB958347564");
         protected TCommandHandler CommandHandler2;
-        protected readonly Guid CommandId2 = new Guid("88CEC1FD-A666-4A51-ABD4-3AA49AE35001");
+        private readonly Guid _aggregateId2 = new Guid("88CEC1FD-A666-4A51-ABD4-3AA49AE35001");
         private OpenTabCommandHandler _openTabCommandHandler;
 
         [SetUp]
@@ -37,7 +37,7 @@ namespace Cafe.Domain.Tests
             };
             CommandHandler2 = new TCommandHandler
             {
-                Id = CommandId2
+                Id = _aggregateId2
             };
 
             if (!CanUsePreregisteredCommandHandlersToHandleCommand())
@@ -80,7 +80,7 @@ namespace Cafe.Domain.Tests
         private void ConfigureCommandHandlerFactory(ICommandHandlerFactory commandHandlerFactory)
         {
             commandHandlerFactory.CreateHandlerFor(Arg.Is<TCommand>(command => command.AggregateId == AggregateId)).Returns((ICommandHandler<TCommand>) CommandHandler);
-            commandHandlerFactory.CreateHandlerFor(Arg.Is<TCommand>(command => command.AggregateId == CommandId2)).Returns((ICommandHandler<TCommand>) CommandHandler2);
+            commandHandlerFactory.CreateHandlerFor(Arg.Is<TCommand>(command => command.AggregateId == _aggregateId2)).Returns((ICommandHandler<TCommand>) CommandHandler2);
         }
 
         private bool AtLeastOneEventMatches(object expectedEvent, IEnumerable<IEvent> events)
