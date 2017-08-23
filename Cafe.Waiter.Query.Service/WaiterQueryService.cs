@@ -2,5 +2,12 @@
 {
     public class WaiterQueryService
     {
+        public void Start()
+        {
+        }
+
+        public void Stop()
+        {
+        }
     }
 }
