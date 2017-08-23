@@ -27,7 +27,7 @@ namespace Cafe.Domain.Tests
         private const int Drink2MenuNumber = 14;
         private const string Drink2Description = "Fanta";
 
-        protected override void ConfigureCommandHandlerProvider(ICommandHandlerFactory commandHandlerFactory)
+        protected override void ConfigureCommandHandlerFactory(ICommandHandlerFactory commandHandlerFactory)
         {
             ReinitialiseForNextTest();
             commandHandlerFactory.CreateHandlerFor(Arg.Is<MarkDrinksServed>(markDrinksServed => markDrinksServed.AggregateId == _tabId1)).Returns(_tab1);
