@@ -1,12 +1,12 @@
 ﻿using System;
-using CQRSTutorial.Core;
+using Cafe.Waiter.Contracts;
 
 namespace Cafe.Domain.Commands
 {
-    public class CloseTab : ICommand
+    public class CloseTab : ICloseTab
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
-        public decimal AmountPaid;
+        public decimal AmountPaid { get; set; }
     }
 }

@@ -24,8 +24,8 @@ namespace CQRSTutorial.Publisher.Tests
         private static readonly string Queue1 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue1";
         private static readonly string Queue2 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue2";
         private static readonly string Queue3 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue3";
-        private static readonly Guid MessageId1 = new Guid("837505FF-F7C5-4F51-A6C6-F76A4980DF36");
-        private static readonly Guid MessageId2 = new Guid("533DD041-5FC0-4C19-A574-0AD17C61639E");
+        public static readonly Guid MessageId1 = new Guid("837505FF-F7C5-4F51-A6C6-F76A4980DF36");
+        public static readonly Guid MessageId2 = new Guid("533DD041-5FC0-4C19-A574-0AD17C61639E");
         private static readonly Guid AggregateId1 = new Guid("97288F2F-E4FB-40FB-A848-5BBF824F1B38");
         private static readonly Guid AggregateId2 = new Guid("45BE9A71-AEE0-44D8-B31F-33C9F6417377");
         private TestEvent _testEvent1;
@@ -173,31 +173,10 @@ namespace CQRSTutorial.Publisher.Tests
 
         private MessageBusEventPublisher CreateMessageBusEventPublisher(string queueName, Action onMessagePublished)
         {
-            var messageBusFactory = new MessageBusFactory(new EnvironmentVariableMessageBusConfiguration());
-            var messageBusEventPublisher = new MessageBusEventPublisher(messageBusFactory)
-            {
-                Configure = (sbc, host) => ConfigureTestReceiver(sbc, host, queueName, onMessagePublished)
-            };
-
-            return messageBusEventPublisher;
-        }
-
-        private void ConfigureTestReceiver(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host, string queueName, Action onEventHandled)
-        {
-            sbc.ReceiveEndpoint(host, queueName, ep =>
-            {
-                ep.Handler<IEvent>(context =>
-                {
-                    if (context.Message.Id == MessageId1 ||
-                        context.Message.Id == MessageId2)
-                    {
-                        onEventHandled?.Invoke();
-                        return Console.Out.WriteLineAsync($"Received: [Id:{context.Message.Id}; Type:{context.Message.GetType()}; Queue:{queueName}]");
-                    }
-
-                    return Console.Out.WriteLineAsync($"Received message queued from another test fixture: [Id:{context.Message.Id}; Type:{context.Message.GetType()}; Queue:{queueName}]. Message will be disregarded for the purpose of this test.");
-                });
-            });
+            var messageBusFactory = new RabbitMqMessageBusFactory(
+                new EnvironmentVariableMessageBusConfiguration(),
+                new FakeMessageBusConfigurator(queueName, onMessagePublished));
+            return new MessageBusEventPublisher(messageBusFactory);
         }
 
         private bool ReadyToReturnControlToMainTestThreadToAssertMessageCount(int messagesPublished, int expectedNumberOfMessagesPublished)
@@ -208,6 +187,36 @@ namespace CQRSTutorial.Publisher.Tests
         private void ReturnControlToMainTestThread(ManualResetEvent manualResetEvent)
         {
             manualResetEvent.Set();
+        }
+
+        internal class FakeMessageBusConfigurator : IMessageBusConfigurator
+        {
+            private readonly string _queueName;
+            private readonly Action _onMessagePublished;
+
+            public FakeMessageBusConfigurator(string queueName, Action onMessagePublished)
+            {
+                _queueName = queueName;
+                _onMessagePublished = onMessagePublished;
+            }
+
+            public void ConfigureEndpoints(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host)
+            {
+                sbc.ReceiveEndpoint(host, _queueName, ep =>
+                {
+                    ep.Handler<IEvent>(context =>
+                    {
+                        if (context.Message.Id == MessageId1 ||
+                            context.Message.Id == MessageId2)
+                        {
+                            _onMessagePublished?.Invoke();
+                            return Console.Out.WriteLineAsync($"Received: [Id:{context.Message.Id}; Type:{context.Message.GetType()}; Queue:{_queueName}]");
+                        }
+
+                        return Console.Out.WriteLineAsync($"Received message queued from another test fixture: [Id:{context.Message.Id}; Type:{context.Message.GetType()}; Queue:{_queueName}]. Message will be disregarded for the purpose of this test.");
+                    });
+                });
+            }
         }
     }
 }

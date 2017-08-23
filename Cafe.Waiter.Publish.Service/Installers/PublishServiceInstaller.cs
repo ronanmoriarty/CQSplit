@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Cafe.Domain.Events;
 using Cafe.Waiter.DAL;
@@ -60,8 +62,22 @@ namespace Cafe.Waiter.Publish.Service.Installers
                     .Named("outboxToMessageQueuePublisherLogger"),
                 Component.For<OutboxToMessageQueuePublisher>()
                     .Forward(typeof(IOutboxToMessageQueuePublisher))
-                    .DependsOn(Dependency.OnComponent("logger", "outboxToMessageQueuePublisherLogger"))
+                    .DependsOn(Dependency.OnComponent("logger", "outboxToMessageQueuePublisherLogger")),
+                Component.For<IMessageBusEndpointConfiguration>()
+                    .ImplementedBy<EmptyMessageBusEndpointConfiguration>(),
+                Component.For<IConsumerFactory>()
+                    .ImplementedBy<ConsumerFactory>()
             );
+        }
+
+        public class EmptyMessageBusEndpointConfiguration : IMessageBusEndpointConfiguration
+        {
+            public EmptyMessageBusEndpointConfiguration()
+            {
+                ReceiveEndpoints = Enumerable.Empty<ReceiveEndpointMapping>();
+            }
+
+            public IEnumerable<ReceiveEndpointMapping> ReceiveEndpoints { get; }
         }
     }
 }

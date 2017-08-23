@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using CQRSTutorial.Core;
+using Cafe.Waiter.Contracts;
 
 namespace Cafe.Domain.Commands
 {
-    public class PlaceOrder : ICommand
+    public class PlaceOrder : IPlaceOrder
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }

@@ -4,7 +4,7 @@ using log4net;
 
 namespace CQRSTutorial.Core
 {
-    public class EventApplier
+    public class EventApplier : IEventApplier
     {
         private readonly TypeInspector _typeInspector;
         private readonly ILog _logger = LogManager.GetLogger(typeof(EventApplier));

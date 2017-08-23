@@ -23,7 +23,7 @@ namespace CQRSTutorial.Infrastructure
         {
             var serviceAddress = _serviceAddressProvider.GetServiceAddressFor<TCommand>();
             var uri = $"{_messageBusConfiguration.Uri.AbsoluteUri}{serviceAddress}";
-            _logger.Debug($"Sending OpenTab command to {uri}");
+            _logger.Debug($"Sending {typeof(TCommand).Name} command to {uri}");
             return await _busControl.GetSendEndpoint(new Uri(uri));
         }
     }

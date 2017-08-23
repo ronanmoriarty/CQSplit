@@ -226,10 +226,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Messaging\ConsumerFactory.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Messaging\RabbitMqMessageBusEndpointConfiguration.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="DependencyInjection\WindsorDependencyResolver.cs" />
   </ItemGroup>

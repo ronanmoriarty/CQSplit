@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using CQRSTutorial.Core;
+using Cafe.Waiter.Contracts;
 
 namespace Cafe.Domain.Commands
 {
-    public class MarkFoodServed : ICommand
+    public class MarkFoodServed : IMarkFoodServed
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
-        public List<int> MenuNumbers;
+        public List<int> MenuNumbers { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using Cafe.Waiter.Web.Controllers;
+using Cafe.Waiter.Web.Messaging;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -25,6 +26,12 @@ namespace Cafe.Waiter.Web.DependencyInjection
                     .WithServiceSelf()
                     .WithServiceAllInterfaces()
                     .LifestyleTransient(),
+                Classes
+                    .FromThisAssembly()
+                    .InSameNamespaceAs<RabbitMqMessageBusEndpointConfiguration>()
+                    .WithServiceSelf()
+                    .WithServiceAllInterfaces()
+                    .LifestyleTransient(),
                 SetControllerLifestyle(controllerBasedOnDescriptor),
                 Component
                     .For<IBusControl>()
@@ -40,7 +47,7 @@ namespace Cafe.Waiter.Web.DependencyInjection
 
         private IBusControl GetBusControl(IKernel kernel)
         {
-            var messageBusFactory = kernel.Resolve<MessageBusFactory>();
+            var messageBusFactory = kernel.Resolve<RabbitMqMessageBusFactory>();
             return messageBusFactory.Create();
         }
     }

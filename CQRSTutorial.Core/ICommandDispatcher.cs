@@ -2,6 +2,6 @@ namespace CQRSTutorial.Core
 {
     public interface ICommandDispatcher
     {
-        void Dispatch(params ICommand[] commands);
+        void Dispatch<TCommand>(TCommand command) where TCommand : ICommand;
     }
 }
