@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using Cafe.Waiter.Contracts;
-using CQRSTutorial.Core;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace Cafe.Domain.Tests
@@ -20,12 +18,6 @@ namespace Cafe.Domain.Tests
         private const decimal Drink2Price = 2.5m;
         private const int Drink2MenuNumber = 14;
         private const string Drink2Description = "Fanta";
-
-        protected override void ConfigureCommandHandlerFactory(ICommandHandlerFactory commandHandlerFactory)
-        {
-            commandHandlerFactory.CreateHandlerFor(Arg.Is<MarkDrinksServed>(markDrinksServed => markDrinksServed.AggregateId == AggregateId)).Returns(CommandHandler);
-            commandHandlerFactory.CreateHandlerFor(Arg.Is<MarkDrinksServed>(markDrinksServed => markDrinksServed.AggregateId == CommandId2)).Returns(CommandHandler2);
-        }
 
         [Test]
         public void OrderedDrinksCanBeServed()

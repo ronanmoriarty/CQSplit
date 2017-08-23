@@ -2,8 +2,6 @@
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using Cafe.Waiter.Contracts;
-using CQRSTutorial.Core;
-using NSubstitute;
 using NUnit.Framework;
 
 namespace Cafe.Domain.Tests
@@ -19,12 +17,6 @@ namespace Cafe.Domain.Tests
         private const decimal DrinkPrice = 2m;
         private const int DrinkMenuNumber = 13;
         private const string DrinkDescription = "Coca Cola";
-
-        protected override void ConfigureCommandHandlerFactory(ICommandHandlerFactory commandHandlerFactory)
-        {
-            commandHandlerFactory.CreateHandlerFor(Arg.Is<PlaceOrder>(placeOrder => placeOrder.AggregateId == AggregateId)).Returns(CommandHandler);
-            commandHandlerFactory.CreateHandlerFor(Arg.Is<PlaceOrder>(placeOrder => placeOrder.AggregateId == CommandId2)).Returns(CommandHandler2);
-        }
 
         [Test]
         public void CanOrderFoodWhenTabHasAlreadyBeenOpened()

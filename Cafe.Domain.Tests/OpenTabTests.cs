@@ -29,5 +29,10 @@ namespace Cafe.Domain.Tests
                 Waiter = _waiter
             });
         }
+
+        protected override bool CanUsePreregisteredCommandHandlersToHandleCommand()
+        {
+            return true;
+        }
     }
 }

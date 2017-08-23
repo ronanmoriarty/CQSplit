@@ -23,13 +23,15 @@ namespace Cafe.Domain.Tests
         protected readonly Guid CommandId = new Guid("0E72CCC8-2C6C-4F02-B524-2FB958347564");
         protected TCommandHandler CommandHandler2;
         protected readonly Guid CommandId2 = new Guid("88CEC1FD-A666-4A51-ABD4-3AA49AE35001");
+        private OpenTabCommandHandler _openTabCommandHandler;
 
         [SetUp]
         public void SetUp()
         {
             var commandHandlerFactory = Substitute.For<ICommandHandlerFactory>();
             _commandHandlerProvider = new CommandHandlerProvider(commandHandlerFactory);
-            _commandHandlerProvider.RegisterCommandHandler(new OpenTabCommandHandler());
+            _openTabCommandHandler = new OpenTabCommandHandler();
+            _commandHandlerProvider.RegisterCommandHandler(_openTabCommandHandler);
             CommandHandler = new TCommandHandler
             {
                 Id = AggregateId
@@ -38,15 +40,21 @@ namespace Cafe.Domain.Tests
             {
                 Id = CommandId2
             };
-            ConfigureCommandHandlerFactory(commandHandlerFactory);
+
+            if (!CanUsePreregisteredCommandHandlersToHandleCommand())
+            {
+                ConfigureCommandHandlerFactory(commandHandlerFactory);
+            }
+
             _eventPublisher = Substitute.For<IEventPublisher>();
             _commandDispatcher = new CommandDispatcher(_eventPublisher, _commandHandlerProvider);
             _eventApplier = new EventApplier(new TypeInspector());
             _commandHandler = GetAggregateToApplyEventsTo();
         }
 
-        protected virtual void ConfigureCommandHandlerFactory(ICommandHandlerFactory commandHandlerFactory)
+        protected virtual bool CanUsePreregisteredCommandHandlersToHandleCommand()
         {
+            return false;
         }
 
         protected virtual TCommandHandler GetAggregateToApplyEventsTo()
@@ -74,6 +82,12 @@ namespace Cafe.Domain.Tests
             {
                 _eventPublisher.Received(1).Publish(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatches(expectedEvent, events)));
             }
+        }
+
+        private void ConfigureCommandHandlerFactory(ICommandHandlerFactory commandHandlerFactory)
+        {
+            commandHandlerFactory.CreateHandlerFor(Arg.Is<TCommand>(command => command.AggregateId == AggregateId)).Returns((ICommandHandler<TCommand>) CommandHandler);
+            commandHandlerFactory.CreateHandlerFor(Arg.Is<TCommand>(command => command.AggregateId == CommandId2)).Returns((ICommandHandler<TCommand>) CommandHandler2);
         }
 
         private bool AtLeastOneEventMatches(object expectedEvent, IEnumerable<IEvent> events)
