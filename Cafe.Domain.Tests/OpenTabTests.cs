@@ -12,16 +12,10 @@ namespace Cafe.Domain.Tests
         private readonly Guid _tabId1 = new Guid("17BEED1C-2084-4ADA-938A-4F850212EB5D");
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
-        private Tab _tab1;
-        private Guid _commandId;
+        private readonly Guid _commandId = new Guid("EEB9AF2B-0399-44D3-87D0-DBEC8699614E");
 
         protected override void ConfigureCommandHandlerFactory(ICommandHandlerFactory commandHandlerFactory)
         {
-            _commandId = Guid.NewGuid();
-            _tab1 = new Tab
-            {
-                Id = _tabId1
-            };
         }
 
         [Test]
@@ -42,11 +36,6 @@ namespace Cafe.Domain.Tests
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });
-        }
-
-        protected override Tab GetAggregateToApplyEventsTo()
-        {
-            return _tab1;
         }
     }
 }

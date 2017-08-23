@@ -34,7 +34,10 @@ namespace Cafe.Domain.Tests
 
         protected abstract void ConfigureCommandHandlerFactory(ICommandHandlerFactory commandHandlerFactory);
 
-        protected abstract TCommandHandler GetAggregateToApplyEventsTo();
+        protected virtual TCommandHandler GetAggregateToApplyEventsTo()
+        {
+            return new TCommandHandler();
+        }
 
         protected void Given(params IEvent[] events)
         {
