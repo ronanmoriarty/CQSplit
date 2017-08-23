@@ -19,12 +19,16 @@ namespace Cafe.Waiter.Service.Tests
         private IEventStore _eventStore;
         private PlaceOrder _placeOrderCommand;
         private Tab _tab;
+        private ITabFactory _tabFactory;
 
         [SetUp]
         public void SetUp()
         {
             _eventStore = Substitute.For<IEventStore>();
-            _commandHandlerFactory = new CommandHandlerFactory(_eventStore);
+            _tabFactory = Substitute.For<ITabFactory>();
+            var tab = new Tab { Id = _aggregateId };
+            _tabFactory.Create(_aggregateId).Returns(tab);
+            _commandHandlerFactory = new CommandHandlerFactory(_eventStore, _tabFactory);
             _placeOrderCommand = new PlaceOrder
             {
                 Id = _id,
@@ -52,7 +56,7 @@ namespace Cafe.Waiter.Service.Tests
         private void WhenCreatingCommandHandler()
         {
             var commandHandler = _commandHandlerFactory.CreateHandlerFor<IPlaceOrder>(_placeOrderCommand);
-            _tab = (Tab) commandHandler;
+            _tab = (Tab)commandHandler;
         }
     }
 }
