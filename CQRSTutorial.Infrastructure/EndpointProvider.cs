@@ -19,11 +19,11 @@ namespace CQRSTutorial.Infrastructure
             _serviceAddressProvider = serviceAddressProvider;
         }
 
-        public async Task<ISendEndpoint> GetSendEndpointFor<TCommand>()
+        public async Task<ISendEndpoint> GetSendEndpointFor<TMessage>()
         {
-            var serviceAddress = _serviceAddressProvider.GetServiceAddressFor<TCommand>();
+            var serviceAddress = _serviceAddressProvider.GetServiceAddressFor<TMessage>();
             var uri = $"{_messageBusConfiguration.Uri.AbsoluteUri}{serviceAddress}";
-            _logger.Debug($"Sending {typeof(TCommand).Name} command to {uri}");
+            _logger.Debug($"Sending {typeof(TMessage).Name} message to {uri}");
             return await _busControl.GetSendEndpoint(new Uri(uri));
         }
     }

@@ -1,3 +1,6 @@
+using System;
+using Cafe.Waiter.Contracts.Queries;
+using Cafe.Waiter.Contracts.QueryResponses;
 using Cafe.Waiter.Web.Controllers;
 using Cafe.Waiter.Web.Messaging;
 using Castle.MicroKernel;
@@ -36,8 +39,19 @@ namespace Cafe.Waiter.Web.DependencyInjection
                 Component
                     .For<IBusControl>()
                     .UsingFactoryMethod(GetBusControl)
-                    .LifestyleSingleton()
+                    .LifestyleSingleton(),
+                Component
+                    .For<IRequestClient<IOpenTabsQuery, IOpenTabsQueryResponse>>()
+                    .UsingFactoryMethod(CreateMessageRequestClient)
             );
+        }
+
+        private static MessageRequestClient<IOpenTabsQuery, IOpenTabsQueryResponse> CreateMessageRequestClient(IKernel kernel)
+        {
+            var messageBusConfiguration = kernel.Resolve<IMessageBusConfiguration>();
+            var serviceAddress = new Uri($"{messageBusConfiguration.Uri.AbsoluteUri}open_tabs_query");
+            Console.WriteLine($"Service address for TabController is: {serviceAddress}");
+            return new MessageRequestClient<IOpenTabsQuery, IOpenTabsQueryResponse>(kernel.Resolve<IBusControl>(), serviceAddress, new TimeSpan(0,0,0,30));
         }
 
         private BasedOnDescriptor SetControllerLifestyle(BasedOnDescriptor controllerBasedOnDescriptor)

@@ -91,6 +91,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\OpenTabsQuery.cs" />
+    <Compile Include="QueryResponses\OpenTabsQueryResponse.cs" />
+    <Compile Include="QueryResponses\Tab.cs" />
     <Compile Include="WaiterQueryService.cs" />
     <Compile Include="WindsorInstaller.cs" />
   </ItemGroup>
