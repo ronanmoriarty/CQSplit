@@ -54,6 +54,7 @@
     <Compile Include="ICommandDispatcher.cs" />
     <Compile Include="ICommandHandler.cs" />
     <Compile Include="IEvent.cs" />
+    <Compile Include="IEventApplier.cs" />
     <Compile Include="IEventPublisher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TypeInspector.cs" />
