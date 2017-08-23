@@ -15,7 +15,6 @@ namespace Cafe.Domain.Tests
         private readonly Guid _tabId2 = new Guid("88CEC1FD-A666-4A51-ABD4-3AA49AE35001");
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
-        private Tab _tab1;
         private Tab _tab2;
         private Guid _commandId;
         private const decimal DrinkPrice = 2m;
@@ -25,14 +24,14 @@ namespace Cafe.Domain.Tests
         protected override void ConfigureCommandHandlerFactory(ICommandHandlerFactory commandHandlerFactory)
         {
             ReinitialiseForNextTest();
-            commandHandlerFactory.CreateHandlerFor(Arg.Is<CloseTab>(closeTab => closeTab.AggregateId == AggregateId)).Returns(_tab1);
+            commandHandlerFactory.CreateHandlerFor(Arg.Is<CloseTab>(closeTab => closeTab.AggregateId == AggregateId)).Returns(CommandHandler);
             commandHandlerFactory.CreateHandlerFor(Arg.Is<CloseTab>(closeTab => closeTab.AggregateId == _tabId2)).Returns(_tab2);
         }
 
         private void ReinitialiseForNextTest()
         {
             _commandId = Guid.NewGuid();
-            _tab1 = new Tab
+            CommandHandler = new Tab
             {
                 Id = AggregateId
             };
@@ -91,7 +90,7 @@ namespace Cafe.Domain.Tests
 
         protected override Tab GetAggregateToApplyEventsTo()
         {
-            return _tab1;
+            return CommandHandler;
         }
     }
 }
