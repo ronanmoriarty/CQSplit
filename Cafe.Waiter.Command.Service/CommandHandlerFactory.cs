@@ -2,7 +2,7 @@
 using CQRSTutorial.DAL;
 using NHibernate.Util;
 
-namespace Cafe.Waiter.Service
+namespace Cafe.Waiter.Command.Service
 {
     public class CommandHandlerFactory : ICommandHandlerFactory
     {

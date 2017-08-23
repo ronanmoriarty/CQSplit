@@ -1,8 +1,7 @@
-using Cafe.Waiter.Contracts;
 using Cafe.Waiter.Contracts.Commands;
 using CQRSTutorial.Core;
 
-namespace Cafe.Waiter.Service.Messaging
+namespace Cafe.Waiter.Command.Service.Messaging
 {
     public class OpenTabConsumer : Consumer<IOpenTab>
     {

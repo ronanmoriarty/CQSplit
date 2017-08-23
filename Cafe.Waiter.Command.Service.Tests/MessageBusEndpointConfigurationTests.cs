@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cafe.Domain.Commands;
+using Cafe.Waiter.Command.Service.Messaging;
 using Cafe.Waiter.Contracts;
 using Cafe.Waiter.Contracts.Commands;
-using Cafe.Waiter.Service.Messaging;
 using CQRSTutorial.Infrastructure;
 using MassTransit;
 using NUnit.Framework;

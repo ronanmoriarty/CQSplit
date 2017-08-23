@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Cafe.Waiter.Command.Service;
+using NUnit.Framework;
 
 namespace Cafe.Waiter.Service.Tests
 {

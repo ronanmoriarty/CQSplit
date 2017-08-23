@@ -1,7 +1,7 @@
 ﻿using CQRSTutorial.Infrastructure;
 using MassTransit;
 
-namespace Cafe.Waiter.Service
+namespace Cafe.Waiter.Command.Service
 {
     public class WaiterService
     {

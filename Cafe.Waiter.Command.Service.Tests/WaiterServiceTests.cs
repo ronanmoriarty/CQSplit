@@ -1,4 +1,5 @@
-﻿using CQRSTutorial.Infrastructure;
+﻿using Cafe.Waiter.Command.Service;
+using CQRSTutorial.Infrastructure;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;

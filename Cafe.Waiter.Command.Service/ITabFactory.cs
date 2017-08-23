@@ -1,7 +1,7 @@
 ﻿using System;
 using Cafe.Domain;
 
-namespace Cafe.Waiter.Service
+namespace Cafe.Waiter.Command.Service
 {
     public interface ITabFactory
     {
