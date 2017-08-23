@@ -18,6 +18,7 @@ namespace Cafe.Domain.Tests
         private EventApplier _eventApplier;
         private TCommand _command;
         private CommandHandlerProvider _commandHandlerProvider;
+        protected readonly Guid AggregateId = new Guid("17BEED1C-2084-4ADA-938A-4F850212EB5D");
 
         [SetUp]
         public void SetUp()
