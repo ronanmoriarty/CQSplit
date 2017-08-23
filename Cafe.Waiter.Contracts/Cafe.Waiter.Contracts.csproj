@@ -40,12 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICloseTab.cs" />
-    <Compile Include="IMarkDrinksServed.cs" />
-    <Compile Include="IMarkFoodServed.cs" />
-    <Compile Include="IOpenTab.cs" />
-    <Compile Include="IPlaceOrder.cs" />
-    <Compile Include="OrderedItem.cs" />
+    <Compile Include="Commands\ICloseTab.cs" />
+    <Compile Include="Commands\IMarkDrinksServed.cs" />
+    <Compile Include="Commands\IMarkFoodServed.cs" />
+    <Compile Include="Commands\IOpenTab.cs" />
+    <Compile Include="Commands\IPlaceOrder.cs" />
+    <Compile Include="Commands\OrderedItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

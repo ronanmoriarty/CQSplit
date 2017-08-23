@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using Cafe.Waiter.Contracts;
+using Cafe.Waiter.Contracts.Commands;
 using NUnit.Framework;
 
 namespace Cafe.Domain.Tests

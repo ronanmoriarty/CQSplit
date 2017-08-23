@@ -1,4 +1,4 @@
-namespace Cafe.Waiter.Contracts
+namespace Cafe.Waiter.Contracts.Commands
 {
     public class OrderedItem
     {

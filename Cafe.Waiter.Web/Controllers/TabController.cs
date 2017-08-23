@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cafe.Domain.Commands;
 using Cafe.Waiter.Contracts;
+using Cafe.Waiter.Contracts.Commands;
 using CQRSTutorial.Infrastructure;
 
 namespace Cafe.Waiter.Web.Controllers

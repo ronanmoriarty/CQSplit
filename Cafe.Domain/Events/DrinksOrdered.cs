@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cafe.Waiter.Contracts;
+using Cafe.Waiter.Contracts.Commands;
 using CQRSTutorial.Core;
 
 namespace Cafe.Domain.Events

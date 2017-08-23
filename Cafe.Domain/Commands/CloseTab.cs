@@ -1,5 +1,6 @@
 ﻿using System;
 using Cafe.Waiter.Contracts;
+using Cafe.Waiter.Contracts.Commands;
 
 namespace Cafe.Domain.Commands
 {

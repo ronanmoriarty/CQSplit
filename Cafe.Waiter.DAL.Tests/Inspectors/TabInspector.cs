@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cafe.Domain;
 using Cafe.Waiter.Contracts;
+using Cafe.Waiter.Contracts.Commands;
 
 namespace Cafe.Waiter.DAL.Tests.Inspectors
 {

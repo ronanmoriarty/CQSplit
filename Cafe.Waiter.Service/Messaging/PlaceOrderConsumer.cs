@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Cafe.Waiter.Contracts;
+using Cafe.Waiter.Contracts.Commands;
 using log4net;
 using MassTransit;
 
