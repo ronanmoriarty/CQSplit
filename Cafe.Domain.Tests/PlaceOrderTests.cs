@@ -134,10 +134,5 @@ namespace Cafe.Domain.Tests
                 Price = DrinkPrice
             };
         }
-
-        protected override Tab GetAggregateToApplyEventsTo()
-        {
-            return CommandHandler;
-        }
     }
 }

@@ -61,10 +61,5 @@ namespace Cafe.Domain.Tests
                 TipValue = 0.50M
             });
         }
-
-        protected override Tab GetAggregateToApplyEventsTo()
-        {
-            return CommandHandler;
-        }
     }
 }

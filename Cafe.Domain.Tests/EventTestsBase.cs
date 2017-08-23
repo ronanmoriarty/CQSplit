@@ -14,7 +14,6 @@ namespace Cafe.Domain.Tests
     {
         private IEventPublisher _eventPublisher;
         private CommandDispatcher _commandDispatcher;
-        private TCommandHandler _commandHandler;
         private EventApplier _eventApplier;
         private TCommand _command;
         private CommandHandlerProvider _commandHandlerProvider;
@@ -49,7 +48,6 @@ namespace Cafe.Domain.Tests
             _eventPublisher = Substitute.For<IEventPublisher>();
             _commandDispatcher = new CommandDispatcher(_eventPublisher, _commandHandlerProvider);
             _eventApplier = new EventApplier(new TypeInspector());
-            _commandHandler = GetAggregateToApplyEventsTo();
         }
 
         protected virtual bool CanUsePreregisteredCommandHandlersToHandleCommand()
@@ -57,16 +55,11 @@ namespace Cafe.Domain.Tests
             return false;
         }
 
-        protected virtual TCommandHandler GetAggregateToApplyEventsTo()
-        {
-            return new TCommandHandler();
-        }
-
         protected void Given(params IEvent[] events)
         {
             foreach (var @event in events)
             {
-                _eventApplier.ApplyEvent(@event, _commandHandler);
+                _eventApplier.ApplyEvent(@event, CommandHandler);
             }
         }
 

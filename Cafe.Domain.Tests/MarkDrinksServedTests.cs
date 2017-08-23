@@ -224,10 +224,5 @@ namespace Cafe.Domain.Tests
                 MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber }
             });
         }
-
-        protected override Tab GetAggregateToApplyEventsTo()
-        {
-            return CommandHandler;
-        }
     }
 }
