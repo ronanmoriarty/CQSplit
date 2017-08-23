@@ -5,6 +5,7 @@ using Cafe.Domain.Events;
 using Cafe.Waiter.Contracts;
 using CQRSTutorial.Core;
 using CQRSTutorial.Tests.Common;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Cafe.Domain.Tests
@@ -26,13 +27,11 @@ namespace Cafe.Domain.Tests
         private const int Drink2MenuNumber = 14;
         private const string Drink2Description = "Fanta";
 
-        protected override ICommandHandlerProvider GetCommandHandlerProvider()
+        protected override void ConfigureCommandHandlerProvider(ICommandHandlerFactory commandHandlerFactory, CommandHandlerProvider commandHandlerProvider)
         {
             ReinitialiseForNextTest();
-            var fakeCommandHandlerProvider = new FakeCommandHandlerProvider();
-            fakeCommandHandlerProvider.RegisterCommandHandler(_tab1);
-            fakeCommandHandlerProvider.RegisterCommandHandler(_tab2);
-            return fakeCommandHandlerProvider;
+            commandHandlerFactory.CreateHandlerFor(Arg.Is<MarkDrinksServed>(markDrinksServed => markDrinksServed.AggregateId == _tabId1)).Returns(_tab1);
+            commandHandlerFactory.CreateHandlerFor(Arg.Is<MarkDrinksServed>(markDrinksServed => markDrinksServed.AggregateId == _tabId2)).Returns(_tab2);
         }
 
         private void ReinitialiseForNextTest()

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using CQRSTutorial.Core;
@@ -17,17 +16,14 @@ namespace Cafe.Domain.Tests
         private Tab _tab1;
         private Guid _commandId;
 
-        protected override ICommandHandlerProvider GetCommandHandlerProvider()
+        protected override void ConfigureCommandHandlerProvider(ICommandHandlerFactory commandHandlerFactory, CommandHandlerProvider commandHandlerProvider)
         {
             _commandId = Guid.NewGuid();
             _tab1 = new Tab
             {
                 Id = _tabId1
             };
-            var fakeCommandHandlerProvider = new FakeCommandHandlerProvider();
-            fakeCommandHandlerProvider.RegisterCommandHandler(new OpenTabCommandHandler());
-            fakeCommandHandlerProvider.RegisterCommandHandler(_tab1);
-            return fakeCommandHandlerProvider;
+            commandHandlerProvider.RegisterCommandHandler(new OpenTabCommandHandler());
         }
 
         [Test]

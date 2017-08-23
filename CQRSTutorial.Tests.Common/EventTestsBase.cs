@@ -17,19 +17,21 @@ namespace CQRSTutorial.Tests.Common
         private TCommandHandler _commandHandler;
         private EventApplier _eventApplier;
         private TCommand _command;
-        private ICommandHandlerProvider _commandHandlerProvider;
+        private CommandHandlerProvider _commandHandlerProvider;
 
         [SetUp]
         public void SetUp()
         {
-            _commandHandlerProvider = GetCommandHandlerProvider();
+            var commandHandlerFactory = Substitute.For<ICommandHandlerFactory>();
+            _commandHandlerProvider = new CommandHandlerProvider(commandHandlerFactory);
+            ConfigureCommandHandlerProvider(commandHandlerFactory, _commandHandlerProvider);
             _eventPublisher = Substitute.For<IEventPublisher>();
             _commandDispatcher = new CommandDispatcher(_eventPublisher, _commandHandlerProvider);
             _eventApplier = new EventApplier(new TypeInspector());
             _commandHandler = GetAggregateToApplyEventsTo();
         }
 
-        protected abstract ICommandHandlerProvider GetCommandHandlerProvider();
+        protected abstract void ConfigureCommandHandlerProvider(ICommandHandlerFactory commandHandlerFactory, CommandHandlerProvider commandHandlerProvider);
 
         protected abstract TCommandHandler GetAggregateToApplyEventsTo();
 
