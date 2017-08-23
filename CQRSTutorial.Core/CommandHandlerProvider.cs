@@ -6,19 +6,17 @@ namespace CQRSTutorial.Core
 {
     public class CommandHandlerProvider : ICommandHandlerProvider
     {
-        private readonly IList<ICommandHandler> _commandHandlers;
+        private readonly IList<ICommandHandler> _commandHandlers = new List<ICommandHandler>();
         private readonly ICommandHandlerFactory _commandHandlerFactory;
 
         public CommandHandlerProvider(ICommandHandlerFactory commandHandlerFactory)
-            : this(new List<ICommandHandler>(), commandHandlerFactory)
         {
+            _commandHandlerFactory = commandHandlerFactory;
         }
 
-        public CommandHandlerProvider(IEnumerable<ICommandHandler> commandHandlers,
-            ICommandHandlerFactory commandHandlerFactory)
+        public void RegisterCommandHandler(ICommandHandler commandHandler)
         {
-            _commandHandlers = commandHandlers.ToList();
-            _commandHandlerFactory = commandHandlerFactory;
+            _commandHandlers.Add(commandHandler);
         }
 
         public ICommandHandler<TCommand> GetCommandHandler<TCommand>(TCommand command)

@@ -15,8 +15,12 @@ namespace CQRSTutorial.Core.Tests
         public void SetUp()
         {
             _commandHandlerFactory = Substitute.For<ICommandHandlerFactory>();
-            _commandDispatcher = new CommandDispatcher(Substitute.For<IEventPublisher>(),
-                new CommandHandlerProvider(new ICommandHandler[] { new Handler1(), new Handler2() }, _commandHandlerFactory));
+            var handler1 = new Handler1();
+            var handler2 = new Handler2();
+            var commandHandlerProvider = new CommandHandlerProvider(_commandHandlerFactory);
+            commandHandlerProvider.RegisterCommandHandler(handler1);
+            commandHandlerProvider.RegisterCommandHandler(handler2);
+            _commandDispatcher = new CommandDispatcher(Substitute.For<IEventPublisher>(), commandHandlerProvider);
         }
 
         [Test]

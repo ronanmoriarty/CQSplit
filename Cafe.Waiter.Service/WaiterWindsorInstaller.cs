@@ -4,6 +4,7 @@ using Cafe.Domain;
 using Cafe.Domain.Events;
 using Cafe.Waiter.DAL;
 using Cafe.Waiter.Service.Messaging;
+using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -51,16 +52,16 @@ namespace Cafe.Waiter.Service
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
-                    .For<IEnumerable<ICommandHandler>>()
-                    .Instance(new List<ICommandHandler> {new OpenTabCommandHandler()})
-                    .Named("openTabConsumerCommandHandlers"),
-                Component
                     .For<ICommandDispatcher>()
                     .ImplementedBy<CommandDispatcher>(),
                 Component
                     .For<ICommandHandlerProvider>()
-                    .ImplementedBy<CommandHandlerProvider>()
-                    .DependsOn(Dependency.OnComponent("commandHandlers", "openTabConsumerCommandHandlers")),
+                    .UsingFactoryMethod(kernel =>
+                    {
+                        var commandHandlerProvider = new CommandHandlerProvider(kernel.Resolve<ICommandHandlerFactory>());
+                        commandHandlerProvider.RegisterCommandHandler(new OpenTabCommandHandler());
+                        return commandHandlerProvider;
+                    }),
                 Component
                     .For<TypeInspector>()
                     .ImplementedBy<TypeInspector>(),
