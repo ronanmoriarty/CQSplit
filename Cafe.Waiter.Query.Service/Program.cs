@@ -18,9 +18,9 @@ namespace Cafe.Waiter.Query.Service
                 });
                 x.RunAsLocalSystem();
 
-                x.SetDisplayName("CQRSTutorial Waiter Command Service");
-                x.SetServiceName("cqrstutorial-waiter-command-service");
-                x.SetDescription("Service to handle waiter commands");
+                x.SetDisplayName("CQRSTutorial Waiter Query Service");
+                x.SetServiceName("cqrstutorial-waiter-query-service");
+                x.SetDescription("Service to handle waiter queries");
             });
         }
     }
