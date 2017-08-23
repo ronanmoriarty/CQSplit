@@ -64,8 +64,14 @@ namespace Cafe.Waiter.Service
                     .DependsOn(Dependency.OnComponent("commandHandlers", "openTabConsumerCommandHandlers"))
                     .Named("openTabConsumerAggregateStore"),
                 Component
+                    .For<TypeInspector>()
+                    .ImplementedBy<TypeInspector>(),
+                Component
                     .For<OpenTabConsumer>()
                     .DependsOn(Dependency.OnComponent("commandHandlerProvider", "openTabConsumerAggregateStore")),
+                Component
+                    .For<IEventApplier>()
+                    .ImplementedBy<EventApplier>(),
                 Component
                     .For<ISessionFactory>()
                     .UsingFactoryMethod(kernel => kernel.Resolve<NHibernateConfiguration>().CreateSessionFactory())
