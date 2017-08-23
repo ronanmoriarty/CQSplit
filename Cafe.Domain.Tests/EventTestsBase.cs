@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace Cafe.Domain.Tests
 {
     public abstract class EventTestsBase<TCommandHandler, TCommand>
-        where TCommandHandler : new()
+        where TCommandHandler : Aggregate, new()
         where TCommand : ICommand
     {
         private IEventPublisher _eventPublisher;
@@ -20,6 +20,9 @@ namespace Cafe.Domain.Tests
         private CommandHandlerProvider _commandHandlerProvider;
         protected readonly Guid AggregateId = new Guid("17BEED1C-2084-4ADA-938A-4F850212EB5D");
         protected TCommandHandler CommandHandler;
+        protected readonly Guid CommandId = new Guid("0E72CCC8-2C6C-4F02-B524-2FB958347564");
+        protected TCommandHandler CommandHandler2;
+        protected readonly Guid CommandId2 = new Guid("88CEC1FD-A666-4A51-ABD4-3AA49AE35001");
 
         [SetUp]
         public void SetUp()
@@ -27,6 +30,14 @@ namespace Cafe.Domain.Tests
             var commandHandlerFactory = Substitute.For<ICommandHandlerFactory>();
             _commandHandlerProvider = new CommandHandlerProvider(commandHandlerFactory);
             _commandHandlerProvider.RegisterCommandHandler(new OpenTabCommandHandler());
+            CommandHandler = new TCommandHandler
+            {
+                Id = AggregateId
+            };
+            CommandHandler2 = new TCommandHandler
+            {
+                Id = CommandId2
+            };
             ConfigureCommandHandlerFactory(commandHandlerFactory);
             _eventPublisher = Substitute.For<IEventPublisher>();
             _commandDispatcher = new CommandDispatcher(_eventPublisher, _commandHandlerProvider);

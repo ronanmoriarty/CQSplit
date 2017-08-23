@@ -1,5 +1,4 @@
-﻿using System;
-using Cafe.Domain.Commands;
+﻿using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using NUnit.Framework;
 
@@ -10,14 +9,13 @@ namespace Cafe.Domain.Tests
     {
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
-        private readonly Guid _commandId = new Guid("EEB9AF2B-0399-44D3-87D0-DBEC8699614E");
 
         [Test]
         public void CanOpenANewTab()
         {
             When(new OpenTab
             {
-                Id = _commandId,
+                Id = CommandId,
                 AggregateId = AggregateId,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
@@ -26,7 +24,7 @@ namespace Cafe.Domain.Tests
             Then(new TabOpened
             {
                 AggregateId = AggregateId,
-                CommandId = _commandId,
+                CommandId = CommandId,
                 TableNumber = _tableNumber,
                 Waiter = _waiter
             });

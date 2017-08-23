@@ -12,11 +12,8 @@ namespace Cafe.Domain.Tests
     [TestFixture]
     public class MarkDrinksServedTests : EventTestsBase<Tab, MarkDrinksServed>
     {
-        private readonly Guid _tabId2 = new Guid("88CEC1FD-A666-4A51-ABD4-3AA49AE35001");
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
-        private Tab _tab2;
-        private Guid _commandId;
         private const decimal DrinkPrice = 2m;
         private const int DrinkMenuNumber = 13;
         private const string DrinkDescription = "Coca Cola";
@@ -26,22 +23,8 @@ namespace Cafe.Domain.Tests
 
         protected override void ConfigureCommandHandlerFactory(ICommandHandlerFactory commandHandlerFactory)
         {
-            ReinitialiseForNextTest();
             commandHandlerFactory.CreateHandlerFor(Arg.Is<MarkDrinksServed>(markDrinksServed => markDrinksServed.AggregateId == AggregateId)).Returns(CommandHandler);
-            commandHandlerFactory.CreateHandlerFor(Arg.Is<MarkDrinksServed>(markDrinksServed => markDrinksServed.AggregateId == _tabId2)).Returns(_tab2);
-        }
-
-        private void ReinitialiseForNextTest()
-        {
-            _commandId = Guid.NewGuid();
-            CommandHandler = new Tab
-            {
-                Id = AggregateId
-            };
-            _tab2 = new Tab
-            {
-                Id = _tabId2
-            };
+            commandHandlerFactory.CreateHandlerFor(Arg.Is<MarkDrinksServed>(markDrinksServed => markDrinksServed.AggregateId == CommandId2)).Returns(CommandHandler2);
         }
 
         [Test]
@@ -81,7 +64,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkDrinksServed
             {
-                Id = _commandId,
+                Id = CommandId,
                 AggregateId = AggregateId,
                 MenuNumbers = new List<int>
                 {
@@ -93,7 +76,7 @@ namespace Cafe.Domain.Tests
             Then(new DrinksServed
             {
                 AggregateId = AggregateId,
-                CommandId = _commandId,
+                CommandId = CommandId,
                 MenuNumbers = new List<int>
                 { testDrink1.MenuNumber, testDrink2.MenuNumber }
             });
@@ -133,7 +116,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkDrinksServed
             {
-                Id = _commandId,
+                Id = CommandId,
                 AggregateId = AggregateId,
                 MenuNumbers = new List<int> { testDrink2.MenuNumber }
             });
@@ -141,7 +124,7 @@ namespace Cafe.Domain.Tests
             Then(new DrinksNotOutstanding
             {
                 AggregateId = AggregateId,
-                CommandId = _commandId
+                CommandId = CommandId
             });
         }
 
@@ -177,7 +160,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkDrinksServed
             {
-                Id = _commandId,
+                Id = CommandId,
                 AggregateId = AggregateId,
                 MenuNumbers = new List<int> { testDrink1.MenuNumber }
             });
@@ -185,7 +168,7 @@ namespace Cafe.Domain.Tests
             Then(new DrinksNotOutstanding
             {
                 AggregateId = AggregateId,
-                CommandId = _commandId
+                CommandId = CommandId
             });
         }
 
@@ -237,7 +220,7 @@ namespace Cafe.Domain.Tests
 
             When(new MarkDrinksServed
             {
-                Id = _commandId,
+                Id = CommandId,
                 AggregateId = AggregateId,
                 MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber }
             });
@@ -245,7 +228,7 @@ namespace Cafe.Domain.Tests
             Then(new DrinksServed
             {
                 AggregateId = AggregateId,
-                CommandId = _commandId,
+                CommandId = CommandId,
                 MenuNumbers = new List<int> { drinkThatWasOrdered.MenuNumber }
             });
         }

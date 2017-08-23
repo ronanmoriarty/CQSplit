@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cafe.Domain.Commands;
 using Cafe.Domain.Events;
 using Cafe.Waiter.Contracts;
@@ -12,33 +11,16 @@ namespace Cafe.Domain.Tests
     [TestFixture]
     public class CloseTabTests : EventTestsBase<Tab, CloseTab>
     {
-        private readonly Guid _tabId2 = new Guid("88CEC1FD-A666-4A51-ABD4-3AA49AE35001");
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
-        private Tab _tab2;
-        private Guid _commandId;
         private const decimal DrinkPrice = 2m;
         private const int DrinkMenuNumber = 13;
         private const string DrinkDescription = "Coca Cola";
 
         protected override void ConfigureCommandHandlerFactory(ICommandHandlerFactory commandHandlerFactory)
         {
-            ReinitialiseForNextTest();
             commandHandlerFactory.CreateHandlerFor(Arg.Is<CloseTab>(closeTab => closeTab.AggregateId == AggregateId)).Returns(CommandHandler);
-            commandHandlerFactory.CreateHandlerFor(Arg.Is<CloseTab>(closeTab => closeTab.AggregateId == _tabId2)).Returns(_tab2);
-        }
-
-        private void ReinitialiseForNextTest()
-        {
-            _commandId = Guid.NewGuid();
-            CommandHandler = new Tab
-            {
-                Id = AggregateId
-            };
-            _tab2 = new Tab
-            {
-                Id = _tabId2
-            };
+            commandHandlerFactory.CreateHandlerFor(Arg.Is<CloseTab>(closeTab => closeTab.AggregateId == CommandId2)).Returns(CommandHandler2);
         }
 
         [Test]
@@ -73,7 +55,7 @@ namespace Cafe.Domain.Tests
 
             When(new CloseTab
             {
-                Id = _commandId,
+                Id = CommandId,
                 AggregateId = AggregateId,
                 AmountPaid = drinkItem.Price + 0.50M
             });
@@ -81,7 +63,7 @@ namespace Cafe.Domain.Tests
             Then(new TabClosed
             {
                 AggregateId = AggregateId,
-                CommandId = _commandId,
+                CommandId = CommandId,
                 AmountPaid = drinkItem.Price + 0.50M,
                 OrderValue = drinkItem.Price,
                 TipValue = 0.50M
