@@ -7,7 +7,10 @@ namespace Cafe.Waiter.Query.Service.Messaging
     {
         public MessageBusEndpointConfiguration()
         {
-            ReceiveEndpoints = new List<ReceiveEndpointMapping>();
+            ReceiveEndpoints = new List<ReceiveEndpointMapping>
+            {
+                new ReceiveEndpointMapping("open_tabs_query", typeof(OpenTabsQueryConsumer))
+            };
         }
 
         public IEnumerable<ReceiveEndpointMapping> ReceiveEndpoints { get; }
