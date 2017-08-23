@@ -27,7 +27,6 @@ namespace Cafe.Waiter.Service
                 Classes
                     .FromThisAssembly()
                     .InSameNamespaceAs<MessageBusEndpointConfiguration>()
-                    .Unless(type => type == typeof(OpenTabConsumer))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
@@ -61,14 +60,10 @@ namespace Cafe.Waiter.Service
                 Component
                     .For<ICommandHandlerProvider>()
                     .ImplementedBy<CommandHandlerProvider>()
-                    .DependsOn(Dependency.OnComponent("commandHandlers", "openTabConsumerCommandHandlers"))
-                    .Named("openTabConsumerAggregateStore"),
+                    .DependsOn(Dependency.OnComponent("commandHandlers", "openTabConsumerCommandHandlers")),
                 Component
                     .For<TypeInspector>()
                     .ImplementedBy<TypeInspector>(),
-                Component
-                    .For<OpenTabConsumer>()
-                    .DependsOn(Dependency.OnComponent("commandHandlerProvider", "openTabConsumerAggregateStore")),
                 Component
                     .For<IEventApplier>()
                     .ImplementedBy<EventApplier>(),
