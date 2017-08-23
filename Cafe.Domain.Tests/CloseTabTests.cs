@@ -26,7 +26,7 @@ namespace Cafe.Domain.Tests
         protected override ICommandHandlerProvider GetCommandHandlerProvider()
         {
             ReinitialiseForNextTest();
-            return new FakeCommandHandlerProvider(new List<ICommandHandler> { _tab1, _tab2, new OpenTabCommandHandler() });
+            return new FakeCommandHandlerProvider(new List<ICommandHandler> { _tab1, _tab2 });
         }
 
         private void ReinitialiseForNextTest()
