@@ -108,6 +108,7 @@
     <Compile Include="TabFactory.cs" />
     <Compile Include="WaiterCommandService.cs" />
     <Compile Include="WaiterWindsorInstaller.cs" />
+    <Compile Include="WriteModelConnectionStringProviderFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -121,10 +122,6 @@
     <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj">
       <Project>{2d4c28bd-d280-40f7-a1b5-d3f0e0f2bbac}</Project>
       <Name>Cafe.Waiter.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cafe.Waiter.DAL\Cafe.Waiter.DAL.csproj">
-      <Project>{AFCE4964-C829-415E-9E8E-4286C5914496}</Project>
-      <Name>Cafe.Waiter.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
       <Project>{d9a17521-4b50-403c-8a7f-d9f82051049b}</Project>

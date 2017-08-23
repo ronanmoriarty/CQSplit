@@ -2,7 +2,6 @@ using System.Reflection;
 using Cafe.Domain;
 using Cafe.Domain.Events;
 using Cafe.Waiter.Command.Service.Messaging;
-using Cafe.Waiter.DAL;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;

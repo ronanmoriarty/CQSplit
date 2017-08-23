@@ -1,6 +1,6 @@
-﻿using CQRSTutorial.DAL;
+using CQRSTutorial.DAL;
 
-namespace Cafe.Waiter.DAL
+namespace Cafe.Waiter.Publish.Service
 {
     public static class WriteModelConnectionStringProviderFactory
     {
