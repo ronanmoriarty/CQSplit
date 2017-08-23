@@ -5,7 +5,7 @@ namespace Cafe.Waiter.Service
 {
     public class TabFactory : ITabFactory
     {
-        public Tab Create(Guid commandAggregateId)
+        public ITab Create(Guid commandAggregateId)
         {
             return new Tab
             {

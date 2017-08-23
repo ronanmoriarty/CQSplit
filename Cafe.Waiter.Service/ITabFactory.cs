@@ -5,6 +5,6 @@ namespace Cafe.Waiter.Service
 {
     public interface ITabFactory
     {
-        Tab Create(Guid commandAggregateId);
+        ITab Create(Guid commandAggregateId);
     }
 }
