@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cafe.Waiter.Contracts.Queries;
 using Cafe.Waiter.Contracts.QueryResponses;
@@ -14,12 +13,13 @@ namespace Cafe.Waiter.Query.Service.Messaging
         private readonly ILog _logger = LogManager.GetLogger(typeof(OpenTabsQueryConsumer));
         public async Task Consume(ConsumeContext<IOpenTabsQuery> context)
         {
-            var text = $"Received query: Type: {typeof(IOpenTabsQuery).Name}; Query Id: {context.Message.Id};";
-            await Console.Out.WriteLineAsync(text);
-            _logger.Debug(text);
+            _logger.Debug($"Received query: Type: {typeof(IOpenTabsQuery).Name}; Query Id: {context.Message.Id};");
+
+            var openTabsQueryResponse = GetOpenTabsQueryResponse(context.Message);
+
+            _logger.Debug($"Sending response for query id {context.Message.Id} to \"{context.ResponseAddress}\"");
 
             // TODO: get tests around this - just spiking it for now
-            var openTabsQueryResponse = GetOpenTabsQueryResponse(context.Message);
             await context.RespondAsync<IOpenTabsQueryResponse>(openTabsQueryResponse);
         }
 
