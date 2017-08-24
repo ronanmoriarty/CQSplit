@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using CQRSTutorial.Core;
 using log4net;
@@ -20,7 +19,6 @@ namespace Cafe.Waiter.Command.Service.Messaging
         public async Task Consume(ConsumeContext<TCommand> context)
         {
             var text = $"Received command: Type: {typeof(TCommand).Name}; Command Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
-            await Console.Out.WriteLineAsync(text);
             _logger.Debug(text);
 
             // TODO: can't see how to instantiate a ConsumeContext for unit testing. Will continue to spike this for now.
