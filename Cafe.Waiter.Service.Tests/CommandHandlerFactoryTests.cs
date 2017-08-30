@@ -27,7 +27,7 @@ namespace Cafe.Waiter.Service.Tests
         private readonly decimal _drinkPrice = 2.5m;
         private readonly Guid _aggregateId = new Guid("8E8E2FE0-C223-456C-84ED-A6611AA5F03B");
         private ICommandHandlerFactory _commandHandlerFactory;
-        private IEventStore _eventStore;
+        private IEventRepository _eventRepository;
         private MarkDrinksServedCommand _markDrinksServedCommand;
         private Tab _tab;
         private ITabFactory _tabFactory;
@@ -41,7 +41,7 @@ namespace Cafe.Waiter.Service.Tests
             SetUpTabFactory();
             SetUpEventStore();
             _eventApplier = Substitute.For<IEventApplier>();
-            _commandHandlerFactory = new CommandHandlerFactory(_tabFactory, _eventStore, _eventApplier);
+            _commandHandlerFactory = new CommandHandlerFactory(_tabFactory, _eventRepository, _eventApplier);
             _markDrinksServedCommand = GetMarkDrinksServedCommand();
         }
 
@@ -100,8 +100,8 @@ namespace Cafe.Waiter.Service.Tests
                 _tabOpened,
                 _drinksOrdered
             };
-            _eventStore = Substitute.For<IEventStore>();
-            _eventStore.GetAllEventsFor(_aggregateId).Returns(_events);
+            _eventRepository = Substitute.For<IEventRepository>();
+            _eventRepository.GetAllEventsFor(_aggregateId).Returns(_events);
         }
 
         private MarkDrinksServedCommand GetMarkDrinksServedCommand()

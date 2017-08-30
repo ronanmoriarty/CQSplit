@@ -6,13 +6,13 @@ namespace Cafe.Waiter.Service
 {
     public class CommandHandlerFactory : ICommandHandlerFactory
     {
-        private readonly IEventStore _eventStore;
+        private readonly IEventRepository _eventRepository;
         private readonly ITabFactory _tabFactory;
         private readonly IEventApplier _eventApplier;
 
-        public CommandHandlerFactory(ITabFactory tabFactory, IEventStore eventStore, IEventApplier eventApplier)
+        public CommandHandlerFactory(ITabFactory tabFactory, IEventRepository eventRepository, IEventApplier eventApplier)
         {
-            _eventStore = eventStore;
+            _eventRepository = eventRepository;
             _tabFactory = tabFactory;
             _eventApplier = eventApplier;
         }
@@ -20,7 +20,7 @@ namespace Cafe.Waiter.Service
         public ICommandHandler<TCommand> CreateHandlerFor<TCommand>(TCommand command) where TCommand : ICommand
         {
             var tab = _tabFactory.Create(command.AggregateId);
-            var events = _eventStore.GetAllEventsFor(command.AggregateId);
+            var events = _eventRepository.GetAllEventsFor(command.AggregateId);
             events.ForEach(@event => _eventApplier.ApplyEvent(@event, tab));
             return (ICommandHandler<TCommand>)tab;
         }

@@ -13,7 +13,7 @@ namespace CQRSTutorial.DAL.Tests
         private IEvent _retrievedEvent;
         private readonly Guid _aggregateId = new Guid("0227C779-D2FC-4A26-B549-DA82FB00C87C");
         private readonly Guid _commandId = new Guid("5C81C689-FEAA-4420-9B92-AE6C8D08EF3D");
-        private EventStore _repository;
+        private IEventRepository _repository;
         private ISession _session;
 
         [SetUp]
@@ -52,7 +52,7 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(retrievedTabOpenedEvent.StringProperty, Is.EqualTo(stringPropertyValue));
         }
 
-        private EventStore CreateRepository()
+        private IEventRepository CreateRepository()
         {
             return new EventStore(SessionFactory.Instance, new EventMapper(typeof(TestEvent).Assembly));
         }
