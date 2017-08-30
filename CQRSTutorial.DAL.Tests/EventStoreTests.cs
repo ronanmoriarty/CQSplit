@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Tests.Common;
