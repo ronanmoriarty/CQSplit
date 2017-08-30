@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Reflection;
 using Cafe.Domain;
 using Cafe.Domain.Events;
 using Cafe.Waiter.Service.Messaging;
+using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -46,6 +48,7 @@ namespace Cafe.Waiter.Service
                 Classes
                     .FromAssemblyContaining<IUnitOfWorkFactory>()
                     .InSameNamespaceAs<IUnitOfWorkFactory>()
+                    .Unless(type => type == typeof(CompositeEventStore))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
@@ -68,8 +71,20 @@ namespace Cafe.Waiter.Service
                 Component
                     .For<ISessionFactory>()
                     .UsingFactoryMethod(kernel => kernel.Resolve<NHibernateConfiguration>().CreateSessionFactory())
-                    .LifestyleSingleton()
+                    .LifestyleSingleton(),
+                Component
+                    .For<IEnumerable<IEventStore>>()
+                    .UsingFactoryMethod(GetEventStores)
+                    .Named("eventStores"),
+                Component
+                    .For<CompositeEventStore>()
+                    .DependsOn(Dependency.OnComponent("eventStores", "eventStores"))
                 );
+        }
+
+        private IEnumerable<IEventStore> GetEventStores(IKernel kernel)
+        {
+            return new List<IEventStore> {kernel.Resolve<EventStore>()};
         }
     }
 }
