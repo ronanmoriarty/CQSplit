@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Mapping\OpenTabMapping.cs" />
     <Compile Include="OpenTab.cs" />
+    <Compile Include="ReadModelConnectionStringProviderFactory.cs" />
     <Compile Include="Serialized\OpenTab.cs" />
     <Compile Include="OpenTabsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

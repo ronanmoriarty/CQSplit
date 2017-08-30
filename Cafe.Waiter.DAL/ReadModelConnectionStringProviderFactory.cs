@@ -1,6 +1,6 @@
-﻿using CQRSTutorial.DAL;
+using CQRSTutorial.DAL;
 
-namespace Cafe.Waiter.DAL.Tests
+namespace Cafe.Waiter.DAL
 {
     public class ReadModelConnectionStringProviderFactory
     {
