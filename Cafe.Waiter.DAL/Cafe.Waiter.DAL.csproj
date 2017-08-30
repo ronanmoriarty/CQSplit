@@ -67,6 +67,7 @@
     <Compile Include="Serialized\OpenTab.cs" />
     <Compile Include="OpenTabsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadModelSessionFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

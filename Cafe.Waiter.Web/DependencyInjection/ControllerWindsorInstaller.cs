@@ -5,7 +5,6 @@ using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
 using MassTransit;
 using NHibernate;
@@ -42,7 +41,7 @@ namespace Cafe.Waiter.Web.DependencyInjection
                     .LifestyleSingleton(),
                 Component
                     .For<ISessionFactory>()
-                    .Instance(new NHibernateConfiguration(ReadModelConnectionStringProviderFactory.Instance).CreateSessionFactory())
+                    .Instance(ReadModelSessionFactory.Instance)
                     .Named("sessionFactory"),
                 Component
                     .For<IOpenTabsProvider>()
