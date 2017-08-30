@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NHibernate;
 
 namespace CQRSTutorial.DAL
@@ -26,6 +27,17 @@ namespace CQRSTutorial.DAL
                 using (session.BeginTransaction())
                 {
                     return session.Get<TTypeToPersist>(id);
+                }
+            }
+        }
+
+        protected IEnumerable<TTypeToPersist> GetAll()
+        {
+            using (var session = SessionFactory.OpenSession())
+            {
+                using (session.BeginTransaction())
+                {
+                    return session.QueryOver<TTypeToPersist>().List();
                 }
             }
         }
