@@ -1,10 +1,11 @@
 ﻿using System;
-using CQRSTutorial.DAL;
 
 namespace Cafe.Waiter.DAL
 {
-    public class OpenTab : IMapToTable
+    public class OpenTab
     {
         public virtual Guid Id { get; set; }
+        public virtual string Waiter { get; set; }
+        public virtual int TableNumber { get; set; }
     }
 }

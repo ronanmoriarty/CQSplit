@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using NHibernate;
 
 namespace Cafe.Waiter.DAL
@@ -18,9 +20,14 @@ namespace Cafe.Waiter.DAL
             {
                 using (session.BeginTransaction())
                 {
-                    return session.QueryOver<OpenTab>().List();;
+                    return session.QueryOver<Serialized.OpenTab>().List().Select(Map);
                 }
             }
+        }
+
+        private OpenTab Map(Serialized.OpenTab openTab)
+        {
+            return JsonConvert.DeserializeObject<OpenTab>(openTab.Data);
         }
     }
 }
