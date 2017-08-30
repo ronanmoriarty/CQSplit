@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IOpenTabsProvider.cs" />
     <Compile Include="Mapping\OpenTabMapping.cs" />
     <Compile Include="OpenTab.cs" />
     <Compile Include="ReadModelConnectionStringProviderFactory.cs" />

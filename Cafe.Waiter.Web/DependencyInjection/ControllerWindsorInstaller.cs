@@ -1,14 +1,14 @@
-using System;
-using Cafe.Waiter.Contracts.Queries;
-using Cafe.Waiter.Contracts.QueryResponses;
+using Cafe.Waiter.DAL;
 using Cafe.Waiter.Web.Controllers;
 using Cafe.Waiter.Web.Messaging;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
 using MassTransit;
+using NHibernate;
 
 namespace Cafe.Waiter.Web.DependencyInjection
 {
@@ -41,17 +41,14 @@ namespace Cafe.Waiter.Web.DependencyInjection
                     .UsingFactoryMethod(GetBusControl)
                     .LifestyleSingleton(),
                 Component
-                    .For<IRequestClient<IOpenTabsQuery, IOpenTabsQueryResponse>>()
-                    .UsingFactoryMethod(CreateMessageRequestClient)
+                    .For<ISessionFactory>()
+                    .Instance(new NHibernateConfiguration(ReadModelConnectionStringProviderFactory.Instance).CreateSessionFactory())
+                    .Named("sessionFactory"),
+                Component
+                    .For<IOpenTabsProvider>()
+                    .ImplementedBy<OpenTabsProvider>()
+                    .DependsOn(Dependency.OnComponent("sessionFactory", "sessionFactory"))
             );
-        }
-
-        private static MessageRequestClient<IOpenTabsQuery, IOpenTabsQueryResponse> CreateMessageRequestClient(IKernel kernel)
-        {
-            var messageBusConfiguration = kernel.Resolve<IMessageBusConfiguration>();
-            var serviceAddress = new Uri($"{messageBusConfiguration.Uri.AbsoluteUri}open_tabs_query");
-            Console.WriteLine($"Service address for TabController is: {serviceAddress}");
-            return new MessageRequestClient<IOpenTabsQuery, IOpenTabsQueryResponse>(kernel.Resolve<IBusControl>(), serviceAddress, new TimeSpan(0,0,0,30));
         }
 
         private BasedOnDescriptor SetControllerLifestyle(BasedOnDescriptor controllerBasedOnDescriptor)

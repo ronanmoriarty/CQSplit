@@ -5,7 +5,7 @@ using NHibernate;
 
 namespace Cafe.Waiter.DAL
 {
-    public class OpenTabsProvider
+    public class OpenTabsProvider : IOpenTabsProvider
     {
         private readonly ISessionFactory _sessionFactory;
 

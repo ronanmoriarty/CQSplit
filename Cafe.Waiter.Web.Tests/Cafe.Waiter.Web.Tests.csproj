@@ -117,6 +117,7 @@
     <Compile Include="RunOncePerTestRun.cs" />
     <Compile Include="TabController\When_creating_tab.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TabController\When_viewing_open_tabs.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -130,6 +131,10 @@
     <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj">
       <Project>{2d4c28bd-d280-40f7-a1b5-d3f0e0f2bbac}</Project>
       <Name>Cafe.Waiter.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cafe.Waiter.DAL\Cafe.Waiter.DAL.csproj">
+      <Project>{AA60EE59-5D0F-4972-A2C0-B648D5088263}</Project>
+      <Name>Cafe.Waiter.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Web\Cafe.Waiter.Web.csproj">
       <Project>{f81c8b8f-d3ba-4517-b279-2f05769b7341}</Project>

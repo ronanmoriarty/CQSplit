@@ -3,29 +3,25 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cafe.Domain.Commands;
 using Cafe.Waiter.Contracts.Commands;
-using Cafe.Waiter.Contracts.Queries;
-using Cafe.Waiter.Contracts.QueryResponses;
+using Cafe.Waiter.DAL;
 using CQRSTutorial.Infrastructure;
-using MassTransit;
 
 namespace Cafe.Waiter.Web.Controllers
 {
     public class TabController : Controller
     {
         private readonly IEndpointProvider _endpointProvider;
-        private readonly IRequestClient<IOpenTabsQuery, IOpenTabsQueryResponse> _requestClient;
+        private readonly IOpenTabsProvider _openTabsProvider;
 
-        public TabController(IEndpointProvider endpointProvider, IRequestClient<IOpenTabsQuery, IOpenTabsQueryResponse> requestClient)
+        public TabController(IEndpointProvider endpointProvider, IOpenTabsProvider openTabsProvider)
         {
             _endpointProvider = endpointProvider;
-            _requestClient = requestClient;
+            _openTabsProvider = openTabsProvider;
         }
 
         public async Task<ActionResult> Index()
         {
-            var openTabsQuery = new OpenTabsQuery { Id = Guid.NewGuid() };
-            var openTabsQueryResponse = await _requestClient.Request(openTabsQuery);
-            return View(openTabsQueryResponse);
+            return View(_openTabsProvider.GetOpenTabs());
         }
 
         [HttpPost]
