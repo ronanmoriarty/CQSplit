@@ -28,7 +28,7 @@ namespace Cafe.Waiter.Command.Service.Tests
         private readonly Guid _aggregateId = new Guid("8E8E2FE0-C223-456C-84ED-A6611AA5F03B");
         private ICommandHandlerFactory _commandHandlerFactory;
         private IEventStore _eventStore;
-        private MarkDrinksServed _markDrinksServed;
+        private MarkDrinksServedCommand _markDrinksServedCommand;
         private Tab _tab;
         private ITabFactory _tabFactory;
         private IEventApplier _eventApplier;
@@ -42,7 +42,7 @@ namespace Cafe.Waiter.Command.Service.Tests
             SetUpEventStore();
             _eventApplier = Substitute.For<IEventApplier>();
             _commandHandlerFactory = new CommandHandlerFactory(_tabFactory, _eventStore, _eventApplier);
-            _markDrinksServed = GetMarkDrinksServedCommand();
+            _markDrinksServedCommand = GetMarkDrinksServedCommand();
         }
 
         [Test]
@@ -104,9 +104,9 @@ namespace Cafe.Waiter.Command.Service.Tests
             _eventStore.GetAllEventsFor(_aggregateId).Returns(_events);
         }
 
-        private MarkDrinksServed GetMarkDrinksServedCommand()
+        private MarkDrinksServedCommand GetMarkDrinksServedCommand()
         {
-            return new MarkDrinksServed
+            return new MarkDrinksServedCommand
             {
                 Id = _markDrinksServedCommandId,
                 AggregateId = _aggregateId,
@@ -119,7 +119,7 @@ namespace Cafe.Waiter.Command.Service.Tests
 
         private void WhenMarkingDrinksAsServed()
         {
-            var commandHandler = _commandHandlerFactory.CreateHandlerFor<IMarkDrinksServed>(_markDrinksServed);
+            var commandHandler = _commandHandlerFactory.CreateHandlerFor<IMarkDrinksServedCommand>(_markDrinksServedCommand);
             _tab = (Tab)commandHandler;
         }
     }

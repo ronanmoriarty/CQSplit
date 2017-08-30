@@ -3,8 +3,8 @@ using CQRSTutorial.Core;
 
 namespace Cafe.Waiter.Contracts.Commands
 {
-    public interface IMarkDrinksServed : ICommand
+    public interface IPlaceOrderCommand : ICommand
     {
-        List<int> MenuNumbers { get; set; }
+        List<OrderedItem> Items { get; set; }
     }
 }

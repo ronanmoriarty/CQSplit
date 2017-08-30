@@ -7,9 +7,9 @@ using CQRSTutorial.Core;
 
 namespace Cafe.Domain
 {
-    public class OpenTabCommandHandler : ICommandHandler<IOpenTab>
+    public class OpenTabCommandHandler : ICommandHandler<IOpenTabCommand>
     {
-        public IEnumerable<IEvent> Handle(IOpenTab command)
+        public IEnumerable<IEvent> Handle(IOpenTabCommand command)
         {
             return new IEvent[]
             {
@@ -26,7 +26,7 @@ namespace Cafe.Domain
 
         public bool CanHandle(ICommand command)
         {
-            return command is IOpenTab;
+            return command is IOpenTabCommand;
         }
     }
 }

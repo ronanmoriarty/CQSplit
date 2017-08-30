@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace Cafe.Domain.Tests
 {
     [TestFixture]
-    public class CloseTabTests : EventTestsBase<Tab, CloseTab>
+    public class CloseTabTests : EventTestsBase<Tab, CloseTabCommand>
     {
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
@@ -46,7 +46,7 @@ namespace Cafe.Domain.Tests
                 }
                 );
 
-            When(new CloseTab
+            When(new CloseTabCommand
             {
                 Id = CommandId,
                 AggregateId = AggregateId,

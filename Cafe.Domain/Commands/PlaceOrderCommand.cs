@@ -1,14 +1,13 @@
 ﻿using System;
-using Cafe.Waiter.Contracts;
+using System.Collections.Generic;
 using Cafe.Waiter.Contracts.Commands;
 
 namespace Cafe.Domain.Commands
 {
-    public class OpenTab : IOpenTab
+    public class PlaceOrderCommand : IPlaceOrderCommand
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
-        public int TableNumber { get; set; }
-        public string Waiter { get; set; }
+        public List<OrderedItem> Items { get; set; }
     }
 }

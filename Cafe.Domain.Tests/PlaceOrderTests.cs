@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace Cafe.Domain.Tests
 {
     [TestFixture]
-    public class PlaceOrderTests : EventTestsBase<Tab, PlaceOrder>
+    public class PlaceOrderTests : EventTestsBase<Tab, PlaceOrderCommand>
     {
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
@@ -32,7 +32,7 @@ namespace Cafe.Domain.Tests
                 Waiter = _waiter
             });
 
-            When(new PlaceOrder
+            When(new PlaceOrderCommand
             {
                 Id = CommandId,
                 AggregateId = AggregateId,
@@ -60,7 +60,7 @@ namespace Cafe.Domain.Tests
                 Waiter = _waiter
             });
 
-            When(new PlaceOrder
+            When(new PlaceOrderCommand
             {
                 Id = CommandId,
                 AggregateId = AggregateId,
@@ -90,7 +90,7 @@ namespace Cafe.Domain.Tests
                 Waiter = _waiter
             });
 
-            When(new PlaceOrder
+            When(new PlaceOrderCommand
             {
                 Id = CommandId,
                 AggregateId = AggregateId,

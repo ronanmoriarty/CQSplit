@@ -45,11 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregate.cs" />
-    <Compile Include="Commands\CloseTab.cs" />
-    <Compile Include="Commands\MarkDrinksServed.cs" />
-    <Compile Include="Commands\MarkFoodServed.cs" />
-    <Compile Include="Commands\OpenTab.cs" />
-    <Compile Include="Commands\PlaceOrder.cs" />
+    <Compile Include="Commands\CloseTabCommand.cs" />
+    <Compile Include="Commands\MarkDrinksServedCommand.cs" />
+    <Compile Include="Commands\MarkFoodServedCommand.cs" />
+    <Compile Include="Commands\OpenTabCommand.cs" />
+    <Compile Include="Commands\PlaceOrderCommand.cs" />
     <Compile Include="Events\DrinksOrdered.cs" />
     <Compile Include="Events\DrinksServed.cs" />
     <Compile Include="Events\FoodOrdered.cs" />

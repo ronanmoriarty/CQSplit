@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace Cafe.Domain.Tests
 {
     [TestFixture]
-    public class MarkDrinksServedTests : EventTestsBase<Tab, MarkDrinksServed>
+    public class MarkDrinksServedTests : EventTestsBase<Tab, MarkDrinksServedCommand>
     {
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
@@ -55,7 +55,7 @@ namespace Cafe.Domain.Tests
                     }
                 });
 
-            When(new MarkDrinksServed
+            When(new MarkDrinksServedCommand
             {
                 Id = CommandId,
                 AggregateId = AggregateId,
@@ -107,7 +107,7 @@ namespace Cafe.Domain.Tests
                 }
                 );
 
-            When(new MarkDrinksServed
+            When(new MarkDrinksServedCommand
             {
                 Id = CommandId,
                 AggregateId = AggregateId,
@@ -151,7 +151,7 @@ namespace Cafe.Domain.Tests
                 }
                 );
 
-            When(new MarkDrinksServed
+            When(new MarkDrinksServedCommand
             {
                 Id = CommandId,
                 AggregateId = AggregateId,
@@ -198,7 +198,7 @@ namespace Cafe.Domain.Tests
                 );
 
             var markDrinksServedCommandId = Guid.NewGuid();
-            When(new MarkDrinksServed
+            When(new MarkDrinksServedCommand
             {
                 Id = markDrinksServedCommandId,
                 AggregateId = AggregateId,
@@ -211,7 +211,7 @@ namespace Cafe.Domain.Tests
                 CommandId = markDrinksServedCommandId
             });
 
-            When(new MarkDrinksServed
+            When(new MarkDrinksServedCommand
             {
                 Id = CommandId,
                 AggregateId = AggregateId,

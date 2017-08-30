@@ -15,7 +15,7 @@ namespace Cafe.Domain
         private decimal _totalValueOfServedItems;
         private readonly ILog _logger = LogManager.GetLogger(typeof(Tab));
 
-        public IEnumerable<IEvent> Handle(IPlaceOrder command)
+        public IEnumerable<IEvent> Handle(IPlaceOrderCommand command)
         {
             _logger.Info("Handling PlaceOrder command...");
             var events = new List<IEvent>();
@@ -24,7 +24,7 @@ namespace Cafe.Domain
             return events;
         }
 
-        public IEnumerable<IEvent> Handle(IMarkFoodServed command)
+        public IEnumerable<IEvent> Handle(IMarkFoodServedCommand command)
         {
             if (!AllItemsBeingServedWereOrdered(command.MenuNumbers, _foodAwaitingServing))
             {
@@ -53,7 +53,7 @@ namespace Cafe.Domain
             };
         }
 
-        public IEnumerable<IEvent> Handle(IMarkDrinksServed command)
+        public IEnumerable<IEvent> Handle(IMarkDrinksServedCommand command)
         {
             if (!AllItemsBeingServedWereOrdered(command.MenuNumbers, _drinksAwaitingServing))
             {
@@ -82,7 +82,7 @@ namespace Cafe.Domain
             };
         }
 
-        public IEnumerable<IEvent> Handle(ICloseTab command)
+        public IEnumerable<IEvent> Handle(ICloseTabCommand command)
         {
             return new IEvent[]
             {
@@ -117,7 +117,7 @@ namespace Cafe.Domain
             return true;
         }
 
-        private IEnumerable<IEvent> GetEventForAnyFoodOrdered(IPlaceOrder command)
+        private IEnumerable<IEvent> GetEventForAnyFoodOrdered(IPlaceOrderCommand command)
         {
             var food = command.Items.Where(i => !i.IsDrink).ToList();
             if (!food.Any())
@@ -137,7 +137,7 @@ namespace Cafe.Domain
             };
         }
 
-        private IEnumerable<IEvent> GetEventForAnyDrinksOrdered(IPlaceOrder command)
+        private IEnumerable<IEvent> GetEventForAnyDrinksOrdered(IPlaceOrderCommand command)
         {
             var drinks = command.Items.Where(i => i.IsDrink).ToList();
             if (!drinks.Any())

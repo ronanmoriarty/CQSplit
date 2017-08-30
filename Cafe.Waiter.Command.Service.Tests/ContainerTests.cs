@@ -23,7 +23,7 @@ namespace Cafe.Waiter.Command.Service.Tests
         public void OpenTab_command_can_be_handled_by_registered_CommandHandlerProvider()
         {
             var commandHandlerProvider = Container.Instance.Resolve<ICommandHandlerProvider>();
-            var commandHandler = commandHandlerProvider.GetCommandHandler(new OpenTab
+            var commandHandler = commandHandlerProvider.GetCommandHandler(new OpenTabCommand
             {
                 Id = _commandId,
                 AggregateId = _aggregateId

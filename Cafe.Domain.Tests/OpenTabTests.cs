@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Cafe.Domain.Tests
 {
     [TestFixture]
-    public class OpenTabTests : EventTestsBase<Tab, OpenTab>
+    public class OpenTabTests : EventTestsBase<Tab, OpenTabCommand>
     {
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "John Smith";
@@ -13,7 +13,7 @@ namespace Cafe.Domain.Tests
         [Test]
         public void CanOpenANewTab()
         {
-            When(new OpenTab
+            When(new OpenTabCommand
             {
                 Id = CommandId,
                 AggregateId = AggregateId,

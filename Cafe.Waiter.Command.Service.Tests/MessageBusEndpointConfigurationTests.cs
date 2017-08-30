@@ -44,7 +44,7 @@ namespace Cafe.Waiter.Command.Service.Tests
 
         private static Type GetContractInterface(Type commandType)
         {
-            var contractsNamespace = typeof(IOpenTab).Namespace;
+            var contractsNamespace = typeof(IOpenTabCommand).Namespace;
             Console.WriteLine($"Getting interface in {contractsNamespace} namespace for {commandType.Name}");
             return commandType
                 .GetInterfaces()
@@ -53,10 +53,10 @@ namespace Cafe.Waiter.Command.Service.Tests
 
         private static IEnumerable<Type> GetAllCommandTypes()
         {
-            return typeof(OpenTab)
+            return typeof(OpenTabCommand)
                 .Assembly
                 .GetTypes()
-                .Where(type => type.Namespace == typeof(OpenTab).Namespace);
+                .Where(type => type.Namespace == typeof(OpenTabCommand).Namespace);
         }
     }
 }

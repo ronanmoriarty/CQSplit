@@ -6,10 +6,10 @@ using CQRSTutorial.Core;
 namespace Cafe.Domain
 {
     public interface ITab
-        : ICommandHandler<IPlaceOrder>
-            , ICommandHandler<IMarkDrinksServed>
-            , ICommandHandler<IMarkFoodServed>
-            , ICommandHandler<ICloseTab>
+        : ICommandHandler<IPlaceOrderCommand>
+            , ICommandHandler<IMarkDrinksServedCommand>
+            , ICommandHandler<IMarkFoodServedCommand>
+            , ICommandHandler<ICloseTabCommand>
             , IApplyEvent<DrinksOrdered>
             , IApplyEvent<DrinksServed>
             , IApplyEvent<FoodOrdered>
