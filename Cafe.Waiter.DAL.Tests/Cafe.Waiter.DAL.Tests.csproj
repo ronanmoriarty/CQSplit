@@ -60,12 +60,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OpenTabsProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadModelConnectionStringProviderFactory.cs" />
+    <Compile Include="RunOncePerTestRun.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cafe.Waiter.DAL\Cafe.Waiter.DAL.csproj">
       <Project>{aa60ee59-5d0f-4972-a2c0-b648d5088263}</Project>
       <Name>Cafe.Waiter.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj">
+      <Project>{9381dfc5-0185-49cb-92b6-1d80a8911e87}</Project>
+      <Name>CQRSTutorial.DAL.Tests.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
+      <Project>{92221377-f43d-4c30-9a94-9e5e8fb0c969}</Project>
+      <Name>CQRSTutorial.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

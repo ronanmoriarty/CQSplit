@@ -56,11 +56,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapping\OpenTabMapping.cs" />
+    <Compile Include="OpenTab.cs" />
+    <Compile Include="OpenTabsProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
+      <Project>{92221377-F43D-4C30-9A94-9E5E8FB0C969}</Project>
+      <Name>CQRSTutorial.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
