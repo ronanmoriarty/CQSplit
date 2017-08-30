@@ -12,7 +12,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
     public class When_viewing_open_tabs
     {
         private Controllers.TabController _tabController;
-        private IOpenTabsProvider _openTabsProvider;
+        private IOpenTabsRepository _openTabsRepository;
         private readonly Guid _id1 = new Guid("8580FF53-BC03-46A0-83FF-C71F35765BF1");
         private int _tableNumber1 = 123;
         private string _waiter1 = "Alice";
@@ -23,14 +23,14 @@ namespace Cafe.Waiter.Web.Tests.TabController
         [SetUp]
         public void SetUp()
         {
-            _openTabsProvider = Substitute.For<IOpenTabsProvider>();
-            _tabController = new Controllers.TabController(null, _openTabsProvider);
+            _openTabsRepository = Substitute.For<IOpenTabsRepository>();
+            _tabController = new Controllers.TabController(null, _openTabsRepository);
         }
 
         [Test]
-        public void Gets_open_tabs_from_provider()
+        public void Gets_open_tabs_from_repository()
         {
-            _openTabsProvider.GetOpenTabs().Returns(GetOpenTabs());
+            _openTabsRepository.GetOpenTabs().Returns(GetOpenTabs());
 
             var viewResult = (ViewResult)_tabController.Index().Result;
 

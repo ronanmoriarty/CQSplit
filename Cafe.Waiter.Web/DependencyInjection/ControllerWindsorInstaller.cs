@@ -44,8 +44,8 @@ namespace Cafe.Waiter.Web.DependencyInjection
                     .Instance(ReadModelSessionFactory.Instance)
                     .Named("sessionFactory"),
                 Component
-                    .For<IOpenTabsProvider>()
-                    .ImplementedBy<OpenTabsProvider>()
+                    .For<IOpenTabsRepository>()
+                    .ImplementedBy<OpenTabsRepository>()
                     .DependsOn(Dependency.OnComponent("sessionFactory", "sessionFactory"))
             );
         }

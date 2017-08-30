@@ -24,7 +24,7 @@ namespace Cafe.Waiter.DAL.Tests
         [Test]
         public void Can_retrieve_open_tabs()
         {
-            var openTabs = new OpenTabsProvider(ReadModelSessionFactory.Instance).GetOpenTabs();
+            var openTabs = new OpenTabsRepository(ReadModelSessionFactory.Instance).GetOpenTabs();
 
             var tab = openTabs.Single(openTab => openTab.Id == _id);
             Assert.That(tab, Is.Not.Null);

@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using CQRSTutorial.DAL;
 using Newtonsoft.Json;
 using NHibernate;
 
 namespace Cafe.Waiter.DAL
 {
-    public class OpenTabsProvider : IOpenTabsProvider
+    public class OpenTabsRepository : RepositoryBase<OpenTab>, IOpenTabsRepository
     {
         private readonly ISessionFactory _sessionFactory;
 
-        public OpenTabsProvider(ISessionFactory sessionFactory)
+        public OpenTabsRepository(ISessionFactory sessionFactory)
+            : base(sessionFactory)
         {
             _sessionFactory = sessionFactory;
         }

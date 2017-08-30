@@ -11,17 +11,17 @@ namespace Cafe.Waiter.Web.Controllers
     public class TabController : Controller
     {
         private readonly IEndpointProvider _endpointProvider;
-        private readonly IOpenTabsProvider _openTabsProvider;
+        private readonly IOpenTabsRepository _openTabsRepository;
 
-        public TabController(IEndpointProvider endpointProvider, IOpenTabsProvider openTabsProvider)
+        public TabController(IEndpointProvider endpointProvider, IOpenTabsRepository openTabsRepository)
         {
             _endpointProvider = endpointProvider;
-            _openTabsProvider = openTabsProvider;
+            _openTabsRepository = openTabsRepository;
         }
 
         public async Task<ActionResult> Index()
         {
-            return View(_openTabsProvider.GetOpenTabs());
+            return View(_openTabsRepository.GetOpenTabs());
         }
 
         [HttpPost]

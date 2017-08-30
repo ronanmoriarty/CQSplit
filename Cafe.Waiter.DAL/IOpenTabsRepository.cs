@@ -2,7 +2,7 @@
 
 namespace Cafe.Waiter.DAL
 {
-    public interface IOpenTabsProvider
+    public interface IOpenTabsRepository
     {
         IEnumerable<OpenTab> GetOpenTabs();
     }
