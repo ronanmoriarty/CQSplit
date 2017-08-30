@@ -5,21 +5,21 @@ using log4net;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventPublisher : IEventPublisher
+    public class EventHandler : IEventHandler
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly IEventStore _eventStore;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(EventPublisher));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EventHandler));
 
-        public EventPublisher(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore, IEventToPublishRepository eventToPublishRepository)
+        public EventHandler(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore, IEventToPublishRepository eventToPublishRepository)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _eventStore = eventStore;
             _eventToPublishRepository = eventToPublishRepository;
         }
 
-        public void Publish(IEnumerable<IEvent> events)
+        public void Handle(IEnumerable<IEvent> events)
         {
             using (var unitOfWork = _unitOfWorkFactory.Create())
             {

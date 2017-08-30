@@ -42,7 +42,7 @@ namespace CQRSTutorial.Publisher
                 {
                     var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
                     _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
-                    _messageBusEventPublisher.Publish(new[] { @event });
+                    _messageBusEventPublisher.Handle(new[] { @event });
                     using (var unitOfWork = _unitOfWorkFactory.Create())
                     {
                         unitOfWork.Start();

@@ -10,10 +10,10 @@ using NUnit.Framework;
 namespace CQRSTutorial.DAL.Tests
 {
     [TestFixture]
-    public class EventReceiverTests
+    public class EventHandlerTests
     {
         private readonly Guid _aggregateId = new Guid("8E3337B6-7378-445B-BD43-61D56624C10E");
-        private EventPublisher _eventPublisher;
+        private EventHandler _eventHandler;
         private TestEvent _testEvent;
         private TestEvent2 _testEvent2;
         private SqlExecutor _sqlExecutor;
@@ -21,7 +21,7 @@ namespace CQRSTutorial.DAL.Tests
         private IEventStore _eventStore;
         private const string EventsToPublishTableName = "dbo.EventsToPublish";
         private const string EventStoreTableName = "dbo.Events";
-        private readonly ILog _logger = LogManager.GetLogger(typeof(EventReceiverTests));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EventHandlerTests));
 
         [SetUp]
         public void SetUp()
@@ -34,7 +34,7 @@ namespace CQRSTutorial.DAL.Tests
                 )
             );
             _eventStore = new EventStore(SessionFactory.Instance, new EventMapper(Assembly.GetExecutingAssembly()));
-            _eventPublisher = new EventPublisher(
+            _eventHandler = new EventHandler(
                 new NHibernateUnitOfWorkFactory(SessionFactory.Instance),
                 _eventStore,
                 _eventToPublishRepositoryDecorator);
@@ -56,7 +56,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             try
             {
-                _eventPublisher.Publish(new[] { _testEvent });
+                _eventHandler.Handle(new[] { _testEvent });
 
                 AssertThatEventSavedToEventsToPublishTable();
                 AssertThatEventSavedToEventStore();
@@ -75,7 +75,7 @@ namespace CQRSTutorial.DAL.Tests
             {
                 AssumingSecondSaveCausesException();
 
-                _eventPublisher.Publish(new IEvent[] { _testEvent, _testEvent2 });
+                _eventHandler.Handle(new IEvent[] { _testEvent, _testEvent2 });
 
                 AssertThatNoEventsSavedToEventsToPublishTable(_testEvent.Id,_testEvent2.Id);
                 AssertThatNoEventsSavedToEventStore(_testEvent.Id,_testEvent2.Id);

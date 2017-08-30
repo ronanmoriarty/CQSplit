@@ -87,7 +87,7 @@
     <Compile Include="EventToPublishRepositoryDecorator.cs" />
     <Compile Include="EventStoreTests.cs" />
     <Compile Include="EventToPublishRepositoryTests.cs" />
-    <Compile Include="EventReceiverTests.cs" />
+    <Compile Include="EventHandlerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WriteModelConnectionStringProviderFactory.cs" />
     <Compile Include="RunOncePerTestRun.cs" />

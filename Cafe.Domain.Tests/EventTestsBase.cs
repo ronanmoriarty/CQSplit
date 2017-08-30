@@ -12,7 +12,7 @@ namespace Cafe.Domain.Tests
         where TCommandHandler : Aggregate, new()
         where TCommand : ICommand
     {
-        private IEventPublisher _eventPublisher;
+        private IEventHandler _eventHandler;
         private CommandDispatcher _commandDispatcher;
         private EventApplier _eventApplier;
         private TCommand _command;
@@ -45,8 +45,8 @@ namespace Cafe.Domain.Tests
                 ConfigureCommandHandlerFactory(commandHandlerFactory);
             }
 
-            _eventPublisher = Substitute.For<IEventPublisher>();
-            _commandDispatcher = new CommandDispatcher(_eventPublisher, _commandHandlerProvider);
+            _eventHandler = Substitute.For<IEventHandler>();
+            _commandDispatcher = new CommandDispatcher(_eventHandler, _commandHandlerProvider);
             _eventApplier = new EventApplier(new TypeInspector());
         }
 
@@ -73,7 +73,7 @@ namespace Cafe.Domain.Tests
             HandleCommands();
             foreach (var expectedEvent in expectedEvents)
             {
-                _eventPublisher.Received(1).Publish(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatches(expectedEvent, events)));
+                _eventHandler.Received(1).Handle(Arg.Is<IEnumerable<IEvent>>(events => AtLeastOneEventMatches(expectedEvent, events)));
             }
         }
 
