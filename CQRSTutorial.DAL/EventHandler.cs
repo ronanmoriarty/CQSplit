@@ -8,15 +8,13 @@ namespace CQRSTutorial.DAL
     public class EventHandler : IEventHandler
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-        private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly IEventStore _eventStore;
         private readonly ILog _logger = LogManager.GetLogger(typeof(EventHandler));
 
-        public EventHandler(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore, IEventToPublishRepository eventToPublishRepository)
+        public EventHandler(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore)
         {
             _unitOfWorkFactory = unitOfWorkFactory;
             _eventStore = eventStore;
-            _eventToPublishRepository = eventToPublishRepository;
         }
 
         public void Handle(IEnumerable<IEvent> events)
@@ -24,14 +22,12 @@ namespace CQRSTutorial.DAL
             using (var unitOfWork = _unitOfWorkFactory.Create())
             {
                 unitOfWork.Start();
-                unitOfWork.Enlist(_eventToPublishRepository);
                 unitOfWork.Enlist(_eventStore);
                 try
                 {
                     foreach (var @event in events)
                     {
                         _eventStore.Add(@event);
-                        _eventToPublishRepository.Add(@event);
                     }
                     unitOfWork.Commit();
                 }

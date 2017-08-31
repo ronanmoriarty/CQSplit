@@ -36,8 +36,14 @@ namespace CQRSTutorial.DAL.Tests
             _eventStore = new EventStore(SessionFactory.Instance, new EventMapper(Assembly.GetExecutingAssembly()));
             _eventHandler = new EventHandler(
                 new NHibernateUnitOfWorkFactory(SessionFactory.Instance),
-                _eventStore,
-                _eventToPublishRepositoryDecorator);
+                new CompositeEventStore(
+                    new[]
+                    {
+                        _eventStore,
+                        _eventToPublishRepositoryDecorator
+                    }
+                )
+            );
 
             _testEvent = new TestEvent
             {

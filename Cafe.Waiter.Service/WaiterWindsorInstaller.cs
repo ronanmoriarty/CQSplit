@@ -84,7 +84,11 @@ namespace Cafe.Waiter.Service
 
         private IEnumerable<IEventStore> GetEventStores(IKernel kernel)
         {
-            return new List<IEventStore> {kernel.Resolve<EventStore>()};
+            return new List<IEventStore>
+            {
+                kernel.Resolve<EventStore>(),
+                kernel.Resolve<EventToPublishRepository>()
+            };
         }
     }
 }

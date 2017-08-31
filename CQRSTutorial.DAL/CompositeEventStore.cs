@@ -16,7 +16,7 @@ namespace CQRSTutorial.DAL
 
         public IUnitOfWork UnitOfWork
         {
-            get { return _eventStores.First().UnitOfWork; }
+            get => _eventStores.First().UnitOfWork;
             set { _eventStores.ForEach(eventStore => eventStore.UnitOfWork = value); }
         }
 
