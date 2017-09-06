@@ -48,7 +48,7 @@ namespace Cafe.Waiter.Service
                 Classes
                     .FromAssemblyContaining<IUnitOfWorkFactory>()
                     .InSameNamespaceAs<IUnitOfWorkFactory>()
-                    .Unless(type => type == typeof(CompositeEventStore))
+                    .Unless(type => type == typeof(CompositeEventStore) || type == typeof(EventHandler))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
@@ -79,6 +79,11 @@ namespace Cafe.Waiter.Service
                 Component
                     .For<CompositeEventStore>()
                     .DependsOn(Dependency.OnComponent("eventStores", "eventStores"))
+                    .Named("compositeEventStore"),
+                Component
+                    .For<IEventHandler>()
+                    .ImplementedBy<EventHandler>()
+                    .DependsOn(Dependency.OnComponent("eventStore", "compositeEventStore"))
                 );
         }
 
