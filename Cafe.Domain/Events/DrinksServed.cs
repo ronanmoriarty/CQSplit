@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using CQRSTutorial.Core;
+using Cafe.Waiter.Contracts.Events;
 
 namespace Cafe.Domain.Events
 {
-    public class DrinksServed : IEvent
+    public class DrinksServed : IDrinksServed
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }

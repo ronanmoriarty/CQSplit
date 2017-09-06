@@ -1,9 +1,9 @@
 ﻿using System;
-using CQRSTutorial.Core;
+using Cafe.Waiter.Contracts.Events;
 
 namespace Cafe.Domain.Events
 {
-    public class TabClosed : IEvent
+    public class TabClosed : ITabClosed
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
