@@ -20,7 +20,7 @@ namespace Cafe.Waiter.Service
 
                 x.SetDisplayName("CQRSTutorial Waiter Service");
                 x.SetServiceName("cqrstutorial-waiter-service");
-                x.SetDescription("Service to handle waiter commands and update waiter read model");
+                x.SetDescription("Service to handle waiter commands");
             });
         }
     }
