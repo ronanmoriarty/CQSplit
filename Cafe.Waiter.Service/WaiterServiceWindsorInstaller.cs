@@ -14,14 +14,14 @@ using NHibernate;
 
 namespace Cafe.Waiter.Service
 {
-    public class WaiterWindsorInstaller : IWindsorInstaller
+    public class WaiterServiceWindsorInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
                 Classes
                     .FromThisAssembly()
-                    .InSameNamespaceAs<WaiterWindsorInstaller>()
+                    .InSameNamespaceAs<WaiterServiceWindsorInstaller>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
