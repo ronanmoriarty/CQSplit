@@ -26,7 +26,7 @@ namespace Cafe.Waiter.Service
                     .WithServiceAllInterfaces(),
                 Classes
                     .FromThisAssembly()
-                    .InSameNamespaceAs<MessageBusEndpointConfiguration>()
+                    .InSameNamespaceAs<OpenTabConsumer>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes

@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cafe.Waiter.Service.Messaging;
 using CQRSTutorial.Infrastructure;
 
-namespace Cafe.Waiter.Service.Messaging
+namespace Cafe.Waiter.Service
 {
     public class MessageBusEndpointConfiguration : IMessageBusEndpointConfiguration
     {
