@@ -16,10 +16,11 @@ namespace Cafe.Waiter.Query.Service
         private static List<Type> GetConsumerTypes()
         {
             var consumerTypes = new List<Type>();
-            //consumerTypes.AddRange(new[]
-            //{
-            //    typeof(TabOpenedConsumer)
-            //}); // TODO will uncomment when I've got the tests in place
+            consumerTypes.AddRange(new[]
+            {
+                typeof(TabOpenedConsumer)
+            });
+
             return consumerTypes;
         }
 
