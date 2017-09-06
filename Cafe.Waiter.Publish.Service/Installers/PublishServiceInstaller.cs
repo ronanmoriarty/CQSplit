@@ -42,7 +42,7 @@ namespace Cafe.Waiter.Publish.Service.Installers
                     .InSameNamespaceAs<MessageBusEventPublisher>()
                     .WithService
                         .Self()
-                        .WithServiceDefaultInterfaces()
+                        .WithServiceAllInterfaces()
                     .LifestyleTransient(),
                 Component.For<IConnectionStringProviderFactory>()
                     .Instance(connectionStringProviderFactory),

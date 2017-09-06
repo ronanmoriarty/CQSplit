@@ -4,11 +4,11 @@ namespace CQRSTutorial.Infrastructure
 {
     public class RabbitMqMessageBusFactory : IMessageBusFactory
     {
-        private readonly IRabbitMQHostConfigurator _rabbitMqHostConfigurator;
+        private readonly IRabbitMqHostConfigurator _rabbitMqHostConfigurator;
         private readonly IRabbitMQEndpointConfigurator _rabbitMqEndpointConfigurator;
 
         public RabbitMqMessageBusFactory(
-            IRabbitMQHostConfigurator rabbitMqHostConfigurator,
+            IRabbitMqHostConfigurator rabbitMqHostConfigurator,
             IRabbitMQEndpointConfigurator rabbitMqEndpointConfigurator)
         {
             _rabbitMqHostConfigurator = rabbitMqHostConfigurator;

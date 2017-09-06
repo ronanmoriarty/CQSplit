@@ -5,13 +5,17 @@ using MassTransit.RabbitMqTransport;
 
 namespace CQRSTutorial.Infrastructure
 {
-    public class EnvironmentVariableRabbitMqHostConfigurator : IRabbitMQHostConfigurator
+    public class RabbitMqHostConfigurator : IRabbitMqHostConfigurator
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactory));
+        private readonly IRabbitMqHostConfiguration _rabbitMqHostConfiguration;
 
-        public Uri Uri => new Uri(Environment.GetEnvironmentVariable("RABBITMQ_URI"));
-        public string Username => Environment.GetEnvironmentVariable("RABBITMQ_USERNAME");
-        public string Password => Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD");
+        public RabbitMqHostConfigurator(IRabbitMqHostConfiguration rabbitMqHostConfiguration)
+        {
+            _rabbitMqHostConfiguration = rabbitMqHostConfiguration;
+        }
+
+        public Uri Uri => _rabbitMqHostConfiguration.Uri;
 
         public IRabbitMqHost Configure(IRabbitMqBusFactoryConfigurator sbc)
         {
@@ -19,8 +23,8 @@ namespace CQRSTutorial.Infrastructure
             _logger.Debug($"Host address is: \"{hostAddress.AbsoluteUri}\"");
             var host = sbc.Host(hostAddress, h =>
             {
-                h.Username(Username);
-                h.Password(Password);
+                h.Username(_rabbitMqHostConfiguration.Username);
+                h.Password(_rabbitMqHostConfiguration.Password);
             });
 
             return host;

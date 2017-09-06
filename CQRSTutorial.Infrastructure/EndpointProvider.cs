@@ -8,11 +8,11 @@ namespace CQRSTutorial.Infrastructure
     public class EndpointProvider : IEndpointProvider
     {
         private readonly IBusControl _busControl;
-        private readonly IRabbitMQHostConfigurator _rabbitMqHostConfigurator;
+        private readonly IRabbitMqHostConfigurator _rabbitMqHostConfigurator;
         private readonly IServiceAddressProvider _serviceAddressProvider;
         private readonly ILog _logger = LogManager.GetLogger(typeof(EndpointProvider));
 
-        public EndpointProvider(IBusControl busControl, IRabbitMQHostConfigurator rabbitMqHostConfigurator, IServiceAddressProvider serviceAddressProvider)
+        public EndpointProvider(IBusControl busControl, IRabbitMqHostConfigurator rabbitMqHostConfigurator, IServiceAddressProvider serviceAddressProvider)
         {
             _busControl = busControl;
             _rabbitMqHostConfigurator = rabbitMqHostConfigurator;

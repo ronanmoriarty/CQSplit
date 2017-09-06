@@ -174,7 +174,7 @@ namespace CQRSTutorial.Publisher.Tests
         private MessageBusEventPublisher CreateMessageBusEventPublisher(string queueName, Action onMessagePublished)
         {
             var messageBusFactory = new RabbitMqMessageBusFactory(
-                new EnvironmentVariableRabbitMqHostConfigurator(),
+                new RabbitMqHostConfigurator(new EnvironmentVariableRabbitMqHostConfiguration()),
                 new FakeRabbitMqEndpointConfigurator(queueName, onMessagePublished));
             return new MessageBusEventPublisher(messageBusFactory);
         }

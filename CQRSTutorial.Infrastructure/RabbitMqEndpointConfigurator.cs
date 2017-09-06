@@ -3,12 +3,12 @@ using MassTransit.RabbitMqTransport;
 
 namespace CQRSTutorial.Infrastructure
 {
-    public class RabbitMqRabbitMqEndpointConfigurator : IRabbitMQEndpointConfigurator
+    public class RabbitMqEndpointConfigurator : IRabbitMQEndpointConfigurator
     {
         private readonly IMessageBusEndpointConfiguration _messageBusEndpointConfiguration;
         private readonly IConsumerFactory _consumerFactory;
 
-        public RabbitMqRabbitMqEndpointConfigurator(IMessageBusEndpointConfiguration messageBusEndpointConfiguration,
+        public RabbitMqEndpointConfigurator(IMessageBusEndpointConfiguration messageBusEndpointConfiguration,
             IConsumerFactory consumerFactory)
         {
             _messageBusEndpointConfiguration = messageBusEndpointConfiguration;
