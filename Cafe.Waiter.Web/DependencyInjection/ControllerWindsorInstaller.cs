@@ -1,4 +1,4 @@
-using Cafe.Waiter.DAL;
+using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Web.Controllers;
 using Cafe.Waiter.Web.Messaging;
 using Castle.MicroKernel;

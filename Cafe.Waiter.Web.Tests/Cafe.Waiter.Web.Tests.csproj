@@ -132,9 +132,9 @@
       <Project>{2d4c28bd-d280-40f7-a1b5-d3f0e0f2bbac}</Project>
       <Name>Cafe.Waiter.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cafe.Waiter.DAL\Cafe.Waiter.DAL.csproj">
-      <Project>{AA60EE59-5D0F-4972-A2C0-B648D5088263}</Project>
-      <Name>Cafe.Waiter.DAL</Name>
+    <ProjectReference Include="..\Cafe.Waiter.Queries.DAL\Cafe.Waiter.Queries.DAL.csproj">
+      <Project>{aa60ee59-5d0f-4972-a2c0-b648d5088263}</Project>
+      <Name>Cafe.Waiter.Queries.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Web\Cafe.Waiter.Web.csproj">
       <Project>{f81c8b8f-d3ba-4517-b279-2f05769b7341}</Project>

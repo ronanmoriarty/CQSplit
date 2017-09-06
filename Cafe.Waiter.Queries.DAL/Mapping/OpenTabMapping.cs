@@ -1,7 +1,7 @@
 ﻿using FluentNHibernate.Automapping;
 using FluentNHibernate.Automapping.Alterations;
 
-namespace Cafe.Waiter.DAL.Mapping
+namespace Cafe.Waiter.Queries.DAL.Mapping
 {
     public class OpenTabMapping : IAutoMappingOverride<Serialized.OpenTab>
     {

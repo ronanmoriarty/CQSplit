@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using CQRSTutorial.DAL.Tests.Common;
-using NUnit.Framework;
 using Newtonsoft.Json;
-namespace Cafe.Waiter.DAL.Tests
+using NUnit.Framework;
+
+namespace Cafe.Waiter.Queries.DAL.Tests
 {
     [TestFixture]
     public class OpenTabsProviderTests

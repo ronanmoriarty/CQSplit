@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AA60EE59-5D0F-4972-A2C0-B648D5088263}</ProjectGuid>
+    <ProjectGuid>{386096EB-A999-4C81-B689-C09711E12A2C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cafe.Waiter.DAL</RootNamespace>
-    <AssemblyName>Cafe.Waiter.DAL</AssemblyName>
+    <RootNamespace>Cafe.Waiter.Queries.DAL.Tests</RootNamespace>
+    <AssemblyName>Cafe.Waiter.Queries.DAL.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -50,6 +50,10 @@
       <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -60,24 +64,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IOpenTabsRepository.cs" />
-    <Compile Include="Mapping\OpenTabMapping.cs" />
-    <Compile Include="OpenTab.cs" />
-    <Compile Include="ReadModelConnectionStringProviderFactory.cs" />
-    <Compile Include="Serialized\OpenTab.cs" />
-    <Compile Include="OpenTabsRepository.cs" />
+    <Compile Include="OpenTabsProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReadModelSessionFactory.cs" />
+    <Compile Include="RunOncePerTestRun.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cafe.Waiter.Queries.DAL\Cafe.Waiter.Queries.DAL.csproj">
+      <Project>{aa60ee59-5d0f-4972-a2c0-b648d5088263}</Project>
+      <Name>Cafe.Waiter.Queries.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj">
+      <Project>{9381dfc5-0185-49cb-92b6-1d80a8911e87}</Project>
+      <Name>CQRSTutorial.DAL.Tests.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
+      <Project>{92221377-f43d-4c30-9a94-9e5e8fb0c969}</Project>
+      <Name>CQRSTutorial.DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
-      <Project>{92221377-F43D-4C30-9A94-9E5E8FB0C969}</Project>
-      <Name>CQRSTutorial.DAL</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

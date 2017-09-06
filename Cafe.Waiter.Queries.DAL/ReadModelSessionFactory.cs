@@ -1,9 +1,9 @@
-using Cafe.Waiter.DAL.Mapping;
+using Cafe.Waiter.Queries.DAL.Mapping;
 using CQRSTutorial.DAL;
 using FluentNHibernate.Automapping;
 using NHibernate;
 
-namespace Cafe.Waiter.DAL
+namespace Cafe.Waiter.Queries.DAL
 {
     public class ReadModelSessionFactory
     {

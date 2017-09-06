@@ -1,7 +1,7 @@
 ﻿using log4net.Config;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.DAL.Tests
+namespace Cafe.Waiter.Queries.DAL.Tests
 {
     [SetUpFixture]
     public class RunOncePerTestRun

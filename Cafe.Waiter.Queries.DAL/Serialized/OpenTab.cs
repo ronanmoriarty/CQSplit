@@ -1,7 +1,7 @@
 ﻿using System;
 using CQRSTutorial.DAL;
 
-namespace Cafe.Waiter.DAL.Serialized
+namespace Cafe.Waiter.Queries.DAL.Serialized
 {
     public class OpenTab : IMapToTable
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Cafe.Waiter.DAL;
+using Cafe.Waiter.Queries.DAL;
 using NSubstitute;
 using NUnit.Framework;
 

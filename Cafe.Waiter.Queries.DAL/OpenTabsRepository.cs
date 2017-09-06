@@ -4,7 +4,7 @@ using CQRSTutorial.DAL;
 using Newtonsoft.Json;
 using NHibernate;
 
-namespace Cafe.Waiter.DAL
+namespace Cafe.Waiter.Queries.DAL
 {
     public class OpenTabsRepository : RepositoryBase<Serialized.OpenTab>, IOpenTabsRepository
     {

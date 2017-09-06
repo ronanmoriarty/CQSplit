@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Cafe.Waiter.DAL
+namespace Cafe.Waiter.Queries.DAL
 {
     public interface IOpenTabsRepository
     {
