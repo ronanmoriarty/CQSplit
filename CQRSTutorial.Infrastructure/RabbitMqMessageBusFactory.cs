@@ -5,13 +5,13 @@ namespace CQRSTutorial.Infrastructure
     public class RabbitMqMessageBusFactory : IMessageBusFactory
     {
         private readonly IMessageBusHostConfigurator _messageBusHostConfigurator;
-        private readonly IMessageBusConfigurator _messageBusConfigurator;
+        private readonly IMessageBusEndpointConfigurator _messageBusEndpointConfigurator;
 
         public RabbitMqMessageBusFactory(IMessageBusHostConfigurator messageBusHostConfigurator,
-            IMessageBusConfigurator messageBusConfigurator)
+            IMessageBusEndpointConfigurator messageBusEndpointConfigurator)
         {
             _messageBusHostConfigurator = messageBusHostConfigurator;
-            _messageBusConfigurator = messageBusConfigurator;
+            _messageBusEndpointConfigurator = messageBusEndpointConfigurator;
         }
 
         public IBusControl Create()
@@ -19,7 +19,7 @@ namespace CQRSTutorial.Infrastructure
             return Bus.Factory.CreateUsingRabbitMq(sbc =>
             {
                 var host = _messageBusHostConfigurator.Configure(sbc);
-                _messageBusConfigurator.ConfigureEndpoints(sbc, host);
+                _messageBusEndpointConfigurator.Configure(sbc, host);
             });
         }
     }
