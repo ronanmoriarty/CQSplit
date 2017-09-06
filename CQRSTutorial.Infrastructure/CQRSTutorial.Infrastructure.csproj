@@ -80,9 +80,7 @@
     <Compile Include="RabbitMqEndpointConfigurator.cs" />
     <Compile Include="ReceiveEndpointMapping.cs" />
     <Compile Include="ServiceAddressProvider.cs" />
-    <Compile Include="RabbitMqHostConfigurator.cs" />
     <Compile Include="IServiceAddressProvider.cs" />
-    <Compile Include="IRabbitMqHostConfigurator.cs" />
     <Compile Include="MessageBusEventPublisher.cs" />
     <Compile Include="RabbitMqMessageBusFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

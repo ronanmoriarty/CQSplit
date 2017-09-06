@@ -30,8 +30,8 @@ namespace Cafe.Waiter.Service
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
-                    .FromAssemblyContaining<RabbitMqHostConfigurator>()
-                    .InSameNamespaceAs<RabbitMqHostConfigurator>()
+                    .FromAssemblyContaining<IMessageBusFactory>()
+                    .InSameNamespaceAs<IMessageBusFactory>()
                     .Unless(type => type == typeof(MessageBusEventPublisher))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
