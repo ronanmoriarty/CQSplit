@@ -5,7 +5,7 @@ using MassTransit.RabbitMqTransport;
 
 namespace CQRSTutorial.Infrastructure
 {
-    public class EnvironmentVariableMessageBusHostConfigurator : IMessageBusHostConfigurator
+    public class EnvironmentVariableRabbitMqHostConfigurator : IRabbitMQHostConfigurator
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactory));
 

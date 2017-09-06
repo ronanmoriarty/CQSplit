@@ -174,8 +174,8 @@ namespace CQRSTutorial.Publisher.Tests
         private MessageBusEventPublisher CreateMessageBusEventPublisher(string queueName, Action onMessagePublished)
         {
             var messageBusFactory = new RabbitMqMessageBusFactory(
-                new EnvironmentVariableMessageBusHostConfigurator(),
-                new FakeMessageBusEndpointConfigurator(queueName, onMessagePublished));
+                new EnvironmentVariableRabbitMqHostConfigurator(),
+                new FakeRabbitMqEndpointConfigurator(queueName, onMessagePublished));
             return new MessageBusEventPublisher(messageBusFactory);
         }
 
@@ -189,12 +189,12 @@ namespace CQRSTutorial.Publisher.Tests
             manualResetEvent.Set();
         }
 
-        internal class FakeMessageBusEndpointConfigurator : IMessageBusEndpointConfigurator
+        internal class FakeRabbitMqEndpointConfigurator : IRabbitMQEndpointConfigurator
         {
             private readonly string _queueName;
             private readonly Action _onMessagePublished;
 
-            public FakeMessageBusEndpointConfigurator(string queueName, Action onMessagePublished)
+            public FakeRabbitMqEndpointConfigurator(string queueName, Action onMessagePublished)
             {
                 _queueName = queueName;
                 _onMessagePublished = onMessagePublished;

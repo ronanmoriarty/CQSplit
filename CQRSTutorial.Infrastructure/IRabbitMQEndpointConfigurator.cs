@@ -2,7 +2,7 @@ using MassTransit.RabbitMqTransport;
 
 namespace CQRSTutorial.Infrastructure
 {
-    public interface IMessageBusEndpointConfigurator
+    public interface IRabbitMQEndpointConfigurator
     {
         void Configure(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host);
     }
