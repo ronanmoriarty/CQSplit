@@ -4,13 +4,13 @@ using Cafe.Waiter.Contracts.Commands;
 using log4net;
 using MassTransit;
 
-namespace Cafe.Waiter.Service.Messaging
+namespace Cafe.Waiter.Service.Consumers
 {
-    public class MarkDrinksServedConsumer : IConsumer<IMarkDrinksServedCommand>
+    public class CloseTabConsumer : IConsumer<ICloseTabCommand>
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(MarkDrinksServedConsumer));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(CloseTabConsumer));
 
-        public async Task Consume(ConsumeContext<IMarkDrinksServedCommand> context)
+        public async Task Consume(ConsumeContext<ICloseTabCommand> context)
         {
             var message = $"Received command: Type: {typeof(IOpenTabCommand).Name}; Command Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
             await Console.Out.WriteLineAsync(message);

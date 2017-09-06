@@ -1,7 +1,7 @@
 ﻿using System;
 using CQRSTutorial.Infrastructure;
 
-namespace Cafe.Waiter.Service.Messaging
+namespace Cafe.Waiter.Service.Consumers
 {
     public class ConsumerFactory : IConsumerFactory
     {

@@ -3,7 +3,7 @@ using CQRSTutorial.Core;
 using log4net;
 using MassTransit;
 
-namespace Cafe.Waiter.Service.Messaging
+namespace Cafe.Waiter.Service.Consumers
 {
     public abstract class Consumer<TCommand> : IConsumer<TCommand>
         where TCommand : class, ICommand

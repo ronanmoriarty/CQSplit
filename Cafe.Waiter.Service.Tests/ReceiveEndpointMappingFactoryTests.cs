@@ -1,5 +1,5 @@
 ﻿using System;
-using Cafe.Waiter.Service.Messaging;
+using Cafe.Waiter.Service.Consumers;
 using CQRSTutorial.Infrastructure;
 using NUnit.Framework;
 
