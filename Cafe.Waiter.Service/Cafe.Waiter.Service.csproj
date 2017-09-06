@@ -97,7 +97,6 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="CommandHandlerFactory.cs" />
-    <Compile Include="ITabFactory.cs" />
     <Compile Include="Messaging\CloseTabConsumer.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Messaging\Consumer.cs" />
@@ -109,7 +108,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Messaging\MessageBusEndpointConfiguration.cs" />
-    <Compile Include="TabFactory.cs" />
     <Compile Include="WaiterService.cs" />
     <Compile Include="WaiterWindsorInstaller.cs" />
     <Compile Include="WriteModelConnectionStringProviderFactory.cs" />

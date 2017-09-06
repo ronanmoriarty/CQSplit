@@ -30,7 +30,6 @@ namespace Cafe.Waiter.Service.Tests
         private IEventRepository _eventRepository;
         private MarkDrinksServedCommand _markDrinksServedCommand;
         private Tab _tab;
-        private ITabFactory _tabFactory;
         private IEventApplier _eventApplier;
         private IEnumerable<IEvent> _events;
         private TabOpened _tabOpened;
@@ -38,10 +37,9 @@ namespace Cafe.Waiter.Service.Tests
         [SetUp]
         public void SetUp()
         {
-            SetUpTabFactory();
             SetUpEventStore();
             _eventApplier = Substitute.For<IEventApplier>();
-            _commandHandlerFactory = new CommandHandlerFactory(_tabFactory, _eventRepository, _eventApplier);
+            _commandHandlerFactory = new CommandHandlerFactory(_eventRepository, _eventApplier);
             _markDrinksServedCommand = GetMarkDrinksServedCommand();
         }
 
@@ -60,13 +58,6 @@ namespace Cafe.Waiter.Service.Tests
 
             _eventApplier.Received(1).ApplyEvent(_tabOpened, _tab);
             _eventApplier.Received(1).ApplyEvent(_drinksOrdered, _tab);
-        }
-
-        private void SetUpTabFactory()
-        {
-            var tab = new Tab {Id = _aggregateId};
-            _tabFactory = Substitute.For<ITabFactory>();
-            _tabFactory.Create(_aggregateId).Returns(tab);
         }
 
         private void SetUpEventStore()
