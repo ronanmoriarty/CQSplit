@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Domain", "Cafe.Domain\Cafe.Domain.csproj", "{CB20D510-0CC5-4FBA-9B6F-EC7C32F3B62E}"
 EndProject
@@ -48,6 +48,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Queries.DAL", "Cafe.Waiter.Queries.DAL\Cafe.Waiter.Queries.DAL.csproj", "{AA60EE59-5D0F-4972-A2C0-B648D5088263}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Queries.DAL.Tests", "Cafe.Waiter.Queries.DAL.Tests\Cafe.Waiter.Queries.DAL.Tests.csproj", "{386096EB-A999-4C81-B689-C09711E12A2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Query.Service.Tests", "Cafe.Waiter.Query.Service.Tests\Cafe.Waiter.Query.Service.Tests.csproj", "{AA16BF63-A07A-4104-9A15-6FBD05E68F78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Query.Service", "Cafe.Waiter.Query.Service\Cafe.Waiter.Query.Service.csproj", "{0B8C1721-83CE-49E8-BF1C-16EA613E487E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -139,6 +143,14 @@ Global
 		{386096EB-A999-4C81-B689-C09711E12A2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{386096EB-A999-4C81-B689-C09711E12A2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{386096EB-A999-4C81-B689-C09711E12A2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA16BF63-A07A-4104-9A15-6FBD05E68F78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA16BF63-A07A-4104-9A15-6FBD05E68F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA16BF63-A07A-4104-9A15-6FBD05E68F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA16BF63-A07A-4104-9A15-6FBD05E68F78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B8C1721-83CE-49E8-BF1C-16EA613E487E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B8C1721-83CE-49E8-BF1C-16EA613E487E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B8C1721-83CE-49E8-BF1C-16EA613E487E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B8C1721-83CE-49E8-BF1C-16EA613E487E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +177,8 @@ Global
 		{AD5EF53E-A25F-43CC-9CE7-232A6F844426} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 		{AA60EE59-5D0F-4972-A2C0-B648D5088263} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 		{386096EB-A999-4C81-B689-C09711E12A2C} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
+		{AA16BF63-A07A-4104-9A15-6FBD05E68F78} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
+		{0B8C1721-83CE-49E8-BF1C-16EA613E487E} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82CC2E35-6545-4F3F-A883-30477B81350D}
