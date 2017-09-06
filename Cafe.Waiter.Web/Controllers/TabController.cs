@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Cafe.Domain.Commands;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Queries.DAL;
+using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.Infrastructure;
 
 namespace Cafe.Waiter.Web.Controllers

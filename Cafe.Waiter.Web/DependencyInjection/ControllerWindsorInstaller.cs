@@ -1,4 +1,6 @@
 using Cafe.Waiter.Queries.DAL;
+using Cafe.Waiter.Queries.DAL.NHibernate;
+using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Controllers;
 using Cafe.Waiter.Web.Messaging;
 using Castle.MicroKernel;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cafe.Waiter.Queries.DAL
+namespace Cafe.Waiter.Queries.DAL.Models
 {
     public class OpenTab
     {

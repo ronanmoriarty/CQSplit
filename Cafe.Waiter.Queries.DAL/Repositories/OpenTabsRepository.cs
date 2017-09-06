@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Cafe.Waiter.Queries.DAL.Models;
 using CQRSTutorial.DAL;
 using Newtonsoft.Json;
 using NHibernate;
 
-namespace Cafe.Waiter.Queries.DAL
+namespace Cafe.Waiter.Queries.DAL.Repositories
 {
     public class OpenTabsRepository : RepositoryBase<Serialized.OpenTab>, IOpenTabsRepository
     {
