@@ -1,4 +1,3 @@
-using System;
 using log4net;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
@@ -15,11 +14,9 @@ namespace CQRSTutorial.Infrastructure
             _rabbitMqHostConfiguration = rabbitMqHostConfiguration;
         }
 
-        public Uri Uri => _rabbitMqHostConfiguration.Uri;
-
         public IRabbitMqHost Configure(IRabbitMqBusFactoryConfigurator sbc)
         {
-            var hostAddress = Uri;
+            var hostAddress = _rabbitMqHostConfiguration.Uri;
             _logger.Debug($"Host address is: \"{hostAddress.AbsoluteUri}\"");
             var host = sbc.Host(hostAddress, h =>
             {
