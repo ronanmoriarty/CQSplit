@@ -77,6 +77,7 @@
     <Compile Include="IMessageBusFactory.cs" />
     <Compile Include="IRabbitMqHostConfiguration.cs" />
     <Compile Include="ReceiveEndpointMapping.cs" />
+    <Compile Include="ReceiveEndpointMappingFactory.cs" />
     <Compile Include="ServiceAddressProvider.cs" />
     <Compile Include="IServiceAddressProvider.cs" />
     <Compile Include="MessageBusEventPublisher.cs" />

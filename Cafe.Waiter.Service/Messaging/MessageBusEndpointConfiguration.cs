@@ -1,21 +1,29 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using CQRSTutorial.Infrastructure;
 
 namespace Cafe.Waiter.Service.Messaging
 {
     public class MessageBusEndpointConfiguration : IMessageBusEndpointConfiguration
     {
-        public MessageBusEndpointConfiguration()
+        public MessageBusEndpointConfiguration(ReceiveEndpointMappingFactory receiveEndpointMappingFactory)
         {
-            ReceiveEndpoints = new List<ReceiveEndpointMapping>
+            ReceiveEndpoints = GetConsumerTypes().Select(receiveEndpointMappingFactory.CreateMappingFor).ToList();
+        }
+
+        private static List<Type> GetConsumerTypes()
+        {
+            var consumerTypes = new List<Type>();
+            consumerTypes.AddRange(new[]
             {
-                // TODO Will have a thnk about what kind of tests I want around these mappings. Not sure at this stage.
-                new ReceiveEndpointMapping("open_tab_command", typeof(OpenTabConsumer)),
-                new ReceiveEndpointMapping("close_tab_command", typeof(CloseTabConsumer)),
-                new ReceiveEndpointMapping("mark_drinks_served_command", typeof(MarkDrinksServedConsumer)),
-                new ReceiveEndpointMapping("mark_food_served_command", typeof(MarkFoodServedConsumer)),
-                new ReceiveEndpointMapping("place_order_command", typeof(PlaceOrderConsumer)),
-            };
+                typeof(OpenTabConsumer),
+                typeof(PlaceOrderConsumer),
+                typeof(MarkDrinksServedConsumer),
+                typeof(MarkFoodServedConsumer),
+                typeof(CloseTabConsumer)
+            });
+            return consumerTypes;
         }
 
         public IEnumerable<ReceiveEndpointMapping> ReceiveEndpoints { get; }

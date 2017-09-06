@@ -4,14 +4,19 @@ namespace CQRSTutorial.Infrastructure
 {
     public class ServiceAddressProvider : IServiceAddressProvider
     {
-        public string GetServiceAddressFor<TRequest>()
+        public string GetServiceAddressFor<TMessage>()
         {
-            return GetServiceAddressFor(typeof(TRequest).Name);
+            return GetServiceAddressFor(typeof(TMessage).Name);
         }
 
-        private string GetServiceAddressFor(string typeName)
+        public string GetServiceAddressFor(Type consumerType, string stringToReplace, string stringToReplaceWith)
         {
-            return ReplaceCapitalisedWordsWithUnderscoreSeparatedWords(typeName);
+            return GetServiceAddressFor(consumerType.Name).Replace(stringToReplace, stringToReplaceWith);
+        }
+
+        private string GetServiceAddressFor(string messageTypeName)
+        {
+            return ReplaceCapitalisedWordsWithUnderscoreSeparatedWords(messageTypeName);
         }
 
         private string ReplaceCapitalisedWordsWithUnderscoreSeparatedWords(string typeName)
