@@ -78,9 +78,9 @@
     <Compile Include="RabbitMqMessageBusConfigurator.cs" />
     <Compile Include="ReceiveEndpointMapping.cs" />
     <Compile Include="ServiceAddressProvider.cs" />
-    <Compile Include="EnvironmentVariableMessageBusConfiguration.cs" />
+    <Compile Include="EnvironmentVariableMessageBusHostConfigurator.cs" />
     <Compile Include="IServiceAddressProvider.cs" />
-    <Compile Include="IMessageBusConfiguration.cs" />
+    <Compile Include="IMessageBusHostConfigurator.cs" />
     <Compile Include="MessageBusEventPublisher.cs" />
     <Compile Include="RabbitMqMessageBusFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

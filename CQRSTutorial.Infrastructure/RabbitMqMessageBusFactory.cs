@@ -6,14 +6,14 @@ namespace CQRSTutorial.Infrastructure
 {
     public class RabbitMqMessageBusFactory : IMessageBusFactory
     {
-        private readonly IMessageBusConfiguration _messageBusConfiguration;
+        private readonly IMessageBusHostConfigurator _messageBusHostConfigurator;
         private readonly IMessageBusConfigurator _messageBusConfigurator;
         private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactory));
 
-        public RabbitMqMessageBusFactory(IMessageBusConfiguration messageBusConfiguration,
+        public RabbitMqMessageBusFactory(IMessageBusHostConfigurator messageBusHostConfigurator,
             IMessageBusConfigurator messageBusConfigurator)
         {
-            _messageBusConfiguration = messageBusConfiguration;
+            _messageBusHostConfigurator = messageBusHostConfigurator;
             _messageBusConfigurator = messageBusConfigurator;
         }
 
@@ -28,12 +28,12 @@ namespace CQRSTutorial.Infrastructure
 
         private IRabbitMqHost ConfigureHost(IRabbitMqBusFactoryConfigurator sbc)
         {
-            var hostAddress = _messageBusConfiguration.Uri;
+            var hostAddress = _messageBusHostConfigurator.Uri;
             _logger.Debug($"Host address is: \"{hostAddress.AbsoluteUri}\"");
             var host = sbc.Host(hostAddress, h =>
             {
-                h.Username(_messageBusConfiguration.Username);
-                h.Password(_messageBusConfiguration.Password);
+                h.Username(_messageBusHostConfigurator.Username);
+                h.Password(_messageBusHostConfigurator.Password);
             });
             return host;
         }

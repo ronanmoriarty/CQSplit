@@ -2,7 +2,7 @@ using System;
 
 namespace CQRSTutorial.Infrastructure
 {
-    public interface IMessageBusConfiguration
+    public interface IMessageBusHostConfigurator
     {
         Uri Uri { get; }
         string Username { get; }
