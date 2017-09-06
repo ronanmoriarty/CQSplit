@@ -16,15 +16,24 @@ namespace Cafe.Waiter.Service.Tests
         private readonly string _waiter = "Joe";
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
 
-        [Test]
-        public void When_handling_events_it_saves_to_EventsToPublish_table()
+        [SetUp]
+        public void SetUp()
         {
             DeleteAnyExistingRowsWithSameIds();
             var eventHandler = GetEventHandler();
 
             WhenEventHandled(eventHandler);
+        }
 
+        [Test]
+        public void When_handling_events_it_saves_to_EventStore()
+        {
             AssertThatEventSavedInEventStore();
+        }
+
+        [Test]
+        public void When_handling_events_it_saves_to_EventsToPublish_table()
+        {
             AssertThatEventWillBePublished();
         }
 
