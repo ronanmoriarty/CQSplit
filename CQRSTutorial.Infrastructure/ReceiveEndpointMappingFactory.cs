@@ -11,9 +11,9 @@ namespace CQRSTutorial.Infrastructure
             _serviceAddressProvider = serviceAddressProvider;
         }
 
-        public ReceiveEndpointMapping CreateMappingFor(Type consumerType)
+        public ReceiveEndpointMapping CreateMappingFor(Type consumerType, string stringToReplace, string stringToReplaceWith)
         {
-            return new ReceiveEndpointMapping(_serviceAddressProvider.GetServiceAddressFor(consumerType, "consumer", "command"), consumerType);
+            return new ReceiveEndpointMapping(_serviceAddressProvider.GetServiceAddressFor(consumerType, stringToReplace, stringToReplaceWith), consumerType);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Cafe.Waiter.Service.Tests
         [TestCase(typeof(CloseTabConsumer), "close_tab_command")]
         public void Creates_service_address_replacing_consumer_with_command(Type consumerType, string expectedServiceAddress)
         {
-            var mapping = new ReceiveEndpointMappingFactory(new ServiceAddressProvider()).CreateMappingFor(consumerType);
+            var mapping = new ReceiveEndpointMappingFactory(new ServiceAddressProvider()).CreateMappingFor(consumerType, "consumer", "command");
 
             Assert.That(mapping.ServiceAddress, Is.EqualTo(expectedServiceAddress));
         }
