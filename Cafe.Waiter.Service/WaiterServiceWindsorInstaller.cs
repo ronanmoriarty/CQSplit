@@ -70,7 +70,7 @@ namespace Cafe.Waiter.Service
                     .ImplementedBy<EventApplier>(),
                 Component
                     .For<ISessionFactory>()
-                    .UsingFactoryMethod(kernel => kernel.Resolve<NHibernateConfiguration>().CreateSessionFactory())
+                    .Instance(WriteModelSessionFactory.Instance)
                     .LifestyleSingleton(),
                 Component
                     .For<IEnumerable<IEventStore>>()
