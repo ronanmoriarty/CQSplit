@@ -8,8 +8,6 @@ using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Infrastructure;
 using CQRSTutorial.Tests.Common;
 using log4net;
-using MassTransit;
-using MassTransit.RabbitMqTransport;
 using NHibernate;
 using NSubstitute;
 using NUnit.Framework;
@@ -175,7 +173,8 @@ namespace CQRSTutorial.Publisher.Tests
         {
             var messageBusFactory = new RabbitMqMessageBusFactory(
                 new EnvironmentVariableRabbitMqHostConfiguration(),
-                new FakeRabbitMqEndpointConfigurator(queueName, onMessagePublished)
+                null,
+                null
             );
 
             return new MessageBusEventPublisher(messageBusFactory);
@@ -189,36 +188,6 @@ namespace CQRSTutorial.Publisher.Tests
         private void ReturnControlToMainTestThread(ManualResetEvent manualResetEvent)
         {
             manualResetEvent.Set();
-        }
-
-        internal class FakeRabbitMqEndpointConfigurator : IRabbitMQEndpointConfigurator
-        {
-            private readonly string _queueName;
-            private readonly Action _onMessagePublished;
-
-            public FakeRabbitMqEndpointConfigurator(string queueName, Action onMessagePublished)
-            {
-                _queueName = queueName;
-                _onMessagePublished = onMessagePublished;
-            }
-
-            public void Configure(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host)
-            {
-                sbc.ReceiveEndpoint(host, _queueName, ep =>
-                {
-                    ep.Handler<IEvent>(context =>
-                    {
-                        if (context.Message.Id == MessageId1 ||
-                            context.Message.Id == MessageId2)
-                        {
-                            _onMessagePublished?.Invoke();
-                            return Console.Out.WriteLineAsync($"Received: [Id:{context.Message.Id}; Type:{context.Message.GetType()}; Queue:{_queueName}]");
-                        }
-
-                        return Console.Out.WriteLineAsync($"Received message queued from another test fixture: [Id:{context.Message.Id}; Type:{context.Message.GetType()}; Queue:{_queueName}]. Message will be disregarded for the purpose of this test.");
-                    });
-                });
-            }
         }
     }
 }

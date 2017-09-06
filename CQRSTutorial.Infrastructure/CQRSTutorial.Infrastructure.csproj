@@ -73,11 +73,9 @@
     <Compile Include="EnvironmentVariableRabbitMqHostConfiguration.cs" />
     <Compile Include="IConsumerFactory.cs" />
     <Compile Include="IEndpointProvider.cs" />
-    <Compile Include="IRabbitMQEndpointConfigurator.cs" />
     <Compile Include="IMessageBusEndpointConfiguration.cs" />
     <Compile Include="IMessageBusFactory.cs" />
     <Compile Include="IRabbitMqHostConfiguration.cs" />
-    <Compile Include="RabbitMqEndpointConfigurator.cs" />
     <Compile Include="ReceiveEndpointMapping.cs" />
     <Compile Include="ServiceAddressProvider.cs" />
     <Compile Include="IServiceAddressProvider.cs" />
