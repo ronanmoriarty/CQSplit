@@ -84,11 +84,16 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunOncePerTestRun.cs" />
+    <Compile Include="WaiterQueryServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cafe.Waiter.Query.Service\Cafe.Waiter.Query.Service.csproj">
       <Project>{0b8c1721-83ce-49e8-bf1c-16ea613e487e}</Project>
       <Name>Cafe.Waiter.Query.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.Infrastructure\CQRSTutorial.Infrastructure.csproj">
+      <Project>{6D6C34D5-5AE9-41E5-B55A-B47552F83BC9}</Project>
+      <Name>CQRSTutorial.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

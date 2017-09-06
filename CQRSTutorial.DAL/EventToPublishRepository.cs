@@ -24,6 +24,11 @@ namespace CQRSTutorial.DAL
         public IEvent Read(Guid id)
         {
             var eventToPublish = Get(id);
+            if (eventToPublish == null)
+            {
+                return null;
+            }
+
             return _eventToPublishMapper.MapToEvent(eventToPublish);
         }
 
