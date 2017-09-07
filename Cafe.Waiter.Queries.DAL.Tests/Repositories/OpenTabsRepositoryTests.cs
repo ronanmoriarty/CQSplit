@@ -40,29 +40,6 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             Assert.That(tab.TableNumber, Is.EqualTo(_tableNumber));
         }
 
-        [Test]
-        public void Can_insert_open_tab()
-        {
-            var openTabToSave = CreateOpenTabWithId(_idToInsert);
-            _openTabsRepository.Insert(openTabToSave);
-
-            var openTabs = _openTabsRepository.GetOpenTabs();
-            var tab = openTabs.Single(openTab => openTab.Id == _idToInsert);
-            Assert.That(tab, Is.Not.Null);
-            Assert.That(tab.Waiter, Is.EqualTo(_waiter));
-            Assert.That(tab.TableNumber, Is.EqualTo(_tableNumber));
-        }
-
-        private OpenTab CreateOpenTabWithId(Guid id)
-        {
-            return new OpenTab
-            {
-                Id = id,
-                TableNumber = _tableNumber,
-                Waiter = _waiter
-            };
-        }
-
         private string GetOpenTabJson()
         {
             var openTab = new OpenTab
