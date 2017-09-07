@@ -5,6 +5,7 @@ using MassTransit;
 using Cafe.Domain.Events;
 using System;
 using System.Threading.Tasks;
+using Cafe.Waiter.Query.Service.Projectors;
 
 namespace Cafe.Waiter.Query.Service.Tests.Consumers
 {
@@ -17,7 +18,7 @@ namespace Cafe.Waiter.Query.Service.Tests.Consumers
         [Test]
         public async Task Consumed_events_get_projected()
         {
-            var projector = Substitute.For<IProjector>();
+            var projector = Substitute.For<ITabOpenedProjector>();
             _tabOpenedConsumer = new TabOpenedConsumer(projector);
 
             var @event = new TabOpened { Id = _id };

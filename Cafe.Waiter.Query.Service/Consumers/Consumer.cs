@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Cafe.Waiter.Query.Service.Projectors;
 using CQRSTutorial.Core;
 using log4net;
 using MassTransit;
@@ -9,9 +10,9 @@ namespace Cafe.Waiter.Query.Service.Consumers
         where TEvent : class, IEvent
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(Consumer<>));
-        private IProjector _projector;
+        private IProjector<TEvent> _projector;
 
-        public Consumer(IProjector projector)
+        protected Consumer(IProjector<TEvent> projector)
         {
             _projector = projector;
         }

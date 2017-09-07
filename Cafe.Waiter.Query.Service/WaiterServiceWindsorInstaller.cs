@@ -1,4 +1,5 @@
 using Cafe.Waiter.Query.Service.Consumers;
+using Cafe.Waiter.Query.Service.Projectors;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -19,6 +20,11 @@ namespace Cafe.Waiter.Query.Service
                 Classes
                     .FromThisAssembly()
                     .InSameNamespaceAs<ConsumerFactory>()
+                    .WithServiceSelf()
+                    .WithServiceAllInterfaces(),
+                Classes
+                    .FromThisAssembly()
+                    .InSameNamespaceAs<ITabOpenedProjector>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes

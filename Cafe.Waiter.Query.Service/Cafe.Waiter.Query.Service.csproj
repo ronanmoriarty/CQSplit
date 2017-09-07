@@ -84,8 +84,10 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Consumers\Consumer.cs" />
     <Compile Include="Consumers\ConsumerFactory.cs" />
-    <Compile Include="Consumers\IProjector.cs" />
+    <Compile Include="Projectors\IProjector.cs" />
+    <Compile Include="Projectors\ITabOpenedProjector.cs" />
     <Compile Include="Consumers\TabOpenedConsumer.cs" />
+    <Compile Include="Projectors\TabOpenedProjector.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="MessageBusEndpointConfiguration.cs" />
     <Compile Include="Program.cs" />
