@@ -21,7 +21,21 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
 
         public void Insert(OpenTab openTab)
         {
-            throw new System.NotImplementedException();
+            using (var session = SessionFactory.OpenSession())
+            {
+                // TODO: all this UnitOfWork needs to move out of here - change tests to support this.
+                using (var unitOfWork = new NHibernateUnitOfWork(session))
+                {
+                    unitOfWork.Start();
+                    UnitOfWork = unitOfWork;
+                    Save(new Serialized.OpenTab
+                    {
+                        Id = openTab.Id,
+                        Data = JsonConvert.SerializeObject(openTab)
+                    });
+                    unitOfWork.Commit();
+                }
+            }
         }
 
         private OpenTab Map(Serialized.OpenTab openTab)
