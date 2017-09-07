@@ -19,6 +19,11 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
             return GetAll().Select(Map);
         }
 
+        public void Insert(OpenTab openTab)
+        {
+            throw new System.NotImplementedException();
+        }
+
         private OpenTab Map(Serialized.OpenTab openTab)
         {
             return JsonConvert.DeserializeObject<OpenTab>(openTab.Data);
