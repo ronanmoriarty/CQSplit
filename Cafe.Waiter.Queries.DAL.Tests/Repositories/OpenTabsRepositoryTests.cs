@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
 {
     [TestFixture]
-    public class OpenTabsProviderTests
+    public class OpenTabsRepositoryTests
     {
         private readonly Guid _id = new Guid("82EBC82F-72EE-42D8-9565-49B0E1844C86");
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProviderFactory.Instance);
