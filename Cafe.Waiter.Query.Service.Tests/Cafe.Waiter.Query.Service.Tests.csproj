@@ -112,6 +112,14 @@
       <Project>{D9A17521-4B50-403C-8A7F-D9F82051049B}</Project>
       <Name>CQRSTutorial.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj">
+      <Project>{9381DFC5-0185-49CB-92B6-1D80A8911E87}</Project>
+      <Name>CQRSTutorial.DAL.Tests.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
+      <Project>{92221377-F43D-4C30-9A94-9E5E8FB0C969}</Project>
+      <Name>CQRSTutorial.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Infrastructure\CQRSTutorial.Infrastructure.csproj">
       <Project>{6D6C34D5-5AE9-41E5-B55A-B47552F83BC9}</Project>
       <Name>CQRSTutorial.Infrastructure</Name>
