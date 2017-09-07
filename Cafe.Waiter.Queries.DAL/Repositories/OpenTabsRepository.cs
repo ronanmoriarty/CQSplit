@@ -28,7 +28,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
                 {
                     unitOfWork.Start();
                     UnitOfWork = unitOfWork;
-                    Save(new Serialized.OpenTab
+                    SaveOrUpdate(new Serialized.OpenTab
                     {
                         Id = openTab.Id,
                         Data = JsonConvert.SerializeObject(openTab)

@@ -37,6 +37,15 @@ namespace Cafe.Waiter.Query.Service.Tests.Projectors
             AssertThatOpenTabInserted();
         }
 
+        [Test]
+        public void Projecting_an_event_that_already_exists_does_not_cause_a_primary_key_violation()
+        {
+            WhenTabOpenedEventReceived();
+            WhenTabOpenedEventReceived();
+
+            AssertThatOpenTabInserted();
+        }
+
         private void WhenTabOpenedEventReceived()
         {
             _tabOpenedProjector.Project(CreateTabOpenedEvent());
