@@ -46,14 +46,6 @@
     <Compile Include="Commands\IOpenTabCommand.cs" />
     <Compile Include="Commands\IPlaceOrderCommand.cs" />
     <Compile Include="Commands\OrderedItem.cs" />
-    <Compile Include="Events\IDrinksNotOutstanding.cs" />
-    <Compile Include="Events\IDrinksOrdered.cs" />
-    <Compile Include="Events\IDrinksServed.cs" />
-    <Compile Include="Events\IFoodNotOutstanding.cs" />
-    <Compile Include="Events\IFoodOrdered.cs" />
-    <Compile Include="Events\IFoodServed.cs" />
-    <Compile Include="Events\ITabClosed.cs" />
-    <Compile Include="Events\ITabOpened.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\IOpenTabsQuery.cs" />
     <Compile Include="QueryResponses\IOpenTabsQueryResponse.cs" />
