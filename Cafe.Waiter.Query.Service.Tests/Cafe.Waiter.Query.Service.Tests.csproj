@@ -85,7 +85,7 @@
     <Compile Include="Consumers\TabOpenedConsumerTests.cs" />
     <Compile Include="ContainerTests.cs" />
     <Compile Include="MessageBusEndpointConfigurationTests.cs" />
-    <Compile Include="Projectors\TabOpenedProjectorTests.cs" />
+    <Compile Include="Projectors\TabOpenedConsumerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReceiveEndpointMappingFactoryTests.cs" />
     <Compile Include="RunOncePerTestRun.cs" />

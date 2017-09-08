@@ -1,23 +1,26 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Cafe.Domain.Events;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.NHibernate;
 using Cafe.Waiter.Queries.DAL.Repositories;
-using Cafe.Waiter.Query.Service.Projectors;
+using Cafe.Waiter.Query.Service.Consumers;
 using CQRSTutorial.DAL.Tests.Common;
+using MassTransit;
 using Newtonsoft.Json;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Query.Service.Tests.Projectors
 {
     [TestFixture]
-    public class TabOpenedProjectorTests
+    public class TabOpenedConsumerTests
     {
-        private TabOpenedProjector _tabOpenedProjector;
+        private TabOpenedConsumer _tabOpenedConsumer;
         private readonly Guid _id = new Guid("6E7B25E5-5B4F-4C08-9147-8DAF69E3FCE2");
         private readonly int _tableNumber = 654;
-        private string _waiter = "Jim";
+        private readonly string _waiter = "Jim";
         private OpenTabsRepository _openTabsRepository;
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProviderFactory.Instance);
 
@@ -26,29 +29,31 @@ namespace Cafe.Waiter.Query.Service.Tests.Projectors
         {
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
             _openTabsRepository = new OpenTabsRepository(ReadModelSessionFactory.Instance);
-            _tabOpenedProjector = Container.Instance.Resolve<TabOpenedProjector>();
+            _tabOpenedConsumer = Container.Instance.Resolve<TabOpenedConsumer>();
         }
 
         [Test]
-        public void Projects_event_to_OpenTab_ReadModel()
+        public async Task TabOpened_event_projected_to_an_OpenTab()
         {
-            WhenTabOpenedEventReceived();
+            await WhenTabOpenedEventReceived();
 
             AssertThatOpenTabInserted();
         }
 
         [Test]
-        public void Projecting_an_event_that_already_exists_does_not_cause_a_primary_key_violation()
+        public async Task Same_event_can_be_received_more_than_once()
         {
-            WhenTabOpenedEventReceived();
-            WhenTabOpenedEventReceived();
+            await WhenTabOpenedEventReceived();
+            await WhenTabOpenedEventReceived();
 
             AssertThatOpenTabInserted();
         }
 
-        private void WhenTabOpenedEventReceived()
+        private async Task WhenTabOpenedEventReceived()
         {
-            _tabOpenedProjector.Project(CreateTabOpenedEvent());
+            var eventMessage = Substitute.For<ConsumeContext<TabOpened>>();
+            eventMessage.Message.Returns(CreateTabOpenedEvent());
+            await _tabOpenedConsumer.Consume(eventMessage);
         }
 
         private TabOpened CreateTabOpenedEvent()
