@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cafe.Waiter.Contracts.Commands;
-using Cafe.Waiter.Domain.Events;
+using Cafe.Waiter.Events;
 using CQRSTutorial.Core;
 using log4net;
 

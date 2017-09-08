@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Cafe.Waiter.Contracts.Commands;
 using CQRSTutorial.Core;
 
-namespace Cafe.Waiter.Domain.Events
+namespace Cafe.Waiter.Events
 {
-    public class FoodOrdered : IEvent
+    public class DrinksOrdered : IEvent
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }

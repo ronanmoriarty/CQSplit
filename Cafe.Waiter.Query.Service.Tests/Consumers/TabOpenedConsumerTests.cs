@@ -4,7 +4,7 @@ using Cafe.Waiter.Query.Service.Consumers;
 using MassTransit;
 using System;
 using System.Threading.Tasks;
-using Cafe.Waiter.Domain.Events;
+using Cafe.Waiter.Events;
 using Cafe.Waiter.Query.Service.Projectors;
 
 namespace Cafe.Waiter.Query.Service.Tests.Consumers

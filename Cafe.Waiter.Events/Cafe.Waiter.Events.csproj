@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cafe.Waiter.Events</RootNamespace>
     <AssemblyName>Cafe.Waiter.Events</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,7 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DrinksNotOutstanding.cs" />
+    <Compile Include="DrinksOrdered.cs" />
+    <Compile Include="DrinksServed.cs" />
+    <Compile Include="FoodNotOutstanding.cs" />
+    <Compile Include="FoodOrdered.cs" />
+    <Compile Include="FoodServed.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TabClosed.cs" />
+    <Compile Include="TabOpened.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj">
+      <Project>{2d4c28bd-d280-40f7-a1b5-d3f0e0f2bbac}</Project>
+      <Name>Cafe.Waiter.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
+      <Project>{d9a17521-4b50-403c-8a7f-d9f82051049b}</Project>
+      <Name>CQRSTutorial.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

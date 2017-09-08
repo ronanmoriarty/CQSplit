@@ -112,6 +112,10 @@
       <Project>{CB20D510-0CC5-4FBA-9B6F-EC7C32F3B62E}</Project>
       <Name>Cafe.Waiter.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cafe.Waiter.Events\Cafe.Waiter.Events.csproj">
+      <Project>{A779393D-834E-4C7C-BFA8-FF81CB5BB4FD}</Project>
+      <Name>Cafe.Waiter.Events</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CQRS.Publisher\CQRSTutorial.Publisher.csproj">
       <Project>{16b09e97-f528-4225-871d-ced500f9d659}</Project>
       <Name>CQRSTutorial.Publisher</Name>

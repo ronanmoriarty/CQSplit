@@ -50,15 +50,7 @@
     <Compile Include="Commands\MarkFoodServedCommand.cs" />
     <Compile Include="Commands\OpenTabCommand.cs" />
     <Compile Include="Commands\PlaceOrderCommand.cs" />
-    <Compile Include="Events\DrinksOrdered.cs" />
-    <Compile Include="Events\DrinksServed.cs" />
-    <Compile Include="Events\FoodOrdered.cs" />
-    <Compile Include="Events\FoodServed.cs" />
-    <Compile Include="Events\TabClosed.cs" />
-    <Compile Include="Events\DrinksNotOutstanding.cs" />
-    <Compile Include="Events\FoodNotOutstanding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Events\TabOpened.cs" />
     <Compile Include="Tab.cs" />
     <Compile Include="OpenTabCommandHandler.cs" />
     <Compile Include="TypeExtensions.cs" />
@@ -67,6 +59,10 @@
     <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj">
       <Project>{2d4c28bd-d280-40f7-a1b5-d3f0e0f2bbac}</Project>
       <Name>Cafe.Waiter.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cafe.Waiter.Events\Cafe.Waiter.Events.csproj">
+      <Project>{a779393d-834e-4c7c-bfa8-ff81cb5bb4fd}</Project>
+      <Name>Cafe.Waiter.Events</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
       <Project>{d9a17521-4b50-403c-8a7f-d9f82051049b}</Project>

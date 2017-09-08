@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using CQRSTutorial.Core;
 
-namespace Cafe.Waiter.Domain.Events
+namespace Cafe.Waiter.Events
 {
-    public class DrinksServed : IEvent
+    public class TabClosed : IEvent
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
         public Guid CommandId { get; set; }
 
-        public List<int> MenuNumbers;
+        public decimal AmountPaid;
+        public decimal OrderValue;
+        public decimal TipValue;
     }
 }

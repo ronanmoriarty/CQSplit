@@ -4,7 +4,7 @@ using Cafe.Waiter.Contracts;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Domain;
 using Cafe.Waiter.Domain.Commands;
-using Cafe.Waiter.Domain.Events;
+using Cafe.Waiter.Events;
 using NUnit.Framework;
 
 namespace Cafe.Domain.Tests

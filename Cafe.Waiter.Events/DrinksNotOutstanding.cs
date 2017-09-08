@@ -1,9 +1,9 @@
 ﻿using System;
 using CQRSTutorial.Core;
 
-namespace Cafe.Waiter.Domain.Events
+namespace Cafe.Waiter.Events
 {
-    public class FoodNotOutstanding : IEvent
+    public class DrinksNotOutstanding : IEvent
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }

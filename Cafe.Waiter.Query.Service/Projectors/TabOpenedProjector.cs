@@ -1,4 +1,4 @@
-﻿using Cafe.Waiter.Domain.Events;
+﻿using Cafe.Waiter.Events;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 
