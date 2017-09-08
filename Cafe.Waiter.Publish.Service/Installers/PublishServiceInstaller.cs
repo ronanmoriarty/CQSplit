@@ -21,13 +21,13 @@ namespace Cafe.Waiter.Publish.Service.Installers
             const string publishQueuedMessages = "publishQueuedMessages";
             var connectionStringProviderFactory = WriteModelConnectionStringProviderFactory.Instance;
             container.Register(
-                Classes
-                    .FromAssemblyContaining<PublishService>()
-                    .InSameNamespaceAs<PublishService>()
-                    .Unless(type => type == typeof(OutboxToMessageQueuePublisher))
-                    .WithService
-                        .Self()
-                        .WithServiceDefaultInterfaces()
+                Component
+                    .For<PublishService>()
+                    .ImplementedBy<PublishService>()
+                    .LifestyleTransient(),
+                Component
+                    .For<IOutboxToMessageQueuePublisherConfiguration>()
+                    .ImplementedBy<OutboxToMessageQueuePublisherConfiguration>()
                     .LifestyleTransient(),
                 Classes
                     .FromAssemblyContaining<EventToPublishRepository>()

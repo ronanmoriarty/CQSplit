@@ -38,6 +38,21 @@
       <HintPath>..\packages\Castle.Windsor.4.0.0\lib\net45\Castle.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute, Version=2.0.3.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\NSubstitute.2.0.3\lib\net45\NSubstitute.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -54,6 +69,7 @@
   <ItemGroup>
     <Compile Include="ContainerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublishServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -67,6 +83,22 @@
     <ProjectReference Include="..\CQRS.Publisher\CQRSTutorial.Publisher.csproj">
       <Project>{16b09e97-f528-4225-871d-ced500f9d659}</Project>
       <Name>CQRSTutorial.Publisher</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
+      <Project>{D9A17521-4B50-403C-8A7F-D9F82051049B}</Project>
+      <Name>CQRSTutorial.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj">
+      <Project>{9381DFC5-0185-49CB-92B6-1D80A8911E87}</Project>
+      <Name>CQRSTutorial.DAL.Tests.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
+      <Project>{92221377-F43D-4C30-9A94-9E5E8FB0C969}</Project>
+      <Name>CQRSTutorial.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.Tests.Common\CQRSTutorial.Tests.Common.csproj">
+      <Project>{0F8C4EC3-415F-4571-BCB9-8BB224A63E90}</Project>
+      <Name>CQRSTutorial.Tests.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

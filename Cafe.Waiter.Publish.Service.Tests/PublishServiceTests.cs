@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using CQRSTutorial.DAL;
-using CQRSTutorial.DAL.Tests;
 using CQRSTutorial.DAL.Tests.Common;
+using CQRSTutorial.Publisher;
 using CQRSTutorial.Tests.Common;
 using log4net;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace CQRSTutorial.Publisher.Tests
+namespace Cafe.Waiter.Publish.Service.Tests
 {
     [TestFixture, Ignore("Very flaky - need to revisit how we test this")] // TODO: write more reliable tests that don't get tripped up by other tests.
     public class PublishServiceTests

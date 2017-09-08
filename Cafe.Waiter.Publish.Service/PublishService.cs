@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Data.SqlClient;
 using CQRSTutorial.DAL;
+using CQRSTutorial.Publisher;
 using log4net;
 
-namespace CQRSTutorial.Publisher
+namespace Cafe.Waiter.Publish.Service
 {
     public class PublishService : IDisposable
     {

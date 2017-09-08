@@ -88,7 +88,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PublishServiceTests.cs" />
     <Compile Include="OutboxToMessageQueuePublisherTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RunOncePerTestRun.cs" />

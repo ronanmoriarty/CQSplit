@@ -1,5 +1,4 @@
-﻿using CQRSTutorial.Publisher;
-using Topshelf;
+﻿using Topshelf;
 
 namespace Cafe.Waiter.Publish.Service
 {
