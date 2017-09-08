@@ -24,6 +24,7 @@ namespace Cafe.Waiter.Publish.Service
 
         public void Start()
         {
+            _outboxToMessageQueuePublisher.PublishQueuedMessages(); // OnChange() not always firing. Short term hack! TODO: remove this later
             var connectionString = GetConnectionString();
             _connection = new SqlConnection(connectionString);
             var command = new SqlCommand("SELECT Id, EventType, Data, Created FROM dbo.EventsToPublish", _connection)
