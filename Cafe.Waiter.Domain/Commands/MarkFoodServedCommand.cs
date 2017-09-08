@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Cafe.Waiter.Contracts.Commands;
 
-namespace Cafe.Domain.Commands
+namespace Cafe.Waiter.Domain.Commands
 {
-    public class PlaceOrderCommand : IPlaceOrderCommand
+    public class MarkFoodServedCommand : IMarkFoodServedCommand
     {
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
-        public List<OrderedItem> Items { get; set; }
+        public List<int> MenuNumbers { get; set; }
     }
 }

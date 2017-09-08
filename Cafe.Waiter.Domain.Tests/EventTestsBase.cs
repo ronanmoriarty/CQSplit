@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cafe.Waiter.Domain;
 using CQRSTutorial.Core;
 using KellermanSoftware.CompareNetObjects;
 using NSubstitute;

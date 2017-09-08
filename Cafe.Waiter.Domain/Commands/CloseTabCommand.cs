@@ -1,7 +1,7 @@
 ﻿using System;
 using Cafe.Waiter.Contracts.Commands;
 
-namespace Cafe.Domain.Commands
+namespace Cafe.Waiter.Domain.Commands
 {
     public class CloseTabCommand : ICloseTabCommand
     {

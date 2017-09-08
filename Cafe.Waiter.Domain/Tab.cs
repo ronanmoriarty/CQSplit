@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cafe.Domain.Events;
 using Cafe.Waiter.Contracts.Commands;
+using Cafe.Waiter.Domain.Events;
 using CQRSTutorial.Core;
 using log4net;
 
-namespace Cafe.Domain
+namespace Cafe.Waiter.Domain
 {
     public class Tab : Aggregate,
         ICommandHandler<IPlaceOrderCommand>

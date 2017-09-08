@@ -1,4 +1,4 @@
-﻿using Cafe.Domain.Events;
+﻿using Cafe.Waiter.Domain.Events;
 
 namespace Cafe.Waiter.Query.Service.Projectors
 {

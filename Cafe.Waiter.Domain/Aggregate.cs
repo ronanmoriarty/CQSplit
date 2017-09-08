@@ -1,7 +1,7 @@
 using System;
 using CQRSTutorial.Core;
 
-namespace Cafe.Domain
+namespace Cafe.Waiter.Domain
 {
     public abstract class Aggregate
     {

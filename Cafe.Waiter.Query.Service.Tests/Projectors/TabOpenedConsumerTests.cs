@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Cafe.Domain.Events;
+using Cafe.Waiter.Domain.Events;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.NHibernate;

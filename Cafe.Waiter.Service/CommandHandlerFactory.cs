@@ -1,4 +1,4 @@
-﻿using Cafe.Domain;
+﻿using Cafe.Waiter.Domain;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using NHibernate.Util;

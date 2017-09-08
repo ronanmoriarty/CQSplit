@@ -1,5 +1,6 @@
-﻿using Cafe.Domain.Commands;
-using Cafe.Domain.Events;
+﻿using Cafe.Waiter.Domain;
+using Cafe.Waiter.Domain.Commands;
+using Cafe.Waiter.Domain.Events;
 using NUnit.Framework;
 
 namespace Cafe.Domain.Tests

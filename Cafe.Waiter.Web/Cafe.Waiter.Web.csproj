@@ -308,13 +308,13 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cafe.Domain\Cafe.Domain.csproj">
-      <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
-      <Name>Cafe.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj">
       <Project>{2d4c28bd-d280-40f7-a1b5-d3f0e0f2bbac}</Project>
       <Name>Cafe.Waiter.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj">
+      <Project>{CB20D510-0CC5-4FBA-9B6F-EC7C32F3B62E}</Project>
+      <Name>Cafe.Waiter.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Queries.DAL\Cafe.Waiter.Queries.DAL.csproj">
       <Project>{aa60ee59-5d0f-4972-a2c0-b648d5088263}</Project>

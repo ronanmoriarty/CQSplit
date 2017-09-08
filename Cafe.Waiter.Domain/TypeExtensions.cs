@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using CQRSTutorial.Core;
 
-namespace Cafe.Domain
+namespace Cafe.Waiter.Domain
 {
     public static class TypeExtensions
     {

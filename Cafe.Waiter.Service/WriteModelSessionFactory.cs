@@ -1,4 +1,4 @@
-using Cafe.Domain.Events;
+using Cafe.Waiter.Domain.Events;
 using CQRSTutorial.DAL;
 using FluentNHibernate.Automapping;
 using NHibernate;

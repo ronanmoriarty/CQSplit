@@ -91,9 +91,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cafe.Domain\Cafe.Domain.csproj">
-      <Project>{CB20D510-0CC5-4FBA-9B6F-EC7C32F3B62E}</Project>
-      <Name>Cafe.Domain</Name>
+    <ProjectReference Include="..\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj">
+      <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
+      <Name>Cafe.Waiter.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Service\Cafe.Waiter.Service.csproj">
       <Project>{5b5cd546-4344-4600-b424-637d2ca4d8ca}</Project>

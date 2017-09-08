@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection;
-using Cafe.Domain;
-using Cafe.Domain.Events;
+using Cafe.Waiter.Domain;
+using Cafe.Waiter.Domain.Events;
 using Cafe.Waiter.Service.Consumers;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
