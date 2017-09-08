@@ -96,10 +96,6 @@
       <Project>{2D4C28BD-D280-40F7-A1B5-D3F0E0F2BBAC}</Project>
       <Name>Cafe.Waiter.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj">
-      <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
-      <Name>Cafe.Waiter.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Events\Cafe.Waiter.Events.csproj">
       <Project>{A779393D-834E-4C7C-BFA8-FF81CB5BB4FD}</Project>
       <Name>Cafe.Waiter.Events</Name>
