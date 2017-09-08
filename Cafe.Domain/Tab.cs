@@ -8,7 +8,15 @@ using log4net;
 
 namespace Cafe.Domain
 {
-    public class Tab : Aggregate, ITab
+    public class Tab : Aggregate,
+        ICommandHandler<IPlaceOrderCommand>
+        , ICommandHandler<IMarkDrinksServedCommand>
+        , ICommandHandler<IMarkFoodServedCommand>
+        , ICommandHandler<ICloseTabCommand>
+        , IApplyEvent<DrinksOrdered>
+        , IApplyEvent<DrinksServed>
+        , IApplyEvent<FoodOrdered>
+        , IApplyEvent<FoodServed>
     {
         private readonly List<OrderedItem> _drinksAwaitingServing = new List<OrderedItem>();
         private readonly List<OrderedItem> _foodAwaitingServing = new List<OrderedItem>();
