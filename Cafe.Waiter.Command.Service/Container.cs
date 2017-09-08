@@ -1,6 +1,6 @@
 ﻿using Castle.Windsor;
 
-namespace Cafe.Waiter.Service
+namespace Cafe.Waiter.Command.Service
 {
     public static class Container
     {

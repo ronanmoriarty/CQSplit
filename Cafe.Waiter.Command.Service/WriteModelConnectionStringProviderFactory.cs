@@ -1,6 +1,6 @@
 using CQRSTutorial.DAL;
 
-namespace Cafe.Waiter.Service
+namespace Cafe.Waiter.Command.Service
 {
     public static class WriteModelConnectionStringProviderFactory
     {

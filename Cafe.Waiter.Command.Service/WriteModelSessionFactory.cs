@@ -3,7 +3,7 @@ using CQRSTutorial.DAL;
 using FluentNHibernate.Automapping;
 using NHibernate;
 
-namespace Cafe.Waiter.Service
+namespace Cafe.Waiter.Command.Service
 {
     public class WriteModelSessionFactory
     {

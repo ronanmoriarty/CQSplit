@@ -112,10 +112,6 @@
       <Project>{aa60ee59-5d0f-4972-a2c0-b648d5088263}</Project>
       <Name>Cafe.Waiter.Queries.DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cafe.Waiter.Service\Cafe.Waiter.Service.csproj">
-      <Project>{5B5CD546-4344-4600-B424-637D2CA4D8CA}</Project>
-      <Name>Cafe.Waiter.Service</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
       <Project>{D9A17521-4B50-403C-8A7F-D9F82051049B}</Project>
       <Name>CQRSTutorial.Core</Name>

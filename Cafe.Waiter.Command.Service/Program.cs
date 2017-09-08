@@ -1,6 +1,6 @@
 ﻿using Topshelf;
 
-namespace Cafe.Waiter.Service
+namespace Cafe.Waiter.Command.Service
 {
     class Program
     {

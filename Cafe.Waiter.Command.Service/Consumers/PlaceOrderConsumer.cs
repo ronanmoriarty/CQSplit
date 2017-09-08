@@ -4,7 +4,7 @@ using Cafe.Waiter.Contracts.Commands;
 using log4net;
 using MassTransit;
 
-namespace Cafe.Waiter.Service.Consumers
+namespace Cafe.Waiter.Command.Service.Consumers
 {
     public class PlaceOrderConsumer : IConsumer<IPlaceOrderCommand>
     {

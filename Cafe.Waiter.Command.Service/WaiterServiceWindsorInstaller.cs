@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Reflection;
+using Cafe.Waiter.Command.Service.Consumers;
 using Cafe.Waiter.Domain;
 using Cafe.Waiter.Events;
-using Cafe.Waiter.Service.Consumers;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
@@ -12,7 +12,7 @@ using CQRSTutorial.DAL;
 using CQRSTutorial.Infrastructure;
 using NHibernate;
 
-namespace Cafe.Waiter.Service
+namespace Cafe.Waiter.Command.Service
 {
     public class WaiterServiceWindsorInstaller : IWindsorInstaller
     {
