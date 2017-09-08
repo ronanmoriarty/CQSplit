@@ -18,8 +18,8 @@ namespace Cafe.Waiter.Command.Service
                 });
                 x.RunAsLocalSystem();
 
-                x.SetDisplayName("CQRSTutorial Waiter Service");
-                x.SetServiceName("cqrstutorial-waiter-service");
+                x.SetDisplayName("CQRSTutorial Waiter Command Service");
+                x.SetServiceName("cqrstutorial-waiter-command-service");
                 x.SetDescription("Service to handle waiter commands");
             });
         }
