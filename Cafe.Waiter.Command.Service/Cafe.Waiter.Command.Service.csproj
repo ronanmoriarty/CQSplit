@@ -108,7 +108,7 @@
     <Compile Include="Consumers\PlaceOrderConsumer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WaiterService.cs" />
+    <Compile Include="WaiterCommandService.cs" />
     <Compile Include="WaiterServiceWindsorInstaller.cs" />
     <Compile Include="WriteModelConnectionStringProviderFactory.cs" />
     <Compile Include="WriteModelSessionFactory.cs" />

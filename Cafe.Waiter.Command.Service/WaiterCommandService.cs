@@ -3,12 +3,12 @@ using MassTransit;
 
 namespace Cafe.Waiter.Command.Service
 {
-    public class WaiterService
+    public class WaiterCommandService
     {
         private readonly IMessageBusFactory _messageBusFactory;
         private IBusControl _busControl;
 
-        public WaiterService(IMessageBusFactory messageBusFactory)
+        public WaiterCommandService(IMessageBusFactory messageBusFactory)
         {
             _messageBusFactory = messageBusFactory;
         }

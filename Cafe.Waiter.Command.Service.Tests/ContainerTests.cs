@@ -14,7 +14,7 @@ namespace Cafe.Waiter.Command.Service.Tests
         [Test]
         public void Can_resolve_WaiterCommandService()
         {
-            var waiterService = Container.Instance.Resolve<WaiterService>();
+            var waiterService = Container.Instance.Resolve<WaiterCommandService>();
 
             Assert.That(waiterService, Is.Not.Null);
         }

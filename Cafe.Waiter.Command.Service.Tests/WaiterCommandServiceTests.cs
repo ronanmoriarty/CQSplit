@@ -8,7 +8,7 @@ namespace Cafe.Waiter.Command.Service.Tests
     [TestFixture]
     public class WaiterCommandServiceTests
     {
-        private WaiterService _waiterService;
+        private WaiterCommandService _waiterCommandService;
         private IMessageBusFactory _messageBusFactory;
         private IBusControl _busControl;
 
@@ -18,13 +18,13 @@ namespace Cafe.Waiter.Command.Service.Tests
             _busControl = Substitute.For<IBusControl>();
             _messageBusFactory = Substitute.For<IMessageBusFactory>();
             _messageBusFactory.Create().Returns(_busControl);
-            _waiterService = new WaiterService(_messageBusFactory);
+            _waiterCommandService = new WaiterCommandService(_messageBusFactory);
         }
 
         [Test]
         public void Starting_waiter_service_starts_the_bus()
         {
-            _waiterService.Start();
+            _waiterCommandService.Start();
 
             _busControl.Received(1).Start();
         }
@@ -32,8 +32,8 @@ namespace Cafe.Waiter.Command.Service.Tests
         [Test]
         public void Stopping_waiter_service_stops_the_bus()
         {
-            _waiterService.Start();
-            _waiterService.Stop();
+            _waiterCommandService.Start();
+            _waiterCommandService.Stop();
 
             _busControl.Received(1).Stop();
         }
