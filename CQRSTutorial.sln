@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Domain", "Cafe.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Domain.Tests", "Cafe.Waiter.Domain.Tests\Cafe.Waiter.Domain.Tests.csproj", "{0CA8051B-D97B-4F85-8BD3-EE74107D8A44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Events", "Cafe.Waiter.Events\Cafe.Waiter.Events.csproj", "{A779393D-834E-4C7C-BFA8-FF81CB5BB4FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -151,6 +153,10 @@ Global
 		{0CA8051B-D97B-4F85-8BD3-EE74107D8A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CA8051B-D97B-4F85-8BD3-EE74107D8A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CA8051B-D97B-4F85-8BD3-EE74107D8A44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A779393D-834E-4C7C-BFA8-FF81CB5BB4FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A779393D-834E-4C7C-BFA8-FF81CB5BB4FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A779393D-834E-4C7C-BFA8-FF81CB5BB4FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A779393D-834E-4C7C-BFA8-FF81CB5BB4FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,6 +185,7 @@ Global
 		{0B8C1721-83CE-49E8-BF1C-16EA613E487E} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 		{CB20D510-0CC5-4FBA-9B6F-EC7C32F3B62E} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 		{0CA8051B-D97B-4F85-8BD3-EE74107D8A44} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
+		{A779393D-834E-4C7C-BFA8-FF81CB5BB4FD} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82CC2E35-6545-4F3F-A883-30477B81350D}
