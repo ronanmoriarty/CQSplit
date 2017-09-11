@@ -10,22 +10,26 @@ namespace Cafe.Waiter.Publish.Service
     {
         private readonly IConnectionStringProviderFactory _connectionStringProviderFactory;
         private readonly IOutboxToMessageQueuePublisher _outboxToMessageQueuePublisher;
+        private readonly IOutboxToMessageQueuePublisherConfiguration _outboxToMessageQueuePublisherConfiguration;
         private SqlConnection _connection;
         private SqlDependency _sqlDependency;
         private bool _subscribedToOnChangeEvent;
         private readonly ILog _logger = LogManager.GetLogger(typeof(PublishService));
 
         public PublishService(IConnectionStringProviderFactory connectionStringProviderFactory,
-            IOutboxToMessageQueuePublisher outboxToMessageQueuePublisher)
+            IOutboxToMessageQueuePublisher outboxToMessageQueuePublisher,
+            IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration)
         {
             _connectionStringProviderFactory = connectionStringProviderFactory;
             _outboxToMessageQueuePublisher = outboxToMessageQueuePublisher;
+            _outboxToMessageQueuePublisherConfiguration = outboxToMessageQueuePublisherConfiguration;
         }
 
         public void Start()
         {
-            _outboxToMessageQueuePublisher.PublishQueuedMessages(); // OnChange() not always firing. Short term hack! TODO: remove this later
             var connectionString = GetConnectionString();
+            SqlDependency.Start(connectionString, _outboxToMessageQueuePublisherConfiguration.QueueName);
+            _outboxToMessageQueuePublisher.PublishQueuedMessages(); // OnChange() not always firing. Short term hack! TODO: remove this later
             _connection = new SqlConnection(connectionString);
             var command = new SqlCommand("SELECT Id, EventType, Data, Created FROM dbo.EventsToPublish", _connection)
             {
@@ -45,12 +49,19 @@ namespace Cafe.Waiter.Publish.Service
 
         public void Stop()
         {
-            if (_subscribedToOnChangeEvent)
+            try
             {
-                _sqlDependency.OnChange -= OnChange;
-                _subscribedToOnChangeEvent = false;
+                if (_subscribedToOnChangeEvent)
+                {
+                    _sqlDependency.OnChange -= OnChange;
+                    _subscribedToOnChangeEvent = false;
+                }
+                _connection?.Dispose();
             }
-            _connection?.Dispose();
+            finally
+            {
+                SqlDependency.Stop(GetConnectionString(), _outboxToMessageQueuePublisherConfiguration.QueueName);
+            }
         }
 
         private string GetConnectionString()

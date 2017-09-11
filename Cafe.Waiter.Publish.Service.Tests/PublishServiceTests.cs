@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Threading;
 using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Tests.Common;
@@ -22,17 +21,7 @@ namespace Cafe.Waiter.Publish.Service.Tests
         private readonly ManualResetEvent _manualResetEvent = new ManualResetEvent(false);
         private int _numberOfNotificationsReceived;
         private PublishService _publishService;
-        private OutboxToMessageQueuePublisherConfiguration _outboxToMessageQueuePublisherConfiguration;
-        private string _connectionString;
         private readonly ILog _logger = LogManager.GetLogger(typeof(PublishServiceTests));
-
-        [OneTimeSetUp]
-        public void OneTimeSetUp()
-        {
-            _outboxToMessageQueuePublisherConfiguration = new OutboxToMessageQueuePublisherConfiguration();
-            _connectionString = WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider().GetConnectionString();
-            SqlDependency.Start(_connectionString, _outboxToMessageQueuePublisherConfiguration.QueueName);
-        }
 
         [SetUp]
         public void SetUp()
@@ -49,7 +38,7 @@ namespace Cafe.Waiter.Publish.Service.Tests
                         _manualResetEvent.Set();
                     }
             );
-            _publishService = new PublishService(WriteModelConnectionStringProviderFactory.Instance, outboxToMessageQueuePublisher);
+            _publishService = new PublishService(WriteModelConnectionStringProviderFactory.Instance, outboxToMessageQueuePublisher, new OutboxToMessageQueuePublisherConfiguration());
             _publishService.Start();
         }
 
@@ -117,14 +106,13 @@ namespace Cafe.Waiter.Publish.Service.Tests
         [TearDown]
         public void TearDown()
         {
-            _publishService.Stop();
             CleanUp(); // would rather leave these rows here for investigation if tests ever fail, but these records are causing problems for other integration tests.
         }
 
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
-            SqlDependency.Stop(_connectionString, _outboxToMessageQueuePublisherConfiguration.QueueName);
+            _publishService.Stop();
         }
 
         private void CleanUp()
