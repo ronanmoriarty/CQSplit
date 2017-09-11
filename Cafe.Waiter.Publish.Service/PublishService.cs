@@ -27,19 +27,27 @@ namespace Cafe.Waiter.Publish.Service
 
         public void Start()
         {
-            var connectionString = GetConnectionString();
-            SqlDependency.Start(connectionString, _outboxToMessageQueuePublisherConfiguration.QueueName);
-            _outboxToMessageQueuePublisher.PublishQueuedMessages(); // OnChange() not always firing. Short term hack! TODO: remove this later
-            _connection = new SqlConnection(connectionString);
-            var command = new SqlCommand("SELECT Id, EventType, Data, Created FROM dbo.EventsToPublish", _connection)
+            try
             {
-                Notification = null
-            };
-            _sqlDependency = new SqlDependency(command, "SERVICE=EventsToPublishChangeNotifications", int.MaxValue);
-            _sqlDependency.OnChange += OnChange;
-            _subscribedToOnChangeEvent = true;
-            _connection.Open();
-            command.ExecuteReader();
+                var connectionString = GetConnectionString();
+                SqlDependency.Start(connectionString, _outboxToMessageQueuePublisherConfiguration.QueueName);
+                _outboxToMessageQueuePublisher.PublishQueuedMessages(); // OnChange() not always firing. Short term hack! TODO: remove this later
+                _connection = new SqlConnection(connectionString);
+                var command = new SqlCommand("SELECT Id, EventType, Data, Created FROM dbo.EventsToPublish", _connection)
+                {
+                    Notification = null
+                };
+                _sqlDependency = new SqlDependency(command, "SERVICE=EventsToPublishChangeNotifications", int.MaxValue);
+                _sqlDependency.OnChange += OnChange;
+                _subscribedToOnChangeEvent = true;
+                _connection.Open();
+                command.ExecuteReader();
+            }
+            catch (Exception exception)
+            {
+                _logger.Error("Error starting Publish Service", exception);
+                throw;
+            }
         }
 
         public void Dispose()
@@ -57,6 +65,10 @@ namespace Cafe.Waiter.Publish.Service
                     _subscribedToOnChangeEvent = false;
                 }
                 _connection?.Dispose();
+            }
+            catch(Exception exception)
+            {
+                _logger.Error("Error stopping Publish Service", exception);
             }
             finally
             {
