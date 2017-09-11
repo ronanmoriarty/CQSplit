@@ -8,8 +8,6 @@ namespace Cafe.Waiter.Publish.Service.Tests
         [Test]
         public void CanResolvePublishService()
         {
-            Bootstrapper.Start();
-
             var publishService = Container.Instance.Resolve<PublishService>();
             var publishService2 = Container.Instance.Resolve<PublishService>();
 
