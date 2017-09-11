@@ -24,7 +24,7 @@ namespace Cafe.Waiter.Publish.Service.Installers
                 Component
                     .For<PublishService>()
                     .ImplementedBy<PublishService>()
-                    .LifestyleTransient(),
+                    .LifestyleSingleton(),
                 Component
                     .For<IOutboxToMessageQueuePublisherConfiguration>()
                     .ImplementedBy<OutboxToMessageQueuePublisherConfiguration>()
