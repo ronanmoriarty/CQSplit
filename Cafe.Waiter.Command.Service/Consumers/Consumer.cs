@@ -21,7 +21,6 @@ namespace Cafe.Waiter.Command.Service.Consumers
             var text = $"Received command: Type: {typeof(TCommand).Name}; Command Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
             _logger.Debug(text);
 
-            // TODO: can't see how to instantiate a ConsumeContext for unit testing. Will continue to spike this for now.
             _commandDispatcher.Dispatch(context.Message);
         }
     }

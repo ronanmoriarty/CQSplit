@@ -1,20 +1,13 @@
-using System;
-using System.Threading.Tasks;
 using Cafe.Waiter.Contracts.Commands;
-using log4net;
-using MassTransit;
+using CQRSTutorial.Core;
 
 namespace Cafe.Waiter.Command.Service.Consumers
 {
-    public class MarkDrinksServedConsumer : IConsumer<IMarkDrinksServedCommand>
+    public class MarkDrinksServedConsumer : Consumer<IMarkDrinksServedCommand>
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(MarkDrinksServedConsumer));
-
-        public async Task Consume(ConsumeContext<IMarkDrinksServedCommand> context)
+        public MarkDrinksServedConsumer(ICommandDispatcher commandDispatcher)
+            : base(commandDispatcher)
         {
-            var message = $"Received command: Type: {typeof(IOpenTabCommand).Name}; Command Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
-            await Console.Out.WriteLineAsync(message);
-            _logger.Debug(message);
         }
     }
 }

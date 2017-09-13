@@ -78,6 +78,12 @@
   <ItemGroup>
     <Compile Include="CommandHandlerFactoryTests.cs" />
     <Compile Include="ConsumerFactoryTests.cs" />
+    <Compile Include="Consumers\CloseTabConsumerTests.cs" />
+    <Compile Include="Consumers\ConsumerTests.cs" />
+    <Compile Include="Consumers\MarkDrinksServedConsumerTests.cs" />
+    <Compile Include="Consumers\MarkFoodServedConsumerTests.cs" />
+    <Compile Include="Consumers\OpenTabConsumerTests.cs" />
+    <Compile Include="Consumers\PlaceOrderConsumerTests.cs" />
     <Compile Include="ContainerTests.cs" />
     <Compile Include="EventHandlerTests.cs" />
     <Compile Include="MessageBusEndpointConfigurationTests.cs" />
