@@ -10,7 +10,6 @@
 <table class="table">
     <thead>
     <tr>
-        <td>Menu Item</td>
         <td>Name</td>
         <td>Price</td>
         <td>Notes</td>
@@ -18,8 +17,7 @@
     </thead>
     @foreach (var tabItem in Model.Items)
     {
-        <tr class="@(tabItem.IsDrink ? "drink" : "food")">
-            <td>@tabItem.MenuNumber</td>
+        <tr class="@(tabItem.IsDrink ? "drink" : "food")" data-menu-number="@tabItem.MenuNumber">
             <td>@tabItem.Name</td>
             <td>@tabItem.Price</td>
             <td>@tabItem.Notes</td>
