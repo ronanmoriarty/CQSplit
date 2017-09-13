@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cafe.Waiter.Contracts;
+using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Domain;
-using Cafe.Waiter.Domain.Commands;
 using Cafe.Waiter.Events;
 using NUnit.Framework;
 

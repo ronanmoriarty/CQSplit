@@ -73,6 +73,10 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cafe.Waiter.Commands\Cafe.Waiter.Commands.csproj">
+      <Project>{ba00dec3-b944-47e7-8571-145c71dcb0b4}</Project>
+      <Name>Cafe.Waiter.Commands</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj">
       <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
       <Name>Cafe.Waiter.Domain</Name>

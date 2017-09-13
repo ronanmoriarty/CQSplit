@@ -1,5 +1,5 @@
 ﻿using System;
-using Cafe.Waiter.Domain.Commands;
+using Cafe.Waiter.Commands;
 using CQRSTutorial.Core;
 using NUnit.Framework;
 

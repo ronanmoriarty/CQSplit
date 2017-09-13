@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Cafe.Waiter.Contracts.Commands;
 
-namespace Cafe.Waiter.Domain.Commands
+namespace Cafe.Waiter.Commands
 {
     public class MarkDrinksServedCommand : IMarkDrinksServedCommand
     {

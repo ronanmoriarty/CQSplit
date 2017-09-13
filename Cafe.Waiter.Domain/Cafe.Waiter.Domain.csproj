@@ -45,11 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregate.cs" />
-    <Compile Include="Commands\CloseTabCommand.cs" />
-    <Compile Include="Commands\MarkDrinksServedCommand.cs" />
-    <Compile Include="Commands\MarkFoodServedCommand.cs" />
-    <Compile Include="Commands\OpenTabCommand.cs" />
-    <Compile Include="Commands\PlaceOrderCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tab.cs" />
     <Compile Include="OpenTabCommandHandler.cs" />
@@ -71,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

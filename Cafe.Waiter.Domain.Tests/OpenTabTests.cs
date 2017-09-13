@@ -1,5 +1,5 @@
-﻿using Cafe.Waiter.Domain;
-using Cafe.Waiter.Domain.Commands;
+﻿using Cafe.Waiter.Commands;
+using Cafe.Waiter.Domain;
 using Cafe.Waiter.Events;
 using NUnit.Framework;
 
