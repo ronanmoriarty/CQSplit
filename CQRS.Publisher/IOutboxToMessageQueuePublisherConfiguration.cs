@@ -4,5 +4,6 @@
     {
         int BatchSize { get; }
         string QueueName { get; }
+        string QueryToWatch { get; }
     }
 }
