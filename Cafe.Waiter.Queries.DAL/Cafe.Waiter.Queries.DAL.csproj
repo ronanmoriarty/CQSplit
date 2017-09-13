@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\TabStatus.cs" />
     <Compile Include="Repositories\IOpenTabsRepository.cs" />
     <Compile Include="Mapping\OpenTabMapping.cs" />
     <Compile Include="Models\OpenTab.cs" />

@@ -16,6 +16,7 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProviderFactory.Instance);
         private readonly string _waiter = "Louise";
         private readonly int _tableNumber = 654;
+        private readonly TabStatus _tabStatus = TabStatus.OrderPlaced;
         private OpenTabsRepository _openTabsRepository;
 
         [SetUp]
@@ -36,6 +37,7 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             Assert.That(tab, Is.Not.Null);
             Assert.That(tab.Waiter, Is.EqualTo(_waiter));
             Assert.That(tab.TableNumber, Is.EqualTo(_tableNumber));
+            Assert.That(tab.Status, Is.EqualTo(_tabStatus));
         }
 
         private string GetOpenTabJson()
@@ -44,7 +46,8 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             {
                 Id = _id,
                 Waiter = _waiter,
-                TableNumber = _tableNumber
+                TableNumber = _tableNumber,
+                Status = TabStatus.OrderPlaced
             };
 
             return JsonConvert.SerializeObject(openTab);

@@ -13,7 +13,7 @@ namespace Cafe.Waiter.Query.Service.Tests.Consumers
     public class TabOpenedConsumerTests
     {
         private TabOpenedConsumer _tabOpenedConsumer;
-        private Guid _id = new Guid("74A17ECC-0408-4521-9284-71F4D8B460F0");
+        private readonly Guid _id = new Guid("74A17ECC-0408-4521-9284-71F4D8B460F0");
 
         [Test]
         public async Task Consumed_events_get_projected()

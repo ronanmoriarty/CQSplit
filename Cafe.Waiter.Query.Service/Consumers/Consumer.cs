@@ -10,7 +10,7 @@ namespace Cafe.Waiter.Query.Service.Consumers
         where TEvent : class, IEvent
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(Consumer<>));
-        private IProjector<TEvent> _projector;
+        private readonly IProjector<TEvent> _projector;
 
         protected Consumer(IProjector<TEvent> projector)
         {

@@ -37,7 +37,7 @@ namespace Cafe.Waiter.Query.Service.Tests.Projectors
         {
             await WhenTabOpenedEventReceived();
 
-            AssertThatOpenTabInserted();
+            AssertThatOpenTabInsertedWithStatusInitiallySetToSeated();
         }
 
         [Test]
@@ -46,7 +46,7 @@ namespace Cafe.Waiter.Query.Service.Tests.Projectors
             await WhenTabOpenedEventReceived();
             await WhenTabOpenedEventReceived();
 
-            AssertThatOpenTabInserted();
+            AssertThatOpenTabInsertedWithStatusInitiallySetToSeated();
         }
 
         private async Task WhenTabOpenedEventReceived()
@@ -66,13 +66,14 @@ namespace Cafe.Waiter.Query.Service.Tests.Projectors
             };
         }
 
-        private void AssertThatOpenTabInserted()
+        private void AssertThatOpenTabInsertedWithStatusInitiallySetToSeated()
         {
             var serializedOpenTab = _openTabsRepository.Get(_id);
             var retrievedOpenTab = JsonConvert.DeserializeObject<OpenTab>(serializedOpenTab.Data);
             Assert.That(retrievedOpenTab.Id, Is.EqualTo(_id));
             Assert.That(retrievedOpenTab.TableNumber, Is.EqualTo(_tableNumber));
             Assert.That(retrievedOpenTab.Waiter, Is.EqualTo(_waiter));
+            Assert.That(retrievedOpenTab.Status, Is.EqualTo(TabStatus.Seated));
         }
     }
 }

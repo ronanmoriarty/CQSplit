@@ -19,7 +19,8 @@ namespace Cafe.Waiter.Query.Service.Projectors
             {
                 Id = message.Id,
                 TableNumber = message.TableNumber,
-                Waiter = message.Waiter
+                Waiter = message.Waiter,
+                Status = TabStatus.Seated
             });
         }
     }
