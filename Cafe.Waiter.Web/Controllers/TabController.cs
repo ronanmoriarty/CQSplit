@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
+using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.Infrastructure;
 
@@ -42,6 +43,16 @@ namespace Cafe.Waiter.Web.Controllers
                 Waiter = "John",
                 TableNumber = 5
             };
+        }
+
+        public ActionResult Details(Guid tabId)
+        {
+            var tabDetails = new TabDetails
+            {
+                TabId = tabId
+            };
+
+            return View(tabDetails);
         }
     }
 }

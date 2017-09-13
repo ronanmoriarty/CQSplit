@@ -12,6 +12,7 @@
             <td>Table Number</td>
             <td>Waiter</td>
             <td>Status</td>
+            <td></td>
         </tr>
     </thead>
     @foreach (var openTab in Model)
@@ -20,6 +21,7 @@
             <td>@openTab.TableNumber</td>
             <td>@openTab.Waiter</td>
             <td>@openTab.Status</td>
+            <td>@Html.ActionLink("Edit", "Details", new { tabId = openTab.Id })</td>
         </tr>
     }
 </table>
