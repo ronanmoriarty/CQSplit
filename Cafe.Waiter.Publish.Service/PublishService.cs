@@ -37,7 +37,7 @@ namespace Cafe.Waiter.Publish.Service
                 {
                     Notification = null
                 };
-                _sqlDependency = new SqlDependency(command, "SERVICE=EventsToPublishChangeNotifications", int.MaxValue);
+                _sqlDependency = new SqlDependency(command, $"SERVICE={_outboxToMessageQueuePublisherConfiguration.ServiceName}", int.MaxValue);
                 _sqlDependency.OnChange += OnChange;
                 _subscribedToOnChangeEvent = true;
                 _connection.Open();
