@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Threading;
-using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Publisher;
 using CQRSTutorial.Tests.Common;
 using log4net;
+using Newtonsoft.Json;
 using NSubstitute;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Publish.Service.Tests
 {
-    [TestFixture, Ignore("Very flaky - need to revisit how we test this")] // TODO: write more reliable tests that don't get tripped up by other tests.
+    [TestFixture]
     public class PublishServiceTests
     {
         private readonly Guid _id = new Guid("6893FEEC-548F-4EB2-8306-6396C9BD2522");
         private readonly Guid _aggregateId = new Guid("E6CA5D4D-39EC-4E98-88D5-7444EAECF77E");
         private readonly Guid _commandId = new Guid("B72CF663-713C-4102-808C-955A9CF09E1B");
-        private EventToPublishRepository _eventToPublishRepository;
         private readonly ManualResetEvent _manualResetEvent = new ManualResetEvent(false);
         private int _numberOfNotificationsReceived;
         private PublishService _publishService;
@@ -27,7 +28,6 @@ namespace Cafe.Waiter.Publish.Service.Tests
         public void SetUp()
         {
             CleanUp();
-            _eventToPublishRepository = new EventToPublishRepository(SessionFactory.Instance, new EventToPublishMapper(typeof(TestEvent).Assembly));
             _numberOfNotificationsReceived = 0;
             var outboxToMessageQueuePublisher = Substitute.For<IOutboxToMessageQueuePublisher>();
             outboxToMessageQueuePublisher
@@ -70,7 +70,7 @@ namespace Cafe.Waiter.Publish.Service.Tests
         {
             var ids = new List<Guid>();
             var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
-            sqlExecutor.ExecuteReader("SELECT Id FROM dbo.EventsToPublish", reader => ids.Add(reader.GetGuid(reader.GetOrdinal("Id"))));
+            sqlExecutor.ExecuteReader("SELECT Id FROM dbo.EventsToPublish_PublishServiceTests", reader => ids.Add(reader.GetGuid(reader.GetOrdinal("Id"))));
             foreach (var id in ids)
             {
                 _logger.Debug($"Unexpected id found:{id}");
@@ -91,14 +91,18 @@ namespace Cafe.Waiter.Publish.Service.Tests
 
         private void WhenEventQueuedForPublishing(TestEvent testEvent)
         {
-            using (var session = SessionFactory.Instance.OpenSession())
+            using (var connection = new SqlConnection(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider().GetConnectionString()))
             {
-                using (var unitOfWork = new NHibernateUnitOfWork(session))
+                using (var command = new SqlCommand("INSERT INTO dbo.EventsToPublish_PublishServiceTests(Id, EventType, Data, Created) VALUES(@id, @eventType, @data, @created)", connection))
                 {
-                    unitOfWork.Start();
-                    _eventToPublishRepository.UnitOfWork = unitOfWork;
-                    _eventToPublishRepository.Add(testEvent);
-                    unitOfWork.Commit();
+                    command.Parameters.Add(new SqlParameter("@id", SqlDbType.UniqueIdentifier) { Value = testEvent.Id });
+                    command.Parameters.Add(new SqlParameter("@eventType", SqlDbType.NVarChar, 25) { Value = testEvent.GetType().Name });
+                    command.Parameters.Add(new SqlParameter("@data", SqlDbType.NVarChar) { Value = JsonConvert.SerializeObject(testEvent) });
+                    command.Parameters.Add(new SqlParameter("@created", SqlDbType.DateTime) { Value = DateTime.Now });
+
+                    connection.Open();
+
+                    command.ExecuteNonQuery();
                 }
             }
         }
@@ -106,19 +110,13 @@ namespace Cafe.Waiter.Publish.Service.Tests
         [TearDown]
         public void TearDown()
         {
-            CleanUp(); // would rather leave these rows here for investigation if tests ever fail, but these records are causing problems for other integration tests.
-        }
-
-        [OneTimeTearDown]
-        public void OneTimeTearDown()
-        {
             _publishService.Stop();
         }
 
         private void CleanUp()
         {
             var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
-            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id = '{_id}'");
+            sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish_PublishServiceTests WHERE Id = '{_id}'");
         }
     }
 }

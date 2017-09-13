@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using CQRSTutorial.DAL.Tests.Common;
+using NHibernate;
+using NUnit.Framework;
 
 namespace Cafe.Waiter.Publish.Service.Tests
 {
@@ -9,6 +11,7 @@ namespace Cafe.Waiter.Publish.Service.Tests
         public void OneTimeSetUp()
         {
             Bootstrapper.Start();
+            SessionFactory.Instance = Container.Instance.Resolve<ISessionFactory>();
         }
     }
 }
