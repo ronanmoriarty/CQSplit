@@ -49,13 +49,9 @@ namespace Cafe.Waiter.Web.Controllers
             };
         }
 
-        public ActionResult Details(Guid tabId)
+        public async Task<ActionResult> Details(Guid tabId)
         {
-            var tabDetails = new TabDetails
-            {
-                TabId = tabId
-            };
-
+            var tabDetails = _tabDetailsRepository.Get(tabId);
             return View(tabDetails);
         }
     }
