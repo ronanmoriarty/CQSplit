@@ -17,14 +17,12 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
         private readonly string _waiter = "Louise";
         private readonly int _tableNumber = 654;
         private OpenTabsRepository _openTabsRepository;
-        private readonly Guid _idToInsert = new Guid("E8EE1397-5DCB-4FBB-97F6-7EFEB096A2BF");
 
         [SetUp]
         public void SetUp()
         {
             var openTabJson = GetOpenTabJson();
             _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
-            _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.OpenTabs WHERE Id = '{_idToInsert}'");
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.OpenTabs(Id,Data) VALUES ('{_id}','{openTabJson}')");
             _openTabsRepository = new OpenTabsRepository(ReadModelSessionFactory.Instance);
         }
