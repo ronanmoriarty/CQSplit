@@ -33,7 +33,6 @@ namespace Cafe.Waiter.Publish.Service
                 EnsureCanRequestNotifications();
                 var connectionString = GetConnectionString();
                 SqlDependency.Start(connectionString, _outboxToMessageQueuePublisherConfiguration.QueueName);
-                _outboxToMessageQueuePublisher.PublishQueuedMessages(); // OnChange() not always firing. Short term hack! TODO: remove this later
                 _connection = new SqlConnection(connectionString);
                 var command = new SqlCommand(_outboxToMessageQueuePublisherConfiguration.QueryToWatch, _connection)
                 {
