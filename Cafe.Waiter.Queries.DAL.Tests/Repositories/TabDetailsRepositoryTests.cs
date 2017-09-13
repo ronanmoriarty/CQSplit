@@ -33,9 +33,9 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             var tabDetails = _tabDetailsRepository.GetTabDetails(_id);
 
             Assert.That(tabDetails.TabId, Is.EqualTo(_id));
-            //Assert.That(tabDetails.Waiter, Is.EqualTo(_waiter));
-            //Assert.That(tabDetails.TableNumber, Is.EqualTo(_tableNumber));
-            //Assert.That(tabDetails.Status, Is.EqualTo(_tabStatus));
+            Assert.That(tabDetails.Waiter, Is.EqualTo(_waiter));
+            Assert.That(tabDetails.TableNumber, Is.EqualTo(_tableNumber));
+            Assert.That(tabDetails.Status, Is.EqualTo(_tabStatus));
         }
 
         private string GetTabDetailsJson()
@@ -43,9 +43,9 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             var openTab = new TabDetails
             {
                 TabId = _id,
-                //Waiter = _waiter,
-                //TableNumber = _tableNumber,
-                //Status = TabStatus.OrderPlaced
+                Waiter = _waiter,
+                TableNumber = _tableNumber,
+                Status = TabStatus.OrderPlaced
             };
 
             return JsonConvert.SerializeObject(openTab);
