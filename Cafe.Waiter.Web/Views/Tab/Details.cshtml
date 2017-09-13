@@ -5,4 +5,24 @@
 }
 
 <h2>Tab Details</h2>
-<h4>Tab Id: @Model.Id</h4>
+<h4>Table: @Model.TableNumber</h4>
+<h5>Waiter: @Model.Waiter</h5>
+<table class="table">
+    <thead>
+    <tr>
+        <td>Menu Item</td>
+        <td>Name</td>
+        <td>Price</td>
+        <td>Notes</td>
+    </tr>
+    </thead>
+    @foreach (var tabItem in Model.Items)
+    {
+        <tr>
+            <td>@tabItem.MenuNumber</td>
+            <td>TODO</td>@*TODO: do a lookup for item name*@
+            <td>TODO</td>@*TODO: do a lookup for price*@
+            <td>@tabItem.Notes</td>
+        </tr>
+    }
+</table>
