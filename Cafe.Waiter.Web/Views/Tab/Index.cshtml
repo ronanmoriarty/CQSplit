@@ -6,20 +6,19 @@
 <div class="jumbotron">
     <h1>List of Open Tabs</h1>
 </div>
-<table>
+<table class="table">
     <thead>
-    <tr>
-        <td>Id</td>
-        <td>Waiter</td>
-        <td>TableNumber</td>
-    </tr>
+        <tr>
+            <td>Table Number</td>
+            <td>Waiter</td>
+            <td>Status</td>
+        </tr>
     </thead>
     @foreach (var openTab in Model)
     {
         <tr>
-            <td>@openTab.Id</td>
-            <td>@openTab.Waiter</td>
             <td>@openTab.TableNumber</td>
+            <td>@openTab.Waiter</td>
             <td>@openTab.Status</td>
         </tr>
     }
