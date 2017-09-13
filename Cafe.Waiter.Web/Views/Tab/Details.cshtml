@@ -18,7 +18,7 @@
     </thead>
     @foreach (var tabItem in Model.Items)
     {
-        <tr>
+        <tr class="@(tabItem.IsDrink ? "drink" : "food")">
             <td>@tabItem.MenuNumber</td>
             <td>@tabItem.Name</td>
             <td>@tabItem.Price</td>
@@ -26,3 +26,8 @@
         </tr>
     }
 </table>
+<style>
+    .drink {
+        background-color: khaki
+    }
+</style>
