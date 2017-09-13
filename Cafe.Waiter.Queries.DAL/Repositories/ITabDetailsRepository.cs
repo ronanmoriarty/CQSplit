@@ -5,6 +5,6 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
 {
     public interface ITabDetailsRepository
     {
-        TabDetails Get(Guid id);
+        TabDetails GetTabDetails(Guid id);
     }
 }

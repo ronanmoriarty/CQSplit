@@ -72,6 +72,7 @@
     <Compile Include="Repositories\OpenTabsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NHibernate\ReadModelSessionFactory.cs" />
+    <Compile Include="Serialized\TabDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

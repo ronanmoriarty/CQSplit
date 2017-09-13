@@ -28,7 +28,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
         [Test]
         public void Gets_tab_details_from_repository()
         {
-            _tabDetailsRepository.Get(_id1).Returns(_tabDetails);
+            _tabDetailsRepository.GetTabDetails(_id1).Returns(_tabDetails);
 
             var viewResult = (ViewResult)_tabController.Details(_id1).Result;
 
