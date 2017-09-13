@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Security.Permissions;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Publisher;
 using log4net;
@@ -29,6 +30,7 @@ namespace Cafe.Waiter.Publish.Service
         {
             try
             {
+                EnsureCanRequestNotifications();
                 var connectionString = GetConnectionString();
                 SqlDependency.Start(connectionString, _outboxToMessageQueuePublisherConfiguration.QueueName);
                 _outboxToMessageQueuePublisher.PublishQueuedMessages(); // OnChange() not always firing. Short term hack! TODO: remove this later
@@ -48,6 +50,16 @@ namespace Cafe.Waiter.Publish.Service
                 _logger.Error("Error starting Publish Service", exception);
                 throw;
             }
+        }
+
+        private void EnsureCanRequestNotifications()
+        {
+            if (!CanRequestNotifications())
+            {
+                throw new Exception("Current user does not have permission to query notifications");
+            }
+
+            _logger.Info("User has permission to query notifications");
         }
 
         public void Dispose()
@@ -87,6 +99,20 @@ namespace Cafe.Waiter.Publish.Service
             if (e.Info == SqlNotificationInfo.Insert)
             {
                 _outboxToMessageQueuePublisher.PublishQueuedMessages();
+            }
+        }
+
+        private bool CanRequestNotifications()
+        {
+            var permission = new SqlClientPermission(PermissionState.Unrestricted);
+            try
+            {
+                permission.Demand();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
             }
         }
     }
