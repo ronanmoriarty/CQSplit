@@ -30,20 +30,20 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
         [Test]
         public void Can_retrieve_tab_details()
         {
-            var tabDetails = _tabDetailsRepository.GetTabDetails(_id);
+            var retrievedTabDetails = _tabDetailsRepository.GetTabDetails(_id);
 
-            Assert.That(tabDetails.TabId, Is.EqualTo(_tabDetails.TabId));
-            Assert.That(tabDetails.Waiter, Is.EqualTo(_tabDetails.Waiter));
-            Assert.That(tabDetails.TableNumber, Is.EqualTo(_tabDetails.TableNumber));
-            Assert.That(tabDetails.Status, Is.EqualTo(_tabDetails.Status));
-            CollectionAssert.AreEquivalent(tabDetails.Items, tabDetails.Items);
+            Assert.That(retrievedTabDetails.Id, Is.EqualTo(_tabDetails.Id));
+            Assert.That(retrievedTabDetails.Waiter, Is.EqualTo(_tabDetails.Waiter));
+            Assert.That(retrievedTabDetails.TableNumber, Is.EqualTo(_tabDetails.TableNumber));
+            Assert.That(retrievedTabDetails.Status, Is.EqualTo(_tabDetails.Status));
+            CollectionAssert.AreEquivalent(retrievedTabDetails.Items, retrievedTabDetails.Items);
         }
 
         private TabDetails GetTabDetails()
         {
             return new TabDetails
             {
-                TabId = _id,
+                Id = _id,
                 Waiter = "Louise",
                 TableNumber = 654,
                 Status = TabStatus.OrderPlaced,

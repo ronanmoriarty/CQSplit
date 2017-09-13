@@ -41,7 +41,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
         {
             return new TabDetails
             {
-                TabId = _id1
+                Id = _id1
             };
         }
     }
