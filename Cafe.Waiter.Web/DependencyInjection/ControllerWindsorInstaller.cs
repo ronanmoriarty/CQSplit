@@ -1,4 +1,3 @@
-using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.NHibernate;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Controllers;
@@ -48,6 +47,10 @@ namespace Cafe.Waiter.Web.DependencyInjection
                 Component
                     .For<IOpenTabsRepository>()
                     .ImplementedBy<OpenTabsRepository>()
+                    .DependsOn(Dependency.OnComponent("sessionFactory", "sessionFactory")),
+                Component
+                    .For<ITabDetailsRepository>()
+                    .ImplementedBy<TabDetailsRepository>()
                     .DependsOn(Dependency.OnComponent("sessionFactory", "sessionFactory"))
             );
         }
