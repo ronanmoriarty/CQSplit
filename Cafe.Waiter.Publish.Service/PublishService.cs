@@ -34,15 +34,14 @@ namespace Cafe.Waiter.Publish.Service
                 var connectionString = GetConnectionString();
                 SqlDependency.Start(connectionString, _outboxToMessageQueuePublisherConfiguration.QueueName);
                 _connection = new SqlConnection(connectionString);
-                var command = new SqlCommand(_outboxToMessageQueuePublisherConfiguration.QueryToWatch, _connection)
+                using (var command = new SqlCommand(_outboxToMessageQueuePublisherConfiguration.QueryToWatch, _connection))
                 {
-                    Notification = null
-                };
-                _sqlDependency = new SqlDependency(command, $"SERVICE={_outboxToMessageQueuePublisherConfiguration.ServiceName}", int.MaxValue);
-                _sqlDependency.OnChange += OnChange;
-                _subscribedToOnChangeEvent = true;
-                _connection.Open();
-                command.ExecuteReader();
+                    _sqlDependency = new SqlDependency(command);
+                    _sqlDependency.OnChange += OnChange;
+                    _subscribedToOnChangeEvent = true;
+                    _connection.Open();
+                    command.ExecuteReader();
+                }
             }
             catch (Exception exception)
             {
