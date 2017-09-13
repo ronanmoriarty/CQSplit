@@ -17,7 +17,9 @@ namespace CQRSTutorial.DAL
 
         public IEvent MapToEvent(EventToPublish eventToPublish)
         {
-            var @event = (IEvent)JsonConvert.DeserializeObject(eventToPublish.Data, GetEventTypeFrom(eventToPublish.EventType));
+            string data = eventToPublish.Data;
+            string eventType = eventToPublish.EventType;
+            var @event = (IEvent)JsonConvert.DeserializeObject(data, GetEventTypeFrom(eventType));
             AssignEventIdFromEventToPublishId(@event, eventToPublish);
             return @event;
         }

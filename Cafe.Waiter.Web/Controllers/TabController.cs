@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Cafe.Domain.Commands;
-using Cafe.Waiter.Contracts;
+using Cafe.Waiter.Commands;
+using Cafe.Waiter.Contracts.Commands;
+using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.Infrastructure;
 
 namespace Cafe.Waiter.Web.Controllers
@@ -10,29 +11,31 @@ namespace Cafe.Waiter.Web.Controllers
     public class TabController : Controller
     {
         private readonly IEndpointProvider _endpointProvider;
+        private readonly IOpenTabsRepository _openTabsRepository;
 
-        public TabController(IEndpointProvider endpointProvider)
+        public TabController(IEndpointProvider endpointProvider, IOpenTabsRepository openTabsRepository)
         {
             _endpointProvider = endpointProvider;
+            _openTabsRepository = openTabsRepository;
         }
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            return View(_openTabsRepository.GetOpenTabs());
         }
 
         [HttpPost]
         public async Task<ActionResult> Create()
         {
             var openTabCommand = CreateOpenTabCommand();
-            var sendEndpoint = await _endpointProvider.GetSendEndpointFor<IOpenTab>();
+            var sendEndpoint = await _endpointProvider.GetSendEndpointFor<IOpenTabCommand>();
             await sendEndpoint.Send(openTabCommand);
-            return RedirectToAction("Index", new {tabId = openTabCommand.AggregateId});
+            return RedirectToAction("Index", new { tabId = openTabCommand.AggregateId });
         }
 
-        private OpenTab CreateOpenTabCommand()
+        private OpenTabCommand CreateOpenTabCommand()
         {
-            return new OpenTab
+            return new OpenTabCommand
             {
                 Id = Guid.NewGuid(),
                 AggregateId = Guid.NewGuid(),

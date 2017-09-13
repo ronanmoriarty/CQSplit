@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppConfigConnectionStringProvider.cs" />
+    <Compile Include="CompositeEventStore.cs" />
     <Compile Include="ConnectionStringOverride.cs" />
     <Compile Include="ConnectionStringProviderFactory.cs" />
     <Compile Include="CustomAutomappingConfiguration.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="EventToPublishRepository.cs" />
     <Compile Include="IConnectionStringProvider.cs" />
     <Compile Include="IConnectionStringProviderFactory.cs" />
+    <Compile Include="IEventRepository.cs" />
     <Compile Include="IEventToPublishRepository.cs" />
     <Compile Include="IEventStore.cs" />
     <Compile Include="IHaveUnitOfWork.cs" />
@@ -85,7 +87,7 @@
     <Compile Include="NHibernateConfiguration.cs" />
     <Compile Include="NHibernateUnitOfWork.cs" />
     <Compile Include="NHibernateUnitOfWorkFactory.cs" />
-    <Compile Include="EventPublisher.cs" />
+    <Compile Include="EventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryBase.cs" />
   </ItemGroup>

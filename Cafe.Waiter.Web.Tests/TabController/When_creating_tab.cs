@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Cafe.Domain.Commands;
-using Cafe.Waiter.Contracts;
+using Cafe.Waiter.Commands;
+using Cafe.Waiter.Contracts.Commands;
 using CQRSTutorial.Infrastructure;
 using MassTransit;
 using NSubstitute;
@@ -25,14 +25,14 @@ namespace Cafe.Waiter.Web.Tests.TabController
         {
             _endPoint = Substitute.For<ISendEndpoint>();
             _endpointProvider = Substitute.For<IEndpointProvider>();
-            _endpointProvider.GetSendEndpointFor<IOpenTab>().Returns(Task.FromResult(_endPoint));
+            _endpointProvider.GetSendEndpointFor<IOpenTabCommand>().Returns(Task.FromResult(_endPoint));
         }
 
         [Test]
         public async Task OpenTab_command_sent_to_message_bus_with_ids_set()
         {
             await WhenTabCreated();
-            await _endPoint.Received().Send(Arg.Is<IOpenTab>(command => HasIdPropertiesSet(command))); // don't care too much about other values (TableNumber and waiter name) at the moment - happy setting them to arbitrary values for display purposes - no need to assert them.
+            await _endPoint.Received().Send(Arg.Is<IOpenTabCommand>(command => HasIdPropertiesSet(command))); // don't care too much about other values (TableNumber and waiter name) at the moment - happy setting them to arbitrary values for display purposes - no need to assert them.
         }
 
         [Test]
@@ -54,10 +54,10 @@ namespace Cafe.Waiter.Web.Tests.TabController
 
         private Controllers.TabController CreateTabController()
         {
-            return new Controllers.TabController(_endpointProvider);
+            return new Controllers.TabController(_endpointProvider, null);
         }
 
-        private bool HasIdPropertiesSet(IOpenTab command)
+        private bool HasIdPropertiesSet(IOpenTabCommand command)
         {
             return command.Id != Guid.Empty
                 && command.AggregateId != Guid.Empty;
@@ -68,9 +68,9 @@ namespace Cafe.Waiter.Web.Tests.TabController
             var receivedCalls = _endPoint.ReceivedCalls();
             var sendCall = receivedCalls.Single(call => call.GetMethodInfo().Name == "Send");
             var arguments = sendCall.GetArguments();
-            Assert.That(arguments[0] is IOpenTab);
+            Assert.That(arguments[0] is IOpenTabCommand);
             Assert.That(arguments[1] is CancellationToken);
-            var openTabCommand = (OpenTab)arguments.First();
+            var openTabCommand = (OpenTabCommand)arguments.First();
             return openTabCommand.AggregateId;
         }
     }

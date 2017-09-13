@@ -20,7 +20,7 @@ namespace CQRSTutorial.Core.Tests
             var commandHandlerProvider = new CommandHandlerProvider(_commandHandlerFactory);
             commandHandlerProvider.RegisterCommandHandler(handler1);
             commandHandlerProvider.RegisterCommandHandler(handler2);
-            _commandDispatcher = new CommandDispatcher(Substitute.For<IEventPublisher>(), commandHandlerProvider);
+            _commandDispatcher = new CommandDispatcher(Substitute.For<IEventHandler>(), commandHandlerProvider);
         }
 
         [Test]

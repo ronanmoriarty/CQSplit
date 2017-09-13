@@ -90,8 +90,8 @@ namespace CQRSTutorial.DAL.Tests
         private void AssertCreated(Guid id)
         {
             var createdDate = _sqlExecutor.ExecuteScalar<DateTime>($"SELECT Created FROM dbo.EventsToPublish WHERE Id = '{id}'");
-            var oneSecond = new TimeSpan(0,0,1);
-            Assert.That(createdDate, Is.EqualTo(DateTime.Now).Within(oneSecond));
+            var twoSeconds = new TimeSpan(0,0,2);
+            Assert.That(createdDate, Is.EqualTo(DateTime.Now).Within(twoSeconds));
         }
 
         private EventToPublishRepository CreateRepository()

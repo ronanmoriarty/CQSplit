@@ -23,6 +23,7 @@ namespace CQRSTutorial.DAL.Tests.Common
                 using (var command = sqlConnection.CreateCommand())
                 {
                     command.CommandText = commandText;
+                    _logger.Debug(commandText);
                     var executeScalar = command.ExecuteScalar();
                     return executeScalar != DBNull.Value ? (T)executeScalar : default(T);
                 }

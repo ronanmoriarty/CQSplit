@@ -1,3 +1,6 @@
+using Cafe.Waiter.Queries.DAL;
+using Cafe.Waiter.Queries.DAL.NHibernate;
+using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Controllers;
 using Cafe.Waiter.Web.Messaging;
 using Castle.MicroKernel;
@@ -6,6 +9,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using CQRSTutorial.Infrastructure;
 using MassTransit;
+using NHibernate;
 
 namespace Cafe.Waiter.Web.DependencyInjection
 {
@@ -36,7 +40,15 @@ namespace Cafe.Waiter.Web.DependencyInjection
                 Component
                     .For<IBusControl>()
                     .UsingFactoryMethod(GetBusControl)
-                    .LifestyleSingleton()
+                    .LifestyleSingleton(),
+                Component
+                    .For<ISessionFactory>()
+                    .Instance(ReadModelSessionFactory.Instance)
+                    .Named("sessionFactory"),
+                Component
+                    .For<IOpenTabsRepository>()
+                    .ImplementedBy<OpenTabsRepository>()
+                    .DependsOn(Dependency.OnComponent("sessionFactory", "sessionFactory"))
             );
         }
 

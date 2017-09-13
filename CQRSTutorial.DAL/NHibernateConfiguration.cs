@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Automapping;
+﻿using System;
+using FluentNHibernate.Automapping;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
@@ -14,7 +15,7 @@ namespace CQRSTutorial.DAL
             _connectionStringProviderFactory = connectionStringProviderFactory;
         }
 
-        public ISessionFactory CreateSessionFactory()
+        public ISessionFactory CreateSessionFactory(Action<AutoMappingsContainer, IAutomappingConfiguration> configureAutoMapping = null)
         {
             var msSqlConfiguration = MsSqlConfiguration
                 .MsSql2012
@@ -29,6 +30,7 @@ namespace CQRSTutorial.DAL
                     m.AutoMappings.Add(
                         AutoMap.AssemblyOf<EventToPublish>(cfg)
                             .UseOverridesFromAssemblyOf<EventToPublishMapping>());
+                    configureAutoMapping?.Invoke(m.AutoMappings, cfg);
                 })
                 .BuildSessionFactory();
         }

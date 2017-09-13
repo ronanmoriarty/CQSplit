@@ -40,13 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICloseTab.cs" />
-    <Compile Include="IMarkDrinksServed.cs" />
-    <Compile Include="IMarkFoodServed.cs" />
-    <Compile Include="IOpenTab.cs" />
-    <Compile Include="IPlaceOrder.cs" />
-    <Compile Include="OrderedItem.cs" />
+    <Compile Include="Commands\ICloseTabCommand.cs" />
+    <Compile Include="Commands\IMarkDrinksServedCommand.cs" />
+    <Compile Include="Commands\IMarkFoodServedCommand.cs" />
+    <Compile Include="Commands\IOpenTabCommand.cs" />
+    <Compile Include="Commands\IPlaceOrderCommand.cs" />
+    <Compile Include="Commands\OrderedItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\IOpenTabsQuery.cs" />
+    <Compile Include="QueryResponses\IOpenTabsQueryResponse.cs" />
+    <Compile Include="QueryResponses\ITab.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">

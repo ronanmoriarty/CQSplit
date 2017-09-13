@@ -70,17 +70,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EndpointProvider.cs" />
+    <Compile Include="EnvironmentVariableRabbitMqHostConfiguration.cs" />
     <Compile Include="IConsumerFactory.cs" />
     <Compile Include="IEndpointProvider.cs" />
-    <Compile Include="IMessageBusConfigurator.cs" />
     <Compile Include="IMessageBusEndpointConfiguration.cs" />
     <Compile Include="IMessageBusFactory.cs" />
-    <Compile Include="RabbitMqMessageBusConfigurator.cs" />
+    <Compile Include="IRabbitMqHostConfiguration.cs" />
     <Compile Include="ReceiveEndpointMapping.cs" />
+    <Compile Include="ReceiveEndpointMappingFactory.cs" />
     <Compile Include="ServiceAddressProvider.cs" />
-    <Compile Include="EnvironmentVariableMessageBusConfiguration.cs" />
     <Compile Include="IServiceAddressProvider.cs" />
-    <Compile Include="IMessageBusConfiguration.cs" />
     <Compile Include="MessageBusEventPublisher.cs" />
     <Compile Include="RabbitMqMessageBusFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

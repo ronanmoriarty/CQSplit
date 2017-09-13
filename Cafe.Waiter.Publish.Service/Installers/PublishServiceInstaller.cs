@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Cafe.Domain.Events;
-using Cafe.Waiter.DAL;
+using Cafe.Waiter.Events;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -22,13 +21,13 @@ namespace Cafe.Waiter.Publish.Service.Installers
             const string publishQueuedMessages = "publishQueuedMessages";
             var connectionStringProviderFactory = WriteModelConnectionStringProviderFactory.Instance;
             container.Register(
-                Classes
-                    .FromAssemblyContaining<PublishService>()
-                    .InSameNamespaceAs<PublishService>()
-                    .Unless(type => type == typeof(OutboxToMessageQueuePublisher))
-                    .WithService
-                        .Self()
-                        .WithServiceDefaultInterfaces()
+                Component
+                    .For<PublishService>()
+                    .ImplementedBy<PublishService>()
+                    .LifestyleSingleton(),
+                Component
+                    .For<IOutboxToMessageQueuePublisherConfiguration>()
+                    .ImplementedBy<OutboxToMessageQueuePublisherConfiguration>()
                     .LifestyleTransient(),
                 Classes
                     .FromAssemblyContaining<EventToPublishRepository>()
@@ -43,7 +42,7 @@ namespace Cafe.Waiter.Publish.Service.Installers
                     .InSameNamespaceAs<MessageBusEventPublisher>()
                     .WithService
                         .Self()
-                        .WithServiceDefaultInterfaces()
+                        .WithServiceAllInterfaces()
                     .LifestyleTransient(),
                 Component.For<IConnectionStringProviderFactory>()
                     .Instance(connectionStringProviderFactory),

@@ -4,12 +4,12 @@ namespace CQRSTutorial.Core
 {
     public class CommandDispatcher : ICommandDispatcher
     {
-        private readonly IEventPublisher _eventPublisher;
+        private readonly IEventHandler _eventHandler;
         private readonly ICommandHandlerProvider _commandHandlerProvider;
 
-        public CommandDispatcher(IEventPublisher eventPublisher, ICommandHandlerProvider commandHandlerProvider)
+        public CommandDispatcher(IEventHandler eventHandler, ICommandHandlerProvider commandHandlerProvider)
         {
-            _eventPublisher = eventPublisher;
+            _eventHandler = eventHandler;
             _commandHandlerProvider = commandHandlerProvider;
         }
 
@@ -23,7 +23,7 @@ namespace CQRSTutorial.Core
 
             var handler = _commandHandlerProvider.GetCommandHandler(command);
             var events = handler.Handle(command);
-            _eventPublisher.Publish(events);
+            _eventHandler.Handle(events);
         }
     }
 }
