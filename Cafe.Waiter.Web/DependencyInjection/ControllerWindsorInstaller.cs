@@ -51,6 +51,10 @@ namespace Cafe.Waiter.Web.DependencyInjection
                 Component
                     .For<ITabDetailsRepository>()
                     .ImplementedBy<TabDetailsRepository>()
+                    .DependsOn(Dependency.OnComponent("sessionFactory", "sessionFactory")),
+                Component
+                    .For<IMenuRepository>()
+                    .ImplementedBy<MenuRepository>()
                     .DependsOn(Dependency.OnComponent("sessionFactory", "sessionFactory"))
             );
         }

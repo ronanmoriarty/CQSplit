@@ -21,13 +21,15 @@ namespace Cafe.Waiter.Web.Tests.TabController
         private int _tableNumber2 = 234;
         private string _waiter2 = "Bob";
         private ITabDetailsRepository _tabDetailsRepository;
+        private IMenuRepository _menuRepository;
 
         [SetUp]
         public void SetUp()
         {
             _openTabsRepository = Substitute.For<IOpenTabsRepository>();
             _tabDetailsRepository = Substitute.For<ITabDetailsRepository>();
-            _tabController = new Controllers.TabController(null, _openTabsRepository, _tabDetailsRepository);
+            _menuRepository = Substitute.For<IMenuRepository>();
+            _tabController = new Controllers.TabController(null, _openTabsRepository, _tabDetailsRepository, _menuRepository);
         }
 
         [Test]

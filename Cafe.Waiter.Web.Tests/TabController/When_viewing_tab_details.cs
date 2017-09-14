@@ -15,13 +15,15 @@ namespace Cafe.Waiter.Web.Tests.TabController
         private ITabDetailsRepository _tabDetailsRepository;
         private readonly Guid _id1 = new Guid("8580FF53-BC03-46A0-83FF-C71F35765BF1");
         private TabDetails _tabDetails;
+        private IMenuRepository _menuRepository;
 
         [SetUp]
         public void SetUp()
         {
             _openTabsRepository = Substitute.For<IOpenTabsRepository>();
             _tabDetailsRepository = Substitute.For<ITabDetailsRepository>();
-            _tabController = new Controllers.TabController(null, _openTabsRepository, _tabDetailsRepository);
+            _menuRepository = Substitute.For<IMenuRepository>();
+            _tabController = new Controllers.TabController(null, _openTabsRepository, _tabDetailsRepository, _menuRepository);
             _tabDetails = GetTabDetails();
         }
 
