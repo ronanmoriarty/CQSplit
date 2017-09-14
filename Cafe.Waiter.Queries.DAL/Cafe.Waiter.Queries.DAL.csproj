@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Menu.cs" />
+    <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\TabDetails.cs" />
     <Compile Include="Models\TabItem.cs" />
     <Compile Include="Models\TabStatus.cs" />

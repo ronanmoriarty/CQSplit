@@ -1,4 +1,5 @@
-﻿using CQRSTutorial.DAL;
+﻿using Cafe.Waiter.Queries.DAL.Models;
+using CQRSTutorial.DAL;
 using NHibernate;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
@@ -8,6 +9,11 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
         public MenuRepository(ISessionFactory sessionFactory)
             : base(sessionFactory)
         {
+        }
+
+        public Menu GetMenu()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

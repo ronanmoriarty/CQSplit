@@ -54,7 +54,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
 
         private Controllers.TabController CreateTabController()
         {
-            return new Controllers.TabController(_endpointProvider, null, null, null);
+            return new Controllers.TabController(_endpointProvider, null, null);
         }
 
         private bool HasIdPropertiesSet(IOpenTabCommand command)

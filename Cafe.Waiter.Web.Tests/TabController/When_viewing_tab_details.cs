@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using NSubstitute;
 using NUnit.Framework;
+using Menu = Cafe.Waiter.Queries.DAL.Models.Menu;
+using MenuItem = Cafe.Waiter.Queries.DAL.Models.MenuItem;
 
 namespace Cafe.Waiter.Web.Tests.TabController
 {
@@ -15,15 +18,13 @@ namespace Cafe.Waiter.Web.Tests.TabController
         private ITabDetailsRepository _tabDetailsRepository;
         private readonly Guid _id1 = new Guid("8580FF53-BC03-46A0-83FF-C71F35765BF1");
         private TabDetails _tabDetails;
-        private IMenuRepository _menuRepository;
 
         [SetUp]
         public void SetUp()
         {
             _openTabsRepository = Substitute.For<IOpenTabsRepository>();
             _tabDetailsRepository = Substitute.For<ITabDetailsRepository>();
-            _menuRepository = Substitute.For<IMenuRepository>();
-            _tabController = new Controllers.TabController(null, _openTabsRepository, _tabDetailsRepository, _menuRepository);
+            _tabController = new Controllers.TabController(null, _openTabsRepository, _tabDetailsRepository);
             _tabDetails = GetTabDetails();
         }
 

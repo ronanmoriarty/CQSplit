@@ -1,0 +1,54 @@
+﻿using System.Collections.Generic;
+using Cafe.Waiter.Queries.DAL.Models;
+using Cafe.Waiter.Queries.DAL.Repositories;
+using NSubstitute;
+using NUnit.Framework;
+
+namespace Cafe.Waiter.Web.Tests.MenuController
+{
+    [TestFixture]
+    public class When_getting_menu
+    {
+        private Controllers.MenuController _menuController;
+        private Menu _menu;
+
+        [SetUp]
+        public void SetUp()
+        {
+            var menuRepository = Substitute.For<IMenuRepository>();
+            _menu = GetMenu();
+            menuRepository.GetMenu().Returns(_menu);
+            _menuController = new Controllers.MenuController(menuRepository);
+        }
+
+        [Test]
+        public void Gets_menu_from_repository()
+        {
+            var retrievedMenu = _menuController.Get();
+
+            Assert.That(retrievedMenu, Is.EqualTo(_menu));
+        }
+
+        private Menu GetMenu()
+        {
+            return new Menu
+            {
+                Items = new List<MenuItem>
+                {
+                    new MenuItem
+                    {
+                        Id = 123,
+                        Name = "Coca Cola",
+                        Price = 2.5m
+                    },
+                    new MenuItem
+                    {
+                        Id = 123,
+                        Name = "Bacon & Cheese Burger",
+                        Price = 13.0m
+                    }
+                }
+            };
+        }
+    }
+}
