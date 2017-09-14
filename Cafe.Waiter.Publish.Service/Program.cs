@@ -1,4 +1,5 @@
 ﻿using System;
+using CQRSTutorial.Publisher;
 using log4net;
 using Topshelf;
 

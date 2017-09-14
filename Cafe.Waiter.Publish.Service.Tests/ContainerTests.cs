@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using CQRSTutorial.Publisher;
+using NUnit.Framework;
 
 namespace Cafe.Waiter.Publish.Service.Tests
 {
