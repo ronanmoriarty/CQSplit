@@ -5,7 +5,7 @@ using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Tests.Common;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 using CQRSTutorial.Tests.Common;
 using log4net;
 using NHibernate;

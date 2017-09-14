@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using log4net;
 using MassTransit;
 
-namespace CQRSTutorial.Infrastructure
+namespace CQRSTutorial.Messaging
 {
     public class EndpointProvider : IEndpointProvider
     {

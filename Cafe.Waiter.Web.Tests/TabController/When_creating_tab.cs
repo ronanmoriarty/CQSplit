@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;

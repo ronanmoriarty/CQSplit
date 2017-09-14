@@ -1,6 +1,6 @@
 ﻿using System;
 using Cafe.Waiter.Web.DependencyInjection;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.Web.Messaging
 {

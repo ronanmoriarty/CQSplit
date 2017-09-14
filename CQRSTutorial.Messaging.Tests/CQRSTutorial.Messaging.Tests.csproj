@@ -7,8 +7,8 @@
     <ProjectGuid>{9709D0C0-71A9-4F0A-A65B-718E5112BAC1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CQRSTutorial.Infrastructure.Tests</RootNamespace>
-    <AssemblyName>CQRSTutorial.Infrastructure.Tests</AssemblyName>
+    <RootNamespace>CQRSTutorial.Messaging.Tests</RootNamespace>
+    <AssemblyName>CQRSTutorial.Messaging.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -51,9 +51,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CQRSTutorial.Infrastructure\CQRSTutorial.Infrastructure.csproj">
+    <ProjectReference Include="..\CQRSTutorial.Messaging\CQRSTutorial.Messaging.csproj">
       <Project>{6D6C34D5-5AE9-41E5-B55A-B47552F83BC9}</Project>
-      <Name>CQRSTutorial.Infrastructure</Name>
+      <Name>CQRSTutorial.Messaging</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

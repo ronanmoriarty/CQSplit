@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CQRSTutorial.Infrastructure
+namespace CQRSTutorial.Messaging
 {
     public interface IMessageBusEndpointConfiguration
     {

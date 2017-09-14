@@ -4,7 +4,7 @@ using System.Web.Mvc;
 using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Queries.DAL.Repositories;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.Web.Controllers
 {

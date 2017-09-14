@@ -1,5 +1,5 @@
 ﻿using CQRSTutorial.DAL;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 using log4net;
 
 namespace CQRSTutorial.Publisher

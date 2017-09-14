@@ -120,9 +120,9 @@
       <Project>{92221377-F43D-4C30-9A94-9E5E8FB0C969}</Project>
       <Name>CQRSTutorial.DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CQRSTutorial.Infrastructure\CQRSTutorial.Infrastructure.csproj">
-      <Project>{6D6C34D5-5AE9-41E5-B55A-B47552F83BC9}</Project>
-      <Name>CQRSTutorial.Infrastructure</Name>
+    <ProjectReference Include="..\CQRSTutorial.Messaging\CQRSTutorial.Messaging.csproj">
+      <Project>{6d6c34d5-5ae9-41e5-b55a-b47552f83bc9}</Project>
+      <Name>CQRSTutorial.Messaging</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

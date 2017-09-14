@@ -2,7 +2,7 @@ using log4net;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
 
-namespace CQRSTutorial.Infrastructure
+namespace CQRSTutorial.Messaging
 {
     public class RabbitMqMessageBusFactory : IMessageBusFactory
     {

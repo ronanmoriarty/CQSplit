@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace CQRSTutorial.Infrastructure.Tests
+namespace CQRSTutorial.Messaging.Tests
 {
     [TestFixture]
     public class ServiceAddressProviderTests

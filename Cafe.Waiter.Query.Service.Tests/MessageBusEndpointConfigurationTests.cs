@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Cafe.Waiter.Query.Service.Consumers;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Query.Service.Tests

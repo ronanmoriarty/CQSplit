@@ -1,5 +1,5 @@
 ﻿using System;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.Publish.Service
 {

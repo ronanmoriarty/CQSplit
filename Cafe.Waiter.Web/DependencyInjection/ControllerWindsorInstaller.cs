@@ -6,7 +6,7 @@ using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 using MassTransit;
 using NHibernate;
 

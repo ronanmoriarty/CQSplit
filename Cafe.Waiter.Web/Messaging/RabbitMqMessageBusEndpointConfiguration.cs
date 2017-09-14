@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.Web.Messaging
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace CQRSTutorial.Infrastructure
+namespace CQRSTutorial.Messaging
 {
     public interface IConsumerFactory
     {

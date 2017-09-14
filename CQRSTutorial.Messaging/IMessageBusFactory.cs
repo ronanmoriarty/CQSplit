@@ -1,6 +1,6 @@
 using MassTransit;
 
-namespace CQRSTutorial.Infrastructure
+namespace CQRSTutorial.Messaging
 {
     public interface IMessageBusFactory
     {

@@ -7,8 +7,8 @@
     <ProjectGuid>{6D6C34D5-5AE9-41E5-B55A-B47552F83BC9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CQRSTutorial.Infrastructure</RootNamespace>
-    <AssemblyName>CQRSTutorial.Infrastructure</AssemblyName>
+    <RootNamespace>CQRSTutorial.Messaging</RootNamespace>
+    <AssemblyName>CQRSTutorial.Messaging</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

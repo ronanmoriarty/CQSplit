@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CQRSTutorial.Infrastructure;
 using Cafe.Waiter.Query.Service.Consumers;
+using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.Query.Service
 {

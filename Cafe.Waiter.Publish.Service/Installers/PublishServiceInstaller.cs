@@ -7,7 +7,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using CQRSTutorial.DAL;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 using CQRSTutorial.Publisher;
 using log4net;
 using NHibernate;

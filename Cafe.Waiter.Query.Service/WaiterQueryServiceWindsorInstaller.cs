@@ -5,7 +5,7 @@ using Cafe.Waiter.Query.Service.Projectors;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 using NHibernate;
 
 namespace Cafe.Waiter.Query.Service

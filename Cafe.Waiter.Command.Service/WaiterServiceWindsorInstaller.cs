@@ -9,7 +9,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
-using CQRSTutorial.Infrastructure;
+using CQRSTutorial.Messaging;
 using NHibernate;
 
 namespace Cafe.Waiter.Command.Service
