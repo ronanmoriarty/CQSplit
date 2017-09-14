@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.Events;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.NHibernate;
 using Cafe.Waiter.Queries.DAL.Repositories;
-using Cafe.Waiter.Query.Service.Consumers;
 using CQRSTutorial.DAL.Tests.Common;
 using MassTransit;
 using Newtonsoft.Json;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Query.Service.Tests.Projectors
+namespace Cafe.Waiter.EventProjecting.Service.Tests.Projectors
 {
     [TestFixture]
     public class TabOpenedConsumerTests

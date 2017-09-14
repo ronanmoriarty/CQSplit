@@ -1,7 +1,7 @@
 using Castle.Windsor.Installer;
 using log4net.Config;
 
-namespace Cafe.Waiter.Query.Service
+namespace Cafe.Waiter.EventProjecting.Service
 {
     public class Bootstrapper
     {

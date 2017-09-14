@@ -1,9 +1,9 @@
 ﻿using System;
-using NUnit.Framework;
-using Cafe.Waiter.Query.Service.Consumers;
+using Cafe.Waiter.EventProjecting.Service.Consumers;
 using CQRSTutorial.Messaging;
+using NUnit.Framework;
 
-namespace Cafe.Waiter.Query.Service.Tests
+namespace Cafe.Waiter.EventProjecting.Service.Tests
 {
     [TestFixture]
     public class ReceiveEndpointMappingFactoryTests

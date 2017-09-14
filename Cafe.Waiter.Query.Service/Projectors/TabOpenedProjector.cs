@@ -2,7 +2,7 @@
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 
-namespace Cafe.Waiter.Query.Service.Projectors
+namespace Cafe.Waiter.EventProjecting.Service.Projectors
 {
     public class TabOpenedProjector : ITabOpenedProjector
     {

@@ -37,9 +37,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Queries.DAL", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Queries.DAL.Tests", "Cafe.Waiter.Queries.DAL.Tests\Cafe.Waiter.Queries.DAL.Tests.csproj", "{386096EB-A999-4C81-B689-C09711E12A2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Query.Service.Tests", "Cafe.Waiter.Query.Service.Tests\Cafe.Waiter.Query.Service.Tests.csproj", "{AA16BF63-A07A-4104-9A15-6FBD05E68F78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.EventProjecting.Service.Tests", "Cafe.Waiter.Query.Service.Tests\Cafe.Waiter.EventProjecting.Service.Tests.csproj", "{AA16BF63-A07A-4104-9A15-6FBD05E68F78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Query.Service", "Cafe.Waiter.Query.Service\Cafe.Waiter.Query.Service.csproj", "{0B8C1721-83CE-49E8-BF1C-16EA613E487E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.EventProjecting.Service", "Cafe.Waiter.Query.Service\Cafe.Waiter.EventProjecting.Service.csproj", "{0B8C1721-83CE-49E8-BF1C-16EA613E487E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Domain", "Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj", "{CB20D510-0CC5-4FBA-9B6F-EC7C32F3B62E}"
 EndProject

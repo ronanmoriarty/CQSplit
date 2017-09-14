@@ -1,7 +1,7 @@
 ﻿using System;
 using CQRSTutorial.Messaging;
 
-namespace Cafe.Waiter.Query.Service.Consumers
+namespace Cafe.Waiter.EventProjecting.Service.Consumers
 {
     public class ConsumerFactory : IConsumerFactory
     {

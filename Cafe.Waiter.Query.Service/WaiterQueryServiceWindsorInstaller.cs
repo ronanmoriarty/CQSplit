@@ -1,14 +1,14 @@
+using Cafe.Waiter.EventProjecting.Service.Consumers;
+using Cafe.Waiter.EventProjecting.Service.Projectors;
 using Cafe.Waiter.Queries.DAL.NHibernate;
 using Cafe.Waiter.Queries.DAL.Repositories;
-using Cafe.Waiter.Query.Service.Consumers;
-using Cafe.Waiter.Query.Service.Projectors;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using CQRSTutorial.Messaging;
 using NHibernate;
 
-namespace Cafe.Waiter.Query.Service
+namespace Cafe.Waiter.EventProjecting.Service
 {
     public class WaiterQueryServiceWindsorInstaller : IWindsorInstaller
     {

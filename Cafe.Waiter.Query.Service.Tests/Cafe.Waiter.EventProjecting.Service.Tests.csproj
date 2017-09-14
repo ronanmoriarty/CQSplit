@@ -7,8 +7,8 @@
     <ProjectGuid>{AA16BF63-A07A-4104-9A15-6FBD05E68F78}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cafe.Waiter.Query.Service.Tests</RootNamespace>
-    <AssemblyName>Cafe.Waiter.Query.Service.Tests</AssemblyName>
+    <RootNamespace>Cafe.Waiter.EventProjecting.Service.Tests</RootNamespace>
+    <AssemblyName>Cafe.Waiter.EventProjecting.Service.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -104,9 +104,9 @@
       <Project>{AA60EE59-5D0F-4972-A2C0-B648D5088263}</Project>
       <Name>Cafe.Waiter.Queries.DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cafe.Waiter.Query.Service\Cafe.Waiter.Query.Service.csproj">
+    <ProjectReference Include="..\Cafe.Waiter.Query.Service\Cafe.Waiter.EventProjecting.Service.csproj">
       <Project>{0b8c1721-83ce-49e8-bf1c-16ea613e487e}</Project>
-      <Name>Cafe.Waiter.Query.Service</Name>
+      <Name>Cafe.Waiter.EventProjecting.Service</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
       <Project>{D9A17521-4B50-403C-8A7F-D9F82051049B}</Project>
