@@ -73,6 +73,7 @@
     <Compile Include="Repositories\ITabDetailsRepository.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
     <Compile Include="Repositories\TabDetailsRepository.cs" />
+    <Compile Include="Serialized\Menu.cs" />
     <Compile Include="Serialized\OpenTab.cs" />
     <Compile Include="Repositories\OpenTabsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

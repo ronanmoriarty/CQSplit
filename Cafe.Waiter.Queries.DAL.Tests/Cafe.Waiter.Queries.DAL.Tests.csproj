@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\MenuRepositoryTests.cs" />
     <Compile Include="Repositories\OpenTabsRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\TabDetailsRepositoryTests.cs" />
