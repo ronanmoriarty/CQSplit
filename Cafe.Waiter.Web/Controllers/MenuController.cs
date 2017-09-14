@@ -16,7 +16,7 @@ namespace Cafe.Waiter.Web.Controllers
 
         public Menu Get()
         {
-            return _menuRepository.GetMenu(Guid.Empty);
+            return _menuRepository.GetMenu();
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Cafe.Waiter.Web.Tests.MenuController
         {
             var menuRepository = Substitute.For<IMenuRepository>();
             _menu = new Menu();
-            menuRepository.GetMenu(Guid.Empty).Returns(_menu);
+            menuRepository.GetMenu().Returns(_menu);
             _menuController = new Controllers.MenuController(menuRepository);
         }
 

@@ -6,6 +6,7 @@ using Cafe.Waiter.Queries.DAL.NHibernate;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using Newtonsoft.Json;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
@@ -23,6 +24,7 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
         private int _menuItemId2 = 234;
         private string _menuItemName2 = "Bacon & Cheese Burger";
         private decimal _menuItemPrice2 = 13.0m;
+        private IMenuConfiguration _menuConfiguration;
 
         [SetUp]
         public void SetUp()
@@ -31,13 +33,15 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             var menuJson = JsonConvert.SerializeObject(_menu);
             _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.Menu WHERE Id = '{_id}'");
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.Menu(Id,Data) VALUES ('{_id}','{menuJson}')");
-            _menuRepository = new MenuRepository(ReadModelSessionFactory.Instance);
+            _menuConfiguration = Substitute.For<IMenuConfiguration>();
+            _menuConfiguration.Id.Returns(_id);
+            _menuRepository = new MenuRepository(ReadModelSessionFactory.Instance, _menuConfiguration);
         }
 
         [Test]
         public void Can_get_menu()
         {
-            var retrievedMenu = _menuRepository.GetMenu(_id);
+            var retrievedMenu = _menuRepository.GetMenu();
 
             Assert.That(retrievedMenu.Items.First().Id, Is.EqualTo(_menuItemId1));
             Assert.That(retrievedMenu.Items.First().Name, Is.EqualTo(_menuItemName1));

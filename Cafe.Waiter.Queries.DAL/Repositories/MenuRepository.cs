@@ -8,14 +8,18 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
 {
     public class MenuRepository : RepositoryBase<Serialized.Menu>, IMenuRepository
     {
-        public MenuRepository(ISessionFactory sessionFactory)
+        private readonly IMenuConfiguration _menuConfiguration;
+
+        public MenuRepository(ISessionFactory sessionFactory,
+            IMenuConfiguration menuConfiguration)
             : base(sessionFactory)
         {
+            _menuConfiguration = menuConfiguration;
         }
 
-        public Menu GetMenu(Guid id)
+        public Menu GetMenu()
         {
-            var serializedMenu = Get(id);
+            var serializedMenu = Get(_menuConfiguration.Id);
             return Map(serializedMenu);
         }
 
