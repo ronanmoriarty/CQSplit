@@ -4,43 +4,40 @@
     ViewBag.Title = "Tab Details";
 }
 
-<h2>Tab Details</h2>
-<h4>Table: @Model.TableNumber</h4>
-<h5>Waiter: @Model.Waiter</h5>
-<h5>Status: @Model.Status</h5>
-<table class="table">
-    <thead>
-    <tr>
-        <td>Name</td>
-        <td>Notes</td>
-    </tr>
-    </thead>
-    @foreach (var tabItem in Model.Items)
-    {
-        <tr class="@(tabItem.IsDrink ? "drink" : "food")" data-menu-number="@tabItem.MenuNumber">
-            <td>@tabItem.Name</td>
-            <td>@tabItem.Notes</td>
+<div ng-controller="DetailsController">
+    <h2>Tab Details</h2>
+    <h4>Table: @Model.TableNumber</h4>
+    <h5>Waiter: @Model.Waiter</h5>
+    <h5>Status: @Model.Status</h5>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>Notes</td>
         </tr>
-    }
-</table>
+        </thead>
+        @foreach (var tabItem in Model.Items)
+        {
+            <tr class="@(tabItem.IsDrink ? "drink" : "food")" data-menu-number="@tabItem.MenuNumber">
+                <td>@tabItem.Name</td>
+                <td>@tabItem.Notes</td>
+            </tr>
+        }
+    </table>
+    <form>
+        <select class="form-control" id="menu-item" name="menu-item">
+            <option ng-repeat="option in options" id="{{option.id}}">{{option.text}}</option>
+        </select>
+        <input type="text" id="notes" name="notes" placeholder="Add notes"/>
+        <input type="submit" class="btn btn-primary btn-sm" value="Add"/>
+    </form>
+    <style>
+        .food {
+            background-color: antiquewhite
+        }
 
-<form>
-    <select class="form-control">
-        <option id="123">Bacon & Cheese Burger</option>
-        <option id="124">Steak and Chips</option>
-        <option id="234">Coca Cola</option>
-        <option id="235">Fanta</option>
-        <option id="236">Lemonade</option>
-    </select>
-    <input type="text" id="notes" name="notes" placeholder="Add notes"/>
-    <input type="submit" class="btn btn-primary btn-sm" value="Add"/>
-</form>
-<style>
-    .food {
-        background-color: antiquewhite
-    }
-
-    .drink {
-        background-color: aliceblue
-    }
-</style>
+        .drink {
+            background-color: aliceblue
+        }
+    </style>
+</div>
