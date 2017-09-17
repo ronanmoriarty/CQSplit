@@ -4,7 +4,7 @@
             method: 'GET',
             url: menuUrl
         }).then(function (successResponse) {
-            $scope.options = successResponse.data.items;
+            $scope.menuItems = successResponse.data.items;
         }, function (errorResponse) {
             console.log(errorResponse);
         });
