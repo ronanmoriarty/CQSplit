@@ -1,4 +1,4 @@
-﻿waiterModule.controller('DetailsController', ['$scope', '$http', function ($scope, $http) {
+﻿waiterModule.controller('DetailsController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
         var menuUrl = '/menu/index';
         $http({
             method: 'GET',
@@ -9,7 +9,9 @@
             console.log(errorResponse);
         });
 
-        var id = '82ebc82f-72ee-42d8-9565-49b0e1844c86';
+        console.log('tabId is:');
+        var id = $location.search().tabId;
+        console.log(id);
         var tabDetailsUrl = '/tab/tabdetails?tabId=' + id;
         $http({
             method: 'GET',
