@@ -21,5 +21,17 @@
         }, function (errorResponse) {
             console.log(errorResponse);
         });
+
+        $scope.formData = {};
+
+        $scope.addMenuItem = function () {
+            console.log('Add item to selected items...');
+            $scope.selectedItems.push({
+                menuNumber: $scope.formData.newMenuItem.id,
+                isDrink: true, // TODO fix this - hardcoded to drink for now.
+                name: $scope.formData.newMenuItem.name,
+                notes: $scope.formData.notes
+            });
+        };
     }
 ]);

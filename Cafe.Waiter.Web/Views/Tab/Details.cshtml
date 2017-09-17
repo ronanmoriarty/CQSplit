@@ -24,11 +24,12 @@
         </tr>
     </table>
     <form>
-        <select class="form-control" id="menu-item" name="menu-item">
-            <option ng-repeat="menuItem in menuItems" id="{{menuItem.id}}">{{menuItem.name}}</option>
+        <select class="form-control"
+                ng-model="formData.newMenuItem"
+                ng-options="menuItem.name for menuItem in menuItems track by menuItem.id">
         </select>
-        <input type="text" id="notes" name="notes" placeholder="Add notes"/>
-        <input type="submit" class="btn btn-primary btn-sm" value="Add"/>
+        <input type="text" ng-model="formData.notes" placeholder="Add notes"/>
+        <input type="submit" class="btn btn-primary btn-sm" value="Add" ng-click="addMenuItem()"/>
     </form>
     <style>
         .food {
