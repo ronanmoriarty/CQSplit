@@ -1,5 +1,4 @@
-﻿using System;
-using Cafe.Waiter.Queries.DAL.Models;
+﻿using Cafe.Waiter.Queries.DAL.Models;
 using CQRSTutorial.DAL;
 using Newtonsoft.Json;
 using NHibernate;
