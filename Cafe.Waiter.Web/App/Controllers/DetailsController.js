@@ -1,4 +1,4 @@
-﻿waiterModule.controller('DetailsController', ['$scope', function($scope) {
+﻿waiterModule.controller('DetailsController', ['$scope', '$http', function ($scope, $http) {
         $scope.options = [{
                 id: 123,
                 text: 'Bacon & Cheese Burger'
@@ -17,22 +17,15 @@
             }
         ];
 
-        $scope.selectedItems = [{
-                menuNumber: 301,
-                class: 'food',
-                name: 'Lasagne',
-                notes: ''
-            }, {
-                menuNumber: 302,
-                class: 'food',
-                name: 'Spaghetti Carbonara',
-                notes: ''
-            }, {
-                menuNumber: 303,
-                class: 'drink',
-                name: 'Peroni',
-                notes: ''
-            }
-        ];
+        var id = '82ebc82f-72ee-42d8-9565-49b0e1844c86';
+        var url = '/tab/tabdetails?tabId=' + id;
+        $http({
+            method: 'GET',
+            url: url
+        }).then(function(successResponse) {
+            $scope.selectedItems = successResponse.data.items;
+        }, function (errorResponse) {
+            console.log(errorResponse);
+        });
     }
 ]);

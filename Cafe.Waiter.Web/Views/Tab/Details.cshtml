@@ -16,15 +16,8 @@
             <td>Notes</td>
         </tr>
         </thead>
-        @foreach (var tabItem in Model.Items)
-        {
-            <tr class="@(tabItem.IsDrink ? "drink" : "food")" data-menu-number="@tabItem.MenuNumber">
-                <td>@tabItem.Name</td>
-                <td>@tabItem.Notes</td>
-            </tr>
-        }
         <tr ng-repeat="selectedItem in selectedItems"
-            class="{{selectedItem.class}}"
+            class="{{selectedItem.isDrink ? 'drink' : 'food'}}"
             data-menu-number="{{selectedItem.menuNumber}}">
             <td>{{selectedItem.name}}</td>
             <td>{{selectedItem.notes}}</td>

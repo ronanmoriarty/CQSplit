@@ -3,8 +3,11 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
+using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.Messaging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Cafe.Waiter.Web.Controllers
 {
@@ -52,6 +55,18 @@ namespace Cafe.Waiter.Web.Controllers
         {
             var tabDetails = _tabDetailsRepository.GetTabDetails(tabId);
             return View(tabDetails);
+        }
+
+        public ContentResult TabDetails(Guid tabId)
+        {
+            var tabDetails = _tabDetailsRepository.GetTabDetails(tabId);
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            var json = JsonConvert.SerializeObject(tabDetails, Formatting.Indented, jsonSerializerSettings);
+
+            return Content(json, "application/json");
         }
     }
 }
