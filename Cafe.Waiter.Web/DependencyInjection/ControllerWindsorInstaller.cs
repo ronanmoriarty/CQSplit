@@ -23,6 +23,10 @@ namespace Cafe.Waiter.Web.DependencyInjection
                 .WithServiceAllInterfaces();
 
             container.Register(
+                Component
+                    .For<IMenuConfiguration>()
+                    .ImplementedBy<MenuConfiguration>()
+                    .LifestyleTransient(),
                 Classes
                     .FromAssemblyContaining<IMessageBusFactory>()
                     .InSameNamespaceAs<IMessageBusFactory>()

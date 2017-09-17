@@ -1,4 +1,8 @@
-﻿using Cafe.Waiter.Web.DependencyInjection;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
+using Cafe.Waiter.Web.DependencyInjection;
 using MassTransit;
 using NUnit.Framework;
 
@@ -8,11 +12,20 @@ namespace Cafe.Waiter.Web.Tests
     public class ContainerTests
     {
         [Test]
-        public void Can_instantiate_TabController()
+        public void Can_instantiate_all_controllers()
         {
-            var tabController = Container.Instance.Resolve<Controllers.TabController>();
+            var controllerTypes = GetAllControllerTypes();;
+            foreach (var controllerType in controllerTypes)
+            {
+                Console.WriteLine($"Resolving {controllerType}...");
+                Container.Instance.Resolve(controllerType);
+            }
+        }
 
-            Assert.That(tabController, Is.Not.Null);
+        private IEnumerable<Type> GetAllControllerTypes()
+        {
+            return typeof(Controllers.TabController).Assembly.GetTypes()
+                .Where(type => typeof(Controller).IsAssignableFrom(type));
         }
 
         [Test]
