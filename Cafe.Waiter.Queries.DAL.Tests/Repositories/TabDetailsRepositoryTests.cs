@@ -54,7 +54,6 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
                         MenuNumber = 123,
                         IsDrink = false,
                         Name = "Bacon & Cheese Hamburger",
-                        Price = 13.0m,
                         Notes = "No pickle"
                     },
                     new TabItem
@@ -62,7 +61,6 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
                         MenuNumber = 123,
                         IsDrink = false,
                         Name = "Bacon & Cheese Hamburger",
-                        Price = 13.0m,
                         Notes = "Extra pickle. No mayonnaise."
                     },
                     new TabItem
@@ -70,7 +68,6 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
                         MenuNumber = 234,
                         IsDrink = true,
                         Name = "Coca Cola",
-                        Price = 2.5m
                     },
                 }
             };
