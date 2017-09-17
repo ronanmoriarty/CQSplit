@@ -23,6 +23,12 @@
                 <td>@tabItem.Notes</td>
             </tr>
         }
+        <tr ng-repeat="selectedItem in selectedItems"
+            class="{{selectedItem.class}}"
+            data-menu-number="{{selectedItem.menuNumber}}">
+            <td>{{selectedItem.name}}</td>
+            <td>{{selectedItem.notes}}</td>
+        </tr>
     </table>
     <form>
         <select class="form-control" id="menu-item" name="menu-item">

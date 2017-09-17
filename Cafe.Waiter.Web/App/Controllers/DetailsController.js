@@ -16,5 +16,23 @@
                 text: 'Lemonade'
             }
         ];
+
+        $scope.selectedItems = [{
+                menuNumber: 301,
+                class: 'food',
+                name: 'Lasagne',
+                notes: ''
+            }, {
+                menuNumber: 302,
+                class: 'food',
+                name: 'Spaghetti Carbonara',
+                notes: ''
+            }, {
+                menuNumber: 303,
+                class: 'drink',
+                name: 'Peroni',
+                notes: ''
+            }
+        ];
     }
 ]);
