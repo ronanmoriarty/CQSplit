@@ -17,6 +17,9 @@
             method: 'GET',
             url: tabDetailsUrl
         }).then(function(successResponse) {
+            $scope.waiter = successResponse.data.waiter;
+            $scope.tableNumber = successResponse.data.tableNumber;
+            $scope.status = getStatus(successResponse.data.status);
             $scope.selectedItems = successResponse.data.items;
         }, function (errorResponse) {
             console.log(errorResponse);
@@ -44,6 +47,25 @@
                 }
             }
             console.log('Query variable %s not found', variable);
+        }
+
+        function getStatus(statusId) {
+            switch (statusId) {
+                case 0:
+                    return 'Seated';
+                case 1:
+                    return 'Order placed';
+                case 2:
+                    return 'All drinks served';
+                case 3:
+                    return 'All food and drinks served';
+                case 4:
+                    return 'Dessert ordered';
+                case 5:
+                    return 'All desserts served';
+                case 6:
+                    return 'Bill requested';
+            }
         }
     }
 ]);
