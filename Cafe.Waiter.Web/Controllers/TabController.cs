@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using Cafe.Waiter.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
+using Cafe.Waiter.Web.Models;
 using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.Web.Controllers
@@ -28,19 +29,24 @@ namespace Cafe.Waiter.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Create()
         {
-            var openTabCommand = CreateOpenTabCommand();
+            var model = new CreateTabModel
+            {
+                Waiter = "John",
+                TableNumber = 5
+            };
+            var openTabCommand = CreateOpenTabCommand(model);
             await _commandSender.Send(openTabCommand);
             return RedirectToAction("Index", new { tabId = openTabCommand.AggregateId });
         }
 
-        private OpenTabCommand CreateOpenTabCommand()
+        private OpenTabCommand CreateOpenTabCommand(CreateTabModel model)
         {
             return new OpenTabCommand
             {
                 Id = Guid.NewGuid(),
                 AggregateId = Guid.NewGuid(),
-                Waiter = "John",
-                TableNumber = 5
+                Waiter = model.Waiter,
+                TableNumber = model.TableNumber
             };
         }
 
