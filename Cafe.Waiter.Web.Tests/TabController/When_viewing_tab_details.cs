@@ -13,7 +13,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
         [SetUp]
         public void SetUp()
         {
-            _tabController = new Controllers.TabController(null, null, null);
+            _tabController = new Controllers.TabController(null, null);
         }
 
         [Test]

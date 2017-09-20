@@ -1,6 +1,5 @@
 using Cafe.Waiter.Queries.DAL.NHibernate;
 using Cafe.Waiter.Queries.DAL.Repositories;
-using Cafe.Waiter.Web.Controllers;
 using Cafe.Waiter.Web.Messaging;
 using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
@@ -17,11 +16,15 @@ namespace Cafe.Waiter.Web.DependencyInjection
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             var controllerBasedOnDescriptor = Classes
-                .FromAssemblyContaining<TabController>()
-                .InSameNamespaceAs<TabController>()
+                .FromAssemblyContaining<Controllers.TabController>()
+                .InSameNamespaceAs<Controllers.TabController>()
                 .WithServiceSelf()
                 .WithServiceAllInterfaces();
-
+            var apiControllerBasedOnDescriptor = Classes
+                .FromAssemblyContaining<Controllers.TabController>()
+                .InSameNamespaceAs<Api.TabController>()
+                .WithServiceSelf()
+                .WithServiceAllInterfaces();
             container.Register(
                 Component
                     .For<IMenuConfiguration>()
@@ -40,6 +43,7 @@ namespace Cafe.Waiter.Web.DependencyInjection
                     .WithServiceAllInterfaces()
                     .LifestyleTransient(),
                 SetControllerLifestyle(controllerBasedOnDescriptor),
+                SetControllerLifestyle(apiControllerBasedOnDescriptor),
                 Component
                     .For<IBusControl>()
                     .UsingFactoryMethod(GetBusControl)

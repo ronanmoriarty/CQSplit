@@ -215,6 +215,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\OpenTabsQuery.cs" />
+    <Compile Include="Api\TabController.cs" />
     <Compile Include="DependencyInjection\ControllerLifestyleConfigurator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Bootstrapper.cs" />

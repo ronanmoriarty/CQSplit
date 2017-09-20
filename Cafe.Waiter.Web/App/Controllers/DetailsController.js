@@ -12,7 +12,7 @@
         console.log("tabId is:");
         $scope.id = getQueryVariable("tabId");
         console.log($scope.id);
-        var tabDetailsUrl = "/tab/tabdetails?tabId=" + $scope.id;
+        var tabDetailsUrl = "/api/tab/tabdetails?tabId=" + $scope.id;
         $http({
             method: "GET",
             url: tabDetailsUrl

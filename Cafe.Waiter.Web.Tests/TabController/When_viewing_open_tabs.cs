@@ -20,14 +20,12 @@ namespace Cafe.Waiter.Web.Tests.TabController
         private readonly Guid _id2 = new Guid("10D3745B-AB22-4C64-8CA1-ACDC51766C74");
         private int _tableNumber2 = 234;
         private string _waiter2 = "Bob";
-        private ITabDetailsRepository _tabDetailsRepository;
 
         [SetUp]
         public void SetUp()
         {
             _openTabsRepository = Substitute.For<IOpenTabsRepository>();
-            _tabDetailsRepository = Substitute.For<ITabDetailsRepository>();
-            _tabController = new Controllers.TabController(null, _openTabsRepository, _tabDetailsRepository);
+            _tabController = new Controllers.TabController(null, _openTabsRepository);
         }
 
         [Test]
