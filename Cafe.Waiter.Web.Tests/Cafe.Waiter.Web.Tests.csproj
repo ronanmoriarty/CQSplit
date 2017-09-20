@@ -115,7 +115,7 @@
   <ItemGroup>
     <Compile Include="Api\TabController\When_getting_tab_details.cs" />
     <Compile Include="ContainerTests.cs" />
-    <Compile Include="MenuController\When_getting_menu.cs" />
+    <Compile Include="Api\MenuController\When_getting_menu.cs" />
     <Compile Include="RunOncePerTestRun.cs" />
     <Compile Include="TabController\When_creating_tab.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

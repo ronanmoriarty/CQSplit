@@ -3,7 +3,7 @@ using Cafe.Waiter.Queries.DAL.Repositories;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Cafe.Waiter.Web.Controllers
+namespace Cafe.Waiter.Web.Api
 {
     public class MenuController : Controller
     {
