@@ -25,7 +25,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
         {
             _endPoint = Substitute.For<ISendEndpoint>();
             _endpointProvider = Substitute.For<IEndpointProvider>();
-            _endpointProvider.GetSendEndpointFor<IOpenTabCommand>().Returns(Task.FromResult(_endPoint));
+            _endpointProvider.GetSendEndpointFor(typeof(IOpenTabCommand)).Returns(Task.FromResult(_endPoint));
         }
 
         [Test]

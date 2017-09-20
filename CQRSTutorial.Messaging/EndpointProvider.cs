@@ -19,11 +19,11 @@ namespace CQRSTutorial.Messaging
             _serviceAddressProvider = serviceAddressProvider;
         }
 
-        public async Task<ISendEndpoint> GetSendEndpointFor<TMessage>()
+        public async Task<ISendEndpoint> GetSendEndpointFor(Type messageType)
         {
-            var serviceAddress = _serviceAddressProvider.GetServiceAddressFor(typeof(TMessage));
+            var serviceAddress = _serviceAddressProvider.GetServiceAddressFor(messageType);
             var uri = $"{_rabbitMqHostConfiguration.Uri.AbsoluteUri}{serviceAddress}";
-            _logger.Debug($"Sending {typeof(TMessage).Name} message to {uri}");
+            _logger.Debug($"Sending {messageType.Name} message to {uri}");
             return await _busControl.GetSendEndpoint(new Uri(uri));
         }
     }

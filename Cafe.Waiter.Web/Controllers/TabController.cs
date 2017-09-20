@@ -35,7 +35,7 @@ namespace Cafe.Waiter.Web.Controllers
         public async Task<ActionResult> Create()
         {
             var openTabCommand = CreateOpenTabCommand();
-            var sendEndpoint = await _endpointProvider.GetSendEndpointFor<IOpenTabCommand>();
+            var sendEndpoint = await _endpointProvider.GetSendEndpointFor(typeof(IOpenTabCommand));
             await sendEndpoint.Send(openTabCommand);
             return RedirectToAction("Index", new { tabId = openTabCommand.AggregateId });
         }
