@@ -21,7 +21,7 @@
             data-menu-number="{{selectedItem.menuNumber}}">
             <td>{{selectedItem.name}}</td>
             <td>{{selectedItem.notes}}
-                <button type="button" class="close" aria-label="Close">
+                <button type="button" class="close" aria-label="Close" ng-click="removeMenuItem(selectedItem.tabDetailsIndex)">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </td>

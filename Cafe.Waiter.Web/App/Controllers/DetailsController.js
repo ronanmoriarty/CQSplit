@@ -21,6 +21,11 @@
             $scope.tableNumber = successResponse.data.tableNumber;
             $scope.status = getStatus(successResponse.data.status);
             $scope.selectedItems = successResponse.data.items;
+            var tabDetailsIndex = 0;
+            $scope.selectedItems.forEach(function (item) {
+                item.tabDetailsIndex = tabDetailsIndex;
+                tabDetailsIndex++;
+            });
         }, function (errorResponse) {
             console.log(errorResponse);
         });
@@ -36,6 +41,11 @@
                 name: selectedMenuItem.name,
                 notes: $scope.formData.notes
             });
+        };
+
+        $scope.removeMenuItem = function(index) {
+            console.log('Remove menu item from selected items...');
+            $scope.selectedItems = $scope.selectedItems.filter(function(item) { return item.tabDetailsIndex !== index });
         };
 
         function getQueryVariable(variable) {
