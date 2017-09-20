@@ -4,9 +4,9 @@ namespace CQRSTutorial.Messaging
 {
     public class ServiceAddressProvider : IServiceAddressProvider
     {
-        public string GetServiceAddressFor<TMessage>()
+        public string GetServiceAddressFor(Type messageType)
         {
-            return GetServiceAddressFor(typeof(TMessage).Name);
+            return GetServiceAddressFor(messageType.Name);
         }
 
         public string GetServiceAddressFor(Type consumerType, string stringToReplace, string stringToReplaceWith)
