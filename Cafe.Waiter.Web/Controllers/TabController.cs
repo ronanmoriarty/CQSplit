@@ -53,8 +53,7 @@ namespace Cafe.Waiter.Web.Controllers
 
         public async Task<ActionResult> Details(Guid tabId)
         {
-            var tabDetails = _tabDetailsRepository.GetTabDetails(tabId);
-            return View(tabDetails);
+            return View();
         }
 
         [HttpPost]
