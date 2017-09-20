@@ -29,10 +29,11 @@
 
         $scope.addMenuItem = function () {
             console.log('Add item to selected items...');
+            var selectedMenuItem = $scope.menuItems.find(function(item) { return item.id === $scope.formData.newMenuItem.id });
             $scope.selectedItems.push({
-                menuNumber: $scope.formData.newMenuItem.id,
-                isDrink: true, // TODO fix this - hardcoded to drink for now.
-                name: $scope.formData.newMenuItem.name,
+                menuNumber: selectedMenuItem.id,
+                isDrink: selectedMenuItem.isDrink,
+                name: selectedMenuItem.name,
                 notes: $scope.formData.notes
             });
         };
