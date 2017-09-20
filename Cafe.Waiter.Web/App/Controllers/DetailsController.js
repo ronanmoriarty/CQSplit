@@ -10,9 +10,9 @@
         });
 
         console.log("tabId is:");
-        var id = getQueryVariable("tabId");
-        console.log(id);
-        var tabDetailsUrl = "/tab/tabdetails?tabId=" + id;
+        $scope.id = getQueryVariable("tabId");
+        console.log($scope.id);
+        var tabDetailsUrl = "/tab/tabdetails?tabId=" + $scope.id;
         $http({
             method: "GET",
             url: tabDetailsUrl
