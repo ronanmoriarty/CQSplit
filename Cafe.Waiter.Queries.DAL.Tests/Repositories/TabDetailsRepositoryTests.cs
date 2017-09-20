@@ -51,21 +51,21 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
                 {
                     new TabItem
                     {
-                        MenuNumber = 123,
+                        MenuNumber = 234,
                         IsDrink = false,
                         Name = "Bacon & Cheese Hamburger",
                         Notes = "No pickle"
                     },
                     new TabItem
                     {
-                        MenuNumber = 123,
+                        MenuNumber = 234,
                         IsDrink = false,
                         Name = "Bacon & Cheese Hamburger",
                         Notes = "Extra pickle. No mayonnaise."
                     },
                     new TabItem
                     {
-                        MenuNumber = 234,
+                        MenuNumber = 123,
                         IsDrink = true,
                         Name = "Coca Cola",
                     },
