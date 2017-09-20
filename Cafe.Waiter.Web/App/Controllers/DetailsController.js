@@ -19,7 +19,8 @@
         }).then(function(successResponse) {
             $scope.waiter = successResponse.data.waiter;
             $scope.tableNumber = successResponse.data.tableNumber;
-            $scope.status = getStatus(successResponse.data.status);
+            $scope.statusId = successResponse.data.status;
+            $scope.status = getStatus($scope.statusId);
             $scope.selectedItems = successResponse.data.items;
             var tabDetailsIndex = 0;
             $scope.selectedItems.forEach(function (item) {
