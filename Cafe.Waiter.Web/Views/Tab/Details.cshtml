@@ -20,7 +20,11 @@
             class="{{selectedItem.isDrink ? 'drink' : 'food'}}"
             data-menu-number="{{selectedItem.menuNumber}}">
             <td>{{selectedItem.name}}</td>
-            <td>{{selectedItem.notes}}</td>
+            <td>{{selectedItem.notes}}
+                <button type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </td>
         </tr>
     </table>
     <form>
@@ -33,7 +37,7 @@
     </form>
     <style>
         .food {
-            background-color: antiquewhite
+            background-color:floralwhite
         }
 
         .drink {
