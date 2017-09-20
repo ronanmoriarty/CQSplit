@@ -26,6 +26,11 @@ namespace Cafe.Waiter.Web.Controllers
             return View(_openTabsRepository.GetOpenTabs());
         }
 
+        public async Task<ActionResult> Create()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<ActionResult> Create(CreateTabModel model)
         {

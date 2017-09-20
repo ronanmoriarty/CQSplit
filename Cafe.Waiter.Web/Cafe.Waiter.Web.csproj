@@ -301,6 +301,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Tab\Index.cshtml" />
     <Content Include="Views\Tab\Details.cshtml" />
+    <Content Include="Views\Tab\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
