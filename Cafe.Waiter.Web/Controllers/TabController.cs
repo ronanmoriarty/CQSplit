@@ -27,13 +27,8 @@ namespace Cafe.Waiter.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create(CreateTabModel model)
         {
-            var model = new CreateTabModel
-            {
-                Waiter = "John",
-                TableNumber = 5
-            };
             var openTabCommand = CreateOpenTabCommand(model);
             await _commandSender.Send(openTabCommand);
             return RedirectToAction("Index", new { tabId = openTabCommand.AggregateId });
