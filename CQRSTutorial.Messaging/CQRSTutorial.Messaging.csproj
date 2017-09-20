@@ -69,8 +69,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandSender.cs" />
     <Compile Include="EndpointProvider.cs" />
     <Compile Include="EnvironmentVariableRabbitMqHostConfiguration.cs" />
+    <Compile Include="ICommandSender.cs" />
     <Compile Include="IConsumerFactory.cs" />
     <Compile Include="IEndpointProvider.cs" />
     <Compile Include="IMessageBusEndpointConfiguration.cs" />

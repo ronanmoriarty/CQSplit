@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cafe.Waiter.Commands;
-using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.Messaging;
@@ -13,15 +12,15 @@ namespace Cafe.Waiter.Web.Controllers
 {
     public class TabController : Controller
     {
-        private readonly IEndpointProvider _endpointProvider;
+        private readonly ICommandSender _commandSender;
         private readonly IOpenTabsRepository _openTabsRepository;
         private readonly ITabDetailsRepository _tabDetailsRepository;
 
-        public TabController(IEndpointProvider endpointProvider,
+        public TabController(ICommandSender commandSender,
             IOpenTabsRepository openTabsRepository,
             ITabDetailsRepository tabDetailsRepository)
         {
-            _endpointProvider = endpointProvider;
+            _commandSender = commandSender;
             _openTabsRepository = openTabsRepository;
             _tabDetailsRepository = tabDetailsRepository;
         }
@@ -35,8 +34,7 @@ namespace Cafe.Waiter.Web.Controllers
         public async Task<ActionResult> Create()
         {
             var openTabCommand = CreateOpenTabCommand();
-            var sendEndpoint = await _endpointProvider.GetSendEndpointFor(typeof(IOpenTabCommand));
-            await sendEndpoint.Send(openTabCommand);
+            await _commandSender.Send(openTabCommand);
             return RedirectToAction("Index", new { tabId = openTabCommand.AggregateId });
         }
 

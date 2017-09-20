@@ -18,6 +18,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
         private Controllers.TabController _tabController;
         private ActionResult _actionResult;
         private ISendEndpoint _endPoint;
+        private ICommandSender _commandSender;
         private IEndpointProvider _endpointProvider;
 
         [SetUp]
@@ -25,7 +26,8 @@ namespace Cafe.Waiter.Web.Tests.TabController
         {
             _endPoint = Substitute.For<ISendEndpoint>();
             _endpointProvider = Substitute.For<IEndpointProvider>();
-            _endpointProvider.GetSendEndpointFor(typeof(IOpenTabCommand)).Returns(Task.FromResult(_endPoint));
+            _endpointProvider.GetSendEndpointFor(typeof(OpenTabCommand)).Returns(Task.FromResult(_endPoint));
+            _commandSender = new CommandSender(_endpointProvider);
         }
 
         [Test]
@@ -54,7 +56,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
 
         private Controllers.TabController CreateTabController()
         {
-            return new Controllers.TabController(_endpointProvider, null, null);
+            return new Controllers.TabController(_commandSender, null, null);
         }
 
         private bool HasIdPropertiesSet(IOpenTabCommand command)
