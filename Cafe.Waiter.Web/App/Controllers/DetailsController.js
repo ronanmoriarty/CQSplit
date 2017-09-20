@@ -39,7 +39,8 @@
                 menuNumber: selectedMenuItem.id,
                 isDrink: selectedMenuItem.isDrink,
                 name: selectedMenuItem.name,
-                notes: $scope.formData.notes
+                notes: $scope.formData.notes,
+                tabDetailsIndex: Math.max.apply(null, $scope.selectedItems.map(function(item) { return item.tabDetailsIndex })) + 1
             });
         };
 
