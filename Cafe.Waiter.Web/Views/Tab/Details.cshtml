@@ -33,8 +33,13 @@
                 ng-options="menuItem.name for menuItem in menuItems track by menuItem.id">
         </select>
         <input type="text" ng-model="formData.notes" placeholder="Add notes"/>
-        <input type="submit" class="btn btn-primary btn-sm" value="Add" ng-click="addMenuItem()"/>
+        <input type="submit" class="btn btn-sm" value="Add" ng-click="addMenuItem()"/>
     </form>
+
+    <form ng-submit="placeOrder()">
+        <input type="submit" id="submit" class="btn btn-sm btn-primary" value="Place Order" />
+    </form>
+
     <style>
         .food {
             background-color:floralwhite

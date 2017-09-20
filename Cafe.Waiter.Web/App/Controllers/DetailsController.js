@@ -50,6 +50,39 @@
             $scope.selectedItems = $scope.selectedItems.filter(function(item) { return item.tabDetailsIndex !== index });
         };
 
+        $scope.placeOrder = function() {
+            var selectedItems = $scope.selectedItems.map(
+                function (item) {
+                    return {
+                        menuNumber: item.menuNumber,
+                        isDrink: item.isDrink,
+                        name: item.name,
+                        notes: item.notes
+                    };
+                }
+            );
+
+            var tabDetails = {
+                id: $scope.id,
+                waiter: $scope.waiter,
+                tableNumber: $scope.tableNumber,
+                status: $scope.statusId,
+                items: selectedItems
+            };
+
+            $http({
+                method: "POST",
+                url: "/tab/details",
+                data: tabDetails
+            }).then(function (successResponse) {
+                console.log("Success placing order");
+                console.log(successResponse);
+            }, function (errorResponse) {
+                console.log("Error placing order");
+                console.log(errorResponse);
+            });
+        }
+
         function getQueryVariable(variable) {
             var query = window.location.search.substring(1);
             var vars = query.split("&");
