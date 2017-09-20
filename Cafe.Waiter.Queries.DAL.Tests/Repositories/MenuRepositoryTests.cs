@@ -20,10 +20,12 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
         private readonly Guid _id = new Guid("35E02AF9-F608-47EE-A620-09E955C5ECB3");
         private int _menuItemId1 = 123;
         private string _menuItemName1 = "Coca Cola";
+        private bool _menuItemIsDrink1 = true;
         private decimal _menuItemPrice1 = 2.5m;
         private int _menuItemId2 = 234;
         private string _menuItemName2 = "Bacon & Cheese Burger";
         private decimal _menuItemPrice2 = 13.0m;
+        private bool _menuItemIsDrink2 = false;
         private IMenuConfiguration _menuConfiguration;
 
         [SetUp]
@@ -42,14 +44,17 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
         public void Can_get_menu()
         {
             var retrievedMenu = _menuRepository.GetMenu();
+            var firstMenuItem = retrievedMenu.Items.First();
+            Assert.That(firstMenuItem.Id, Is.EqualTo(_menuItemId1));
+            Assert.That(firstMenuItem.Name, Is.EqualTo(_menuItemName1));
+            Assert.That(firstMenuItem.IsDrink, Is.EqualTo(_menuItemIsDrink1));
+            Assert.That(firstMenuItem.Price, Is.EqualTo(_menuItemPrice1));
 
-            Assert.That(retrievedMenu.Items.First().Id, Is.EqualTo(_menuItemId1));
-            Assert.That(retrievedMenu.Items.First().Name, Is.EqualTo(_menuItemName1));
-            Assert.That(retrievedMenu.Items.First().Price, Is.EqualTo(_menuItemPrice1));
-
-            Assert.That(retrievedMenu.Items.Last().Id, Is.EqualTo(_menuItemId2));
-            Assert.That(retrievedMenu.Items.Last().Name, Is.EqualTo(_menuItemName2));
-            Assert.That(retrievedMenu.Items.Last().Price, Is.EqualTo(_menuItemPrice2));
+            var lastMenuItem = retrievedMenu.Items.Last();
+            Assert.That(lastMenuItem.Id, Is.EqualTo(_menuItemId2));
+            Assert.That(lastMenuItem.Name, Is.EqualTo(_menuItemName2));
+            Assert.That(lastMenuItem.IsDrink, Is.EqualTo(_menuItemIsDrink2));
+            Assert.That(lastMenuItem.Price, Is.EqualTo(_menuItemPrice2));
         }
 
         private Menu GetMenu()
@@ -62,12 +67,14 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
                     {
                         Id = _menuItemId1,
                         Name = _menuItemName1,
+                        IsDrink = _menuItemIsDrink1,
                         Price = _menuItemPrice1
                     },
                     new MenuItem
                     {
                         Id = _menuItemId2,
                         Name = _menuItemName2,
+                        IsDrink = _menuItemIsDrink2,
                         Price = _menuItemPrice2
                     }
                 }
