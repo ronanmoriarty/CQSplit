@@ -1,7 +1,7 @@
-﻿waiterModule.controller('DetailsController', ['$scope', '$http', '$location', function ($scope, $http, $location) {
-        var menuUrl = '/menu/index';
+﻿waiterModule.controller("DetailsController", ["$scope", "$http", "$location", function ($scope, $http, $location) {
+        var menuUrl = "/menu/index";
         $http({
-            method: 'GET',
+            method: "GET",
             url: menuUrl
         }).then(function (successResponse) {
             $scope.menuItems = successResponse.data.items;
@@ -9,12 +9,12 @@
             console.log(errorResponse);
         });
 
-        console.log('tabId is:');
-        var id = getQueryVariable('tabId');
+        console.log("tabId is:");
+        var id = getQueryVariable("tabId");
         console.log(id);
-        var tabDetailsUrl = '/tab/tabdetails?tabId=' + id;
+        var tabDetailsUrl = "/tab/tabdetails?tabId=" + id;
         $http({
-            method: 'GET',
+            method: "GET",
             url: tabDetailsUrl
         }).then(function(successResponse) {
             $scope.waiter = successResponse.data.waiter;
@@ -33,7 +33,7 @@
         $scope.formData = {};
 
         $scope.addMenuItem = function () {
-            console.log('Add item to selected items...');
+            console.log("Add item to selected items...");
             var selectedMenuItem = $scope.menuItems.find(function(item) { return item.id === $scope.formData.newMenuItem.id });
             $scope.selectedItems.push({
                 menuNumber: selectedMenuItem.id,
@@ -45,38 +45,38 @@
         };
 
         $scope.removeMenuItem = function(index) {
-            console.log('Remove menu item from selected items...');
+            console.log("Remove menu item from selected items...");
             $scope.selectedItems = $scope.selectedItems.filter(function(item) { return item.tabDetailsIndex !== index });
         };
 
         function getQueryVariable(variable) {
             var query = window.location.search.substring(1);
-            var vars = query.split('&');
+            var vars = query.split("&");
             for (var i = 0; i < vars.length; i++) {
-                var pair = vars[i].split('=');
+                var pair = vars[i].split("=");
                 if (decodeURIComponent(pair[0]) == variable) {
                     return decodeURIComponent(pair[1]);
                 }
             }
-            console.log('Query variable %s not found', variable);
+            console.log("Query variable %s not found", variable);
         }
 
         function getStatus(statusId) {
             switch (statusId) {
                 case 0:
-                    return 'Seated';
+                    return "Seated";
                 case 1:
-                    return 'Order placed';
+                    return "Order placed";
                 case 2:
-                    return 'All drinks served';
+                    return "All drinks served";
                 case 3:
-                    return 'All food and drinks served';
+                    return "All food and drinks served";
                 case 4:
-                    return 'Dessert ordered';
+                    return "Dessert ordered";
                 case 5:
-                    return 'All desserts served';
+                    return "All desserts served";
                 case 6:
-                    return 'Bill requested';
+                    return "Bill requested";
             }
         }
     }
