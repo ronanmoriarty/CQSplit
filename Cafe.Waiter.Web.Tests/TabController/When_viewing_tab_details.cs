@@ -8,7 +8,6 @@ namespace Cafe.Waiter.Web.Tests.TabController
     public class When_viewing_tab_details
     {
         private Controllers.TabController _tabController;
-        private readonly Guid _id1 = new Guid("8580FF53-BC03-46A0-83FF-C71F35765BF1");
 
         [SetUp]
         public void SetUp()
@@ -19,7 +18,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
         [Test]
         public void Gets_tab_details_from_repository()
         {
-            var viewResult = (ViewResult)_tabController.Details(_id1).Result;
+            var viewResult = (ViewResult)_tabController.Details();
 
             Assert.That(viewResult.ViewName, Is.Empty); // ie. default view
         }

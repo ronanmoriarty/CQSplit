@@ -33,7 +33,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
         {
             _openTabsRepository.GetOpenTabs().Returns(GetOpenTabs());
 
-            var viewResult = (ViewResult)_tabController.Index().Result;
+            var viewResult = _tabController.Index();
 
             Assert.That(viewResult.ViewName, Is.Empty); // ie. default view
             var openTabs = ((IEnumerable<OpenTab>)viewResult.Model).ToList();

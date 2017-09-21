@@ -21,12 +21,12 @@ namespace Cafe.Waiter.Web.Controllers
             _openTabsRepository = openTabsRepository;
         }
 
-        public async Task<ActionResult> Index()
+        public ViewResult Index()
         {
             return View(_openTabsRepository.GetOpenTabs());
         }
 
-        public async Task<ActionResult> Create()
+        public ViewResult Create()
         {
             return View();
         }
@@ -39,6 +39,16 @@ namespace Cafe.Waiter.Web.Controllers
             return RedirectToAction("Index", new { tabId = openTabCommand.AggregateId });
         }
 
+        public ViewResult Details()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public void Details(TabDetails tabDetails)
+        {
+        }
+
         private OpenTabCommand CreateOpenTabCommand(CreateTabModel model)
         {
             return new OpenTabCommand
@@ -48,16 +58,6 @@ namespace Cafe.Waiter.Web.Controllers
                 Waiter = model.Waiter,
                 TableNumber = model.TableNumber
             };
-        }
-
-        public async Task<ActionResult> Details(Guid tabId)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public void Details(TabDetails tabDetails)
-        {
         }
     }
 }
