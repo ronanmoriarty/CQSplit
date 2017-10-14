@@ -21,23 +21,22 @@ namespace Cafe.Waiter.Web.Api
         public ContentResult TabDetails(Guid tabId)
         {
             var tabDetails = _tabDetailsRepository.GetTabDetails(tabId);
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-            var json = JsonConvert.SerializeObject(tabDetails, Formatting.Indented, jsonSerializerSettings);
-
-            return Content(json, "application/json");
+            return CreateContentResult(tabDetails);
         }
 
         public ContentResult Index()
         {
             var openTabs = _openTabsRepository.GetOpenTabs();
+            return CreateContentResult(openTabs);
+        }
+
+        private ContentResult CreateContentResult(object obj)
+        {
             var jsonSerializerSettings = new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
-            var json = JsonConvert.SerializeObject(openTabs, Formatting.Indented, jsonSerializerSettings);
+            var json = JsonConvert.SerializeObject(obj, Formatting.Indented, jsonSerializerSettings);
 
             return Content(json, "application/json");
         }
