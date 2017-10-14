@@ -1,4 +1,4 @@
-﻿waiterModule.controller("DetailsController", ["$scope", "$http", "$location", function ($scope, $http, $location) {
+﻿waiterModule.controller("DetailsController", ["$scope", "$http", function ($scope, $http) {
         var menuUrl = "/api/menu/index";
         $http({
             method: "GET",
