@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -25,6 +26,11 @@ namespace Cafe.Waiter.Web.Api
             var json = JsonConvert.SerializeObject(tabDetails, Formatting.Indented, jsonSerializerSettings);
 
             return Content(json, "application/json");
+        }
+
+        [HttpPost]
+        public void Details(TabDetails tabDetails)
+        {
         }
     }
 }

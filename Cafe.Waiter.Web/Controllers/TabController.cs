@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cafe.Waiter.Commands;
-using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Models;
 using CQRSTutorial.Messaging;
@@ -43,12 +42,7 @@ namespace Cafe.Waiter.Web.Controllers
         {
             return View();
         }
-
-        [HttpPost]
-        public void Details(TabDetails tabDetails)
-        {
-        }
-
+        
         private OpenTabCommand CreateOpenTabCommand(CreateTabModel model)
         {
             return new OpenTabCommand
