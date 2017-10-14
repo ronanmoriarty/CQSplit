@@ -66,7 +66,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
 
         private Controllers.TabController CreateTabController()
         {
-            return new Controllers.TabController(_commandSender, null);
+            return new Controllers.TabController(_commandSender);
         }
 
         private bool PropertiesMatch(IOpenTabCommand command)

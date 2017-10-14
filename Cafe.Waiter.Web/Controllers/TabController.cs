@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cafe.Waiter.Commands;
-using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Models;
 using CQRSTutorial.Messaging;
 
@@ -11,18 +10,15 @@ namespace Cafe.Waiter.Web.Controllers
     public class TabController : Controller
     {
         private readonly ICommandSender _commandSender;
-        private readonly IOpenTabsRepository _openTabsRepository;
 
-        public TabController(ICommandSender commandSender,
-            IOpenTabsRepository openTabsRepository)
+        public TabController(ICommandSender commandSender)
         {
             _commandSender = commandSender;
-            _openTabsRepository = openTabsRepository;
         }
 
         public ViewResult Index()
         {
-            return View(_openTabsRepository.GetOpenTabs());
+            return View();
         }
 
         public ViewResult Create()

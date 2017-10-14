@@ -1,4 +1,3 @@
-using System;
 using System.Web.Mvc;
 using NUnit.Framework;
 
@@ -12,7 +11,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
         [SetUp]
         public void SetUp()
         {
-            _tabController = new Controllers.TabController(null, null);
+            _tabController = new Controllers.TabController(null);
         }
 
         [Test]

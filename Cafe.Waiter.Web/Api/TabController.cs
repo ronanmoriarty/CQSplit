@@ -10,10 +10,12 @@ namespace Cafe.Waiter.Web.Api
     public class TabController : Controller
     {
         private readonly ITabDetailsRepository _tabDetailsRepository;
+        private readonly IOpenTabsRepository _openTabsRepository;
 
-        public TabController(ITabDetailsRepository tabDetailsRepository)
+        public TabController(ITabDetailsRepository tabDetailsRepository, IOpenTabsRepository openTabsRepository)
         {
             _tabDetailsRepository = tabDetailsRepository;
+            _openTabsRepository = openTabsRepository;
         }
 
         public ContentResult TabDetails(Guid tabId)
@@ -24,6 +26,18 @@ namespace Cafe.Waiter.Web.Api
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
             var json = JsonConvert.SerializeObject(tabDetails, Formatting.Indented, jsonSerializerSettings);
+
+            return Content(json, "application/json");
+        }
+
+        public ContentResult Index()
+        {
+            var openTabs = _openTabsRepository.GetOpenTabs();
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            var json = JsonConvert.SerializeObject(openTabs, Formatting.Indented, jsonSerializerSettings);
 
             return Content(json, "application/json");
         }

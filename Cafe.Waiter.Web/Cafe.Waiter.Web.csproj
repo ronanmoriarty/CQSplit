@@ -242,6 +242,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App\Controllers\DetailsController.js" />
+    <Content Include="App\Controllers\TabController.js" />
     <Content Include="App\Controllers\WaiterModule.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
