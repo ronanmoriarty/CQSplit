@@ -1,6 +1,6 @@
 ﻿using Castle.Windsor;
 
-namespace Cafe.Waiter.Query.Service
+namespace Cafe.Waiter.EventProjecting.Service
 {
     public static class Container
     {

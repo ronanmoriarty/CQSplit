@@ -1,4 +1,4 @@
-﻿namespace Cafe.Waiter.Query.Service.Projectors
+﻿namespace Cafe.Waiter.EventProjecting.Service.Projectors
 {
     public interface IProjector<in TEvent>
     {

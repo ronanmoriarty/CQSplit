@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Tab Details";
+}
+
+<div ng-controller="DetailsController">
+    <h2>Tab Details</h2>
+    <h4>Table: {{tableNumber}}</h4>
+    <h5>Waiter: {{waiter}}</h5>
+    <h5>Status: {{status}}</h5>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Name</td>
+            <td>Notes</td>
+        </tr>
+        </thead>
+        <tr ng-repeat="selectedItem in selectedItems"
+            class="{{selectedItem.isDrink ? 'drink' : 'food'}}"
+            data-menu-number="{{selectedItem.menuNumber}}">
+            <td>{{selectedItem.name}}</td>
+            <td>{{selectedItem.notes}}
+                <button type="button" class="close" aria-label="Close" ng-click="removeMenuItem(selectedItem.tabDetailsIndex)">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </td>
+        </tr>
+    </table>
+    <form>
+        <select class="form-control"
+                ng-model="formData.newMenuItem"
+                ng-options="menuItem.name for menuItem in menuItems track by menuItem.id">
+        </select>
+        <input type="text" ng-model="formData.notes" placeholder="Add notes"/>
+        <input type="submit" class="btn btn-sm" value="Add" ng-click="addMenuItem()"/>
+    </form>
+
+    <form ng-submit="placeOrder()">
+        <input type="submit" id="submit" class="btn btn-sm btn-primary" value="Place Order" />
+    </form>
+
+    <style>
+        .food {
+            background-color:floralwhite
+        }
+
+        .drink {
+            background-color: aliceblue
+        }
+    </style>
+</div>

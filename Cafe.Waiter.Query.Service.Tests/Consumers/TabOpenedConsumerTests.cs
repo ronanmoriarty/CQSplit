@@ -1,13 +1,13 @@
-﻿using NUnit.Framework;
-using NSubstitute;
-using Cafe.Waiter.Query.Service.Consumers;
-using MassTransit;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Cafe.Waiter.EventProjecting.Service.Consumers;
+using Cafe.Waiter.EventProjecting.Service.Projectors;
 using Cafe.Waiter.Events;
-using Cafe.Waiter.Query.Service.Projectors;
+using MassTransit;
+using NSubstitute;
+using NUnit.Framework;
 
-namespace Cafe.Waiter.Query.Service.Tests.Consumers
+namespace Cafe.Waiter.EventProjecting.Service.Tests.Consumers
 {
     [TestFixture]
     public class TabOpenedConsumerTests

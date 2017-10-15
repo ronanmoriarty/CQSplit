@@ -1,9 +1,9 @@
-﻿using CQRSTutorial.Infrastructure;
+﻿using CQRSTutorial.Messaging;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Query.Service.Tests
+namespace Cafe.Waiter.EventProjecting.Service.Tests
 {
     [TestFixture]
     public class WaiterQueryServiceTests

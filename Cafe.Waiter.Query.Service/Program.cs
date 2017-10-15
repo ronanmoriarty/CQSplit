@@ -1,6 +1,6 @@
 ﻿using Topshelf;
 
-namespace Cafe.Waiter.Query.Service
+namespace Cafe.Waiter.EventProjecting.Service
 {
     class Program
     {

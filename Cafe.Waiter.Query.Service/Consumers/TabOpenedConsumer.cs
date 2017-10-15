@@ -1,7 +1,7 @@
+using Cafe.Waiter.EventProjecting.Service.Projectors;
 using Cafe.Waiter.Events;
-using Cafe.Waiter.Query.Service.Projectors;
 
-namespace Cafe.Waiter.Query.Service.Consumers
+namespace Cafe.Waiter.EventProjecting.Service.Consumers
 {
     public class TabOpenedConsumer : Consumer<TabOpened>
     {

@@ -2,45 +2,51 @@
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cafe.Waiter.Commands;
-using Cafe.Waiter.Contracts.Commands;
-using Cafe.Waiter.Queries.DAL.Repositories;
-using CQRSTutorial.Infrastructure;
+using Cafe.Waiter.Web.Models;
+using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.Web.Controllers
 {
     public class TabController : Controller
     {
-        private readonly IEndpointProvider _endpointProvider;
-        private readonly IOpenTabsRepository _openTabsRepository;
+        private readonly ICommandSender _commandSender;
 
-        public TabController(IEndpointProvider endpointProvider, IOpenTabsRepository openTabsRepository)
+        public TabController(ICommandSender commandSender)
         {
-            _endpointProvider = endpointProvider;
-            _openTabsRepository = openTabsRepository;
+            _commandSender = commandSender;
         }
 
-        public async Task<ActionResult> Index()
+        public ViewResult Index()
         {
-            return View(_openTabsRepository.GetOpenTabs());
+            return View();
+        }
+
+        public ViewResult Create()
+        {
+            return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create(CreateTabModel model)
         {
-            var openTabCommand = CreateOpenTabCommand();
-            var sendEndpoint = await _endpointProvider.GetSendEndpointFor<IOpenTabCommand>();
-            await sendEndpoint.Send(openTabCommand);
+            var openTabCommand = CreateOpenTabCommand(model);
+            await _commandSender.Send(openTabCommand);
             return RedirectToAction("Index", new { tabId = openTabCommand.AggregateId });
         }
 
-        private OpenTabCommand CreateOpenTabCommand()
+        public ViewResult Details()
+        {
+            return View();
+        }
+        
+        private OpenTabCommand CreateOpenTabCommand(CreateTabModel model)
         {
             return new OpenTabCommand
             {
                 Id = Guid.NewGuid(),
                 AggregateId = Guid.NewGuid(),
-                Waiter = "John",
-                TableNumber = 5
+                Waiter = model.Waiter,
+                TableNumber = model.TableNumber
             };
         }
     }

@@ -113,11 +113,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\TabController\When_getting_tab_details.cs" />
+    <Compile Include="Api\TabController\When_placing_order.cs" />
     <Compile Include="ContainerTests.cs" />
+    <Compile Include="Api\MenuController\When_getting_menu.cs" />
     <Compile Include="RunOncePerTestRun.cs" />
     <Compile Include="TabController\When_creating_tab.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabController\When_viewing_open_tabs.cs" />
+    <Compile Include="TabController\When_viewing_tab_details.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -144,9 +148,9 @@
       <Project>{d9a17521-4b50-403c-8a7f-d9f82051049b}</Project>
       <Name>CQRSTutorial.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CQRSTutorial.Infrastructure\CQRSTutorial.Infrastructure.csproj">
+    <ProjectReference Include="..\CQRSTutorial.Messaging\CQRSTutorial.Messaging.csproj">
       <Project>{6d6c34d5-5ae9-41e5-b55a-b47552f83bc9}</Project>
-      <Name>CQRSTutorial.Infrastructure</Name>
+      <Name>CQRSTutorial.Messaging</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

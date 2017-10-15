@@ -208,12 +208,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\IPlaceOrderCommandFactory.cs" />
+    <Compile Include="Api\PlaceOrderCommandFactory.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Api\MenuController.cs" />
     <Compile Include="Controllers\OpenTabsQuery.cs" />
+    <Compile Include="Api\TabController.cs" />
     <Compile Include="DependencyInjection\ControllerLifestyleConfigurator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Bootstrapper.cs" />
@@ -230,6 +234,7 @@
     </Compile>
     <Compile Include="Messaging\ConsumerFactory.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CreateTabModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -238,6 +243,9 @@
     <Compile Include="DependencyInjection\WindsorDependencyResolver.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App\Controllers\DetailsController.js" />
+    <Content Include="App\Controllers\TabController.js" />
+    <Content Include="App\Controllers\WaiterModule.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -295,6 +303,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Tab\Index.cshtml" />
+    <Content Include="Views\Tab\Details.cshtml" />
+    <Content Include="Views\Tab\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -328,9 +338,9 @@
       <Project>{92221377-f43d-4c30-9a94-9e5e8fb0c969}</Project>
       <Name>CQRSTutorial.DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CQRSTutorial.Infrastructure\CQRSTutorial.Infrastructure.csproj">
-      <Project>{6D6C34D5-5AE9-41E5-B55A-B47552F83BC9}</Project>
-      <Name>CQRSTutorial.Infrastructure</Name>
+    <ProjectReference Include="..\CQRSTutorial.Messaging\CQRSTutorial.Messaging.csproj">
+      <Project>{6d6c34d5-5ae9-41e5-b55a-b47552f83bc9}</Project>
+      <Name>CQRSTutorial.Messaging</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

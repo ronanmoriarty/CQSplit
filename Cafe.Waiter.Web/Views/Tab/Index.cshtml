@@ -1,26 +1,25 @@
-﻿@model IEnumerable<Cafe.Waiter.Queries.DAL.Models.OpenTab>
-@{
+﻿@{
     ViewBag.Title = "CQRS Tutorial - List of Open Tabs";
 }
 
-<div class="jumbotron">
-    <h1>List of Open Tabs</h1>
-</div>
-<table>
-    <thead>
-    <tr>
-        <td>Id</td>
-        <td>Waiter</td>
-        <td>TableNumber</td>
-    </tr>
-    </thead>
-    @foreach (var openTab in Model)
-    {
-        <tr>
-            <td>@openTab.Id</td>
-            <td>@openTab.Waiter</td>
-            <td>@openTab.TableNumber</td>
-            <td>@openTab.Status</td>
+<div ng-controller="TabController">
+    <div class="jumbotron">
+        <h3>List of Open Tabs</h3>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Table Number</td>
+                <td>Waiter</td>
+                <td>Status</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tr ng-repeat="tab in tabs">
+            <td>{{tab.tableNumber}}</td>
+            <td>{{tab.waiter}}</td>
+            <td>{{tab.status}}</td>
+            <td><a href="/tab/details?tabId={{tab.id}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
         </tr>
-    }
-</table>
+    </table>
+</div>

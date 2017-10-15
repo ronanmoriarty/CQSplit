@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using Cafe.Waiter.Query.Service.Projectors;
+using Cafe.Waiter.EventProjecting.Service.Projectors;
 using CQRSTutorial.Core;
 using log4net;
 using MassTransit;
 
-namespace Cafe.Waiter.Query.Service.Consumers
+namespace Cafe.Waiter.EventProjecting.Service.Consumers
 {
     public abstract class Consumer<TEvent> : IConsumer<TEvent>
         where TEvent : class, IEvent
