@@ -72,7 +72,7 @@
 
             $http({
                 method: "POST",
-                url: "/api/tab/details",
+                url: "/api/tab/placeOrder",
                 data: tabDetails
             }).then(function (successResponse) {
                 console.log("Success placing order");

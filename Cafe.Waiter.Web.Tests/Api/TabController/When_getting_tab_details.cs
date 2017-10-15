@@ -23,7 +23,7 @@ namespace Cafe.Waiter.Web.Tests.Api.TabController
         {
             _tabDetailsRepository = Substitute.For<ITabDetailsRepository>();
             _tabDetailsRepository.GetTabDetails(_id).Returns(new TabDetails { Id = _id });
-            _tabController = new Web.Api.TabController(_tabDetailsRepository, null);
+            _tabController = new Web.Api.TabController(_tabDetailsRepository, null, null, null);
 
             WhenGettingTabDetails();
         }

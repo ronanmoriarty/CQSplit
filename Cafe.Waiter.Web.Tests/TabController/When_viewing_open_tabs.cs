@@ -28,7 +28,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
         public void SetUp()
         {
             _openTabsRepository = Substitute.For<IOpenTabsRepository>();
-            _tabController = new Web.Api.TabController(null, _openTabsRepository);
+            _tabController = new Web.Api.TabController(null, _openTabsRepository, null, null);
             _openTabsRepository.GetOpenTabs().Returns(GetOpenTabs());
 
             _contentResult = _tabController.Index();
