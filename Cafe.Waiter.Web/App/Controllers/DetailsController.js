@@ -19,8 +19,7 @@
         }).then(function(successResponse) {
             $scope.waiter = successResponse.data.waiter;
             $scope.tableNumber = successResponse.data.tableNumber;
-            $scope.statusId = successResponse.data.status;
-            $scope.status = getStatus($scope.statusId);
+            $scope.status = successResponse.data.status;
             $scope.selectedItems = successResponse.data.items;
             var tabDetailsIndex = 0;
             $scope.selectedItems.forEach(function (item) {
@@ -66,7 +65,7 @@
                 id: $scope.id,
                 waiter: $scope.waiter,
                 tableNumber: $scope.tableNumber,
-                status: $scope.statusId,
+                status: $scope.status,
                 items: selectedItems
             };
 
@@ -94,25 +93,6 @@
             }
 
             throw ("QueryString key %s not found", key);
-        }
-
-        function getStatus(statusId) {
-            switch (statusId) {
-                case 0:
-                    return "Seated";
-                case 1:
-                    return "Order placed";
-                case 2:
-                    return "All drinks served";
-                case 3:
-                    return "All food and drinks served";
-                case 4:
-                    return "Dessert ordered";
-                case 5:
-                    return "All desserts served";
-                case 6:
-                    return "Bill requested";
-            }
         }
     }
 ]);

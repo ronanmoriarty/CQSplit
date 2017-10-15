@@ -18,7 +18,7 @@
         <tr ng-repeat="tab in tabs">
             <td>{{tab.tableNumber}}</td>
             <td>{{tab.waiter}}</td>
-            <td>{{tab.status}}</td>
+            <td>{{tab.status.description}}</td>
             <td><a href="/tab/details?tabId={{tab.id}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
         </tr>
     </table>
