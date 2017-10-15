@@ -5,6 +5,7 @@ using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
+using Cafe.Waiter.Web.Api;
 using CQRSTutorial.Messaging;
 using NSubstitute;
 using NUnit.Framework;
@@ -38,7 +39,7 @@ namespace Cafe.Waiter.Web.Tests.Api.TabController
             _commandSender = Substitute.For<ICommandSender>();
             _menuRepository = Substitute.For<IMenuRepository>();
             _menuRepository.GetMenu().Returns(GetMenu());
-            _tabController = new Web.Api.TabController(null, null, _commandSender, _menuRepository);
+            _tabController = new Web.Api.TabController(null, null, _commandSender, new PlaceOrderCommandFactory(_menuRepository));
 
             _tabController.PlaceOrder(GetTabDetails());
         }
