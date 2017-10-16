@@ -1,4 +1,4 @@
-﻿waiterModule.controller("TabController", ["$scope", "$http", function ($scope, $http) {
+﻿waiterModule.controller("TabController", ["$scope", "$http", "$location", function ($scope, $http, $location) {
     var tabListUrl = "/api/tab/index";
     $scope.waiter = "Jim"; // hard-coded for now. TODO get this from api later
     $http({
@@ -31,5 +31,9 @@
         }, function (errorResponse) {
             console.log(errorResponse);
         });
+    };
+
+    $scope.viewDetails = function(id) {
+        $location.path("/details").search({tabId: id});
     };
 }]);

@@ -1,8 +1,4 @@
-﻿@{
-    ViewBag.Title = "CQRS Tutorial - List of Open Tabs";
-}
-
-<div ng-controller="TabController">
+﻿<div ng-controller="TabController">
     <div class="jumbotron">
         <h3>List of Open Tabs</h3>
     </div>
@@ -19,7 +15,7 @@
             <td>{{tab.tableNumber}}</td>
             <td>{{tab.waiter}}</td>
             <td>{{tab.status.description}}</td>
-            <td><a href="/tab/details?tabId={{tab.id}}"><span class="glyphicon glyphicon-pencil"></span></a></td>
+            <td><button class="btn-link" ng-click="viewDetails(tab.id)"><span class="glyphicon glyphicon-pencil"></span></button></td>
         </tr>
     </table>
 
