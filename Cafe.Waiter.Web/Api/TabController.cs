@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
+using Cafe.Waiter.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
+using Cafe.Waiter.Web.Models;
 using CQRSTutorial.Messaging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -44,6 +47,23 @@ namespace Cafe.Waiter.Web.Api
             _commandSender.Send(_placeOrderCommandFactory.Create(tabDetails));
         }
 
+        [HttpPost]
+        public async Task Create(CreateTabModel model)
+        {
+            var openTabCommand = CreateOpenTabCommand(model);
+            await _commandSender.Send(openTabCommand);
+        }
+
+        private OpenTabCommand CreateOpenTabCommand(CreateTabModel model)
+        {
+            return new OpenTabCommand
+            {
+                Id = Guid.NewGuid(),
+                AggregateId = Guid.NewGuid(),
+                Waiter = model.Waiter,
+                TableNumber = model.TableNumber
+            };
+        }
         private ContentResult CreateContentResult(object obj)
         {
             var jsonSerializerSettings = new JsonSerializerSettings

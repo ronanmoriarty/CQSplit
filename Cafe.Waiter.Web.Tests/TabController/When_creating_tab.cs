@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Web.Models;
@@ -18,8 +17,7 @@ namespace Cafe.Waiter.Web.Tests.TabController
     {
         private const string Waiter = "John";
         private const int TableNumber = 5;
-        private Controllers.TabController _tabController;
-        private ActionResult _actionResult;
+        private Web.Api.TabController _tabController;
         private ISendEndpoint _endPoint;
         private ICommandSender _commandSender;
         private IEndpointProvider _endpointProvider;
@@ -47,26 +45,15 @@ namespace Cafe.Waiter.Web.Tests.TabController
             await _endPoint.Received().Send(Arg.Is<IOpenTabCommand>(command => PropertiesMatch(command))); // don't care too much about other values (TableNumber and waiter name) at the moment - happy setting them to arbitrary values for display purposes - no need to assert them.
         }
 
-        [Test]
-        public async Task Redirects_to_index_action_indicating_id_of_newly_created_tab()
-        {
-            await WhenTabCreated();
-
-            var tabId = GetTabId();
-            var redirectToRouteResult = (RedirectToRouteResult)_actionResult;
-            Assert.That(redirectToRouteResult.RouteValues["action"], Is.EqualTo("Index"));
-            Assert.That(redirectToRouteResult.RouteValues["tabId"], Is.EqualTo(tabId));
-        }
-
         private async Task WhenTabCreated()
         {
             _tabController = CreateTabController();
-            _actionResult = await _tabController.Create(_model);
+            await _tabController.Create(_model);
         }
 
-        private Controllers.TabController CreateTabController()
+        private Web.Api.TabController CreateTabController()
         {
-            return new Controllers.TabController(_commandSender);
+            return new Web.Api.TabController(null, null,_commandSender, null);
         }
 
         private bool PropertiesMatch(IOpenTabCommand command)
