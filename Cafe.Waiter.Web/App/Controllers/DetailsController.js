@@ -1,4 +1,4 @@
-﻿waiterModule.controller("DetailsController", ["$scope", "$http", function ($scope, $http) {
+﻿waiterModule.controller("DetailsController", ["$scope", "$http", "$routeParams", function ($scope, $http, $routeParams) {
         var menuUrl = "/api/menu/index";
         $http({
             method: "GET",
@@ -10,7 +10,7 @@
         });
 
         console.log("tabId is:");
-        $scope.id = getQueryVariable("tabId");
+        $scope.id = $routeParams.tabId;
         console.log($scope.id);
         var tabDetailsUrl = "/api/tab/tabdetails?tabId=" + $scope.id;
         $http({
@@ -80,19 +80,6 @@
                 console.log("Error placing order");
                 console.log(errorResponse);
             });
-        }
-
-        function getQueryVariable(key) {
-            var query = window.location.search.substring(1);
-            var vars = query.split("&");
-            for (var i = 0; i < vars.length; i++) {
-                var pair = vars[i].split("=");
-                if (decodeURIComponent(pair[0]) === key) {
-                    return decodeURIComponent(pair[1]);
-                }
-            }
-
-            throw ("QueryString key %s not found", key);
         }
     }
 ]);

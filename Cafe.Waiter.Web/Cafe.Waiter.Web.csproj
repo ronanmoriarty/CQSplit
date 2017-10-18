@@ -216,7 +216,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Api\MenuController.cs" />
-    <Compile Include="Controllers\OpenTabsQuery.cs" />
     <Compile Include="Api\TabController.cs" />
     <Compile Include="DependencyInjection\ControllerLifestyleConfigurator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -228,7 +227,6 @@
     <Compile Include="DependencyInjection\PerWebRequestLifestyle.cs" />
     <Compile Include="DependencyInjection\TransientLifestyle.cs" />
     <Compile Include="DependencyInjection\ControllerWindsorInstaller.cs" />
-    <Compile Include="Controllers\TabController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -245,7 +243,11 @@
   <ItemGroup>
     <Content Include="App\Controllers\DetailsController.js" />
     <Content Include="App\Controllers\TabController.js" />
-    <Content Include="App\Controllers\WaiterModule.js" />
+    <Content Include="App\Index.html" />
+    <Content Include="App\Routing.js" />
+    <Content Include="App\Views\Details.html" />
+    <Content Include="App\Views\Tabs.html" />
+    <Content Include="App\WaiterModule.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -302,9 +304,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Tab\Index.cshtml" />
-    <Content Include="Views\Tab\Details.cshtml" />
-    <Content Include="Views\Tab\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

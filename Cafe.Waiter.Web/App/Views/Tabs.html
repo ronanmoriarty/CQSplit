@@ -1,0 +1,38 @@
+﻿<div ng-controller="TabController">
+    <div class="jumbotron">
+        <h3>List of Open Tabs</h3>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <td>Table Number</td>
+            <td>Waiter</td>
+            <td>Status</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tr ng-repeat="tab in tabs">
+            <td>{{tab.tableNumber}}</td>
+            <td>{{tab.waiter}}</td>
+            <td>{{tab.status.description}}</td>
+            <td><button class="btn-link" ng-click="viewDetails(tab.id)"><span class="glyphicon glyphicon-pencil"></span></button></td>
+        </tr>
+    </table>
+
+    <div class="form-horizontal well">
+        <h4>Or, create a new tab:</h4>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="tableNumber">Table Number</label>
+            <div class="col-md-10">
+                <input type="number" id="tableNumber" class="form-control" ng-model="formData.tableNumber"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-sm btn-primary" value="Create" ng-click="createNewTab()" />
+            </div>
+        </div>
+    </div>
+</div>
