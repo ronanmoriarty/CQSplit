@@ -228,7 +228,6 @@
     <Compile Include="DependencyInjection\PerWebRequestLifestyle.cs" />
     <Compile Include="DependencyInjection\TransientLifestyle.cs" />
     <Compile Include="DependencyInjection\ControllerWindsorInstaller.cs" />
-    <Compile Include="Controllers\TabController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

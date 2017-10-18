@@ -20,7 +20,7 @@ namespace Cafe.Waiter.Web
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                namespaces: new[] {typeof(TabController).Namespace}
+                namespaces: new[] {typeof(HomeController).Namespace}
             );
         }
     }

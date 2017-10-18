@@ -24,7 +24,7 @@ namespace Cafe.Waiter.Web.Tests
 
         private IEnumerable<Type> GetAllControllerTypes()
         {
-            return typeof(Controllers.TabController).Assembly.GetTypes()
+            return typeof(Web.Api.TabController).Assembly.GetTypes()
                 .Where(type => typeof(Controller).IsAssignableFrom(type));
         }
 
