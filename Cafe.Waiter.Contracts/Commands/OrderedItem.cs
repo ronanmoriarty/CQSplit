@@ -5,6 +5,7 @@ namespace Cafe.Waiter.Contracts.Commands
         public int MenuNumber { get; set; }
         public string Description { get; set; }
         public bool IsDrink { get; set; }
+        public string Notes { get; set; }
         public decimal Price { get; set; }
     }
 }

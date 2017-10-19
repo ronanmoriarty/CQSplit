@@ -117,12 +117,14 @@ namespace Cafe.Waiter.Web.Tests.Api.TabController
             Assert.That(first.MenuNumber, Is.EqualTo(_menuItemId1));
             Assert.That(first.Description, Is.EqualTo(_name1));
             Assert.That(first.IsDrink, Is.EqualTo(_isDrink1));
+            Assert.That(first.Notes, Is.EqualTo(_notes1));
             Assert.That(first.Price, Is.EqualTo(_price1));
 
             var second = commandItems.Last();
             Assert.That(second.MenuNumber, Is.EqualTo(_menuItemId2));
             Assert.That(second.Description, Is.EqualTo(_name2));
             Assert.That(second.IsDrink, Is.EqualTo(_isDrink2));
+            Assert.That(second.Notes, Is.EqualTo(_notes2));
             Assert.That(second.Price, Is.EqualTo(_price2));
         }
     }

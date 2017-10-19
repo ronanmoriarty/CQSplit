@@ -19,7 +19,7 @@ namespace CQRSTutorial.DAL
         {
             ((NHibernateUnitOfWork)UnitOfWork).Session.SaveOrUpdate(objectToSave);
         }
-        
+
         public TTypeToPersist Get(Guid id)
         {
             using (var session = SessionFactory.OpenSession())

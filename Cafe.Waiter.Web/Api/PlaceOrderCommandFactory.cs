@@ -41,6 +41,7 @@ namespace Cafe.Waiter.Web.Api
                 Description = item.Name,
                 IsDrink = item.IsDrink,
                 MenuNumber = item.MenuNumber,
+                Notes = item.Notes,
                 Price = currentMenuItem.Price
             };
         }
