@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Cafe.Waiter.Commands;
@@ -29,16 +31,14 @@ namespace Cafe.Waiter.Web.Api
             _placeOrderCommandFactory = placeOrderCommandFactory;
         }
 
-        public ContentResult TabDetails(Guid tabId)
+        public JsonResult TabDetails(Guid tabId)
         {
-            var tabDetails = _tabDetailsRepository.GetTabDetails(tabId);
-            return CreateContentResult(tabDetails);
+            return Json(_tabDetailsRepository.GetTabDetails(tabId), JsonRequestBehavior.AllowGet);
         }
 
-        public ContentResult Index()
+        public JsonResult Index()
         {
-            var openTabs = _openTabsRepository.GetOpenTabs();
-            return CreateContentResult(openTabs);
+            return Json(_openTabsRepository.GetOpenTabs(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -63,16 +63,6 @@ namespace Cafe.Waiter.Web.Api
                 Waiter = model.Waiter,
                 TableNumber = model.TableNumber
             };
-        }
-        private ContentResult CreateContentResult(object obj)
-        {
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-            var json = JsonConvert.SerializeObject(obj, Formatting.Indented, jsonSerializerSettings);
-
-            return Content(json, "application/json");
         }
     }
 }

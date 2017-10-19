@@ -4,8 +4,6 @@ using System.Linq;
 using System.Web.Mvc;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -22,7 +20,8 @@ namespace Cafe.Waiter.Web.Tests.TabController
         private readonly Guid _id2 = new Guid("10D3745B-AB22-4C64-8CA1-ACDC51766C74");
         private int _tableNumber2 = 234;
         private string _waiter2 = "Bob";
-        private ContentResult _contentResult;
+        private List<OpenTab> _openTabs;
+        private JsonResult _jsonResult;
 
         [SetUp]
         public void SetUp()
@@ -31,28 +30,28 @@ namespace Cafe.Waiter.Web.Tests.TabController
             _tabController = new Web.Api.TabController(null, _openTabsRepository, null, null);
             _openTabsRepository.GetOpenTabs().Returns(GetOpenTabs());
 
-            _contentResult = _tabController.Index();
+            _jsonResult = _tabController.Index();
+            _openTabs = ((IEnumerable<OpenTab>)_jsonResult.Data).ToList();
         }
 
         [Test]
         public void Gets_open_tabs_from_repository()
         {
-            var openTabs = GetOpenTabsFromContent(_contentResult).ToList();
-            Assert.That(openTabs.Count, Is.EqualTo(2));
-            var firstOpenTab = openTabs.First();
+            Assert.That(_openTabs.Count, Is.EqualTo(2));
+            var firstOpenTab = _openTabs.First();
             Assert.That(firstOpenTab.Id, Is.EqualTo(_id1));
             Assert.That(firstOpenTab.Waiter, Is.EqualTo(_waiter1));
             Assert.That(firstOpenTab.TableNumber, Is.EqualTo(_tableNumber1));
-            var secondOpenTab = openTabs.Last();
+            var secondOpenTab = _openTabs.Last();
             Assert.That(secondOpenTab.Id, Is.EqualTo(_id2));
             Assert.That(secondOpenTab.Waiter, Is.EqualTo(_waiter2));
             Assert.That(secondOpenTab.TableNumber, Is.EqualTo(_tableNumber2));
         }
 
         [Test]
-        public void Content_type_is_json()
+        public void AllowGet()
         {
-            Assert.That(_contentResult.ContentType, Is.EqualTo("application/json"));
+            Assert.That(_jsonResult.JsonRequestBehavior, Is.EqualTo(JsonRequestBehavior.AllowGet));
         }
 
         private IEnumerable<OpenTab> GetOpenTabs()
@@ -72,16 +71,6 @@ namespace Cafe.Waiter.Web.Tests.TabController
                     Waiter = _waiter2
                 }
             };
-        }
-
-        private static IEnumerable<OpenTab> GetOpenTabsFromContent(ContentResult contentResult)
-        {
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-
-            return JsonConvert.DeserializeObject<IEnumerable<OpenTab>>(contentResult.Content, jsonSerializerSettings);
         }
     }
 }
