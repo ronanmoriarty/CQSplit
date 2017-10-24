@@ -10,7 +10,7 @@ using MassTransit;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Web.Tests.TabController
+namespace Cafe.Waiter.Web.Tests.Api.TabController
 {
     [TestFixture]
     public class When_creating_tab
