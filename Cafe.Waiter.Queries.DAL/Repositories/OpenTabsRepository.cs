@@ -6,16 +6,14 @@ using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
 using CQRSTutorial.DAL;
 using Newtonsoft.Json;
-using NHibernate;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
 {
-    public class OpenTabsRepository : NHibernateRepositoryBase<Serialized.OpenTab>, IOpenTabsRepository
+    public class OpenTabsRepository : IOpenTabsRepository
     {
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-        public OpenTabsRepository(ISessionFactory sessionFactory, ISqlConnectionFactory sqlConnectionFactory)
-            : base(sessionFactory)
+        public OpenTabsRepository(ISqlConnectionFactory sqlConnectionFactory)
         {
             _sqlConnectionFactory = sqlConnectionFactory;
         }
@@ -25,7 +23,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
             return GetAll().Select(Map);
         }
 
-        protected override IEnumerable<Serialized.OpenTab> GetAll()
+        private IEnumerable<Serialized.OpenTab> GetAll()
         {
             using (var sqlConnection = _sqlConnectionFactory.Create())
             {
@@ -48,7 +46,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
             }
         }
 
-        public override Serialized.OpenTab Get(Guid id)
+        public Serialized.OpenTab Get(Guid id)
         {
             using (var sqlConnection = _sqlConnectionFactory.Create())
             {
