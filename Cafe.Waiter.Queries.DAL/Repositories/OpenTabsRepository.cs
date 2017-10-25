@@ -48,21 +48,54 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
             }
         }
 
+        public override Serialized.OpenTab Get(Guid id)
+        {
+            using (var sqlConnection = _sqlConnectionFactory.Create())
+            {
+                sqlConnection.Open();
+                using (var sqlCommand = new SqlCommand("SELECT Data FROM dbo.OpenTabs WHERE Id = @id", sqlConnection))
+                {
+                    sqlCommand.CommandType = CommandType.Text;
+                    sqlCommand.Parameters.AddWithValue("@id", id);
+                    var sqlDataReader = sqlCommand.ExecuteReader();
+                    if (sqlDataReader.Read())
+                    {
+                        var data = sqlDataReader.GetString(sqlDataReader.GetOrdinal("Data"));
+                        return new Serialized.OpenTab
+                        {
+                            Id = id,
+                            Data = data
+                        };
+                    }
+                }
+            }
+
+            return null;
+        }
+
         public void Insert(OpenTab openTab)
         {
-            using (var session = SessionFactory.OpenSession())
+            var existingOpenTab = Get(openTab.Id);
+            if (existingOpenTab == null)
             {
-                // TODO: all this UnitOfWork needs to move out of here - change tests to support this.
-                using (var unitOfWork = new NHibernateUnitOfWork(session))
+                using (var sqlConnection = _sqlConnectionFactory.Create())
                 {
-                    unitOfWork.Start();
-                    UnitOfWork = unitOfWork;
-                    SaveOrUpdate(new Serialized.OpenTab
+                    sqlConnection.Open();
+
+                    using (var transaction = sqlConnection.BeginTransaction())
                     {
-                        Id = openTab.Id,
-                        Data = JsonConvert.SerializeObject(openTab)
-                    });
-                    unitOfWork.Commit();
+                        using (var sqlCommand = sqlConnection.CreateCommand())
+                        {
+                            sqlCommand.Transaction = transaction;
+                            sqlCommand.CommandType = CommandType.Text;
+                            sqlCommand.CommandText = "INSERT INTO dbo.OpenTabs(Id, Data) VALUES (@id, @data)";
+                            sqlCommand.Parameters.AddWithValue("@id", openTab.Id);
+                            sqlCommand.Parameters.AddWithValue("@data", JsonConvert.SerializeObject(openTab));
+                            sqlCommand.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                    }
                 }
             }
         }
