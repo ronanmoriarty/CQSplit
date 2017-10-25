@@ -4,11 +4,11 @@ using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public abstract class RepositoryBase<TTypeToPersist> where TTypeToPersist : class
+    public abstract class NHibernateRepositoryBase<TTypeToPersist> where TTypeToPersist : class
     {
         protected readonly ISessionFactory SessionFactory;
 
-        protected RepositoryBase(ISessionFactory sessionFactory)
+        protected NHibernateRepositoryBase(ISessionFactory sessionFactory)
         {
             SessionFactory = sessionFactory;
         }

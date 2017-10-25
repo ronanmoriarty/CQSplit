@@ -8,7 +8,7 @@ using NHibernate.Criterion;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventStore : RepositoryBase<Event>, IEventRepository
+    public class EventStore : NHibernateRepositoryBase<Event>, IEventRepository
     {
         private readonly EventMapper _eventMapper;
 

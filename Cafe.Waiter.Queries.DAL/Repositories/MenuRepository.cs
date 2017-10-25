@@ -5,7 +5,7 @@ using NHibernate;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
 {
-    public class MenuRepository : RepositoryBase<Serialized.Menu>, IMenuRepository
+    public class MenuRepository : NHibernateRepositoryBase<Serialized.Menu>, IMenuRepository
     {
         private readonly IMenuConfiguration _menuConfiguration;
 

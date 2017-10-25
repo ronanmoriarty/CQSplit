@@ -7,7 +7,7 @@ using NHibernate;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
 {
-    public class OpenTabsRepository : RepositoryBase<Serialized.OpenTab>, IOpenTabsRepository
+    public class OpenTabsRepository : NHibernateRepositoryBase<Serialized.OpenTab>, IOpenTabsRepository
     {
         public OpenTabsRepository(ISessionFactory sessionFactory)
             : base(sessionFactory)

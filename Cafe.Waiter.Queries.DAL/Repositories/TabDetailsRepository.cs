@@ -6,7 +6,7 @@ using NHibernate;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
 {
-    public class TabDetailsRepository : RepositoryBase<Serialized.TabDetails>, ITabDetailsRepository
+    public class TabDetailsRepository : NHibernateRepositoryBase<Serialized.TabDetails>, ITabDetailsRepository
     {
         public TabDetailsRepository(ISessionFactory sessionFactory)
             : base(sessionFactory)
