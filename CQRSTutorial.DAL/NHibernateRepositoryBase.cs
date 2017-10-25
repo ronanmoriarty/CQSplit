@@ -31,7 +31,7 @@ namespace CQRSTutorial.DAL
             }
         }
 
-        protected IEnumerable<TTypeToPersist> GetAll()
+        protected virtual IEnumerable<TTypeToPersist> GetAll()
         {
             using (var session = SessionFactory.OpenSession())
             {
