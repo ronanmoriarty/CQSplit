@@ -9,9 +9,12 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
 {
     public class OpenTabsRepository : NHibernateRepositoryBase<Serialized.OpenTab>, IOpenTabsRepository
     {
-        public OpenTabsRepository(ISessionFactory sessionFactory)
+        private readonly ISqlConnectionFactory _sqlConnectionFactory;
+
+        public OpenTabsRepository(ISessionFactory sessionFactory, ISqlConnectionFactory sqlConnectionFactory)
             : base(sessionFactory)
         {
+            _sqlConnectionFactory = sqlConnectionFactory;
         }
 
         public IEnumerable<OpenTab> GetOpenTabs()
