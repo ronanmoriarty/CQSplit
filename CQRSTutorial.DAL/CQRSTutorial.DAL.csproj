@@ -75,6 +75,7 @@
     <Compile Include="EventToPublishMapper.cs" />
     <Compile Include="EventToPublishMapping.cs" />
     <Compile Include="EventToPublishRepository.cs" />
+    <Compile Include="ISqlConnectionFactory.cs" />
     <Compile Include="IConnectionStringProvider.cs" />
     <Compile Include="IConnectionStringProviderFactory.cs" />
     <Compile Include="IEventRepository.cs" />
