@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
 using CQRSTutorial.DAL;
@@ -38,25 +37,13 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
             var existingOpenTab = Get(openTab.Id);
             if (existingOpenTab == null)
             {
-                using (var sqlConnection = _sqlConnectionFactory.Create())
+                var waiterDbContext = new WaiterDbContext();
+                waiterDbContext.OpenTabs.Add(new Serialized.OpenTab
                 {
-                    sqlConnection.Open();
-
-                    using (var transaction = sqlConnection.BeginTransaction())
-                    {
-                        using (var sqlCommand = sqlConnection.CreateCommand())
-                        {
-                            sqlCommand.Transaction = transaction;
-                            sqlCommand.CommandType = CommandType.Text;
-                            sqlCommand.CommandText = "INSERT INTO dbo.OpenTabs(Id, Data) VALUES (@id, @data)";
-                            sqlCommand.Parameters.AddWithValue("@id", openTab.Id);
-                            sqlCommand.Parameters.AddWithValue("@data", JsonConvert.SerializeObject(openTab));
-                            sqlCommand.ExecuteNonQuery();
-                        }
-
-                        transaction.Commit();
-                    }
-                }
+                    Id = openTab.Id,
+                    Data = JsonConvert.SerializeObject(openTab)
+                });
+                waiterDbContext.SaveChanges();
             }
         }
 
