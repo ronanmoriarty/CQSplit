@@ -118,7 +118,6 @@
     <Compile Include="WaiterCommandService.cs" />
     <Compile Include="WaiterServiceWindsorInstaller.cs" />
     <Compile Include="WriteModelConnectionStringProviderFactory.cs" />
-    <Compile Include="WriteModelSessionFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
