@@ -22,11 +22,15 @@ namespace CQRSTutorial.DAL.Tests
         private const string EventsToPublishTableName = "dbo.EventsToPublish";
         private const string EventStoreTableName = "dbo.Events";
         private readonly ILog _logger = LogManager.GetLogger(typeof(EventHandlerTests));
+        private const string Id1 = "B3C9CBC3-E09B-4C9E-A331-FA11BC3185F9";
+        private const string Id2 = "259C8A26-5BCC-4986-8C15-6BE305195923";
 
         [SetUp]
         public void SetUp()
         {
             _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE ID IN ('{Id1}','{Id2}')");
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE ID IN ('{Id1}','{Id2}')");
             _eventToPublishRepositoryDecorator = CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(
                 new EventToPublishRepository(
                     SessionFactory.Instance,
@@ -47,12 +51,12 @@ namespace CQRSTutorial.DAL.Tests
 
             _testEvent = new TestEvent
             {
-                Id = new Guid("B3C9CBC3-E09B-4C9E-A331-FA11BC3185F9"),
+                Id = new Guid(Id1),
                 AggregateId = _aggregateId
             };
             _testEvent2 = new TestEvent2
             {
-                Id = new Guid("259C8A26-5BCC-4986-8C15-6BE305195923"),
+                Id = new Guid(Id2),
                 AggregateId = _aggregateId
             };
         }
