@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cafe.Waiter.Queries.DAL.Models;
-using Cafe.Waiter.Queries.DAL.NHibernate;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using Newtonsoft.Json;
@@ -24,7 +23,7 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             var tabDetailsJson = JsonConvert.SerializeObject(_tabDetails);
             _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.TabDetails WHERE Id = '{_id}'");
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.TabDetails(Id,Data) VALUES ('{_id}','{tabDetailsJson}')");
-            _tabDetailsRepository = new TabDetailsRepository(ReadModelSessionFactory.Instance);
+            _tabDetailsRepository = new TabDetailsRepository();
         }
 
         [Test]

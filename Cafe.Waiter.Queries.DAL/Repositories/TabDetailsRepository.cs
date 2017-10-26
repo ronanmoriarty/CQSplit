@@ -1,22 +1,15 @@
 ﻿using System;
+using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
-using CQRSTutorial.DAL;
 using Newtonsoft.Json;
-using NHibernate;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
 {
-    public class TabDetailsRepository : NHibernateRepositoryBase<Serialized.TabDetails>, ITabDetailsRepository
+    public class TabDetailsRepository: ITabDetailsRepository
     {
-        public TabDetailsRepository(ISessionFactory sessionFactory)
-            : base(sessionFactory)
-        {
-        }
-
         public TabDetails GetTabDetails(Guid id)
         {
-            var serializedTabDetails = Get(id);
-            return Map(serializedTabDetails);
+            return Map(new WaiterDbContext().TabDetails.Single(x => x.Id == id));
         }
 
         private TabDetails Map(Serialized.TabDetails tabDetails)

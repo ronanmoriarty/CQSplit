@@ -11,5 +11,6 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
         }
 
         public DbSet<Serialized.OpenTab> OpenTabs { get; set; }
+        public DbSet<Serialized.TabDetails> TabDetails { get; set; }
     }
 }
