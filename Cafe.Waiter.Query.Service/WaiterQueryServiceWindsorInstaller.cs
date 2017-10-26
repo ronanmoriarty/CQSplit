@@ -43,9 +43,6 @@ namespace Cafe.Waiter.EventProjecting.Service
                     .Instance(ReadModelSessionFactory.Instance)
                     .Named("sessionFactory"),
                 Component
-                    .For<ISqlConnectionFactory>()
-                    .ImplementedBy(typeof(SqlConnectionFactory)),
-                Component
                     .For<IConnectionStringProviderFactory>()
                     .Instance(ReadModelConnectionStringProviderFactory.Instance),
                 Component

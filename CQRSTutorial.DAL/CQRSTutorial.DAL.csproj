@@ -85,7 +85,6 @@
     <Compile Include="EventToPublishMapper.cs" />
     <Compile Include="EventToPublishMapping.cs" />
     <Compile Include="EventToPublishRepository.cs" />
-    <Compile Include="ISqlConnectionFactory.cs" />
     <Compile Include="IConnectionStringProvider.cs" />
     <Compile Include="IConnectionStringProviderFactory.cs" />
     <Compile Include="IEventRepository.cs" />
@@ -100,7 +99,6 @@
     <Compile Include="NHibernateUnitOfWorkFactory.cs" />
     <Compile Include="EventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlConnectionFactory.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
