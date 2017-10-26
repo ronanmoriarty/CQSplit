@@ -1,22 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
-using CQRSTutorial.DAL;
 using Newtonsoft.Json;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
 {
     public class OpenTabsRepository : IOpenTabsRepository
     {
-        private readonly ISqlConnectionFactory _sqlConnectionFactory;
-
-        public OpenTabsRepository(ISqlConnectionFactory sqlConnectionFactory)
-        {
-            _sqlConnectionFactory = sqlConnectionFactory;
-        }
-
         public IEnumerable<OpenTab> GetOpenTabs()
         {
             return GetAll().Select(Map);
