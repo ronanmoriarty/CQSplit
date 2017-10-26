@@ -1,14 +1,12 @@
 using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.EventProjecting.Service.Projectors;
 using Cafe.Waiter.Queries.DAL;
-using Cafe.Waiter.Queries.DAL.NHibernate;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Messaging;
-using NHibernate;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
@@ -39,16 +37,11 @@ namespace Cafe.Waiter.EventProjecting.Service
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
-                    .For<ISessionFactory>()
-                    .Instance(ReadModelSessionFactory.Instance)
-                    .Named("sessionFactory"),
-                Component
                     .For<IConnectionStringProviderFactory>()
                     .Instance(ReadModelConnectionStringProviderFactory.Instance),
                 Component
                     .For<IOpenTabsRepository>()
                     .ImplementedBy<OpenTabsRepository>()
-                    .DependsOn(Dependency.OnComponent("sessionFactory", "sessionFactory"))
                 );
         }
     }

@@ -46,8 +46,6 @@ namespace Cafe.Waiter.Publish.Service.Installers
                     .LifestyleTransient(),
                 Component.For<IConnectionStringProviderFactory>()
                     .Instance(connectionStringProviderFactory),
-                Component.For<ISessionFactory>()
-                    .UsingFactoryMethod(x => new NHibernateConfiguration(connectionStringProviderFactory).CreateSessionFactory()),
                 Component.For<Action>()
                     .Instance(() => container.Resolve<OutboxToMessageQueuePublisher>().PublishQueuedMessages())
                     .Named(publishQueuedMessages),

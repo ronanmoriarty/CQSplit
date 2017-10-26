@@ -69,10 +69,6 @@ namespace Cafe.Waiter.Command.Service
                     .For<IEventApplier>()
                     .ImplementedBy<EventApplier>(),
                 Component
-                    .For<ISessionFactory>()
-                    .Instance(WriteModelSessionFactory.Instance)
-                    .LifestyleSingleton(),
-                Component
                     .For<IEnumerable<IEventStore>>()
                     .UsingFactoryMethod(GetEventStores)
                     .Named("eventStores"),
