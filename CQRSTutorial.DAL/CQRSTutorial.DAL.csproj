@@ -96,7 +96,6 @@
     <Compile Include="IUnitOfWorkFactory.cs" />
     <Compile Include="NHibernateConfiguration.cs" />
     <Compile Include="NHibernateUnitOfWork.cs" />
-    <Compile Include="NHibernateUnitOfWorkFactory.cs" />
     <Compile Include="EventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
