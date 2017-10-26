@@ -94,7 +94,6 @@
     <Compile Include="IMapToTable.cs" />
     <Compile Include="IUnitOfWork.cs" />
     <Compile Include="IUnitOfWorkFactory.cs" />
-    <Compile Include="NHibernateConfiguration.cs" />
     <Compile Include="EventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitOfWork.cs" />
