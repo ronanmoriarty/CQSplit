@@ -100,7 +100,6 @@
     <Compile Include="NHibernateUnitOfWorkFactory.cs" />
     <Compile Include="EventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NHibernateRepositoryBase.cs" />
     <Compile Include="SqlConnectionFactory.cs" />
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
