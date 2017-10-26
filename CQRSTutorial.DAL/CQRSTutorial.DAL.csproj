@@ -66,6 +66,7 @@
     <Compile Include="ConnectionStringOverride.cs" />
     <Compile Include="ConnectionStringProviderFactory.cs" />
     <Compile Include="CustomAutomappingConfiguration.cs" />
+    <Compile Include="EntityFrameworkUnitOfWork.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="EventMapper.cs" />
     <Compile Include="EventMapping.cs" />
