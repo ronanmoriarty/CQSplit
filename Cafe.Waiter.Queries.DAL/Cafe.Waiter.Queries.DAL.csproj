@@ -82,7 +82,6 @@
     <Compile Include="Repositories\ITabDetailsRepository.cs" />
     <Compile Include="Repositories\MenuConfiguration.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
-    <Compile Include="Repositories\ReadModel.cs" />
     <Compile Include="Repositories\TabDetailsRepository.cs" />
     <Compile Include="Repositories\WaiterDbContext.cs" />
     <Compile Include="Serialized\Menu.cs" />
