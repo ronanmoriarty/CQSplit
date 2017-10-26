@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
-using Cafe.Waiter.Queries.DAL.NHibernate;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using Newtonsoft.Json;
@@ -37,7 +36,7 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.Menu(Id,Data) VALUES ('{_id}','{menuJson}')");
             _menuConfiguration = Substitute.For<IMenuConfiguration>();
             _menuConfiguration.Id.Returns(_id);
-            _menuRepository = new MenuRepository(ReadModelSessionFactory.Instance, _menuConfiguration);
+            _menuRepository = new MenuRepository(_menuConfiguration);
         }
 
         [Test]

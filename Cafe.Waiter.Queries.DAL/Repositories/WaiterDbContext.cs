@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Data.SqlClient;
+using Cafe.Waiter.Queries.DAL.Serialized;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
 {
@@ -10,7 +11,8 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
         {
         }
 
-        public DbSet<Serialized.OpenTab> OpenTabs { get; set; }
-        public DbSet<Serialized.TabDetails> TabDetails { get; set; }
+        public DbSet<OpenTab> OpenTabs { get; set; }
+        public DbSet<TabDetails> TabDetails { get; set; }
+        public DbSet<Menu> Menus { get; set; }
     }
 }
