@@ -1,7 +1,9 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CQRSTutorial.DAL
 {
+    [Table("EventsToPublish")]
     public class EventToPublish : IMapToTable
     {
         public virtual Guid Id { get; set; }

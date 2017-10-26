@@ -1,16 +1,14 @@
 ﻿using System;
+using System.Linq;
 using CQRSTutorial.Core;
-using NHibernate;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventToPublishRepository : NHibernateRepositoryBase<EventToPublish>, IEventToPublishRepository
+    public class EventToPublishRepository : IEventToPublishRepository
     {
         private readonly EventToPublishMapper _eventToPublishMapper;
 
-        public EventToPublishRepository(ISessionFactory sessionFactory,
-            EventToPublishMapper eventToPublishMapper)
-            : base(sessionFactory)
+        public EventToPublishRepository(EventToPublishMapper eventToPublishMapper)
         {
             _eventToPublishMapper = eventToPublishMapper;
         }
@@ -18,12 +16,14 @@ namespace CQRSTutorial.DAL
         public void Add(IEvent @event)
         {
             var eventToPublish = _eventToPublishMapper.MapToEventToPublish(@event);
-            SaveOrUpdate(eventToPublish);
+            EventStoreContext.EventsToPublish.Add(eventToPublish);
         }
+
+        private EventStoreContext EventStoreContext => ((EntityFrameworkUnitOfWork)UnitOfWork).EventStoreContext;
 
         public IEvent Read(Guid id)
         {
-            var eventToPublish = Get(id);
+            var eventToPublish = EventStoreContext.EventsToPublish.SingleOrDefault(x => x.Id == id);
             if (eventToPublish == null)
             {
                 return null;
@@ -34,27 +34,21 @@ namespace CQRSTutorial.DAL
 
         public EventsToPublishResult GetEventsAwaitingPublishing(int batchSize)
         {
-            using (var session = SessionFactory.OpenSession())
+            var eventsToPublish = EventStoreContext.EventsToPublish.OrderBy(x => x.Created).Take(batchSize);
+            var totalNumberOfEventsToPublish = eventsToPublish.Count();
+
+            return new EventsToPublishResult
             {
-                using (session.BeginTransaction())
-                {
-                    var eventsToPublish = session
-                        .QueryOver<EventToPublish>()
-                        .OrderBy(x => x.Created).Asc
-                        .Take(batchSize)
-                        .List();
-
-                    var totalNumberOfEventsToPublish = session
-                        .QueryOver<EventToPublish>()
-                        .RowCount();
-
-                    return new EventsToPublishResult
-                    {
-                        EventsToPublish = eventsToPublish,
-                        TotalNumberOfEventsToPublish = totalNumberOfEventsToPublish
-                    };
-                }
-            }
+                EventsToPublish = eventsToPublish.ToList(),
+                TotalNumberOfEventsToPublish = totalNumberOfEventsToPublish
+            };
         }
+
+        public void Delete(EventToPublish eventToPublish)
+        {
+            EventStoreContext.EventsToPublish.Remove(eventToPublish);
+        }
+
+        public IUnitOfWork UnitOfWork { get; set; }
     }
 }

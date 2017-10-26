@@ -4,7 +4,6 @@ using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Tests.Common;
-using NHibernate;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
@@ -14,7 +13,6 @@ namespace CQRSTutorial.DAL.Tests
     {
         private IEvent _retrievedEvent;
         private EventToPublishRepository _eventToPublishRepository;
-        private ISession _session;
         private SqlExecutor _sqlExecutor;
         private readonly Guid _id = new Guid("8BDD0C3C-2680-4678-BFB9-4D379C2DD208");
         private readonly Guid _id1 = new Guid("75BD91C8-AE33-4EA3-B7BF-8E2140433A62");
@@ -25,10 +23,8 @@ namespace CQRSTutorial.DAL.Tests
         public void SetUp()
         {
             CleanUp();
-            _session = SessionFactory.Instance.OpenSession();
-            _session.BeginTransaction();
             _eventToPublishRepository = CreateRepository();
-            _eventToPublishRepository.UnitOfWork = new NHibernateUnitOfWork(_session);
+            _eventToPublishRepository.UnitOfWork = new EntityFrameworkUnitOfWork(WriteModelConnectionStringProviderFactory.Instance);
         }
 
         [Test]
@@ -77,7 +73,7 @@ namespace CQRSTutorial.DAL.Tests
             };
             _eventToPublishRepository.Add(testEvent3);
 
-            _session.Transaction.Commit();
+            _eventToPublishRepository.UnitOfWork.Commit();
 
             var eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing(2);
             var eventsToPublish = eventsToPublishResult.EventsToPublish;
@@ -96,13 +92,13 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventToPublishRepository CreateRepository()
         {
-            return new EventToPublishRepository(SessionFactory.Instance, new EventToPublishMapper(typeof(TestEvent).Assembly));
+            return new EventToPublishRepository(new EventToPublishMapper(typeof(TestEvent).Assembly));
         }
 
         private void InsertAndRead(IEvent @event)
         {
             _eventToPublishRepository.Add(@event);
-            _session.Transaction.Commit();
+            _eventToPublishRepository.UnitOfWork.Commit();
             _retrievedEvent = _eventToPublishRepository.Read(@event.Id);
         }
 
@@ -116,10 +112,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')");
-            if (_session != null && _session.IsOpen)
-            {
-                _session?.Close();
-            }
+            _eventToPublishRepository?.UnitOfWork?.Dispose();
         }
     }
 }

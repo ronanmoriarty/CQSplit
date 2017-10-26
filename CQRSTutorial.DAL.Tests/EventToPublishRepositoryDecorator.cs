@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using CQRSTutorial.Core;
 
 namespace CQRSTutorial.DAL.Tests
@@ -43,8 +42,8 @@ namespace CQRSTutorial.DAL.Tests
 
         public IUnitOfWork UnitOfWork
         {
-            get { return _eventToPublishRepository.UnitOfWork; }
-            set { _eventToPublishRepository.UnitOfWork = value; }
+            get => _eventToPublishRepository.UnitOfWork;
+            set => _eventToPublishRepository.UnitOfWork = value;
         }
     }
 }
