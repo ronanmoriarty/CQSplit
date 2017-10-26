@@ -30,27 +30,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
 
         public Serialized.OpenTab Get(Guid id)
         {
-            using (var sqlConnection = _sqlConnectionFactory.Create())
-            {
-                sqlConnection.Open();
-                using (var sqlCommand = new SqlCommand("SELECT Data FROM dbo.OpenTabs WHERE Id = @id", sqlConnection))
-                {
-                    sqlCommand.CommandType = CommandType.Text;
-                    sqlCommand.Parameters.AddWithValue("@id", id);
-                    var sqlDataReader = sqlCommand.ExecuteReader();
-                    if (sqlDataReader.Read())
-                    {
-                        var data = sqlDataReader.GetString(sqlDataReader.GetOrdinal("Data"));
-                        return new Serialized.OpenTab
-                        {
-                            Id = id,
-                            Data = data
-                        };
-                    }
-                }
-            }
-
-            return null;
+            return new WaiterDbContext().OpenTabs.SingleOrDefault(x => x.Id == id);
         }
 
         public void Insert(OpenTab openTab)
