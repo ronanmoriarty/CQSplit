@@ -25,25 +25,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
 
         private IEnumerable<Serialized.OpenTab> GetAll()
         {
-            using (var sqlConnection = _sqlConnectionFactory.Create())
-            {
-                sqlConnection.Open();
-                using (var sqlCommand = new SqlCommand("SELECT Id, Data FROM dbo.OpenTabs", sqlConnection))
-                {
-                    sqlCommand.CommandType = CommandType.Text;
-                    var sqlDataReader = sqlCommand.ExecuteReader();
-                    while (sqlDataReader.Read())
-                    {
-                        var id = sqlDataReader.GetGuid(sqlDataReader.GetOrdinal("Id"));
-                        var data = sqlDataReader.GetString(sqlDataReader.GetOrdinal("Data"));
-                        yield return new Serialized.OpenTab
-                        {
-                            Id = id,
-                            Data = data
-                        };
-                    }
-                }
-            }
+            return new WaiterDbContext().OpenTabs.ToList();
         }
 
         public Serialized.OpenTab Get(Guid id)
