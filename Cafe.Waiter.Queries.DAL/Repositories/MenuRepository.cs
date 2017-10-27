@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
+using CQRSTutorial.DAL;
 using Newtonsoft.Json;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
@@ -7,15 +8,17 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
     public class MenuRepository : IMenuRepository
     {
         private readonly IMenuConfiguration _menuConfiguration;
+        private readonly IConnectionStringProvider _connectionStringProvider;
 
-        public MenuRepository(IMenuConfiguration menuConfiguration)
+        public MenuRepository(IMenuConfiguration menuConfiguration, IConnectionStringProvider connectionStringProvider)
         {
             _menuConfiguration = menuConfiguration;
+            _connectionStringProvider = connectionStringProvider;
         }
 
         public Menu GetMenu()
         {
-            return Map(new WaiterDbContext(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider().GetConnectionString()).Menus.Single(x => x.Id == _menuConfiguration.Id));
+            return Map(new WaiterDbContext(_connectionStringProvider.GetConnectionString()).Menus.Single(x => x.Id == _menuConfiguration.Id));
         }
 
         private Menu Map(Serialized.Menu serializedMenu)
