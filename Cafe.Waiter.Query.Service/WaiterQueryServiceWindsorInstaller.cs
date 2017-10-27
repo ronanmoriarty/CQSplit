@@ -37,9 +37,6 @@ namespace Cafe.Waiter.EventProjecting.Service
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
-                    .For<IConnectionStringProviderFactory>()
-                    .Instance(ReadModelConnectionStringProviderFactory.Instance),
-                Component
                     .For<IConnectionStringProvider>()
                     .Instance(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()),
                 Component

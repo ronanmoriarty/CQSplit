@@ -48,8 +48,6 @@ namespace Cafe.Waiter.Publish.Service.Installers
                         .Self()
                         .WithServiceAllInterfaces()
                     .LifestyleTransient(),
-                Component.For<IConnectionStringProviderFactory>()
-                    .Instance(connectionStringProviderFactory),
                 Component.For<IConnectionStringProvider>()
                     .Instance(connectionStringProviderFactory.GetConnectionStringProvider()),
                 Component.For<Action>()

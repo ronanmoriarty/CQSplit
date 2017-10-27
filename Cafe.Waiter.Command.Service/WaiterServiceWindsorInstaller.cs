@@ -42,9 +42,6 @@ namespace Cafe.Waiter.Command.Service
                     .For<EventMapper>()
                     .DependsOn(Dependency.OnComponent("assemblyContainingEvents", "assemblyForEventMapper")),
                 Component
-                    .For<IConnectionStringProviderFactory>()
-                    .Instance(WriteModelConnectionStringProviderFactory.Instance),
-                Component
                     .For<IConnectionStringProvider>()
                     .Instance(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()),
                 Classes
