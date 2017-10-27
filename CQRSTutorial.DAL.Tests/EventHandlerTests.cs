@@ -38,7 +38,7 @@ namespace CQRSTutorial.DAL.Tests
             _eventStore = new EventStore(new EventMapper(Assembly.GetExecutingAssembly())
             );
             _eventHandler = new EventHandler(
-                new EntityFrameworkUnitOfWorkFactory(WriteModelConnectionStringProviderFactory.Instance),
+                new EntityFrameworkUnitOfWorkFactory(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()),
                 new CompositeEventStore(
                     new[]
                     {

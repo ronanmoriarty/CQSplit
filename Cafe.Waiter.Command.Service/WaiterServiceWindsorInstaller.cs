@@ -44,6 +44,9 @@ namespace Cafe.Waiter.Command.Service
                 Component
                     .For<IConnectionStringProviderFactory>()
                     .Instance(WriteModelConnectionStringProviderFactory.Instance),
+                Component
+                    .For<IConnectionStringProvider>()
+                    .Instance(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()),
                 Classes
                     .FromAssemblyContaining<IUnitOfWorkFactory>()
                     .InSameNamespaceAs<IUnitOfWorkFactory>()

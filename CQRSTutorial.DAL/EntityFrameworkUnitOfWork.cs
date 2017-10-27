@@ -2,9 +2,9 @@
 {
     public class EntityFrameworkUnitOfWork : IUnitOfWork
     {
-        public EntityFrameworkUnitOfWork(IConnectionStringProviderFactory connectionStringProviderFactory)
+        public EntityFrameworkUnitOfWork(IConnectionStringProvider connectionStringProvider)
         {
-            EventStoreContext = new EventStoreContext(connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString());
+            EventStoreContext = new EventStoreContext(connectionStringProvider.GetConnectionString());
         }
 
         public EventStoreContext EventStoreContext { get; set; }

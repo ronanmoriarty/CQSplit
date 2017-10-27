@@ -160,7 +160,7 @@ namespace CQRSTutorial.Publisher.Tests
                 _eventToPublishRepository,
                 messageBusEventPublisher,
                 _eventToPublishMapper,
-                new EntityFrameworkUnitOfWorkFactory(WriteModelConnectionStringProviderFactory.Instance),
+                new EntityFrameworkUnitOfWorkFactory(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()),
                 outboxToMessageQueuePublisherConfiguration,
                 _logger);
             return outboxToMessageQueuePublisher;

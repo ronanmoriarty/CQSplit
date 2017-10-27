@@ -2,16 +2,16 @@
 {
     public class EntityFrameworkUnitOfWorkFactory : IUnitOfWorkFactory
     {
-        private readonly IConnectionStringProviderFactory _connectionStringProviderFactory;
+        private readonly IConnectionStringProvider _connectionStringProvider;
 
-        public EntityFrameworkUnitOfWorkFactory(IConnectionStringProviderFactory connectionStringProviderFactory)
+        public EntityFrameworkUnitOfWorkFactory(IConnectionStringProvider connectionStringProvider)
         {
-            _connectionStringProviderFactory = connectionStringProviderFactory;
+            _connectionStringProvider = connectionStringProvider;
         }
 
         public IUnitOfWork Create()
         {
-            return new EntityFrameworkUnitOfWork(_connectionStringProviderFactory);
+            return new EntityFrameworkUnitOfWork(_connectionStringProvider);
         }
     }
 }

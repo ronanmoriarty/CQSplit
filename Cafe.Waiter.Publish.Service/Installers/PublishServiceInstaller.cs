@@ -31,7 +31,12 @@ namespace Cafe.Waiter.Publish.Service.Installers
                 Classes
                     .FromAssemblyContaining<EventToPublishRepository>()
                     .InSameNamespaceAs<EventToPublishRepository>()
-                    .Unless(type => type == typeof(ConnectionStringProviderFactory) || type == typeof(EventToPublishMapper)) // registered below separately
+                    .Unless(type =>
+                        type == typeof(ConnectionStringProviderFactory)
+                        || type == typeof(EventToPublishMapper)
+                        || type == typeof(AppConfigConnectionStringProvider)
+                        || type == typeof(ConnectionStringOverride)
+                    ) // registered below separately
                     .WithService
                         .Self()
                         .WithServiceAllInterfaces()
@@ -45,6 +50,8 @@ namespace Cafe.Waiter.Publish.Service.Installers
                     .LifestyleTransient(),
                 Component.For<IConnectionStringProviderFactory>()
                     .Instance(connectionStringProviderFactory),
+                Component.For<IConnectionStringProvider>()
+                    .Instance(connectionStringProviderFactory.GetConnectionStringProvider()),
                 Component.For<Action>()
                     .Instance(() => container.Resolve<OutboxToMessageQueuePublisher>().PublishQueuedMessages())
                     .Named(publishQueuedMessages),

@@ -24,7 +24,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             CleanUp();
             _eventToPublishRepository = CreateRepository();
-            _eventToPublishRepository.UnitOfWork = new EntityFrameworkUnitOfWork(WriteModelConnectionStringProviderFactory.Instance);
+            _eventToPublishRepository.UnitOfWork = new EntityFrameworkUnitOfWork(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider());
         }
 
         [Test]
