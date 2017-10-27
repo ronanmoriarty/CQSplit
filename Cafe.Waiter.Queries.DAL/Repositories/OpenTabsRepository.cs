@@ -15,12 +15,12 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
 
         private IEnumerable<Serialized.OpenTab> GetAll()
         {
-            return new WaiterDbContext().OpenTabs.ToList();
+            return CreateWaiterDbContext().OpenTabs.ToList();
         }
 
         public Serialized.OpenTab Get(Guid id)
         {
-            return new WaiterDbContext().OpenTabs.SingleOrDefault(x => x.Id == id);
+            return CreateWaiterDbContext().OpenTabs.SingleOrDefault(x => x.Id == id);
         }
 
         public void Insert(OpenTab openTab)
@@ -28,7 +28,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
             var existingOpenTab = Get(openTab.Id);
             if (existingOpenTab == null)
             {
-                var waiterDbContext = new WaiterDbContext();
+                var waiterDbContext = CreateWaiterDbContext();
                 waiterDbContext.OpenTabs.Add(new Serialized.OpenTab
                 {
                     Id = openTab.Id,
@@ -36,6 +36,11 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
                 });
                 waiterDbContext.SaveChanges();
             }
+        }
+
+        private WaiterDbContext CreateWaiterDbContext()
+        {
+            return new WaiterDbContext(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider().GetConnectionString());
         }
 
         private OpenTab Map(Serialized.OpenTab openTab)

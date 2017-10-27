@@ -6,8 +6,8 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
 {
     public class WaiterDbContext : DbContext
     {
-        public WaiterDbContext()
-            : base(new SqlConnection(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider().GetConnectionString()), true)
+        public WaiterDbContext(string connectionString)
+            : base(new SqlConnection(connectionString), true)
         {
         }
 

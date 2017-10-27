@@ -9,7 +9,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
     {
         public TabDetails GetTabDetails(Guid id)
         {
-            return Map(new WaiterDbContext().TabDetails.Single(x => x.Id == id));
+            return Map(new WaiterDbContext(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider().GetConnectionString()).TabDetails.Single(x => x.Id == id));
         }
 
         private TabDetails Map(Serialized.TabDetails tabDetails)

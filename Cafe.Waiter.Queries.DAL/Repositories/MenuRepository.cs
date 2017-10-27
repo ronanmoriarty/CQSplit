@@ -15,7 +15,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
 
         public Menu GetMenu()
         {
-            return Map(new WaiterDbContext().Menus.Single(x => x.Id == _menuConfiguration.Id));
+            return Map(new WaiterDbContext(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider().GetConnectionString()).Menus.Single(x => x.Id == _menuConfiguration.Id));
         }
 
         private Menu Map(Serialized.Menu serializedMenu)
