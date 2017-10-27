@@ -8,7 +8,7 @@ namespace CQRSTutorial.Publisher
 {
     public class PublishService : IDisposable
     {
-        private readonly IConnectionStringProviderFactory _connectionStringProviderFactory;
+        private readonly IConnectionStringProvider _connectionStringProvider;
         private readonly IOutboxToMessageQueuePublisher _outboxToMessageQueuePublisher;
         private readonly IOutboxToMessageQueuePublisherConfiguration _outboxToMessageQueuePublisherConfiguration;
         private SqlConnection _connection;
@@ -16,11 +16,11 @@ namespace CQRSTutorial.Publisher
         private bool _subscribedToOnChangeEvent;
         private readonly ILog _logger = LogManager.GetLogger(typeof(PublishService));
 
-        public PublishService(IConnectionStringProviderFactory connectionStringProviderFactory,
+        public PublishService(IConnectionStringProvider connectionStringProvider,
             IOutboxToMessageQueuePublisher outboxToMessageQueuePublisher,
             IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration)
         {
-            _connectionStringProviderFactory = connectionStringProviderFactory;
+            _connectionStringProvider = connectionStringProvider;
             _outboxToMessageQueuePublisher = outboxToMessageQueuePublisher;
             _outboxToMessageQueuePublisherConfiguration = outboxToMessageQueuePublisherConfiguration;
         }
@@ -87,7 +87,7 @@ namespace CQRSTutorial.Publisher
 
         private string GetConnectionString()
         {
-            return _connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString();
+            return _connectionStringProvider.GetConnectionString();
         }
 
         private void OnChange(object sender, SqlNotificationEventArgs e)

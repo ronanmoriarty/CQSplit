@@ -38,7 +38,7 @@ namespace CQRSTutorial.Publisher.Tests
                         _manualResetEvent.Set();
                     }
             );
-            _publishService = new PublishService(WriteModelConnectionStringProviderFactory.Instance, outboxToMessageQueuePublisher, new OutboxToMessageQueuePublisherConfiguration());
+            _publishService = new PublishService(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider(), outboxToMessageQueuePublisher, new OutboxToMessageQueuePublisherConfiguration());
             _publishService.Start();
         }
 
