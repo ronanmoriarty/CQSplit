@@ -23,7 +23,7 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             var tabDetailsJson = JsonConvert.SerializeObject(_tabDetails);
             _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.TabDetails WHERE Id = '{_id}'");
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.TabDetails(Id,Data) VALUES ('{_id}','{tabDetailsJson}')");
-            _tabDetailsRepository = new TabDetailsRepository();
+            _tabDetailsRepository = new TabDetailsRepository(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider());
         }
 
         [Test]
