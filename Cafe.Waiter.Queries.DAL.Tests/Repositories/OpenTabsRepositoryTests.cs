@@ -24,7 +24,7 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             var openTabJson = GetOpenTabJson();
             _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.OpenTabs(Id,Data) VALUES ('{_id}','{openTabJson}')");
-            _openTabsRepository = new OpenTabsRepository();
+            _openTabsRepository = new OpenTabsRepository(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider());
         }
 
         [Test]

@@ -27,7 +27,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Projectors
         public void SetUp()
         {
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
-            _openTabsRepository = new OpenTabsRepository();
+            _openTabsRepository = new OpenTabsRepository(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider());
             _tabOpenedConsumer = Container.Instance.Resolve<TabOpenedConsumer>();
         }
 

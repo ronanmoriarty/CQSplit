@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
+using CQRSTutorial.DAL;
 using Newtonsoft.Json;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
 {
     public class OpenTabsRepository : IOpenTabsRepository
     {
+        private readonly IConnectionStringProvider _connectionStringProvider;
+
+        public OpenTabsRepository(IConnectionStringProvider connectionStringProvider)
+        {
+            _connectionStringProvider = connectionStringProvider;
+        }
+
         public IEnumerable<OpenTab> GetOpenTabs()
         {
             return GetAll().Select(Map);
@@ -40,7 +48,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
 
         private WaiterDbContext CreateWaiterDbContext()
         {
-            return new WaiterDbContext(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider().GetConnectionString());
+            return new WaiterDbContext(_connectionStringProvider.GetConnectionString());
         }
 
         private OpenTab Map(Serialized.OpenTab openTab)
