@@ -10,7 +10,6 @@ using CQRSTutorial.DAL;
 using CQRSTutorial.Messaging;
 using CQRSTutorial.Publisher;
 using log4net;
-using NHibernate;
 
 namespace Cafe.Waiter.Publish.Service.Installers
 {
