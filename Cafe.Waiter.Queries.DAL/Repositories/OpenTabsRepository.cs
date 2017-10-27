@@ -1,40 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
-using CQRSTutorial.DAL;
 using Newtonsoft.Json;
-using NHibernate;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
 {
-    public class OpenTabsRepository : RepositoryBase<Serialized.OpenTab>, IOpenTabsRepository
+    public class OpenTabsRepository : IOpenTabsRepository
     {
-        public OpenTabsRepository(ISessionFactory sessionFactory)
-            : base(sessionFactory)
-        {
-        }
-
         public IEnumerable<OpenTab> GetOpenTabs()
         {
             return GetAll().Select(Map);
         }
 
+        private IEnumerable<Serialized.OpenTab> GetAll()
+        {
+            return new WaiterDbContext().OpenTabs.ToList();
+        }
+
+        public Serialized.OpenTab Get(Guid id)
+        {
+            return new WaiterDbContext().OpenTabs.SingleOrDefault(x => x.Id == id);
+        }
+
         public void Insert(OpenTab openTab)
         {
-            using (var session = SessionFactory.OpenSession())
+            var existingOpenTab = Get(openTab.Id);
+            if (existingOpenTab == null)
             {
-                // TODO: all this UnitOfWork needs to move out of here - change tests to support this.
-                using (var unitOfWork = new NHibernateUnitOfWork(session))
+                var waiterDbContext = new WaiterDbContext();
+                waiterDbContext.OpenTabs.Add(new Serialized.OpenTab
                 {
-                    unitOfWork.Start();
-                    UnitOfWork = unitOfWork;
-                    SaveOrUpdate(new Serialized.OpenTab
-                    {
-                        Id = openTab.Id,
-                        Data = JsonConvert.SerializeObject(openTab)
-                    });
-                    unitOfWork.Commit();
-                }
+                    Id = openTab.Id,
+                    Data = JsonConvert.SerializeObject(openTab)
+                });
+                waiterDbContext.SaveChanges();
             }
         }
 

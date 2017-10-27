@@ -4,7 +4,6 @@ using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.Events;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
-using Cafe.Waiter.Queries.DAL.NHibernate;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using MassTransit;
@@ -28,7 +27,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Projectors
         public void SetUp()
         {
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
-            _openTabsRepository = new OpenTabsRepository(ReadModelSessionFactory.Instance);
+            _openTabsRepository = new OpenTabsRepository();
             _tabOpenedConsumer = Container.Instance.Resolve<TabOpenedConsumer>();
         }
 

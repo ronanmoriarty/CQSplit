@@ -30,9 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
@@ -46,11 +48,8 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,18 +68,17 @@
     <Compile Include="Repositories\IMenuConfiguration.cs" />
     <Compile Include="Repositories\IMenuRepository.cs" />
     <Compile Include="Repositories\IOpenTabsRepository.cs" />
-    <Compile Include="Mapping\OpenTabMapping.cs" />
     <Compile Include="Models\OpenTab.cs" />
     <Compile Include="ReadModelConnectionStringProviderFactory.cs" />
     <Compile Include="Repositories\ITabDetailsRepository.cs" />
     <Compile Include="Repositories\MenuConfiguration.cs" />
     <Compile Include="Repositories\MenuRepository.cs" />
     <Compile Include="Repositories\TabDetailsRepository.cs" />
+    <Compile Include="Repositories\WaiterDbContext.cs" />
     <Compile Include="Serialized\Menu.cs" />
     <Compile Include="Serialized\OpenTab.cs" />
     <Compile Include="Repositories\OpenTabsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NHibernate\ReadModelSessionFactory.cs" />
     <Compile Include="Serialized\TabDetails.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +90,9 @@
       <Project>{92221377-F43D-4C30-9A94-9E5E8FB0C969}</Project>
       <Name>CQRSTutorial.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mapping\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

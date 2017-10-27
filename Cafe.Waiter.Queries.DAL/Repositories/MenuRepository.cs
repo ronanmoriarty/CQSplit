@@ -1,25 +1,21 @@
-﻿using Cafe.Waiter.Queries.DAL.Models;
-using CQRSTutorial.DAL;
+﻿using System.Linq;
+using Cafe.Waiter.Queries.DAL.Models;
 using Newtonsoft.Json;
-using NHibernate;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
 {
-    public class MenuRepository : RepositoryBase<Serialized.Menu>, IMenuRepository
+    public class MenuRepository : IMenuRepository
     {
         private readonly IMenuConfiguration _menuConfiguration;
 
-        public MenuRepository(ISessionFactory sessionFactory,
-            IMenuConfiguration menuConfiguration)
-            : base(sessionFactory)
+        public MenuRepository(IMenuConfiguration menuConfiguration)
         {
             _menuConfiguration = menuConfiguration;
         }
 
         public Menu GetMenu()
         {
-            var serializedMenu = Get(_menuConfiguration.Id);
-            return Map(serializedMenu);
+            return Map(new WaiterDbContext().Menus.Single(x => x.Id == _menuConfiguration.Id));
         }
 
         private Menu Map(Serialized.Menu serializedMenu)

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using CQRSTutorial.Core;
-using NHibernate.Util;
 
 namespace CQRSTutorial.DAL
 {
@@ -17,12 +16,21 @@ namespace CQRSTutorial.DAL
         public IUnitOfWork UnitOfWork
         {
             get => _eventStores.First().UnitOfWork;
-            set { _eventStores.ForEach(eventStore => eventStore.UnitOfWork = value); }
+            set
+            {
+                foreach (var eventStore in _eventStores)
+                {
+                    eventStore.UnitOfWork = value;
+                }
+            }
         }
 
         public void Add(IEvent @event)
         {
-            _eventStores.ForEach(eventStore => eventStore.Add(@event));
+            foreach (var eventStore in _eventStores)
+            {
+                eventStore.Add(@event);
+            }
         }
     }
 }

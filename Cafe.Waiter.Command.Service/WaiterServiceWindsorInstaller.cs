@@ -10,7 +10,6 @@ using Castle.Windsor;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Messaging;
-using NHibernate;
 
 namespace Cafe.Waiter.Command.Service
 {
@@ -68,10 +67,6 @@ namespace Cafe.Waiter.Command.Service
                 Component
                     .For<IEventApplier>()
                     .ImplementedBy<EventApplier>(),
-                Component
-                    .For<ISessionFactory>()
-                    .Instance(WriteModelSessionFactory.Instance)
-                    .LifestyleSingleton(),
                 Component
                     .For<IEnumerable<IEventStore>>()
                     .UsingFactoryMethod(GetEventStores)

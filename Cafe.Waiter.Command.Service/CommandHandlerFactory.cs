@@ -1,7 +1,6 @@
 ﻿using Cafe.Waiter.Domain;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
-using NHibernate.Util;
 
 namespace Cafe.Waiter.Command.Service
 {
@@ -23,7 +22,11 @@ namespace Cafe.Waiter.Command.Service
                 Id = command.AggregateId
             };
             var events = _eventRepository.GetAllEventsFor(command.AggregateId);
-            events.ForEach(@event => _eventApplier.ApplyEvent(@event, tab));
+            foreach (var @event in events)
+            {
+                _eventApplier.ApplyEvent(@event, tab);
+            }
+
             return (ICommandHandler<TCommand>)tab;
         }
     }

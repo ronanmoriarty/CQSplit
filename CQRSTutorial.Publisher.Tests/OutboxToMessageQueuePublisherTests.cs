@@ -4,11 +4,10 @@ using System.Linq;
 using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
-using CQRSTutorial.DAL.Tests.Common;
+using CQRSTutorial.DAL.Tests;
 using CQRSTutorial.Messaging;
 using CQRSTutorial.Tests.Common;
 using log4net;
-using NHibernate;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -17,7 +16,6 @@ namespace CQRSTutorial.Publisher.Tests
     [TestFixture, Ignore("Very flaky - need to revisit how we test this")] // TODO: write more reliable tests that don't get tripped up by other tests.
     public class OutboxToMessageQueuePublisherTests
     {
-        private ISessionFactory _sessionFactory;
         private readonly EventToPublishMapper _eventToPublishMapper = new EventToPublishMapper(typeof(TestEvent).Assembly);
         private static readonly string Queue1 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue1";
         private static readonly string Queue2 = $"{nameof(OutboxToMessageQueuePublisherTests)}_queue2";
@@ -35,7 +33,6 @@ namespace CQRSTutorial.Publisher.Tests
         [SetUp]
         public void SetUp()
         {
-            _sessionFactory = SessionFactory.Instance;
             _testEvent1 = new TestEvent
             {
                 Id = MessageId1,
@@ -163,7 +160,7 @@ namespace CQRSTutorial.Publisher.Tests
                 _eventToPublishRepository,
                 messageBusEventPublisher,
                 _eventToPublishMapper,
-                new NHibernateUnitOfWorkFactory(_sessionFactory),
+                new EntityFrameworkUnitOfWorkFactory(WriteModelConnectionStringProviderFactory.Instance),
                 outboxToMessageQueuePublisherConfiguration,
                 _logger);
             return outboxToMessageQueuePublisher;
