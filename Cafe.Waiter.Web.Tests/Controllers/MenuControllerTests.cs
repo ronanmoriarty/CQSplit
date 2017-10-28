@@ -1,16 +1,17 @@
 ﻿using System;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
+using Cafe.Waiter.Web.Controllers;
 using Newtonsoft.Json;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Web.Tests.Api.MenuController
+namespace Cafe.Waiter.Web.Tests.Controllers
 {
     [TestFixture]
-    public class When_getting_menu
+    public class MenuControllerTests
     {
-        private Web.Api.MenuController _menuController;
+        private MenuController _menuController;
         private readonly Guid _id = new Guid("39B35827-6A40-42D7-9114-8D1E297E9131");
         private Menu _menu;
         private string _contentType;
@@ -24,7 +25,7 @@ namespace Cafe.Waiter.Web.Tests.Api.MenuController
                 Id = _id
             };
             menuRepository.GetMenu().Returns(menu);
-            _menuController = new Web.Api.MenuController(menuRepository);
+            _menuController = new MenuController(menuRepository);
 
             WhenGettingMenu();
         }
