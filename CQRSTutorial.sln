@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.3
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Tests.Common", "CQRSTutorial.Tests.Common\CQRSTutorial.Tests.Common.csproj", "{0F8C4EC3-415F-4571-BCB9-8BB224A63E90}"
 EndProject
@@ -52,6 +52,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Messaging", "CQRSTutorial.Messaging\CQRSTutorial.Messaging.csproj", "{6D6C34D5-5AE9-41E5-B55A-B47552F83BC9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Messaging.Tests", "CQRSTutorial.Messaging.Tests\CQRSTutorial.Messaging.Tests.csproj", "{9709D0C0-71A9-4F0A-A65B-718E5112BAC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cafe.Waiter.Web", "Cafe.Waiter.Web\Cafe.Waiter.Web.csproj", "{20DC8351-7C03-454D-9E0D-2403FEA7EAB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -151,6 +153,10 @@ Global
 		{9709D0C0-71A9-4F0A-A65B-718E5112BAC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9709D0C0-71A9-4F0A-A65B-718E5112BAC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9709D0C0-71A9-4F0A-A65B-718E5112BAC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20DC8351-7C03-454D-9E0D-2403FEA7EAB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20DC8351-7C03-454D-9E0D-2403FEA7EAB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20DC8351-7C03-454D-9E0D-2403FEA7EAB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20DC8351-7C03-454D-9E0D-2403FEA7EAB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,6 +185,7 @@ Global
 		{BA00DEC3-B944-47E7-8571-145C71DCB0B4} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 		{6D6C34D5-5AE9-41E5-B55A-B47552F83BC9} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
 		{9709D0C0-71A9-4F0A-A65B-718E5112BAC1} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
+		{20DC8351-7C03-454D-9E0D-2403FEA7EAB8} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82CC2E35-6545-4F3F-A883-30477B81350D}
