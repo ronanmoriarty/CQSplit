@@ -2,7 +2,7 @@
 
 namespace CQRSTutorial.DAL
 {
-    public class ConnectionStringProviderFactory : IConnectionStringProviderFactory
+    public class ConnectionStringProviderFactory
     {
         private readonly string _overrideKey;
         private readonly string _connectionStringKey;
