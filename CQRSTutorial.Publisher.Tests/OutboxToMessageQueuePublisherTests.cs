@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
-using CQRSTutorial.DAL.Tests;
 using CQRSTutorial.Messaging;
 using CQRSTutorial.Tests.Common;
 using log4net;

@@ -90,6 +90,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublishServiceTests.cs" />
     <Compile Include="RunOncePerTestRun.cs" />
+    <Compile Include="WriteModelConnectionStringProviderFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CQRS.Publisher\CQRSTutorial.Publisher.csproj">
@@ -104,12 +105,8 @@
       <Project>{9381dfc5-0185-49cb-92b6-1d80a8911e87}</Project>
       <Name>CQRSTutorial.DAL.Tests.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CQRSTutorial.DAL.Tests\CQRSTutorial.DAL.Tests.csproj">
-      <Project>{43c554ef-583a-42c3-b0f3-bb33190dc902}</Project>
-      <Name>CQRSTutorial.DAL.Tests</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
-      <Project>{92221377-f43d-4c30-9a94-9e5e8fb0c969}</Project>
+      <Project>{dde165b2-ea01-4644-929c-977fbcf8a1d9}</Project>
       <Name>CQRSTutorial.DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Messaging\CQRSTutorial.Messaging.csproj">
