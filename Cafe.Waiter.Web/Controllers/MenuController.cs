@@ -1,9 +1,9 @@
-﻿using System.Web.Mvc;
-using Cafe.Waiter.Queries.DAL.Repositories;
+﻿using Cafe.Waiter.Queries.DAL.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Cafe.Waiter.Web.Api
+namespace Cafe.Waiter.Web.Controllers
 {
     public class MenuController : Controller
     {
