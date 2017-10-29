@@ -102,7 +102,7 @@
       <Name>CQRSTutorial.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj">
-      <Project>{9381dfc5-0185-49cb-92b6-1d80a8911e87}</Project>
+      <Project>{aa8ee44f-afbc-47b5-8de3-716bdff0e870}</Project>
       <Name>CQRSTutorial.DAL.Tests.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
