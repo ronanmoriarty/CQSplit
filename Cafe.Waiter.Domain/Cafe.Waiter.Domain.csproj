@@ -57,7 +57,7 @@
       <Name>Cafe.Waiter.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Events\Cafe.Waiter.Events.csproj">
-      <Project>{a779393d-834e-4c7c-bfa8-ff81cb5bb4fd}</Project>
+      <Project>{0301246f-b376-4e05-b702-1062598956a3}</Project>
       <Name>Cafe.Waiter.Events</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
