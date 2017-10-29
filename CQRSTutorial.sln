@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Tests.Common", "CQRSTutorial.Tests.Common\CQRSTutorial.Tests.Common.csproj", "{0F8C4EC3-415F-4571-BCB9-8BB224A63E90}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cafe.Waiter", "Cafe.Waiter", "{2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CQRS", "CQRS", "{C8B7C92A-A580-43E6-BC50-86924F408F6F}"
@@ -57,16 +55,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL.Tests", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.DAL.Tests.Common", "CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj", "{AA8EE44F-AFBC-47B5-8DE3-716BDFF0E870}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Tests.Common", "CQRSTutorial.Tests.Common\CQRSTutorial.Tests.Common.csproj", "{CE4BCF6D-F6F4-4E39-A662-356A8B4DFBE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0F8C4EC3-415F-4571-BCB9-8BB224A63E90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F8C4EC3-415F-4571-BCB9-8BB224A63E90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F8C4EC3-415F-4571-BCB9-8BB224A63E90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F8C4EC3-415F-4571-BCB9-8BB224A63E90}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16B09E97-F528-4225-871D-CED500F9D659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16B09E97-F528-4225-871D-CED500F9D659}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16B09E97-F528-4225-871D-CED500F9D659}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -163,12 +159,15 @@ Global
 		{AA8EE44F-AFBC-47B5-8DE3-716BDFF0E870}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA8EE44F-AFBC-47B5-8DE3-716BDFF0E870}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA8EE44F-AFBC-47B5-8DE3-716BDFF0E870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE4BCF6D-F6F4-4E39-A662-356A8B4DFBE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE4BCF6D-F6F4-4E39-A662-356A8B4DFBE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE4BCF6D-F6F4-4E39-A662-356A8B4DFBE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE4BCF6D-F6F4-4E39-A662-356A8B4DFBE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{0F8C4EC3-415F-4571-BCB9-8BB224A63E90} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
 		{16B09E97-F528-4225-871D-CED500F9D659} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
 		{BDB98A94-3FFA-40CF-8FDB-49B5E4C7397F} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 		{5D35DD1D-D820-4146-83E0-79F2D77C7773} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
@@ -193,6 +192,7 @@ Global
 		{DDE165B2-EA01-4644-929C-977FBCF8A1D9} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
 		{3642A813-8712-44CF-A4EC-97ED6ADC0D82} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
 		{AA8EE44F-AFBC-47B5-8DE3-716BDFF0E870} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
+		{CE4BCF6D-F6F4-4E39-A662-356A8B4DFBE9} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82CC2E35-6545-4F3F-A883-30477B81350D}

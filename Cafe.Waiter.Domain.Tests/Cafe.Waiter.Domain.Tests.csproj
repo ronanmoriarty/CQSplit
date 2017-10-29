@@ -103,7 +103,7 @@
       <Name>CQRSTutorial.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Tests.Common\CQRSTutorial.Tests.Common.csproj">
-      <Project>{0f8c4ec3-415f-4571-bcb9-8bb224a63e90}</Project>
+      <Project>{ce4bcf6d-f6f4-4e39-a662-356a8b4dfbe9}</Project>
       <Name>CQRSTutorial.Tests.Common</Name>
     </ProjectReference>
   </ItemGroup>
