@@ -125,6 +125,10 @@
       <Project>{ba00dec3-b944-47e7-8571-145c71dcb0b4}</Project>
       <Name>Cafe.Waiter.Commands</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj">
+      <Project>{be344230-0bb8-4474-9fdb-7e8e1975ec70}</Project>
+      <Name>Cafe.Waiter.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj">
       <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
       <Name>Cafe.Waiter.Domain</Name>
@@ -136,10 +140,6 @@
     <ProjectReference Include="..\Cafe.Waiter.Command.Service\Cafe.Waiter.Command.Service.csproj">
       <Project>{5b5cd546-4344-4600-b424-637d2ca4d8ca}</Project>
       <Name>Cafe.Waiter.Command.Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj">
-      <Project>{2D4C28BD-D280-40F7-A1B5-D3F0E0F2BBAC}</Project>
-      <Name>Cafe.Waiter.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
       <Project>{ade1a267-93b0-4e8e-979d-bc64b719248e}</Project>

@@ -102,7 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj">
-      <Project>{2D4C28BD-D280-40F7-A1B5-D3F0E0F2BBAC}</Project>
+      <Project>{be344230-0bb8-4474-9fdb-7e8e1975ec70}</Project>
       <Name>Cafe.Waiter.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Events\Cafe.Waiter.Events.csproj">

@@ -86,13 +86,13 @@
       <Project>{ba00dec3-b944-47e7-8571-145c71dcb0b4}</Project>
       <Name>Cafe.Waiter.Commands</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj">
+      <Project>{be344230-0bb8-4474-9fdb-7e8e1975ec70}</Project>
+      <Name>Cafe.Waiter.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj">
       <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
       <Name>Cafe.Waiter.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj">
-      <Project>{2d4c28bd-d280-40f7-a1b5-d3f0e0f2bbac}</Project>
-      <Name>Cafe.Waiter.Contracts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cafe.Waiter.Events\Cafe.Waiter.Events.csproj">
       <Project>{A779393D-834E-4C7C-BFA8-FF81CB5BB4FD}</Project>
