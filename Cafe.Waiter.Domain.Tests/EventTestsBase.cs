@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cafe.Waiter.Domain;
 using CQRSTutorial.Core;
 using KellermanSoftware.CompareNetObjects;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Domain.Tests
+namespace Cafe.Waiter.Domain.Tests
 {
     public abstract class EventTestsBase<TCommandHandler, TCommand>
         where TCommandHandler : Aggregate, new()
