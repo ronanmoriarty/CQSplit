@@ -1,3 +1,4 @@
+using System.Reflection;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.EventProjecting.Service.Projectors;
 using Cafe.Waiter.Queries.DAL;
@@ -16,17 +17,17 @@ namespace Cafe.Waiter.EventProjecting.Service
         {
             container.Register(
                 Classes
-                    .FromThisAssembly()
+                    .FromAssembly(Assembly.GetExecutingAssembly())
                     .InSameNamespaceAs<WaiterQueryServiceWindsorInstaller>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
-                    .FromThisAssembly()
+                    .FromAssembly(Assembly.GetExecutingAssembly())
                     .InSameNamespaceAs<ConsumerFactory>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
-                    .FromThisAssembly()
+                    .FromAssembly(Assembly.GetExecutingAssembly())
                     .InSameNamespaceAs<ITabOpenedProjector>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
