@@ -2,7 +2,7 @@
 using CQRSTutorial.Messaging;
 using log4net;
 
-namespace CQRSTutorial.Publisher
+namespace CQRSTutorial.Publish
 {
     public class OutboxToMessageQueuePublisher : IOutboxToMessageQueuePublisher
     {

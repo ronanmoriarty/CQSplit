@@ -1,6 +1,6 @@
 using CQRSTutorial.DAL;
 
-namespace CQRSTutorial.Publisher.Tests
+namespace CQRSTutorial.Publish.Tests
 {
     public class WriteModelConnectionStringProviderFactory
     {

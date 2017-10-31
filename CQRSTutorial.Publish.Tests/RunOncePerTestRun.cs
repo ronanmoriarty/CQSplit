@@ -4,7 +4,7 @@ using log4net;
 using log4net.Config;
 using NUnit.Framework;
 
-namespace CQRSTutorial.Publisher.Tests
+namespace CQRSTutorial.Publish.Tests
 {
     [SetUpFixture]
     public class RunOncePerTestRun

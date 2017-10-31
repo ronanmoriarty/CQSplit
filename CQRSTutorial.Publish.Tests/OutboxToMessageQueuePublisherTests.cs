@@ -10,7 +10,7 @@ using log4net;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace CQRSTutorial.Publisher.Tests
+namespace CQRSTutorial.Publish.Tests
 {
     [TestFixture, Ignore("Very flaky - need to revisit how we test this")] // TODO: write more reliable tests that don't get tripped up by other tests.
     public class OutboxToMessageQueuePublisherTests

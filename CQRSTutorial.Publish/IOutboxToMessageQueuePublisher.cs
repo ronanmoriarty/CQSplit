@@ -1,4 +1,4 @@
-namespace CQRSTutorial.Publisher
+namespace CQRSTutorial.Publish
 {
     public interface IOutboxToMessageQueuePublisher
     {

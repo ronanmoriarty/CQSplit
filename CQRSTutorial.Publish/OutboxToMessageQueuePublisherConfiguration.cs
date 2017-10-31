@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace CQRSTutorial.Publisher
+namespace CQRSTutorial.Publish
 {
     public class OutboxToMessageQueuePublisherConfiguration : IOutboxToMessageQueuePublisherConfiguration
     {
