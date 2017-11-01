@@ -31,7 +31,7 @@ namespace Cafe.Waiter.Web.Tests
         }
 
         [Test]
-        public void Can_resolve_MenuController() // this test is currently failing, because the IMenuRepository dependency can't be resolved yet.
+        public void Can_resolve_MenuController()
         {
             var menuController = (MenuController)_buildServiceProvider.GetService(typeof(MenuController));
 

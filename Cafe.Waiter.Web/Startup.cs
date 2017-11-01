@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Cafe.Waiter.Queries.DAL;
+using Cafe.Waiter.Queries.DAL.Repositories;
+using CQRSTutorial.DAL;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +26,10 @@ namespace Cafe.Waiter.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Add(new ServiceDescriptor(typeof(IMenuRepository), typeof(MenuRepository), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), typeof(MenuConfiguration), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()));
+
             // Add framework services.
             services.AddMvc();
         }
