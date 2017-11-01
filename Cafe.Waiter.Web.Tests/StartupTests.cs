@@ -1,4 +1,7 @@
-﻿using Cafe.Waiter.Web.Controllers;
+﻿using System;
+using System.Collections.Generic;
+using Cafe.Waiter.Web.Controllers;
+using log4net;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Web.Tests
@@ -6,20 +9,26 @@ namespace Cafe.Waiter.Web.Tests
     [TestFixture]
     public class StartupTests
     {
-        [Test]
-        public void Can_resolve_ValuesController()
-        {
-            var valuesController = (ValuesController)BuildServiceProvider.Instance.GetService(typeof(ValuesController));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(StartupTests));
 
-            Assert.That(valuesController, Is.Not.Null);
+        [Test]
+        public void Can_resolve_all_controllers()
+        {
+            ControllerTypes.ForEach(controllerType =>
+            {
+                _logger.Debug($"Resolving {controllerType.Name}...");
+                var controller = BuildServiceProvider.Instance.GetService(controllerType);
+                Assert.That(controller, Is.Not.Null);
+            });
         }
 
-        [Test]
-        public void Can_resolve_MenuController()
+        public IEnumerable<Type> ControllerTypes
         {
-            var menuController = (MenuController)BuildServiceProvider.Instance.GetService(typeof(MenuController));
-
-            Assert.That(menuController, Is.Not.Null);
+            get
+            {
+                yield return typeof(ValuesController);
+                yield return typeof(MenuController);
+            }
         }
     }
 }
