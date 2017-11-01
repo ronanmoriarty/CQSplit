@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using Cafe.Waiter.Web.Controllers;
-using Microsoft.AspNetCore.Hosting.Internal;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Cafe.Waiter.Web.Controllers;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Web.Tests
@@ -10,22 +6,10 @@ namespace Cafe.Waiter.Web.Tests
     [TestFixture]
     public class StartupTests
     {
-        private HostingEnvironment _hostingEnvironment;
-        private ServiceCollection _services;
-        private IServiceProvider _buildServiceProvider;
-
-        [SetUp]
-        public void SetUp()
-        {
-            _hostingEnvironment = CreateHostingEnvironment();
-            _services = RegisterControllersButNotTheControllersDependencies();
-            WhenServicesConfigured();
-        }
-
         [Test]
         public void Can_resolve_ValuesController()
         {
-            var valuesController = (ValuesController)_buildServiceProvider.GetService(typeof(ValuesController));
+            var valuesController = (ValuesController)BuildServiceProvider.Instance.GetService(typeof(ValuesController));
 
             Assert.That(valuesController, Is.Not.Null);
         }
@@ -33,36 +17,9 @@ namespace Cafe.Waiter.Web.Tests
         [Test]
         public void Can_resolve_MenuController()
         {
-            var menuController = (MenuController)_buildServiceProvider.GetService(typeof(MenuController));
+            var menuController = (MenuController)BuildServiceProvider.Instance.GetService(typeof(MenuController));
 
             Assert.That(menuController, Is.Not.Null);
-        }
-
-        private HostingEnvironment CreateHostingEnvironment()
-        {
-            return new HostingEnvironment
-            {
-                ContentRootPath = GetFolderThatContainsAppSettingsJsonFile()
-            };
-        }
-
-        private string GetFolderThatContainsAppSettingsJsonFile()
-        {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\Cafe.Waiter.Web");
-        }
-
-        private ServiceCollection RegisterControllersButNotTheControllersDependencies()
-        {
-            var services = new ServiceCollection();
-            services.AddTransient<ValuesController>();
-            services.AddTransient<MenuController>();
-            return services;
-        }
-
-        private void WhenServicesConfigured()
-        {
-            new Startup(_hostingEnvironment).ConfigureServices(_services);
-            _buildServiceProvider = _services.BuildServiceProvider();
         }
     }
 }
