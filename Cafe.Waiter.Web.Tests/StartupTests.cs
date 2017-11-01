@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Cafe.Waiter.Web.Controllers;
 using log4net;
+using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Web.Tests
@@ -26,8 +29,8 @@ namespace Cafe.Waiter.Web.Tests
         {
             get
             {
-                yield return typeof(ValuesController);
-                yield return typeof(MenuController);
+                return Assembly.GetAssembly(typeof(MenuController)).GetTypes()
+                    .Where(type => typeof(Controller).IsAssignableFrom(type)).ToList();
             }
         }
     }
