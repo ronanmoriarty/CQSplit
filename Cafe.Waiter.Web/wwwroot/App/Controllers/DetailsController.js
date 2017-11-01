@@ -1,5 +1,5 @@
 ﻿waiterModule.controller("DetailsController", ["$scope", "$http", "$routeParams", function ($scope, $http, $routeParams) {
-        var menuUrl = "/api/menu/index";
+        var menuUrl = "/api/menu";
         $http({
             method: "GET",
             url: menuUrl
