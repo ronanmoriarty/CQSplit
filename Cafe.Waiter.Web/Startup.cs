@@ -61,6 +61,7 @@ namespace Cafe.Waiter.Web
                 app.UseExceptionHandler("/error");
             }
             app.UseMvc();
+            app.UseStaticFiles();
         }
     }
 }
