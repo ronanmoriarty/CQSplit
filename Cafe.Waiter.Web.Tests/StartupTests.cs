@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Cafe.Waiter.Web.Controllers;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
@@ -20,6 +21,14 @@ namespace Cafe.Waiter.Web.Tests
                 var controller = BuildServiceProvider.Instance.GetService(controllerType);
                 Assert.That(controller, Is.Not.Null);
             });
+        }
+
+        [Test]
+        public void BusControl_is_instantiated_as_singleton()
+        {
+            var busControl = BuildServiceProvider.Instance.GetService(typeof(IBusControl));
+            var busControl2 = BuildServiceProvider.Instance.GetService(typeof(IBusControl));
+            Assert.That(ReferenceEquals(busControl, busControl2));
         }
 
         public IEnumerable<Type> ControllerTypes
