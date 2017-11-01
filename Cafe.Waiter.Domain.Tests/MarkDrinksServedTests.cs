@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
-using Cafe.Waiter.Domain;
 using Cafe.Waiter.Events;
 using NUnit.Framework;
 
-namespace Cafe.Domain.Tests
+namespace Cafe.Waiter.Domain.Tests
 {
     [TestFixture]
     public class MarkDrinksServedTests : EventTestsBase<Tab, MarkDrinksServedCommand>

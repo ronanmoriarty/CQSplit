@@ -1,154 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AD5EF53E-A25F-43CC-9CE7-232A6F844426}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cafe.Waiter.Command.Service.Tests</RootNamespace>
-    <AssemblyName>Cafe.Waiter.Command.Service.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Core.4.2.1\lib\net45\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\packages\Castle.Windsor.4.1.0\lib\net45\Castle.Windsor.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="GreenPipes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b800c4cfcdeea87b, processorArchitecture=MSIL">
-      <HintPath>..\packages\GreenPipes.1.0.9\lib\net452\GreenPipes.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="MassTransit, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\MassTransit.3.5.7\lib\net452\MassTransit.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NewId, Version=3.0.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewId.3.0.0\lib\net452\NewId.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="NSubstitute, Version=3.1.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <HintPath>..\packages\NSubstitute.3.1.0\lib\net45\NSubstitute.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Remoting" />
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
+    <PackageReference Include="NSubstitute" Version="3.1.0" />
+    <PackageReference Include="NUnit" Version="3.8.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="CommandHandlerFactoryTests.cs" />
-    <Compile Include="ConsumerFactoryTests.cs" />
-    <Compile Include="Consumers\CloseTabConsumerTests.cs" />
-    <Compile Include="Consumers\ConsumerTests.cs" />
-    <Compile Include="Consumers\MarkDrinksServedConsumerTests.cs" />
-    <Compile Include="Consumers\MarkFoodServedConsumerTests.cs" />
-    <Compile Include="Consumers\OpenTabConsumerTests.cs" />
-    <Compile Include="Consumers\PlaceOrderConsumerTests.cs" />
-    <Compile Include="ContainerTests.cs" />
-    <Compile Include="EventHandlerTests.cs" />
-    <Compile Include="MessageBusEndpointConfigurationTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReceiveEndpointMappingFactoryTests.cs" />
-    <Compile Include="RunOncePerTestRun.cs" />
-    <Compile Include="WaiterCommandServiceTests.cs" />
+    <ProjectReference Include="..\Cafe.Waiter.Command.Service\Cafe.Waiter.Command.Service.csproj" />
+    <ProjectReference Include="..\Cafe.Waiter.Commands\Cafe.Waiter.Commands.csproj" />
+    <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Cafe.Waiter.Commands\Cafe.Waiter.Commands.csproj">
-      <Project>{ba00dec3-b944-47e7-8571-145c71dcb0b4}</Project>
-      <Name>Cafe.Waiter.Commands</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj">
-      <Project>{cb20d510-0cc5-4fba-9b6f-ec7c32f3b62e}</Project>
-      <Name>Cafe.Waiter.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cafe.Waiter.Events\Cafe.Waiter.Events.csproj">
-      <Project>{A779393D-834E-4C7C-BFA8-FF81CB5BB4FD}</Project>
-      <Name>Cafe.Waiter.Events</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cafe.Waiter.Command.Service\Cafe.Waiter.Command.Service.csproj">
-      <Project>{5b5cd546-4344-4600-b424-637d2ca4d8ca}</Project>
-      <Name>Cafe.Waiter.Command.Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj">
-      <Project>{2D4C28BD-D280-40F7-A1B5-D3F0E0F2BBAC}</Project>
-      <Name>Cafe.Waiter.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj">
-      <Project>{D9A17521-4B50-403C-8A7F-D9F82051049B}</Project>
-      <Name>CQRSTutorial.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj">
-      <Project>{9381DFC5-0185-49CB-92B6-1D80A8911E87}</Project>
-      <Name>CQRSTutorial.DAL.Tests.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj">
-      <Project>{92221377-F43D-4C30-9A94-9E5E8FB0C969}</Project>
-      <Name>CQRSTutorial.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CQRSTutorial.Messaging\CQRSTutorial.Messaging.csproj">
-      <Project>{6d6c34d5-5ae9-41e5-b55a-b47552f83bc9}</Project>
-      <Name>CQRSTutorial.Messaging</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

@@ -2,7 +2,7 @@
 
 namespace CQRSTutorial.DAL
 {
-    public class Event : IMapToTable
+    public class Event
     {
         public virtual Guid Id { get; set; }
         public virtual Guid AggregateId { get; set; }

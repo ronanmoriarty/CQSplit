@@ -19,12 +19,12 @@ namespace Cafe.Waiter.Command.Service
         {
             container.Register(
                 Classes
-                    .FromThisAssembly()
+                    .FromAssembly(Assembly.GetExecutingAssembly())
                     .InSameNamespaceAs<WaiterServiceWindsorInstaller>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
-                    .FromThisAssembly()
+                    .FromAssembly(Assembly.GetExecutingAssembly())
                     .InSameNamespaceAs<OpenTabConsumer>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),

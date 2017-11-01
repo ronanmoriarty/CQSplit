@@ -1,9 +1,8 @@
 ﻿using Cafe.Waiter.Commands;
-using Cafe.Waiter.Domain;
 using Cafe.Waiter.Events;
 using NUnit.Framework;
 
-namespace Cafe.Domain.Tests
+namespace Cafe.Waiter.Domain.Tests
 {
     [TestFixture]
     public class OpenTabTests : EventTestsBase<Tab, OpenTabCommand>
