@@ -4,14 +4,14 @@ using MassTransit.RabbitMqTransport;
 
 namespace CQRSTutorial.Messaging
 {
-    public class RabbitMqMessageBusFactory : IMessageBusFactory
+    public class RabbitMqMessageBusFactoryForConsuming : IMessageBusFactory
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactory));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactoryForConsuming));
         private readonly IMessageBusEndpointConfiguration _messageBusEndpointConfiguration;
         private readonly IConsumerFactory _consumerFactory;
         private readonly IRabbitMqHostConfiguration _rabbitMqHostConfiguration;
 
-        public RabbitMqMessageBusFactory(
+        public RabbitMqMessageBusFactoryForConsuming(
             IRabbitMqHostConfiguration rabbitMqHostConfiguration,
             IMessageBusEndpointConfiguration messageBusEndpointConfiguration,
             IConsumerFactory consumerFactory)
