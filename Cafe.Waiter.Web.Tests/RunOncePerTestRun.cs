@@ -1,11 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Cafe.Waiter.Web.Controllers;
 using log4net;
 using log4net.Config;
 using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Web.Tests
@@ -50,8 +54,21 @@ namespace Cafe.Waiter.Web.Tests
         private void RegisterControllersButNotTheControllersDependencies()
         {
             // services.AddMvc() in Startup.ConfigureServices() doesn't seem to register the controller types in a test context for some reason.
-            _serviceCollection.AddTransient<ValuesController>();
-            _serviceCollection.AddTransient<MenuController>();
+            GetControllerTypes()
+                .ForEach(controllerType =>
+                {
+                    _serviceCollection.Add(new ServiceDescriptor(controllerType, controllerType, ServiceLifetime.Transient));
+                }
+            );
+        }
+
+        private IEnumerable<Type> GetControllerTypes()
+        {
+            return Assembly
+                .GetAssembly(typeof(MenuController))
+                .GetTypes()
+                .Where(type => typeof(Controller).IsAssignableFrom(type))
+                .ToList();
         }
     }
 }
