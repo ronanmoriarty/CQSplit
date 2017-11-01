@@ -10,17 +10,17 @@ namespace Cafe.Waiter.EventProjecting.Service
 
             HostFactory.Run(x =>
             {
-                x.Service<WaiterQueryService>(waiterQueryService =>
+                x.Service<EventProjectingService>(eventProjectingService =>
                 {
-                    waiterQueryService.ConstructUsing(Container.Instance.Resolve<WaiterQueryService>);
-                    waiterQueryService.WhenStarted(tc => tc.Start());
-                    waiterQueryService.WhenStopped(tc => tc.Stop());
+                    eventProjectingService.ConstructUsing(Container.Instance.Resolve<EventProjectingService>);
+                    eventProjectingService.WhenStarted(tc => tc.Start());
+                    eventProjectingService.WhenStopped(tc => tc.Stop());
                 });
                 x.RunAsLocalSystem();
 
-                x.SetDisplayName("CQRSTutorial Waiter Query Service");
-                x.SetServiceName("cqrstutorial-waiter-query-service");
-                x.SetDescription("Service to update waiter read model");
+                x.SetDisplayName("CQRSTutorial Waiter Event Projecting Service");
+                x.SetServiceName("cqrstutorial-waiter-event-projecting-service");
+                x.SetDescription("Service to project waiter events into the waiter read model");
             });
         }
     }

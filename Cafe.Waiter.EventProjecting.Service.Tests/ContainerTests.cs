@@ -7,11 +7,11 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests
     public class ContainerTests
     {
         [Test]
-        public void Can_resolve_WaiterQueryService()
+        public void Can_resolve_EventProjectingService()
         {
-            var waiterQueryService = Container.Instance.Resolve<WaiterQueryService>();
+            var eventProjectingService = Container.Instance.Resolve<EventProjectingService>();
 
-            Assert.That(waiterQueryService, Is.Not.Null);
+            Assert.That(eventProjectingService, Is.Not.Null);
         }
 
         [Test]

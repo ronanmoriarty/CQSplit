@@ -11,14 +11,14 @@ using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
-    public class WaiterQueryServiceWindsorInstaller : IWindsorInstaller
+    public class WaiterEventProjectingServiceWindsorInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
                 Classes
                     .FromAssembly(Assembly.GetExecutingAssembly())
-                    .InSameNamespaceAs<WaiterQueryServiceWindsorInstaller>()
+                    .InSameNamespaceAs<WaiterEventProjectingServiceWindsorInstaller>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes

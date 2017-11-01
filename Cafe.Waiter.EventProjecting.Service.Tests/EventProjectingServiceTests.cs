@@ -6,9 +6,9 @@ using NUnit.Framework;
 namespace Cafe.Waiter.EventProjecting.Service.Tests
 {
     [TestFixture]
-    public class WaiterQueryServiceTests
+    public class EventProjectingServiceTests
     {
-        private WaiterQueryService _waiterQueryService;
+        private EventProjectingService _eventProjectingService;
         private IMessageBusFactory _messageBusFactory;
         private IBusControl _busControl;
 
@@ -18,22 +18,22 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests
             _busControl = Substitute.For<IBusControl>();
             _messageBusFactory = Substitute.For<IMessageBusFactory>();
             _messageBusFactory.Create().Returns(_busControl);
-            _waiterQueryService = new WaiterQueryService(_messageBusFactory);
+            _eventProjectingService = new EventProjectingService(_messageBusFactory);
         }
 
         [Test]
-        public void Starting_waiter_service_starts_the_bus()
+        public void Starting_event_projecting_service_starts_the_bus()
         {
-            _waiterQueryService.Start();
+            _eventProjectingService.Start();
 
             _busControl.Received(1).Start();
         }
 
         [Test]
-        public void Stopping_waiter_service_stops_the_bus()
+        public void Stopping_event_projecting_service_stops_the_bus()
         {
-            _waiterQueryService.Start();
-            _waiterQueryService.Stop();
+            _eventProjectingService.Start();
+            _eventProjectingService.Stop();
 
             _busControl.Received(1).Stop();
         }

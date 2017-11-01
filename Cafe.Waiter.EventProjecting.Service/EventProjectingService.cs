@@ -3,12 +3,12 @@ using MassTransit;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
-    public class WaiterQueryService
+    public class EventProjectingService
     {
         private readonly IMessageBusFactory _messageBusFactory;
         private IBusControl _busControl;
 
-        public WaiterQueryService(IMessageBusFactory messageBusFactory)
+        public EventProjectingService(IMessageBusFactory messageBusFactory)
         {
             _messageBusFactory = messageBusFactory;
         }
