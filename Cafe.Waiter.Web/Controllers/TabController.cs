@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Cafe.Waiter.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Models;
 using CQRSTutorial.Messaging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Cafe.Waiter.Web.Api
+namespace Cafe.Waiter.Web.Controllers
 {
     public class TabController : Controller
     {
@@ -31,14 +28,14 @@ namespace Cafe.Waiter.Web.Api
             _placeOrderCommandFactory = placeOrderCommandFactory;
         }
 
-        public JsonResult TabDetails(Guid tabId)
+        public TabDetails TabDetails(Guid tabId)
         {
-            return Json(_tabDetailsRepository.GetTabDetails(tabId), JsonRequestBehavior.AllowGet);
+            return _tabDetailsRepository.GetTabDetails(tabId);
         }
 
-        public JsonResult Index()
+        public IEnumerable<OpenTab> Index()
         {
-            return Json(_openTabsRepository.GetOpenTabs(), JsonRequestBehavior.AllowGet);
+            return _openTabsRepository.GetOpenTabs();
         }
 
         [HttpPost]

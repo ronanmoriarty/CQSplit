@@ -1,7 +1,7 @@
 ﻿using Cafe.Waiter.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
 
-namespace Cafe.Waiter.Web.Api
+namespace Cafe.Waiter.Web.Controllers
 {
     public interface IPlaceOrderCommandFactory
     {

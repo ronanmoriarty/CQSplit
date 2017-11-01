@@ -6,7 +6,7 @@ using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 
-namespace Cafe.Waiter.Web.Api
+namespace Cafe.Waiter.Web.Controllers
 {
     public class PlaceOrderCommandFactory : IPlaceOrderCommandFactory
     {

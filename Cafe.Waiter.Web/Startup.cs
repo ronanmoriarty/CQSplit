@@ -1,6 +1,10 @@
 ﻿using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Repositories;
+using Cafe.Waiter.Web.Controllers;
+using Cafe.Waiter.Web.Messaging;
 using CQRSTutorial.DAL;
+using CQRSTutorial.Messaging;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -29,6 +33,15 @@ namespace Cafe.Waiter.Web
             services.Add(new ServiceDescriptor(typeof(IMenuRepository), typeof(MenuRepository), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), typeof(MenuConfiguration), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()));
+            services.Add(new ServiceDescriptor(typeof(ITabDetailsRepository), typeof(TabDetailsRepository), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IOpenTabsRepository), typeof(OpenTabsRepository), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IPlaceOrderCommandFactory), typeof(PlaceOrderCommandFactory), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(ICommandSender), typeof(CommandSender), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IEndpointProvider), typeof(EndpointProvider), ServiceLifetime.Transient));
+            var rabbitMqMessageBusFactory = new RabbitMqMessageBusFactory(new EnvironmentVariableRabbitMqHostConfiguration(), new RabbitMqMessageBusEndpointConfiguration(), new ConsumerFactory());
+            services.Add(new ServiceDescriptor(typeof(IBusControl), rabbitMqMessageBusFactory.Create()));
+            services.Add(new ServiceDescriptor(typeof(IRabbitMqHostConfiguration), typeof(EnvironmentVariableRabbitMqHostConfiguration), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IServiceAddressProvider), typeof(ServiceAddressProvider), ServiceLifetime.Transient));
             services.AddSingleton(typeof(IConfigurationRoot), Configuration);
 
             // Add framework services.
