@@ -32,7 +32,7 @@ namespace Cafe.Waiter.Web.Tests.Api.TabController
 
         private void WhenGettingTabDetails()
         {
-            _tabDetails = _tabController.TabDetails(_id);
+            _tabDetails = _tabController.Get(_id);
         }
     }
 }

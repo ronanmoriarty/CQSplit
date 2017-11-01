@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cafe.Waiter.Web.Controllers
 {
+    [Route("api/[controller]")]
     public class TabController : Controller
     {
         private readonly ITabDetailsRepository _tabDetailsRepository;
@@ -28,12 +29,16 @@ namespace Cafe.Waiter.Web.Controllers
             _placeOrderCommandFactory = placeOrderCommandFactory;
         }
 
-        public TabDetails TabDetails(Guid tabId)
+        // GET api/tab/5
+        [HttpGet("{tabId}")]
+        public TabDetails Get(Guid tabId)
         {
             return _tabDetailsRepository.GetTabDetails(tabId);
         }
 
-        public IEnumerable<OpenTab> Index()
+        // GET api/tab
+        [HttpGet]
+        public IEnumerable<OpenTab> Get()
         {
             return _openTabsRepository.GetOpenTabs();
         }
