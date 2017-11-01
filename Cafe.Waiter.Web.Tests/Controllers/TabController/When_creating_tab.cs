@@ -17,7 +17,7 @@ namespace Cafe.Waiter.Web.Tests.Api.TabController
     {
         private const string Waiter = "John";
         private const int TableNumber = 5;
-        private Web.Api.TabController _tabController;
+        private Web.Controllers.TabController _tabController;
         private ISendEndpoint _endPoint;
         private ICommandSender _commandSender;
         private IEndpointProvider _endpointProvider;
@@ -51,9 +51,9 @@ namespace Cafe.Waiter.Web.Tests.Api.TabController
             await _tabController.Create(_model);
         }
 
-        private Web.Api.TabController CreateTabController()
+        private Web.Controllers.TabController CreateTabController()
         {
-            return new Web.Api.TabController(null, null,_commandSender, null);
+            return new Web.Controllers.TabController(null, null,_commandSender, null);
         }
 
         private bool PropertiesMatch(IOpenTabCommand command)

@@ -5,7 +5,6 @@ using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
-using Cafe.Waiter.Web.Api;
 using CQRSTutorial.Messaging;
 using NSubstitute;
 using NUnit.Framework;
@@ -15,7 +14,7 @@ namespace Cafe.Waiter.Web.Tests.Api.TabController
     [TestFixture]
     public class When_placing_order
     {
-        private Web.Api.TabController _tabController;
+        private Web.Controllers.TabController _tabController;
         private ICommandSender _commandSender;
         private IMenuRepository _menuRepository;
         private readonly Guid _id = new Guid("41D245F0-192C-4381-9A93-0EF97D005460");
@@ -39,7 +38,7 @@ namespace Cafe.Waiter.Web.Tests.Api.TabController
             _commandSender = Substitute.For<ICommandSender>();
             _menuRepository = Substitute.For<IMenuRepository>();
             _menuRepository.GetMenu().Returns(GetMenu());
-            _tabController = new Web.Api.TabController(null, null, _commandSender, new PlaceOrderCommandFactory(_menuRepository));
+            _tabController = new Web.Controllers.TabController(null, null, _commandSender, new Web.Controllers.PlaceOrderCommandFactory(_menuRepository));
 
             _tabController.PlaceOrder(GetTabDetails());
         }
