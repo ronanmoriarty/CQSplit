@@ -29,6 +29,7 @@ namespace Cafe.Waiter.Web
             services.Add(new ServiceDescriptor(typeof(IMenuRepository), typeof(MenuRepository), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), typeof(MenuConfiguration), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()));
+            services.AddSingleton(typeof(IConfigurationRoot), Configuration);
 
             // Add framework services.
             services.AddMvc();
