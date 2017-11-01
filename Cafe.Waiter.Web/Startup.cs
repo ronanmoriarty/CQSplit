@@ -1,7 +1,6 @@
 ﻿using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Controllers;
-using Cafe.Waiter.Web.Messaging;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Messaging;
 using MassTransit;
@@ -38,7 +37,7 @@ namespace Cafe.Waiter.Web
             services.Add(new ServiceDescriptor(typeof(IPlaceOrderCommandFactory), typeof(PlaceOrderCommandFactory), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(ICommandSender), typeof(CommandSender), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IEndpointProvider), typeof(EndpointProvider), ServiceLifetime.Transient));
-            var rabbitMqMessageBusFactory = new RabbitMqMessageBusFactoryForConsuming(new EnvironmentVariableRabbitMqHostConfiguration(), new RabbitMqMessageBusEndpointConfiguration(), new ConsumerFactory());
+            var rabbitMqMessageBusFactory = new RabbitMqMessageBusFactoryForSending(new EnvironmentVariableRabbitMqHostConfiguration());
             services.Add(new ServiceDescriptor(typeof(IBusControl), rabbitMqMessageBusFactory.Create()));
             services.Add(new ServiceDescriptor(typeof(IRabbitMqHostConfiguration), typeof(EnvironmentVariableRabbitMqHostConfiguration), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IServiceAddressProvider), typeof(ServiceAddressProvider), ServiceLifetime.Transient));
