@@ -2,7 +2,6 @@
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Controllers;
-using Newtonsoft.Json;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -14,7 +13,6 @@ namespace Cafe.Waiter.Web.Tests.Controllers
         private MenuController _menuController;
         private readonly Guid _id = new Guid("39B35827-6A40-42D7-9114-8D1E297E9131");
         private Menu _menu;
-        private string _contentType;
 
         [SetUp]
         public void SetUp()
@@ -36,18 +34,9 @@ namespace Cafe.Waiter.Web.Tests.Controllers
             Assert.That(_menu.Id, Is.EqualTo(_id));
         }
 
-        [Test]
-        public void Content_type_is_json()
-        {
-            Assert.That(_contentType, Is.EqualTo("application/json"));
-        }
-
         private void WhenGettingMenu()
         {
-            var contentResult = _menuController.Index();
-            _contentType = contentResult.ContentType;
-            var content = contentResult.Content;
-            _menu = JsonConvert.DeserializeObject<Menu>(content);
+            _menu = _menuController.Get();
         }
     }
 }

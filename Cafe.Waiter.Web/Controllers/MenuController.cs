@@ -1,10 +1,10 @@
-﻿using Cafe.Waiter.Queries.DAL.Repositories;
+﻿using Cafe.Waiter.Queries.DAL.Models;
+using Cafe.Waiter.Queries.DAL.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Cafe.Waiter.Web.Controllers
 {
+    [Route("api/[controller]")]
     public class MenuController : Controller
     {
         private readonly IMenuRepository _menuRepository;
@@ -14,16 +14,10 @@ namespace Cafe.Waiter.Web.Controllers
             _menuRepository = menuRepository;
         }
 
-        public ContentResult Index()
+        [HttpGet]
+        public Menu Get()
         {
-            var menu = _menuRepository.GetMenu();
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-            var json = JsonConvert.SerializeObject(menu, Formatting.Indented, jsonSerializerSettings);
-
-            return Content(json, "application/json");
+            return _menuRepository.GetMenu();
         }
     }
 }
