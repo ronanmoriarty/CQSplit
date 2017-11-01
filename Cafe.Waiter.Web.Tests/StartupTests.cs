@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Cafe.Waiter.Web.Controllers;
-using log4net;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
@@ -12,14 +11,12 @@ namespace Cafe.Waiter.Web.Tests
     [TestFixture]
     public class StartupTests
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(StartupTests));
-
         [Test]
         public void Can_resolve_all_controllers()
         {
             ControllerTypes.ForEach(controllerType =>
             {
-                _logger.Debug($"Resolving {controllerType.Name}...");
+                Console.WriteLine($"Resolving {controllerType.Name}...");
                 var controller = BuildServiceProvider.Instance.GetService(controllerType);
                 Assert.That(controller, Is.Not.Null);
             });
