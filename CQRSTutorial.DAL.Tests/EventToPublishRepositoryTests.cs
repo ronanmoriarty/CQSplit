@@ -24,7 +24,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             CleanUp();
             _eventToPublishRepository = CreateRepository();
-            _eventToPublishRepository.UnitOfWork = new EntityFrameworkUnitOfWork(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider());
+            _eventToPublishRepository.UnitOfWork = new EntityFrameworkUnitOfWork(WriteModelConnectionStringProvider.Instance);
         }
 
         [Test]
@@ -110,7 +110,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private void CleanUp()
         {
-            _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
+            _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProvider.Instance);
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')");
             _eventToPublishRepository?.UnitOfWork?.Dispose();
         }

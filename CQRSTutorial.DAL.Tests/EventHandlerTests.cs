@@ -28,7 +28,7 @@ namespace CQRSTutorial.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
+            _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProvider.Instance);
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE ID IN ('{Id1}','{Id2}')");
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE ID IN ('{Id1}','{Id2}')");
             _eventToPublishRepositoryDecorator = CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(
@@ -38,7 +38,7 @@ namespace CQRSTutorial.DAL.Tests
             _eventStore = new EventStore(new EventMapper(Assembly.GetExecutingAssembly())
             );
             _eventHandler = new EventHandler(
-                new EntityFrameworkUnitOfWorkFactory(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()),
+                new EntityFrameworkUnitOfWorkFactory(WriteModelConnectionStringProvider.Instance),
                 new CompositeEventStore(
                     new[]
                     {
