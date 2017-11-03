@@ -7,6 +7,7 @@ namespace CQRSTutorial.DAL.Tests.Common
 {
     public class SqlExecutor
     {
+        private readonly IConnectionStringProvider _connectionStringProvider;
         private readonly ConnectionStringProviderFactory _connectionStringProviderFactory;
         private readonly ILog _logger = LogManager.GetLogger(typeof(SqlExecutor));
 
@@ -15,9 +16,14 @@ namespace CQRSTutorial.DAL.Tests.Common
             _connectionStringProviderFactory = connectionStringProviderFactory;
         }
 
+        public SqlExecutor(IConnectionStringProvider connectionStringProvider)
+        {
+            _connectionStringProvider = connectionStringProvider;
+        }
+
         public T ExecuteScalar<T>(string commandText)
         {
-            using (var sqlConnection = new SqlConnection(_connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString()))
+            using (var sqlConnection = new SqlConnection(GetConnectionString()))
             {
                 sqlConnection.Open();
                 using (var command = sqlConnection.CreateCommand())
@@ -33,7 +39,7 @@ namespace CQRSTutorial.DAL.Tests.Common
         public void ExecuteNonQuery(string commandText)
         {
             _logger.Debug(commandText);
-            using (var sqlConnection = new SqlConnection(_connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString()))
+            using (var sqlConnection = new SqlConnection(GetConnectionString()))
             {
                 sqlConnection.Open();
                 using (var command = sqlConnection.CreateCommand())
@@ -47,7 +53,7 @@ namespace CQRSTutorial.DAL.Tests.Common
         public void ExecuteReader(string commandText, Action<IDataReader> readerAction)
         {
             _logger.Debug(commandText);
-            using (var sqlConnection = new SqlConnection(_connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString()))
+            using (var sqlConnection = new SqlConnection(GetConnectionString()))
             {
                 sqlConnection.Open();
                 using (var command = sqlConnection.CreateCommand())
@@ -62,6 +68,11 @@ namespace CQRSTutorial.DAL.Tests.Common
                     }
                 }
             }
+        }
+
+        private string GetConnectionString()
+        {
+            return _connectionStringProvider?.GetConnectionString() ?? _connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString();
         }
     }
 }
