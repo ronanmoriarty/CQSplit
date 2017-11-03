@@ -12,7 +12,7 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
     public class TabDetailsRepositoryTests
     {
         private readonly Guid _id = new Guid("82EBC82F-72EE-42D8-9565-49B0E1844C86");
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProviderFactory.Instance);
+        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.Instance);
         private TabDetailsRepository _tabDetailsRepository;
         private TabDetails _tabDetails;
 
@@ -23,7 +23,7 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             var tabDetailsJson = JsonConvert.SerializeObject(_tabDetails);
             _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.TabDetails WHERE Id = '{_id}'");
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.TabDetails(Id,Data) VALUES ('{_id}','{tabDetailsJson}')");
-            _tabDetailsRepository = new TabDetailsRepository(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider());
+            _tabDetailsRepository = new TabDetailsRepository(ReadModelConnectionStringProvider.Instance);
         }
 
         [Test]
