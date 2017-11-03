@@ -8,13 +8,7 @@ namespace CQRSTutorial.DAL.Tests.Common
     public class SqlExecutor
     {
         private readonly IConnectionStringProvider _connectionStringProvider;
-        private readonly ConnectionStringProviderFactory _connectionStringProviderFactory;
         private readonly ILog _logger = LogManager.GetLogger(typeof(SqlExecutor));
-
-        public SqlExecutor(ConnectionStringProviderFactory connectionStringProviderFactory)
-        {
-            _connectionStringProviderFactory = connectionStringProviderFactory;
-        }
 
         public SqlExecutor(IConnectionStringProvider connectionStringProvider)
         {
@@ -72,7 +66,7 @@ namespace CQRSTutorial.DAL.Tests.Common
 
         private string GetConnectionString()
         {
-            return _connectionStringProvider?.GetConnectionString() ?? _connectionStringProviderFactory.GetConnectionStringProvider().GetConnectionString();
+            return _connectionStringProvider?.GetConnectionString();
         }
     }
 }
