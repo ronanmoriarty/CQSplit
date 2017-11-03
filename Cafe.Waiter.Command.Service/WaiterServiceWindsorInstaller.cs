@@ -43,7 +43,7 @@ namespace Cafe.Waiter.Command.Service
                     .DependsOn(Dependency.OnComponent("assemblyContainingEvents", "assemblyForEventMapper")),
                 Component
                     .For<IConnectionStringProvider>()
-                    .Instance(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()),
+                    .Instance(WriteModelConnectionStringProvider.Instance),
                 Classes
                     .FromAssemblyContaining<IUnitOfWorkFactory>()
                     .InSameNamespaceAs<IUnitOfWorkFactory>()

@@ -14,7 +14,7 @@ namespace Cafe.Waiter.Command.Service.Tests
         private readonly Guid _commandId = new Guid("C168EA4F-E956-4A46-8571-371CC5639868");
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "Joe";
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
+        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProvider.Instance);
 
         [SetUp]
         public void SetUp()
