@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using CQRSTutorial.DAL.Common;
 using log4net;
 
 namespace CQRSTutorial.DAL.Tests.Common

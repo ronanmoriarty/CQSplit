@@ -1,4 +1,5 @@
 using CQRSTutorial.DAL;
+using CQRSTutorial.DAL.Common;
 
 namespace CQRSTutorial.Publish.Tests
 {

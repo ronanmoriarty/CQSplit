@@ -1,4 +1,5 @@
 ﻿using System;
+using CQRSTutorial.DAL.Common;
 
 namespace CQRSTutorial.DAL
 {

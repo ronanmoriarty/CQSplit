@@ -1,4 +1,6 @@
-﻿namespace CQRSTutorial.DAL
+﻿using CQRSTutorial.DAL.Common;
+
+namespace CQRSTutorial.DAL
 {
     public class EntityFrameworkUnitOfWorkFactory : IUnitOfWorkFactory
     {

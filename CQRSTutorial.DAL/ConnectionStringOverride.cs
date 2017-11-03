@@ -1,3 +1,5 @@
+using CQRSTutorial.DAL.Common;
+
 namespace CQRSTutorial.DAL
 {
     public class ConnectionStringOverride : IConnectionStringProvider

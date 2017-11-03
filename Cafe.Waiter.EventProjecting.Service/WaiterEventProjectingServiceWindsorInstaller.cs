@@ -7,6 +7,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using CQRSTutorial.DAL;
+using CQRSTutorial.DAL.Common;
 using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.EventProjecting.Service

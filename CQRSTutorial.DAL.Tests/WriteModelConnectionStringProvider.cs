@@ -1,3 +1,5 @@
+using CQRSTutorial.DAL.Common;
+
 namespace CQRSTutorial.DAL.Tests
 {
     public class WriteModelConnectionStringProvider

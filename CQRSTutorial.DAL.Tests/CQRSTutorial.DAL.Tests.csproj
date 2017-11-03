@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj" />
+    <ProjectReference Include="..\CQRSTutorial.DAL.Common\CQRSTutorial.DAL.Common.csproj" />
     <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj" />
     <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj" />
     <ProjectReference Include="..\CQRSTutorial.Tests.Common\CQRSTutorial.Tests.Common.csproj" />
