@@ -40,7 +40,6 @@ namespace Cafe.Waiter.Web
             var rabbitMqMessageBusFactory = new RabbitMqMessageBusFactoryForSending(new EnvironmentVariableRabbitMqHostConfiguration());
             services.Add(new ServiceDescriptor(typeof(IBusControl), rabbitMqMessageBusFactory.Create()));
             services.Add(new ServiceDescriptor(typeof(IRabbitMqHostConfiguration), typeof(EnvironmentVariableRabbitMqHostConfiguration), ServiceLifetime.Transient));
-            services.Add(new ServiceDescriptor(typeof(IServiceAddressProvider), typeof(ServiceAddressProvider), ServiceLifetime.Transient));
             services.AddSingleton(typeof(IConfigurationRoot), Configuration);
 
             // Add framework services.
