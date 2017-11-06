@@ -47,7 +47,7 @@ namespace CQRSTutorial.Messaging
         {
             foreach (var endpoint in _messageBusEndpointConfiguration.ReceiveEndpoints)
             {
-                sbc.ReceiveEndpoint(host, endpoint.ServiceAddress,
+                sbc.ReceiveEndpoint(host, null,
                     endpointConfigurator => { endpointConfigurator.Consumer(endpoint.ConsumerType, _consumerFactory.Create); });
             }
         }
