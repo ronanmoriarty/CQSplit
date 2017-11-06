@@ -13,7 +13,7 @@ namespace Cafe.Waiter.EventProjecting.Service
             ReceiveEndpoints = GetConsumerTypes().Select(x => receiveEndpointMappingFactory.CreateMappingFor(x, "consumer", "event")).ToList();
         }
 
-        private static List<Type> GetConsumerTypes()
+        public List<Type> GetConsumerTypes()
         {
             var consumerTypes = new List<Type>();
             consumerTypes.AddRange(new[]
