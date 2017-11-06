@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using log4net;
 using MassTransit;
 
 namespace CQRSTutorial.Messaging
@@ -9,7 +8,6 @@ namespace CQRSTutorial.Messaging
     {
         private readonly IBusControl _busControl;
         private readonly IRabbitMqHostConfiguration _rabbitMqHostConfiguration;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(EndpointProvider));
 
         public EndpointProvider(IBusControl busControl, IRabbitMqHostConfiguration rabbitMqHostConfiguration)
         {
@@ -17,10 +15,9 @@ namespace CQRSTutorial.Messaging
             _rabbitMqHostConfiguration = rabbitMqHostConfiguration;
         }
 
-        public async Task<ISendEndpoint> GetSendEndpointFor(Type messageType)
+        public async Task<ISendEndpoint> GetSendEndpoint()
         {
-            var uri = $"{_rabbitMqHostConfiguration.Uri.AbsoluteUri}";
-            _logger.Debug($"Sending {messageType.Name} message to {uri}");
+            var uri = _rabbitMqHostConfiguration.Uri.AbsoluteUri;
             return await _busControl.GetSendEndpoint(new Uri(uri));
         }
     }

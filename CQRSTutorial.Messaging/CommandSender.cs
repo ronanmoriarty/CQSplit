@@ -14,7 +14,7 @@ namespace CQRSTutorial.Messaging
 
         public async Task Send(ICommand command)
         {
-            var sendEndpoint = await _endpointProvider.GetSendEndpointFor(command.GetType());
+            var sendEndpoint = await _endpointProvider.GetSendEndpoint();
             await sendEndpoint.Send(command);
         }
     }
