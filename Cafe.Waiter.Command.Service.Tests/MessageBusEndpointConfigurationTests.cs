@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cafe.Waiter.Command.Service.Consumers;
 using CQRSTutorial.Messaging;
@@ -17,16 +18,26 @@ namespace Cafe.Waiter.Command.Service.Tests
             _messageBusEndpointConfiguration = new MessageBusEndpointConfiguration(new ReceiveEndpointMappingFactory(new ServiceAddressProvider()));
         }
 
-        [TestCase("open_tab_command", typeof(OpenTabConsumer))]
-        [TestCase("place_order_command", typeof(PlaceOrderConsumer))]
-        [TestCase("mark_food_served_command", typeof(MarkFoodServedConsumer))]
-        [TestCase("mark_drinks_served_command", typeof(MarkDrinksServedConsumer))]
-        [TestCase("close_tab_command", typeof(CloseTabConsumer))]
-        public void All_commands_have_consumer_types_registered(string expectedServiceAddress, Type expectedConsumerType)
+        [Test]
+        public void All_commands_have_consumer_types_registered()
         {
-                Assert.That(_messageBusEndpointConfiguration.ReceiveEndpoints.Any(
-                    receiveEndpointMapping => receiveEndpointMapping.ConsumerType == expectedConsumerType
-                                              && receiveEndpointMapping.ServiceAddress == expectedServiceAddress));
+            var typesDerivingFromConsumer = GetTypesDerivingFromConsumer();
+            foreach (var consumerType in typesDerivingFromConsumer)
+            {
+                Console.WriteLine($"Checking consumer type {consumerType.FullName}");
+                Assert.That(_messageBusEndpointConfiguration.GetConsumerTypes().Any(type => type == consumerType));
+            }
+        }
+
+        private static IEnumerable<Type> GetTypesDerivingFromConsumer()
+        {
+            return typeof(CloseTabConsumer).Assembly.GetTypes().Where(type =>
+            {
+                var baseType = type.BaseType;
+                return baseType != null
+                       && baseType.IsGenericType
+                       && baseType.GetGenericTypeDefinition() == typeof(Consumer<>);
+            });
         }
     }
 }
