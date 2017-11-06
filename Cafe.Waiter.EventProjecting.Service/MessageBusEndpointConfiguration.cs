@@ -7,10 +7,6 @@ namespace Cafe.Waiter.EventProjecting.Service
 {
     public class MessageBusEndpointConfiguration : IMessageBusEndpointConfiguration
     {
-        public MessageBusEndpointConfiguration(ReceiveEndpointMappingFactory receiveEndpointMappingFactory)
-        {
-        }
-
         public List<Type> GetConsumerTypes()
         {
             var consumerTypes = new List<Type>();
