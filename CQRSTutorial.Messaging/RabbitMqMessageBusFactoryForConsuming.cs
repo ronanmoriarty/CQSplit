@@ -45,10 +45,10 @@ namespace CQRSTutorial.Messaging
 
         private void ConfigureEndpoints(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host)
         {
-            foreach (var endpoint in _messageBusEndpointConfiguration.ReceiveEndpoints)
+            foreach (var consumerType in _messageBusEndpointConfiguration.GetConsumerTypes())
             {
                 sbc.ReceiveEndpoint(host, null,
-                    endpointConfigurator => { endpointConfigurator.Consumer(endpoint.ConsumerType, _consumerFactory.Create); });
+                    endpointConfigurator => { endpointConfigurator.Consumer(consumerType, _consumerFactory.Create); });
             }
         }
     }
