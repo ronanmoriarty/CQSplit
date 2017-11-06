@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cafe.Waiter.Command.Service.Consumers;
 using CQRSTutorial.Messaging;
 
@@ -10,7 +9,6 @@ namespace Cafe.Waiter.Command.Service
     {
         public MessageBusEndpointConfiguration(ReceiveEndpointMappingFactory receiveEndpointMappingFactory)
         {
-            ReceiveEndpoints = GetConsumerTypes().Select(x => receiveEndpointMappingFactory.CreateMappingFor(x, "consumer", "command")).ToList();
         }
 
         public List<Type> GetConsumerTypes()
@@ -26,7 +24,5 @@ namespace Cafe.Waiter.Command.Service
             });
             return consumerTypes;
         }
-
-        public IEnumerable<ReceiveEndpointMapping> ReceiveEndpoints { get; }
     }
 }
