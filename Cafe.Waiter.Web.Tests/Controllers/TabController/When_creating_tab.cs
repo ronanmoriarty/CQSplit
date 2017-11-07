@@ -11,7 +11,7 @@ using NSubstitute;
 using NUnit.Framework;
 using ISendEndpointProvider = CQRSTutorial.Messaging.ISendEndpointProvider;
 
-namespace Cafe.Waiter.Web.Tests.Api.TabController
+namespace Cafe.Waiter.Web.Tests.Controllers.TabController
 {
     [TestFixture]
     public class When_creating_tab

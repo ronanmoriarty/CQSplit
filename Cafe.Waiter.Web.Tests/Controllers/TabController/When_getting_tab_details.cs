@@ -4,7 +4,7 @@ using Cafe.Waiter.Queries.DAL.Repositories;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Web.Tests.Api.TabController
+namespace Cafe.Waiter.Web.Tests.Controllers.TabController
 {
     [TestFixture]
     public class When_getting_tab_details
