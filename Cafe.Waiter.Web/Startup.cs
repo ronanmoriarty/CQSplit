@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ISendEndpointProvider = CQRSTutorial.Messaging.ISendEndpointProvider;
 
 namespace Cafe.Waiter.Web
 {
@@ -36,7 +37,7 @@ namespace Cafe.Waiter.Web
             services.Add(new ServiceDescriptor(typeof(IOpenTabsRepository), typeof(OpenTabsRepository), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IPlaceOrderCommandFactory), typeof(PlaceOrderCommandFactory), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(ICommandSender), typeof(CommandSender), ServiceLifetime.Transient));
-            services.Add(new ServiceDescriptor(typeof(IEndpointProvider), typeof(EndpointProvider), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(ISendEndpointProvider), typeof(SendEndpointProvider), ServiceLifetime.Transient));
             var rabbitMqMessageBusFactory = new RabbitMqMessageBusFactoryForSending(new EnvironmentVariableRabbitMqHostConfiguration());
             services.Add(new ServiceDescriptor(typeof(IBusControl), rabbitMqMessageBusFactory.Create()));
             services.Add(new ServiceDescriptor(typeof(IRabbitMqHostConfiguration), typeof(EnvironmentVariableRabbitMqHostConfiguration), ServiceLifetime.Transient));
