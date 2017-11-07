@@ -5,7 +5,7 @@ using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.Command.Service
 {
-    public class MessageBusEndpointConfiguration : IMessageBusEndpointConfiguration
+    public class ConsumerTypeProvider : IConsumerTypeProvider
     {
         public List<Type> GetConsumerTypes()
         {

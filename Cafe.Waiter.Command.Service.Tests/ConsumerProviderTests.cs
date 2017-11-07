@@ -7,14 +7,14 @@ using NUnit.Framework;
 namespace Cafe.Waiter.Command.Service.Tests
 {
     [TestFixture]
-    public class MessageBusEndpointConfigurationTests
+    public class ConsumerProviderTests
     {
-        private MessageBusEndpointConfiguration _messageBusEndpointConfiguration;
+        private ConsumerTypeProvider _consumerTypeProvider;
 
         [SetUp]
         public void SetUp()
         {
-            _messageBusEndpointConfiguration = new MessageBusEndpointConfiguration();
+            _consumerTypeProvider = new ConsumerTypeProvider();
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace Cafe.Waiter.Command.Service.Tests
             foreach (var consumerType in typesDerivingFromConsumer)
             {
                 Console.WriteLine($"Checking consumer type {consumerType.FullName}");
-                Assert.That(_messageBusEndpointConfiguration.GetConsumerTypes().Any(type => type == consumerType));
+                Assert.That(_consumerTypeProvider.GetConsumerTypes().Any(type => type == consumerType));
             }
         }
 

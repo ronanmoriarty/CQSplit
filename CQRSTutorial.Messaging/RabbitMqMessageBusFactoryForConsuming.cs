@@ -7,17 +7,17 @@ namespace CQRSTutorial.Messaging
     public class RabbitMqMessageBusFactoryForConsuming : IMessageBusFactory
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactoryForConsuming));
-        private readonly IMessageBusEndpointConfiguration _messageBusEndpointConfiguration;
+        private readonly IConsumerTypeProvider _consumerTypeProvider;
         private readonly IConsumerFactory _consumerFactory;
         private readonly IRabbitMqHostConfiguration _rabbitMqHostConfiguration;
 
         public RabbitMqMessageBusFactoryForConsuming(
             IRabbitMqHostConfiguration rabbitMqHostConfiguration,
-            IMessageBusEndpointConfiguration messageBusEndpointConfiguration,
+            IConsumerTypeProvider consumerTypeProvider,
             IConsumerFactory consumerFactory)
         {
             _rabbitMqHostConfiguration = rabbitMqHostConfiguration;
-            _messageBusEndpointConfiguration = messageBusEndpointConfiguration;
+            _consumerTypeProvider = consumerTypeProvider;
             _consumerFactory = consumerFactory;
         }
 
@@ -45,7 +45,7 @@ namespace CQRSTutorial.Messaging
 
         private void ConfigureEndpoints(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host)
         {
-            foreach (var consumerType in _messageBusEndpointConfiguration.GetConsumerTypes())
+            foreach (var consumerType in _consumerTypeProvider.GetConsumerTypes())
             {
                 sbc.ReceiveEndpoint(host, null,
                     endpointConfigurator => { endpointConfigurator.Consumer(consumerType, _consumerFactory.Create); });

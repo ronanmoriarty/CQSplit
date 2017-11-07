@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CQRSTutorial.Messaging
 {
-    public interface IMessageBusEndpointConfiguration
+    public interface IConsumerTypeProvider
     {
         List<Type> GetConsumerTypes();
     }

@@ -98,7 +98,7 @@
     <Compile Include="Consumers\OpenTabConsumer.cs" />
     <Compile Include="Consumers\PlaceOrderConsumer.cs" />
     <Compile Include="Container.cs" />
-    <Compile Include="MessageBusEndpointConfiguration.cs" />
+    <Compile Include="ConsumerTypeProvider.cs" />
     <Compile Include="OutboxToMessageQueuePublisherConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
