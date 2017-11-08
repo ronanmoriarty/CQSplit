@@ -1,6 +1,6 @@
 using System;
 
-namespace CQRSTutorial.Messaging
+namespace CQRSTutorial.Messaging.RabbitMq
 {
     public class EnvironmentVariableRabbitMqHostConfiguration : IRabbitMqHostConfiguration
     {

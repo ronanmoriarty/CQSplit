@@ -1,7 +1,7 @@
 using System;
 using MassTransit.RabbitMqTransport;
 
-namespace CQRSTutorial.Messaging
+namespace CQRSTutorial.Messaging.RabbitMq
 {
     public class RabbitMqReceiveEndpointConfigurator : IRabbitMqReceiveEndpointConfigurator
     {

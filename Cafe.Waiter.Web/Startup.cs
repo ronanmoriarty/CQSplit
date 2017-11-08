@@ -3,6 +3,7 @@ using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Controllers;
 using CQRSTutorial.DAL.Common;
 using CQRSTutorial.Messaging;
+using CQRSTutorial.Messaging.RabbitMq;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

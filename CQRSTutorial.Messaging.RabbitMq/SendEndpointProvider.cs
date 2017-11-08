@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using MassTransit;
 
-namespace CQRSTutorial.Messaging
+namespace CQRSTutorial.Messaging.RabbitMq
 {
     public class SendEndpointProvider : ISendEndpointProvider
     {
