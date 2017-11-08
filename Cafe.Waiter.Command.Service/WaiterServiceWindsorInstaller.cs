@@ -11,6 +11,7 @@ using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Common;
 using CQRSTutorial.Messaging;
+using CQRSTutorial.Messaging.RabbitMq;
 
 namespace Cafe.Waiter.Command.Service
 {
@@ -32,7 +33,13 @@ namespace Cafe.Waiter.Command.Service
                 Classes
                     .FromAssemblyContaining<IMessageBusFactory>()
                     .InSameNamespaceAs<IMessageBusFactory>()
-                    .Unless(type => type == typeof(MessageBusEventPublisher))
+                    .Unless(type => type == typeof(MessageBusEventPublisher) || type == typeof(InMemoryReceiveEndpointsConfigurator) || type == typeof(InMemoryMessageBusFactory))
+                    .WithServiceSelf()
+                    .WithServiceAllInterfaces(),
+                Classes
+                    .FromAssemblyContaining<RabbitMqMessageBusFactory>()
+                    .InSameNamespaceAs<RabbitMqMessageBusFactory>()
+                    .Unless(type => type == typeof(NoReceiveEndpointsConfigurator))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
