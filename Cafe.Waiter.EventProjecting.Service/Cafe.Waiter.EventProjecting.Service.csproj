@@ -89,6 +89,7 @@
     <Compile Include="Projectors\ITabOpenedProjector.cs" />
     <Compile Include="Projectors\TabOpenedProjector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TabDetailsRepository.cs" />
     <Compile Include="WaiterDbContext.cs" />
     <Compile Include="WaiterEventProjectingServiceWindsorInstaller.cs" />
   </ItemGroup>
