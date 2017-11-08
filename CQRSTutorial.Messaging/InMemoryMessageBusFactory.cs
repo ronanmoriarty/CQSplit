@@ -3,22 +3,22 @@ using MassTransit;
 
 namespace CQRSTutorial.Messaging
 {
-    public class InMemoryMessageBusFactoryForConsuming : IMessageBusFactory
+    public class InMemoryMessageBusFactory : IMessageBusFactory
     {
         private readonly IConsumerRegistrar _consumerRegistrar;
         private IInMemoryBusFactoryConfigurator _inMemoryBusFactoryConfigurator;
 
-        public InMemoryMessageBusFactoryForConsuming(IConsumerRegistrar consumerRegistrar)
+        public InMemoryMessageBusFactory(IConsumerRegistrar consumerRegistrar)
         {
             _consumerRegistrar = consumerRegistrar;
         }
 
         public IBusControl Create()
         {
-            return Bus.Factory.CreateUsingInMemory(ConfigureEndpoints);
+            return Bus.Factory.CreateUsingInMemory(ConfigureReceiveEndpoints);
         }
 
-        private void ConfigureEndpoints(IInMemoryBusFactoryConfigurator inMemoryBusFactoryConfigurator)
+        private void ConfigureReceiveEndpoints(IInMemoryBusFactoryConfigurator inMemoryBusFactoryConfigurator)
         {
             _inMemoryBusFactoryConfigurator = inMemoryBusFactoryConfigurator;
             _consumerRegistrar.RegisterAllConsumerTypes(Configure);
