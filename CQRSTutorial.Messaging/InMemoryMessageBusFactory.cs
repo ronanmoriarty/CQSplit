@@ -1,16 +1,14 @@
-using System;
 using MassTransit;
 
 namespace CQRSTutorial.Messaging
 {
     public class InMemoryMessageBusFactory : IMessageBusFactory
     {
-        private readonly IConsumerRegistrar _consumerRegistrar;
-        private IInMemoryBusFactoryConfigurator _inMemoryBusFactoryConfigurator;
+        private readonly IInMemoryReceiveEndpointsConfigurator _inMemoryReceiveEndpointsConfigurator;
 
-        public InMemoryMessageBusFactory(IConsumerRegistrar consumerRegistrar)
+        public InMemoryMessageBusFactory(IInMemoryReceiveEndpointsConfigurator inMemoryReceiveEndpointsConfigurator)
         {
-            _consumerRegistrar = consumerRegistrar;
+            _inMemoryReceiveEndpointsConfigurator = inMemoryReceiveEndpointsConfigurator;
         }
 
         public IBusControl Create()
@@ -20,13 +18,7 @@ namespace CQRSTutorial.Messaging
 
         private void ConfigureReceiveEndpoints(IInMemoryBusFactoryConfigurator inMemoryBusFactoryConfigurator)
         {
-            _inMemoryBusFactoryConfigurator = inMemoryBusFactoryConfigurator;
-            _consumerRegistrar.RegisterAllConsumerTypes(Configure);
-        }
-
-        private void Configure(Action<IReceiveEndpointConfigurator> configure)
-        {
-            _inMemoryBusFactoryConfigurator.ReceiveEndpoint(null, configure);
+            _inMemoryReceiveEndpointsConfigurator.Configure(inMemoryBusFactoryConfigurator);
         }
     }
 }
