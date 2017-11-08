@@ -1,3 +1,4 @@
+using System;
 using MassTransit;
 
 namespace CQRSTutorial.Messaging
@@ -18,7 +19,12 @@ namespace CQRSTutorial.Messaging
 
         private void ConfigureEndpoints(IInMemoryBusFactoryConfigurator sbc)
         {
-            _consumerRegistrar.RegisterAllConsumerTypes(sbc, (sbc1, action) => sbc1.ReceiveEndpoint(null, action));
+            _consumerRegistrar.RegisterAllConsumerTypes(sbc, Configure);
+        }
+
+        private void Configure(IInMemoryBusFactoryConfigurator inMemoryBusFactoryConfigurator, Action<IReceiveEndpointConfigurator> configure)
+        {
+            inMemoryBusFactoryConfigurator.ReceiveEndpoint(null, configure);
         }
     }
 }
