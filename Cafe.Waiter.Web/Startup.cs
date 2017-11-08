@@ -1,6 +1,7 @@
 ﻿using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Controllers;
+using Cafe.Waiter.Web.Messaging;
 using CQRSTutorial.DAL.Common;
 using CQRSTutorial.Messaging;
 using MassTransit;

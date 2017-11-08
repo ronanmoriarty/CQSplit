@@ -1,7 +1,8 @@
+using CQRSTutorial.Messaging;
 using log4net;
 using MassTransit;
 
-namespace CQRSTutorial.Messaging
+namespace Cafe.Waiter.Web.Messaging
 {
     public class RabbitMqMessageBusFactoryForSending : IMessageBusFactory
     {
