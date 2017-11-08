@@ -4,14 +4,10 @@ namespace CQRSTutorial.Messaging
 {
     public class InMemoryMessageBusFactoryForConsuming : IMessageBusFactory
     {
-        private readonly IConsumerTypeProvider _consumerTypeProvider;
         private readonly IConsumerRegistrar _consumerRegistrar;
 
-        public InMemoryMessageBusFactoryForConsuming(
-            IConsumerTypeProvider consumerTypeProvider,
-            IConsumerRegistrar consumerRegistrar)
+        public InMemoryMessageBusFactoryForConsuming(IConsumerRegistrar consumerRegistrar)
         {
-            _consumerTypeProvider = consumerTypeProvider;
             _consumerRegistrar = consumerRegistrar;
         }
 
@@ -22,11 +18,8 @@ namespace CQRSTutorial.Messaging
 
         private void ConfigureEndpoints(IInMemoryBusFactoryConfigurator sbc)
         {
-            foreach (var consumerType in _consumerTypeProvider.GetConsumerTypes())
-            {
-                sbc.ReceiveEndpoint(null,
-                    endpointConfigurator => { _consumerRegistrar.RegisterConsumerType(endpointConfigurator, consumerType); });
-            }
+            _consumerRegistrar.RegisterAllConsumerTypes(sbc, (sbc1, consumerType) =>
+                sbc1.ReceiveEndpoint(null, endpointConfigurator => _consumerRegistrar.RegisterConsumerType(endpointConfigurator, consumerType)));
         }
     }
 }
