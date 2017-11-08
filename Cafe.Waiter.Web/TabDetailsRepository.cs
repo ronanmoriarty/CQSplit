@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
+using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.DAL.Common;
 using Newtonsoft.Json;
 
-namespace Cafe.Waiter.Queries.DAL.Repositories
+namespace Cafe.Waiter.Web
 {
     public class TabDetailsRepository: ITabDetailsRepository
     {
@@ -20,7 +21,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
             return Map(new WaiterDbContext(_connectionStringProvider.GetConnectionString()).TabDetails.Single(x => x.Id == id));
         }
 
-        private TabDetails Map(Serialized.TabDetails tabDetails)
+        private TabDetails Map(Queries.DAL.Serialized.TabDetails tabDetails)
         {
             return JsonConvert.DeserializeObject<TabDetails>(tabDetails.Data);
         }
