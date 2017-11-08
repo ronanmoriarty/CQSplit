@@ -4,12 +4,12 @@ using MassTransit;
 
 namespace CQRSTutorial.Messaging.RabbitMq
 {
-    public class SendEndpointProvider : ISendEndpointProvider
+    public class RabbitMqSendEndpointProvider : ISendEndpointProvider
     {
         private readonly IBusControl _busControl;
         private readonly IRabbitMqHostConfiguration _rabbitMqHostConfiguration;
 
-        public SendEndpointProvider(IBusControl busControl, IRabbitMqHostConfiguration rabbitMqHostConfiguration)
+        public RabbitMqSendEndpointProvider(IBusControl busControl, IRabbitMqHostConfiguration rabbitMqHostConfiguration)
         {
             _busControl = busControl;
             _rabbitMqHostConfiguration = rabbitMqHostConfiguration;
