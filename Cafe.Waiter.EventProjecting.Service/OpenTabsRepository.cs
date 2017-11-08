@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
+using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.DAL.Common;
 using Newtonsoft.Json;
 
-namespace Cafe.Waiter.Queries.DAL.Repositories
+namespace Cafe.Waiter.EventProjecting.Service
 {
     public class OpenTabsRepository : IOpenTabsRepository
     {
@@ -21,12 +22,12 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
             return GetAll().Select(Map);
         }
 
-        private IEnumerable<Serialized.OpenTab> GetAll()
+        private IEnumerable<Queries.DAL.Serialized.OpenTab> GetAll()
         {
             return CreateWaiterDbContext().OpenTabs.ToList();
         }
 
-        public Serialized.OpenTab Get(Guid id)
+        public Queries.DAL.Serialized.OpenTab Get(Guid id)
         {
             return CreateWaiterDbContext().OpenTabs.SingleOrDefault(x => x.Id == id);
         }
@@ -37,7 +38,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
             if (existingOpenTab == null)
             {
                 var waiterDbContext = CreateWaiterDbContext();
-                waiterDbContext.OpenTabs.Add(new Serialized.OpenTab
+                waiterDbContext.OpenTabs.Add(new Queries.DAL.Serialized.OpenTab
                 {
                     Id = openTab.Id,
                     Data = JsonConvert.SerializeObject(openTab)
@@ -51,7 +52,7 @@ namespace Cafe.Waiter.Queries.DAL.Repositories
             return new WaiterDbContext(_connectionStringProvider.GetConnectionString());
         }
 
-        private OpenTab Map(Serialized.OpenTab openTab)
+        private OpenTab Map(Queries.DAL.Serialized.OpenTab openTab)
         {
             return JsonConvert.DeserializeObject<OpenTab>(openTab.Data);
         }

@@ -46,10 +46,7 @@ namespace Cafe.Waiter.EventProjecting.Service
                     .WithServiceAllInterfaces(),
                 Component
                     .For<IConnectionStringProvider>()
-                    .Instance(ReadModelConnectionStringProvider.Instance),
-                Component
-                    .For<IOpenTabsRepository>()
-                    .ImplementedBy<OpenTabsRepository>()
+                    .Instance(ReadModelConnectionStringProvider.Instance)
                 );
         }
     }

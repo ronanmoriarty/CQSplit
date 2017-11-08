@@ -83,6 +83,7 @@
     <Compile Include="ConsumerTypeProvider.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="EventProjectingService.cs" />
+    <Compile Include="OpenTabsRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Projectors\IProjector.cs" />
     <Compile Include="Projectors\ITabOpenedProjector.cs" />
