@@ -18,8 +18,7 @@ namespace CQRSTutorial.Messaging
 
         private void ConfigureEndpoints(IInMemoryBusFactoryConfigurator sbc)
         {
-            _consumerRegistrar.RegisterAllConsumerTypes(sbc, (sbc1, consumerType) =>
-                sbc1.ReceiveEndpoint(null, endpointConfigurator => _consumerRegistrar.RegisterConsumerType(endpointConfigurator, consumerType)));
+            _consumerRegistrar.RegisterAllConsumerTypes(sbc, (sbc1, action) => sbc1.ReceiveEndpoint(null, action));
         }
     }
 }
