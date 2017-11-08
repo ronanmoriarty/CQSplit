@@ -19,12 +19,11 @@ namespace CQRSTutorial.Messaging
             endpointConfigurator.Consumer(consumerType, _consumerFactory.Create);
         }
 
-        public void RegisterAllConsumerTypes<TBusFactoryConfigurator>(TBusFactoryConfigurator sbc, Action<TBusFactoryConfigurator, Action<IReceiveEndpointConfigurator>> configure)
-            where TBusFactoryConfigurator : IBusFactoryConfigurator
+        public void RegisterAllConsumerTypes(Action<Action<IReceiveEndpointConfigurator>> configure)
         {
             foreach (var consumerType in _consumerTypeProvider.GetConsumerTypes())
             {
-                configure(sbc, receiveEndpointConfigurator => RegisterConsumerType(receiveEndpointConfigurator, consumerType));
+                configure(receiveEndpointConfigurator => RegisterConsumerType(receiveEndpointConfigurator, consumerType));
             }
         }
     }

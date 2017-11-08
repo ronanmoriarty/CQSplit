@@ -5,9 +5,6 @@ namespace CQRSTutorial.Messaging
 {
     public interface IConsumerRegistrar
     {
-        void RegisterAllConsumerTypes<TBusFactoryConfigurator>(TBusFactoryConfigurator sbc,
-            Action<TBusFactoryConfigurator, Action<IReceiveEndpointConfigurator>> configure
-        )
-            where TBusFactoryConfigurator : IBusFactoryConfigurator;
+        void RegisterAllConsumerTypes(Action<Action<IReceiveEndpointConfigurator>> configure);
     }
 }
