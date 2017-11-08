@@ -14,17 +14,17 @@ namespace CQRSTutorial.Messaging
             _consumerTypeProvider = consumerTypeProvider;
         }
 
-        private void RegisterConsumerType(IReceiveEndpointConfigurator endpointConfigurator, Type consumerType)
-        {
-            endpointConfigurator.Consumer(consumerType, _consumerFactory.Create);
-        }
-
         public void RegisterAllConsumerTypes(Action<Action<IReceiveEndpointConfigurator>> configure)
         {
             foreach (var consumerType in _consumerTypeProvider.GetConsumerTypes())
             {
                 configure(receiveEndpointConfigurator => RegisterConsumerType(receiveEndpointConfigurator, consumerType));
             }
+        }
+
+        private void RegisterConsumerType(IReceiveEndpointConfigurator receiveEndpointConfigurator, Type consumerType)
+        {
+            receiveEndpointConfigurator.Consumer(consumerType, _consumerFactory.Create);
         }
     }
 }
