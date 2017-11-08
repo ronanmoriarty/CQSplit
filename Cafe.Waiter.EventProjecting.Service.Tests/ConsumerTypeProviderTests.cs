@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace Cafe.Waiter.EventProjecting.Service.Tests
 {
     [TestFixture]
-    public class ConsumerProviderTests
+    public class ConsumerTypeProviderTests
     {
         private ConsumerTypeProvider _consumerTypeProvider;
 
