@@ -1,24 +1,21 @@
-using System;
 using log4net;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
-
 namespace CQRSTutorial.Messaging
 {
     public class RabbitMqMessageBusFactory : IMessageBusFactory
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactory));
-        private readonly IConsumerRegistrar _consumerRegistrar;
+        private readonly IRabbitMqReceiveEndpointConfigurator _rabbitMqReceiveEndpointConfigurator;
         private readonly IRabbitMqHostConfiguration _rabbitMqHostConfiguration;
         private IRabbitMqHost _host;
-        private IRabbitMqBusFactoryConfigurator _rabbitMqBusFactoryConfigurator;
 
         public RabbitMqMessageBusFactory(
             IRabbitMqHostConfiguration rabbitMqHostConfiguration,
-            IConsumerRegistrar consumerRegistrar)
+            IRabbitMqReceiveEndpointConfigurator rabbitMqReceiveEndpointConfigurator)
         {
             _rabbitMqHostConfiguration = rabbitMqHostConfiguration;
-            _consumerRegistrar = consumerRegistrar;
+            _rabbitMqReceiveEndpointConfigurator = rabbitMqReceiveEndpointConfigurator;
         }
 
         public IBusControl Create()
@@ -26,7 +23,7 @@ namespace CQRSTutorial.Messaging
             return Bus.Factory.CreateUsingRabbitMq(rabbitMqBusFactoryConfigurator =>
             {
                 _host = CreateHost(rabbitMqBusFactoryConfigurator);
-                ConfigureReceiveEndpoints(rabbitMqBusFactoryConfigurator);
+                _rabbitMqReceiveEndpointConfigurator.Configure(_host, rabbitMqBusFactoryConfigurator);
             });
         }
 
@@ -39,17 +36,6 @@ namespace CQRSTutorial.Messaging
                 h.Username(_rabbitMqHostConfiguration.Username);
                 h.Password(_rabbitMqHostConfiguration.Password);
             });
-        }
-
-        private void ConfigureReceiveEndpoints(IRabbitMqBusFactoryConfigurator rabbitMqBusFactoryConfigurator)
-        {
-            _rabbitMqBusFactoryConfigurator = rabbitMqBusFactoryConfigurator;
-            _consumerRegistrar.RegisterAllConsumerTypes(Configure);
-        }
-
-        private void Configure(Action<IReceiveEndpointConfigurator> configure)
-        {
-            _rabbitMqBusFactoryConfigurator.ReceiveEndpoint(_host, null, configure);
         }
     }
 }
