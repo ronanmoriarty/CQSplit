@@ -74,6 +74,10 @@
       <Project>{29ad5343-d2db-4792-a229-cfa27a6a6315}</Project>
       <Name>CQRSTutorial.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CQRSTutorial.Messaging.RabbitMq\CQRSTutorial.Messaging.RabbitMq.csproj">
+      <Project>{bde21a32-e548-4106-90d5-060e261055da}</Project>
+      <Name>CQRSTutorial.Messaging.RabbitMq</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CQRSTutorial.Messaging\CQRSTutorial.Messaging.csproj">
       <Project>{89f506d4-70ac-4459-8004-041574e70f9e}</Project>
       <Name>CQRSTutorial.Messaging</Name>
