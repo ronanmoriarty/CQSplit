@@ -1,7 +1,7 @@
 ﻿using Cafe.Waiter.Queries.DAL.Serialized;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cafe.Waiter.Web
+namespace Cafe.Waiter.Web.Repositories
 {
     public class WaiterDbContext : DbContext
     {

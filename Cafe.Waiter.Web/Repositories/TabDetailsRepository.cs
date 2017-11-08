@@ -5,7 +5,7 @@ using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.DAL.Common;
 using Newtonsoft.Json;
 
-namespace Cafe.Waiter.Web
+namespace Cafe.Waiter.Web.Repositories
 {
     public class TabDetailsRepository: ITabDetailsRepository
     {

@@ -2,11 +2,12 @@
 using System.Linq;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
+using Cafe.Waiter.Web.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Web.Tests
+namespace Cafe.Waiter.Web.Tests.Repositories
 {
     [TestFixture]
     public class OpenTabsRepositoryTests
