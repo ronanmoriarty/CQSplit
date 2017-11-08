@@ -32,7 +32,8 @@ namespace CQRSTutorial.Messaging
         {
             foreach (var consumerType in _consumerTypeProvider.GetConsumerTypes())
             {
-                action(sbc, receiveEndpointConfigurator => RegisterConsumerType(receiveEndpointConfigurator, consumerType));}
+                action(sbc, receiveEndpointConfigurator => RegisterConsumerType(receiveEndpointConfigurator, consumerType));
+            }
         }
     }
 }

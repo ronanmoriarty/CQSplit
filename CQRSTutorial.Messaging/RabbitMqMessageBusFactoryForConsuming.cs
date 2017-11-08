@@ -1,3 +1,4 @@
+using System;
 using log4net;
 using MassTransit;
 using MassTransit.RabbitMqTransport;
@@ -7,17 +8,15 @@ namespace CQRSTutorial.Messaging
     public class RabbitMqMessageBusFactoryForConsuming : IMessageBusFactory
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactoryForConsuming));
-        private readonly IConsumerTypeProvider _consumerTypeProvider;
         private readonly IConsumerRegistrar _consumerRegistrar;
         private readonly IRabbitMqHostConfiguration _rabbitMqHostConfiguration;
+        private IRabbitMqHost _host;
 
         public RabbitMqMessageBusFactoryForConsuming(
             IRabbitMqHostConfiguration rabbitMqHostConfiguration,
-            IConsumerTypeProvider consumerTypeProvider,
             IConsumerRegistrar consumerRegistrar)
         {
             _rabbitMqHostConfiguration = rabbitMqHostConfiguration;
-            _consumerTypeProvider = consumerTypeProvider;
             _consumerRegistrar = consumerRegistrar;
         }
 
@@ -25,8 +24,8 @@ namespace CQRSTutorial.Messaging
         {
             return Bus.Factory.CreateUsingRabbitMq(sbc =>
             {
-                var host = CreateHost(sbc);
-                ConfigureEndpoints(sbc, host);
+                _host = CreateHost(sbc);
+                ConfigureEndpoints(sbc);
             });
         }
 
@@ -43,13 +42,14 @@ namespace CQRSTutorial.Messaging
             return host;
         }
 
-        private void ConfigureEndpoints(IRabbitMqBusFactoryConfigurator sbc, IRabbitMqHost host)
+        private void ConfigureEndpoints(IRabbitMqBusFactoryConfigurator sbc)
         {
-            foreach (var consumerType in _consumerTypeProvider.GetConsumerTypes())
-            {
-                sbc.ReceiveEndpoint(host, null,
-                    endpointConfigurator => { _consumerRegistrar.RegisterConsumerType(endpointConfigurator, consumerType); });
-            }
+            _consumerRegistrar.RegisterAllConsumerTypes(sbc, Configure);
+        }
+
+        private void Configure(IRabbitMqBusFactoryConfigurator rabbitMqBusFactoryConfigurator, Action<IReceiveEndpointConfigurator> configure)
+        {
+            rabbitMqBusFactoryConfigurator.ReceiveEndpoint(_host, null, configure);
         }
     }
 }

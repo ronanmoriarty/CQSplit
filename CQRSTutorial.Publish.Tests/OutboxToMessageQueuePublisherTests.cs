@@ -169,7 +169,6 @@ namespace CQRSTutorial.Publish.Tests
         {
             var messageBusFactory = new RabbitMqMessageBusFactoryForConsuming(
                 new EnvironmentVariableRabbitMqHostConfiguration(),
-                null,
                 null
             );
 
