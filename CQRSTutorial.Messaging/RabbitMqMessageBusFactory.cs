@@ -5,15 +5,15 @@ using MassTransit.RabbitMqTransport;
 
 namespace CQRSTutorial.Messaging
 {
-    public class RabbitMqMessageBusFactoryForConsuming : IMessageBusFactory
+    public class RabbitMqMessageBusFactory : IMessageBusFactory
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactoryForConsuming));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactory));
         private readonly IConsumerRegistrar _consumerRegistrar;
         private readonly IRabbitMqHostConfiguration _rabbitMqHostConfiguration;
         private IRabbitMqHost _host;
         private IRabbitMqBusFactoryConfigurator _rabbitMqBusFactoryConfigurator;
 
-        public RabbitMqMessageBusFactoryForConsuming(
+        public RabbitMqMessageBusFactory(
             IRabbitMqHostConfiguration rabbitMqHostConfiguration,
             IConsumerRegistrar consumerRegistrar)
         {
@@ -26,7 +26,7 @@ namespace CQRSTutorial.Messaging
             return Bus.Factory.CreateUsingRabbitMq(rabbitMqBusFactoryConfigurator =>
             {
                 _host = CreateHost(rabbitMqBusFactoryConfigurator);
-                ConfigureEndpoints(rabbitMqBusFactoryConfigurator);
+                ConfigureReceiveEndpoints(rabbitMqBusFactoryConfigurator);
             });
         }
 
@@ -34,18 +34,16 @@ namespace CQRSTutorial.Messaging
         {
             var hostAddress = _rabbitMqHostConfiguration.Uri;
             _logger.Debug($"Host address is: \"{hostAddress.AbsoluteUri}\"");
-            var host = rabbitMqBusFactoryConfigurator.Host(hostAddress, h =>
+            return rabbitMqBusFactoryConfigurator.Host(hostAddress, h =>
             {
                 h.Username(_rabbitMqHostConfiguration.Username);
                 h.Password(_rabbitMqHostConfiguration.Password);
             });
-
-            return host;
         }
 
-        private void ConfigureEndpoints(IRabbitMqBusFactoryConfigurator sbc)
+        private void ConfigureReceiveEndpoints(IRabbitMqBusFactoryConfigurator rabbitMqBusFactoryConfigurator)
         {
-            _rabbitMqBusFactoryConfigurator = sbc;
+            _rabbitMqBusFactoryConfigurator = rabbitMqBusFactoryConfigurator;
             _consumerRegistrar.RegisterAllConsumerTypes(Configure);
         }
 
