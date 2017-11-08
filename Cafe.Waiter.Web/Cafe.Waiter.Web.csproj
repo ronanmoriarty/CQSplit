@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
   </ItemGroup>
@@ -20,7 +21,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Cafe.Waiter.Commands\Cafe.Waiter.Commands.csproj" />
     <ProjectReference Include="..\Cafe.Waiter.Queries.DAL\Cafe.Waiter.Queries.DAL.csproj" />
+    <ProjectReference Include="..\CQRSTutorial.DAL.Common\CQRSTutorial.DAL.Common.csproj" />
+    <ProjectReference Include="..\CQRSTutorial.Messaging.RabbitMq\CQRSTutorial.Messaging.RabbitMq.csproj" />
     <ProjectReference Include="..\CQRSTutorial.Messaging\CQRSTutorial.Messaging.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Messaging\" />
   </ItemGroup>
 
 </Project>

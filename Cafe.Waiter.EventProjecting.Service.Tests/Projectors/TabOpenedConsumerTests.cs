@@ -4,7 +4,6 @@ using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.Events;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
-using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using MassTransit;
 using Newtonsoft.Json;
@@ -21,13 +20,13 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Projectors
         private readonly int _tableNumber = 654;
         private readonly string _waiter = "Jim";
         private OpenTabsRepository _openTabsRepository;
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProviderFactory.Instance);
+        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.Instance);
 
         [SetUp]
         public void SetUp()
         {
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
-            _openTabsRepository = new OpenTabsRepository(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider());
+            _openTabsRepository = new OpenTabsRepository(ReadModelConnectionStringProvider.Instance);
             _tabOpenedConsumer = Container.Instance.Resolve<TabOpenedConsumer>();
         }
 

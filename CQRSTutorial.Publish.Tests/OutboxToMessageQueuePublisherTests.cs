@@ -5,6 +5,7 @@ using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Messaging;
+using CQRSTutorial.Messaging.RabbitMq;
 using CQRSTutorial.Tests.Common;
 using log4net;
 using NSubstitute;
@@ -159,7 +160,7 @@ namespace CQRSTutorial.Publish.Tests
                 _eventToPublishRepository,
                 messageBusEventPublisher,
                 _eventToPublishMapper,
-                new EntityFrameworkUnitOfWorkFactory(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()),
+                new EntityFrameworkUnitOfWorkFactory(WriteModelConnectionStringProvider.Instance),
                 outboxToMessageQueuePublisherConfiguration,
                 _logger);
             return outboxToMessageQueuePublisher;
@@ -167,9 +168,8 @@ namespace CQRSTutorial.Publish.Tests
 
         private MessageBusEventPublisher CreateMessageBusEventPublisher(string queueName, Action onMessagePublished)
         {
-            var messageBusFactory = new RabbitMqMessageBusFactoryForConsuming(
+            var messageBusFactory = new RabbitMqMessageBusFactory(
                 new EnvironmentVariableRabbitMqHostConfiguration(),
-                null,
                 null
             );
 

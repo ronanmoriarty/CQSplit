@@ -1,7 +1,5 @@
-using System.IO;
 using System.Reflection;
 using Castle.Windsor.Installer;
-using log4net;
 using log4net.Config;
 
 namespace Cafe.Waiter.Command.Service
@@ -10,8 +8,7 @@ namespace Cafe.Waiter.Command.Service
     {
         public static void Start()
         {
-            var loggerRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-            XmlConfigurator.Configure(loggerRepository, new FileInfo("log4net.config"));
+            XmlConfigurator.Configure();
             Container.Instance.Install(FromAssembly.Instance(Assembly.GetExecutingAssembly()));
         }
     }

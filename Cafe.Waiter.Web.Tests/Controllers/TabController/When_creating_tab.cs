@@ -9,8 +9,9 @@ using CQRSTutorial.Messaging;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;
+using ISendEndpointProvider = CQRSTutorial.Messaging.ISendEndpointProvider;
 
-namespace Cafe.Waiter.Web.Tests.Api.TabController
+namespace Cafe.Waiter.Web.Tests.Controllers.TabController
 {
     [TestFixture]
     public class When_creating_tab
@@ -18,9 +19,9 @@ namespace Cafe.Waiter.Web.Tests.Api.TabController
         private const string Waiter = "John";
         private const int TableNumber = 5;
         private Web.Controllers.TabController _tabController;
-        private ISendEndpoint _endPoint;
+        private ISendEndpoint _sendEndpoint;
         private ICommandSender _commandSender;
-        private IEndpointProvider _endpointProvider;
+        private ISendEndpointProvider _sendEndpointProvider;
         private CreateTabModel _model;
 
         [SetUp]
@@ -32,17 +33,17 @@ namespace Cafe.Waiter.Web.Tests.Api.TabController
                 TableNumber = TableNumber
             };
 
-            _endPoint = Substitute.For<ISendEndpoint>();
-            _endpointProvider = Substitute.For<IEndpointProvider>();
-            _endpointProvider.GetSendEndpointFor(typeof(OpenTabCommand)).Returns(Task.FromResult(_endPoint));
-            _commandSender = new CommandSender(_endpointProvider);
+            _sendEndpoint = Substitute.For<ISendEndpoint>();
+            _sendEndpointProvider = Substitute.For<ISendEndpointProvider>();
+            _sendEndpointProvider.GetSendEndpoint().Returns(Task.FromResult(_sendEndpoint));
+            _commandSender = new CommandSender(_sendEndpointProvider);
         }
 
         [Test]
         public async Task OpenTab_command_sent_to_message_bus_with_ids_set()
         {
             await WhenTabCreated();
-            await _endPoint.Received().Send(Arg.Is<IOpenTabCommand>(command => PropertiesMatch(command))); // don't care too much about other values (TableNumber and waiter name) at the moment - happy setting them to arbitrary values for display purposes - no need to assert them.
+            await _sendEndpoint.Received().Send(Arg.Is<IOpenTabCommand>(command => PropertiesMatch(command))); // don't care too much about other values (TableNumber and waiter name) at the moment - happy setting them to arbitrary values for display purposes - no need to assert them.
         }
 
         private async Task WhenTabCreated()
@@ -66,7 +67,7 @@ namespace Cafe.Waiter.Web.Tests.Api.TabController
 
         private Guid GetTabId()
         {
-            var receivedCalls = _endPoint.ReceivedCalls();
+            var receivedCalls = _sendEndpoint.ReceivedCalls();
             var sendCall = receivedCalls.Single(call => call.GetMethodInfo().Name == "Send");
             var arguments = sendCall.GetArguments();
             Assert.That(arguments[0] is IOpenTabCommand);

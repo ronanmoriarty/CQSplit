@@ -5,16 +5,16 @@ namespace CQRSTutorial.Messaging
 {
     public class CommandSender : ICommandSender
     {
-        private readonly IEndpointProvider _endpointProvider;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
 
-        public CommandSender(IEndpointProvider endpointProvider)
+        public CommandSender(ISendEndpointProvider sendEndpointProvider)
         {
-            _endpointProvider = endpointProvider;
+            _sendEndpointProvider = sendEndpointProvider;
         }
 
         public async Task Send(ICommand command)
         {
-            var sendEndpoint = await _endpointProvider.GetSendEndpointFor(command.GetType());
+            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint();
             await sendEndpoint.Send(command);
         }
     }

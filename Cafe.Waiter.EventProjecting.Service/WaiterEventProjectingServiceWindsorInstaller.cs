@@ -6,8 +6,9 @@ using Cafe.Waiter.Queries.DAL.Repositories;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using CQRSTutorial.DAL;
+using CQRSTutorial.DAL.Common;
 using CQRSTutorial.Messaging;
+using CQRSTutorial.Messaging.RabbitMq;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
@@ -34,15 +35,18 @@ namespace Cafe.Waiter.EventProjecting.Service
                 Classes
                     .FromAssemblyContaining<IMessageBusFactory>()
                     .InSameNamespaceAs<IMessageBusFactory>()
-                    .Unless(type => type == typeof(MessageBusEventPublisher))
+                    .Unless(type => type == typeof(MessageBusEventPublisher) || type == typeof(InMemoryMessageBusFactory) || type == typeof(InMemoryReceiveEndpointsConfigurator))
+                    .WithServiceSelf()
+                    .WithServiceAllInterfaces(),
+                Classes
+                    .FromAssemblyContaining<RabbitMqMessageBusFactory>()
+                    .InSameNamespaceAs<RabbitMqMessageBusFactory>()
+                    .Unless(type => type == typeof(NoReceiveEndpointsConfigurator))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
                     .For<IConnectionStringProvider>()
-                    .Instance(ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()),
-                Component
-                    .For<IOpenTabsRepository>()
-                    .ImplementedBy<OpenTabsRepository>()
+                    .Instance(ReadModelConnectionStringProvider.Instance)
                 );
         }
     }

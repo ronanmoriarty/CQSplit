@@ -1,14 +1,17 @@
 ﻿using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Controllers;
-using CQRSTutorial.DAL;
+using Cafe.Waiter.Web.Repositories;
+using CQRSTutorial.DAL.Common;
 using CQRSTutorial.Messaging;
+using CQRSTutorial.Messaging.RabbitMq;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ISendEndpointProvider = CQRSTutorial.Messaging.ISendEndpointProvider;
 
 namespace Cafe.Waiter.Web
 {
@@ -31,16 +34,15 @@ namespace Cafe.Waiter.Web
         {
             services.Add(new ServiceDescriptor(typeof(IMenuRepository), typeof(MenuRepository), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), typeof(MenuConfiguration), ServiceLifetime.Transient));
-            services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), ReadModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider()));
+            services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), ReadModelConnectionStringProvider.Instance));
             services.Add(new ServiceDescriptor(typeof(ITabDetailsRepository), typeof(TabDetailsRepository), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IOpenTabsRepository), typeof(OpenTabsRepository), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IPlaceOrderCommandFactory), typeof(PlaceOrderCommandFactory), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(ICommandSender), typeof(CommandSender), ServiceLifetime.Transient));
-            services.Add(new ServiceDescriptor(typeof(IEndpointProvider), typeof(EndpointProvider), ServiceLifetime.Transient));
-            var rabbitMqMessageBusFactory = new RabbitMqMessageBusFactoryForSending(new EnvironmentVariableRabbitMqHostConfiguration());
+            services.Add(new ServiceDescriptor(typeof(ISendEndpointProvider), typeof(RabbitMqSendEndpointProvider), ServiceLifetime.Transient));
+            var rabbitMqMessageBusFactory = new RabbitMqMessageBusFactory(new EnvironmentVariableRabbitMqHostConfiguration(), NoReceiveEndpointsConfigurator.Instance);
             services.Add(new ServiceDescriptor(typeof(IBusControl), rabbitMqMessageBusFactory.Create()));
             services.Add(new ServiceDescriptor(typeof(IRabbitMqHostConfiguration), typeof(EnvironmentVariableRabbitMqHostConfiguration), ServiceLifetime.Transient));
-            services.Add(new ServiceDescriptor(typeof(IServiceAddressProvider), typeof(ServiceAddressProvider), ServiceLifetime.Transient));
             services.AddSingleton(typeof(IConfigurationRoot), Configuration);
 
             // Add framework services.

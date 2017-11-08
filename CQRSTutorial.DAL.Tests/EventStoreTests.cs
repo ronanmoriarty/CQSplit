@@ -17,10 +17,10 @@ namespace CQRSTutorial.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProviderFactory.Instance);
+            var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProvider.Instance);
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId}'"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
             _repository = CreateRepository();
-            _repository.UnitOfWork = new EntityFrameworkUnitOfWork(WriteModelConnectionStringProviderFactory.Instance.GetConnectionStringProvider());
+            _repository.UnitOfWork = new EntityFrameworkUnitOfWork(WriteModelConnectionStringProvider.Instance);
         }
 
         [Test]
