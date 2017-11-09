@@ -16,4 +16,8 @@
     <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>
