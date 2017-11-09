@@ -17,6 +17,8 @@ namespace Cafe.Waiter.EventProjecting.Service
 
         public IQueryable<OpenTab> OpenTabs => GetWaiterDbContext().OpenTabs;
 
+        public IQueryable<TabDetails> TabDetails => GetWaiterDbContext().TabDetails;
+
         public void AddOpenTab(OpenTab openTab)
         {
             var waiterDbContext = GetWaiterDbContext();
