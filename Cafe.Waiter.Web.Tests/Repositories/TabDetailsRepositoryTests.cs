@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
-using Cafe.Waiter.Web.Repositories;
+using Cafe.Waiter.Queries.DAL.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -24,7 +24,7 @@ namespace Cafe.Waiter.Web.Tests.Repositories
             var tabDetailsJson = JsonConvert.SerializeObject(_tabDetails);
             _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.TabDetails WHERE Id = '{_id}'");
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.TabDetails(Id,Data) VALUES ('{_id}','{tabDetailsJson}')");
-            _tabDetailsRepository = new TabDetailsRepository(ReadModelConnectionStringProvider.Instance);
+            _tabDetailsRepository = new TabDetailsRepository(new WaiterDbContextAdapter(ReadModelConnectionStringProvider.Instance));
         }
 
         [Test]

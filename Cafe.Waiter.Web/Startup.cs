@@ -1,7 +1,6 @@
 ﻿using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Controllers;
-using Cafe.Waiter.Web.Repositories;
 using CQRSTutorial.DAL.Common;
 using CQRSTutorial.Messaging;
 using CQRSTutorial.Messaging.RabbitMq;
@@ -12,9 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ISendEndpointProvider = CQRSTutorial.Messaging.ISendEndpointProvider;
-using MenuRepository = Cafe.Waiter.Web.Repositories.MenuRepository;
-using OpenTabsRepository = Cafe.Waiter.Web.Repositories.OpenTabsRepository;
-using TabDetailsRepository = Cafe.Waiter.Web.Repositories.TabDetailsRepository;
 
 namespace Cafe.Waiter.Web
 {
@@ -36,6 +32,7 @@ namespace Cafe.Waiter.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.Add(new ServiceDescriptor(typeof(IMenuRepository), typeof(MenuRepository), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IWaiterDbContext), new WaiterDbContextAdapter(ReadModelConnectionStringProvider.Instance)));
             services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), typeof(MenuConfiguration), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), ReadModelConnectionStringProvider.Instance));
             services.Add(new ServiceDescriptor(typeof(ITabDetailsRepository), typeof(TabDetailsRepository), ServiceLifetime.Transient));

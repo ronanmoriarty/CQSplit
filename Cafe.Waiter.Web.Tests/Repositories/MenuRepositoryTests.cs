@@ -4,12 +4,10 @@ using System.Linq;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
-using Cafe.Waiter.Web.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using Newtonsoft.Json;
 using NSubstitute;
 using NUnit.Framework;
-using MenuRepository = Cafe.Waiter.Web.Repositories.MenuRepository;
 
 namespace Cafe.Waiter.Web.Tests.Repositories
 {
@@ -39,7 +37,7 @@ namespace Cafe.Waiter.Web.Tests.Repositories
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.Menu(Id,Data) VALUES ('{_id}','{menuJson}')");
             _menuConfiguration = Substitute.For<IMenuConfiguration>();
             _menuConfiguration.Id.Returns(_id);
-            _menuRepository = new MenuRepository(_menuConfiguration, ReadModelConnectionStringProvider.Instance);
+            _menuRepository = new MenuRepository(_menuConfiguration, new WaiterDbContextAdapter(ReadModelConnectionStringProvider.Instance));
         }
 
         [Test]
