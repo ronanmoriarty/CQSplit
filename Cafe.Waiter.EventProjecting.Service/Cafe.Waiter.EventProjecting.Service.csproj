@@ -86,7 +86,6 @@
     <Compile Include="ConsumerTypeProvider.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="EventProjectingService.cs" />
-    <Compile Include="IWaiterDbContext.cs" />
     <Compile Include="MenuRepository.cs" />
     <Compile Include="OpenTabsRepository.cs" />
     <Compile Include="Program.cs" />

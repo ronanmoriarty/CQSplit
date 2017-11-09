@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Newtonsoft.Json;

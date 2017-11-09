@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Serialized;
 using CQRSTutorial.DAL.Common;
 
