@@ -5,11 +5,11 @@ using CQRSTutorial.DAL.Common;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
-    public class WaiterDbContext1 : IWaiterDbContext
+    public class WaiterDbContextAdapter : IWaiterDbContext
     {
         private readonly IConnectionStringProvider _connectionStringProvider;
 
-        public WaiterDbContext1(IConnectionStringProvider connectionStringProvider)
+        public WaiterDbContextAdapter(IConnectionStringProvider connectionStringProvider)
         {
             _connectionStringProvider = connectionStringProvider;
         }
