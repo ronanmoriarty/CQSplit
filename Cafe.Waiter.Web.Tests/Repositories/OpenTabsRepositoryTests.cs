@@ -6,6 +6,7 @@ using Cafe.Waiter.Web.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using OpenTabsRepository = Cafe.Waiter.Web.Repositories.OpenTabsRepository;
 
 namespace Cafe.Waiter.Web.Tests.Repositories
 {

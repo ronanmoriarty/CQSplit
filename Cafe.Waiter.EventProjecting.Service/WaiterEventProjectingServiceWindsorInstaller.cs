@@ -44,6 +44,11 @@ namespace Cafe.Waiter.EventProjecting.Service
                     .Unless(type => type == typeof(NoReceiveEndpointsConfigurator))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
+                Classes
+                    .FromAssemblyContaining<IOpenTabsRepository>()
+                    .InSameNamespaceAs<IOpenTabsRepository>()
+                    .WithServiceSelf()
+                    .WithServiceAllInterfaces(),
                 Component
                     .For<IConnectionStringProvider>()
                     .Instance(ReadModelConnectionStringProvider.Instance)

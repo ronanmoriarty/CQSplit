@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
-using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
-using Cafe.Waiter.Queries.DAL.Repositories;
 using Newtonsoft.Json;
 
-namespace Cafe.Waiter.EventProjecting.Service
+namespace Cafe.Waiter.Queries.DAL.Repositories
 {
     public class TabDetailsRepository: ITabDetailsRepository
     {
@@ -21,7 +19,7 @@ namespace Cafe.Waiter.EventProjecting.Service
             return Map(_waiterDbContext.TabDetails.Single(x => x.Id == id));
         }
 
-        private TabDetails Map(Queries.DAL.Serialized.TabDetails tabDetails)
+        private TabDetails Map(Serialized.TabDetails tabDetails)
         {
             return JsonConvert.DeserializeObject<TabDetails>(tabDetails.Data);
         }

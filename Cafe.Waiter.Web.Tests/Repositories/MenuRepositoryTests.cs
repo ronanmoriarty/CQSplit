@@ -9,6 +9,7 @@ using CQRSTutorial.DAL.Tests.Common;
 using Newtonsoft.Json;
 using NSubstitute;
 using NUnit.Framework;
+using MenuRepository = Cafe.Waiter.Web.Repositories.MenuRepository;
 
 namespace Cafe.Waiter.Web.Tests.Repositories
 {

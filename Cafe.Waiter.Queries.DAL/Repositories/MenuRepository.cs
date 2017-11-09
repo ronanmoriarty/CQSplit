@@ -1,10 +1,8 @@
 ﻿using System.Linq;
-using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
-using Cafe.Waiter.Queries.DAL.Repositories;
 using Newtonsoft.Json;
 
-namespace Cafe.Waiter.EventProjecting.Service
+namespace Cafe.Waiter.Queries.DAL.Repositories
 {
     public class MenuRepository : IMenuRepository
     {
@@ -22,7 +20,7 @@ namespace Cafe.Waiter.EventProjecting.Service
             return Map(_waiterDbContext.Menus.Single(x => x.Id == _menuConfiguration.Id));
         }
 
-        private Menu Map(Queries.DAL.Serialized.Menu serializedMenu)
+        private Menu Map(Serialized.Menu serializedMenu)
         {
             return JsonConvert.DeserializeObject<Menu>(serializedMenu.Data);
         }

@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ISendEndpointProvider = CQRSTutorial.Messaging.ISendEndpointProvider;
+using MenuRepository = Cafe.Waiter.Web.Repositories.MenuRepository;
+using OpenTabsRepository = Cafe.Waiter.Web.Repositories.OpenTabsRepository;
+using TabDetailsRepository = Cafe.Waiter.Web.Repositories.TabDetailsRepository;
 
 namespace Cafe.Waiter.Web
 {
