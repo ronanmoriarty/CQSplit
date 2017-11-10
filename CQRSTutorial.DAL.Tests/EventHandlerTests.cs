@@ -3,7 +3,6 @@ using System.Linq;
 using System.Reflection;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
-using CQRSTutorial.Tests.Common;
 using log4net;
 using NUnit.Framework;
 

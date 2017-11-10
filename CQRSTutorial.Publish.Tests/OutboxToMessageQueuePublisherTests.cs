@@ -6,7 +6,6 @@ using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using CQRSTutorial.Messaging;
 using CQRSTutorial.Messaging.RabbitMq;
-using CQRSTutorial.Tests.Common;
 using log4net;
 using NSubstitute;
 using NUnit.Framework;

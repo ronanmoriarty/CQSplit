@@ -1,7 +1,6 @@
 using System;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
-using CQRSTutorial.Tests.Common;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
