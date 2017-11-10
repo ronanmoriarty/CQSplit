@@ -7,18 +7,22 @@ namespace CQRSTutorial.Messaging
     {
         private readonly IConsumerFactory _consumerFactory;
         private readonly IConsumerTypeProvider _consumerTypeProvider;
+        private readonly IReceiveEndpointConfiguration _receiveEndpointConfiguration;
 
-        public ConsumerRegistrar(IConsumerFactory consumerFactory, IConsumerTypeProvider consumerTypeProvider)
+        public ConsumerRegistrar(IConsumerFactory consumerFactory,
+            IConsumerTypeProvider consumerTypeProvider,
+            IReceiveEndpointConfiguration receiveEndpointConfiguration)
         {
             _consumerFactory = consumerFactory;
             _consumerTypeProvider = consumerTypeProvider;
+            _receiveEndpointConfiguration = receiveEndpointConfiguration;
         }
 
-        public void RegisterAllConsumerTypes(Action<Action<IReceiveEndpointConfigurator>> configure)
+        public void RegisterAllConsumerTypes(Action<ReceiveEndpointArgs> configure)
         {
             foreach (var consumerType in _consumerTypeProvider.GetConsumerTypes())
             {
-                configure(receiveEndpointConfigurator => RegisterConsumerType(receiveEndpointConfigurator, consumerType));
+                configure(new ReceiveEndpointArgs(_receiveEndpointConfiguration.QueueName, receiveEndpointConfigurator => RegisterConsumerType(receiveEndpointConfigurator, consumerType)));
             }
         }
 
