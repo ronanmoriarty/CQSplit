@@ -21,13 +21,11 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Projectors
         private readonly int _tableNumber = 654;
         private readonly string _waiter = "Jim";
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.Instance);
-        private WaiterDbContextAdapter _waiterDbContextAdapter;
 
         [SetUp]
         public void SetUp()
         {
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
-            _waiterDbContextAdapter = new WaiterDbContextAdapter(ReadModelConnectionStringProvider.Instance);
             _tabOpenedConsumer = Container.Instance.Resolve<TabOpenedConsumer>();
         }
 
@@ -67,7 +65,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Projectors
 
         private void AssertThatOpenTabInsertedWithStatusInitiallySetToSeated()
         {
-            var serializedOpenTab = _waiterDbContextAdapter.OpenTabs.Single(x => x.Id == _id);
+            var serializedOpenTab = new WaiterDbContext(ReadModelConnectionStringProvider.Instance.GetConnectionString()).OpenTabs.Single(x => x.Id == _id);
             var retrievedOpenTab = JsonConvert.DeserializeObject<OpenTab>(serializedOpenTab.Data);
             Assert.That(retrievedOpenTab.Id, Is.EqualTo(_id));
             Assert.That(retrievedOpenTab.TableNumber, Is.EqualTo(_tableNumber));

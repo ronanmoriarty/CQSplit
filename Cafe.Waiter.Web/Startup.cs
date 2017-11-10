@@ -33,7 +33,6 @@ namespace Cafe.Waiter.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.Add(new ServiceDescriptor(typeof(IMenuRepository), typeof(MenuRepository), ServiceLifetime.Transient));
-            services.Add(new ServiceDescriptor(typeof(IWaiterDbContext), new WaiterDbContextAdapter(ReadModelConnectionStringProvider.Instance)));
             services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), typeof(MenuConfiguration), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), ReadModelConnectionStringProvider.Instance));
             services.Add(new ServiceDescriptor(typeof(ITabDetailsRepository), typeof(TabDetailsRepository), ServiceLifetime.Transient));
