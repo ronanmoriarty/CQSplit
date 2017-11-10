@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Web.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
+namespace Cafe.Waiter.Web.Tests.Repositories
 {
     [TestFixture]
     public class TabDetailsRepositoryTests
