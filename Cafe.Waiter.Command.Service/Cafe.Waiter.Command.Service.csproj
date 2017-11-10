@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj" />
-    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj" />
     <ProjectReference Include="..\CQRSTutorial.Messaging.RabbitMq\CQRSTutorial.Messaging.RabbitMq.csproj" />
     <ProjectReference Include="..\CQRSTutorial.Publish\CQRSTutorial.Publish.csproj" />
   </ItemGroup>
