@@ -1,6 +1,7 @@
 ﻿using System;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
+using Cafe.Waiter.Web.Repositories;
 using NSubstitute;
 using NUnit.Framework;
 

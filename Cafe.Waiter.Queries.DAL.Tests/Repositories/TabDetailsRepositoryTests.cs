@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web;
+using Cafe.Waiter.Web.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using Newtonsoft.Json;
 using NUnit.Framework;

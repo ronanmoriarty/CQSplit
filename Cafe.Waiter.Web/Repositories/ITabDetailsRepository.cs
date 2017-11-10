@@ -1,7 +1,7 @@
 ﻿using System;
 using Cafe.Waiter.Queries.DAL.Models;
 
-namespace Cafe.Waiter.Queries.DAL.Repositories
+namespace Cafe.Waiter.Web.Repositories
 {
     public interface ITabDetailsRepository
     {
