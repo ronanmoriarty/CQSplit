@@ -18,14 +18,6 @@ namespace CQRSTutorial.Messaging
             _receiveEndpointConfiguration = receiveEndpointConfiguration;
         }
 
-        public void RegisterAllConsumerTypes(Action<Action<IReceiveEndpointConfigurator>> configure)
-        {
-            foreach (var consumerType in _consumerTypeProvider.GetConsumerTypes())
-            {
-                configure(receiveEndpointConfigurator => RegisterConsumerType(receiveEndpointConfigurator, consumerType));
-            }
-        }
-
         public void RegisterAllConsumerTypes(Action<ReceiveEndpointArgs> configure)
         {
             foreach (var consumerType in _consumerTypeProvider.GetConsumerTypes())
