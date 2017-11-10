@@ -30,7 +30,7 @@ namespace CQRSTutorial.Messaging
         {
             foreach (var consumerType in _consumerTypeProvider.GetConsumerTypes())
             {
-                configure(new ReceiveEndpointArgs(null, receiveEndpointConfigurator => RegisterConsumerType(receiveEndpointConfigurator, consumerType)));
+                configure(new ReceiveEndpointArgs(_receiveEndpointConfiguration.QueueName, receiveEndpointConfigurator => RegisterConsumerType(receiveEndpointConfigurator, consumerType)));
             }
         }
 

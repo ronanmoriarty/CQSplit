@@ -21,9 +21,9 @@ namespace CQRSTutorial.Messaging.RabbitMq
             _consumerRegistrar.RegisterAllConsumerTypes(Configure);
         }
 
-        private void Configure(Action<MassTransit.IReceiveEndpointConfigurator> configure)
+        private void Configure(ReceiveEndpointArgs receiveEndpointArgs)
         {
-            _rabbitMqBusFactoryConfigurator.ReceiveEndpoint(_host, null, configure);
+            _rabbitMqBusFactoryConfigurator.ReceiveEndpoint(_host, receiveEndpointArgs.QueueName, receiveEndpointArgs.Configure);
         }
     }
 }

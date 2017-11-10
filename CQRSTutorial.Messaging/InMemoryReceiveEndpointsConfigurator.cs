@@ -1,4 +1,3 @@
-using System;
 using MassTransit;
 
 namespace CQRSTutorial.Messaging
@@ -6,13 +5,11 @@ namespace CQRSTutorial.Messaging
     public class InMemoryReceiveEndpointsConfigurator : IInMemoryReceiveEndpointsConfigurator
     {
         private readonly IConsumerRegistrar _consumerRegistrar;
-        private readonly string _queueName;
         private IInMemoryBusFactoryConfigurator _inMemoryBusFactoryConfigurator;
 
-        public InMemoryReceiveEndpointsConfigurator(IConsumerRegistrar consumerRegistrar, string queueName)
+        public InMemoryReceiveEndpointsConfigurator(IConsumerRegistrar consumerRegistrar)
         {
             _consumerRegistrar = consumerRegistrar;
-            _queueName = queueName;
         }
 
         public void Configure(IInMemoryBusFactoryConfigurator inMemoryBusFactoryConfigurator)
@@ -21,9 +18,9 @@ namespace CQRSTutorial.Messaging
             _consumerRegistrar.RegisterAllConsumerTypes(Configure);
         }
 
-        private void Configure(Action<IReceiveEndpointConfigurator> configure)
+        private void Configure(ReceiveEndpointArgs receiveEndpointArgs)
         {
-            _inMemoryBusFactoryConfigurator.ReceiveEndpoint(_queueName, configure);
+            _inMemoryBusFactoryConfigurator.ReceiveEndpoint(receiveEndpointArgs.QueueName, receiveEndpointArgs.Configure);
         }
     }
 }
