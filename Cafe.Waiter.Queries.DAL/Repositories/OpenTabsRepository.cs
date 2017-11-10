@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Cafe.Waiter.Queries.DAL.Repositories
 {
-    public class OpenTabsRepository : IOpenTabsRepository, IOpenTabInserter
+    public class OpenTabsRepository : IOpenTabsRepository
     {
         private readonly IWaiterDbContext _waiterDbContext;
 

@@ -1,6 +1,6 @@
 ﻿using Cafe.Waiter.Queries.DAL.Models;
 
-namespace Cafe.Waiter.Queries.DAL.Repositories
+namespace Cafe.Waiter.EventProjecting.Service.DAL
 {
     public interface IOpenTabInserter
     {
