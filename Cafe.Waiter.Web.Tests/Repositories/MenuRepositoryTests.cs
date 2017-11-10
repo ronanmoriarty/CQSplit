@@ -38,7 +38,7 @@ namespace Cafe.Waiter.Web.Tests.Repositories
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.Menu(Id,Data) VALUES ('{_id}','{menuJson}')");
             _menuConfiguration = Substitute.For<IMenuConfiguration>();
             _menuConfiguration.Id.Returns(_id);
-            _menuRepository = new MenuRepository(_menuConfiguration, new WaiterDbContextAdapter(ReadModelConnectionStringProvider.Instance));
+            _menuRepository = new MenuRepository(_menuConfiguration, ReadModelConnectionStringProvider.Instance);
         }
 
         [Test]
