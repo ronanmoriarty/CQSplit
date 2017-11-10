@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cafe.Waiter.Queries.DAL.Repositories
+namespace Cafe.Waiter.Web
 {
     public interface IMenuConfiguration
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Configuration;
 
-namespace Cafe.Waiter.Queries.DAL.Repositories
+namespace Cafe.Waiter.Web
 {
     public class MenuConfiguration : IMenuConfiguration
     {

@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using Cafe.Waiter.Queries.DAL.Serialized;
 
-namespace Cafe.Waiter.EventProjecting.Service
+namespace Cafe.Waiter.EventProjecting.Service.DAL
 {
     public class WaiterDbContext : DbContext
     {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
+using Cafe.Waiter.EventProjecting.Service.DAL;
 using Cafe.Waiter.Events;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
