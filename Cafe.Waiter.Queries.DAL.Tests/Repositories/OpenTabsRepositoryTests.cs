@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
-using Cafe.Waiter.Queries.DAL.Repositories;
-using Cafe.Waiter.Web;
 using Cafe.Waiter.Web.Repositories;
 using CQRSTutorial.DAL.Tests.Common;
 using Newtonsoft.Json;
@@ -26,7 +24,7 @@ namespace Cafe.Waiter.Queries.DAL.Tests.Repositories
             var openTabJson = GetOpenTabJson();
             _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.OpenTabs(Id,Data) VALUES ('{_id}','{openTabJson}')");
-            _openTabsRepository = new OpenTabsRepository(new WaiterDbContextAdapter(ReadModelConnectionStringProvider.Instance));
+            _openTabsRepository = new OpenTabsRepository(ReadModelConnectionStringProvider.Instance);
         }
 
         [Test]
