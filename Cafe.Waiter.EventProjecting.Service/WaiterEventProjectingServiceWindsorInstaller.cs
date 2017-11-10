@@ -1,8 +1,8 @@
 using System.Reflection;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
+using Cafe.Waiter.EventProjecting.Service.DAL;
 using Cafe.Waiter.EventProjecting.Service.Projectors;
 using Cafe.Waiter.Queries.DAL;
-using Cafe.Waiter.Queries.DAL.Repositories;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
@@ -46,7 +46,10 @@ namespace Cafe.Waiter.EventProjecting.Service
                     .WithServiceAllInterfaces(),
                 Component
                     .For<IConnectionStringProvider>()
-                    .Instance(ReadModelConnectionStringProvider.Instance)
+                    .Instance(ReadModelConnectionStringProvider.Instance),
+                Component
+                    .For<IOpenTabInserter>()
+                    .ImplementedBy<OpenTabInserter>()
                 );
         }
     }

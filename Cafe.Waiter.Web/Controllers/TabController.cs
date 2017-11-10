@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cafe.Waiter.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
-using Cafe.Waiter.Queries.DAL.Repositories;
 using Cafe.Waiter.Web.Models;
+using Cafe.Waiter.Web.Repositories;
 using CQRSTutorial.Messaging;
 using Microsoft.AspNetCore.Mvc;
 

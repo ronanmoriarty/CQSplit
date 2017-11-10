@@ -1,21 +1,21 @@
-﻿using Cafe.Waiter.Events;
+﻿using Cafe.Waiter.EventProjecting.Service.DAL;
+using Cafe.Waiter.Events;
 using Cafe.Waiter.Queries.DAL.Models;
-using Cafe.Waiter.Queries.DAL.Repositories;
 
 namespace Cafe.Waiter.EventProjecting.Service.Projectors
 {
     public class TabOpenedProjector : ITabOpenedProjector
     {
-        private readonly IOpenTabsRepository _openTabsRepository;
+        private readonly IOpenTabInserter _openTabInserter;
 
-        public TabOpenedProjector(IOpenTabsRepository openTabsRepository)
+        public TabOpenedProjector(IOpenTabInserter openTabInserter)
         {
-            _openTabsRepository = openTabsRepository;
+            _openTabInserter = openTabInserter;
         }
 
         public void Project(TabOpened message)
         {
-            _openTabsRepository.Insert(new OpenTab
+            _openTabInserter.Insert(new OpenTab
             {
                 Id = message.Id,
                 TableNumber = message.TableNumber,

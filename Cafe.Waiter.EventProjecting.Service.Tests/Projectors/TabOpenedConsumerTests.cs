@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
+using Cafe.Waiter.EventProjecting.Service.DAL;
 using Cafe.Waiter.Events;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
@@ -19,14 +21,12 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Projectors
         private readonly Guid _id = new Guid("6E7B25E5-5B4F-4C08-9147-8DAF69E3FCE2");
         private readonly int _tableNumber = 654;
         private readonly string _waiter = "Jim";
-        private OpenTabsRepository _openTabsRepository;
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.Instance);
 
         [SetUp]
         public void SetUp()
         {
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
-            _openTabsRepository = new OpenTabsRepository(ReadModelConnectionStringProvider.Instance);
             _tabOpenedConsumer = Container.Instance.Resolve<TabOpenedConsumer>();
         }
 
@@ -66,7 +66,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Projectors
 
         private void AssertThatOpenTabInsertedWithStatusInitiallySetToSeated()
         {
-            var serializedOpenTab = _openTabsRepository.Get(_id);
+            var serializedOpenTab = new WaiterDbContext(ReadModelConnectionStringProvider.Instance.GetConnectionString()).OpenTabs.Single(x => x.Id == _id);
             var retrievedOpenTab = JsonConvert.DeserializeObject<OpenTab>(serializedOpenTab.Data);
             Assert.That(retrievedOpenTab.Id, Is.EqualTo(_id));
             Assert.That(retrievedOpenTab.TableNumber, Is.EqualTo(_tableNumber));
