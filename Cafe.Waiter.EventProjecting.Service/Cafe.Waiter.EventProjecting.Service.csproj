@@ -94,6 +94,7 @@
     <Compile Include="Projectors\TabOpenedProjector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DAL\WaiterDbContext.cs" />
+    <Compile Include="ReceiveEndpointConfiguration.cs" />
     <Compile Include="WaiterEventProjectingServiceWindsorInstaller.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -60,7 +60,7 @@ namespace CQRSTutorial.Messaging.Tests
         private InMemoryReceiveEndpointsConfigurator ConfigureBusToReceiveFakeMessages()
         {
             return new InMemoryReceiveEndpointsConfigurator(
-                new ConsumerRegistrar(_consumerFactory, new OnlyListsFakeMessageConsumer()),
+                new ConsumerRegistrar(_consumerFactory, new OnlyListsFakeMessageConsumer(), new TestReceiveEndpointConfiguration(QueueName)),
                 QueueName);
         }
 
@@ -90,8 +90,18 @@ namespace CQRSTutorial.Messaging.Tests
         private InMemoryReceiveEndpointsConfigurator ConfigureBusToReceiveFaults()
         {
             return new InMemoryReceiveEndpointsConfigurator(
-                new ConsumerRegistrar(_consumerFactory, new OnlyListsFakeMessageFaultConsumer()),
+                new ConsumerRegistrar(_consumerFactory, new OnlyListsFakeMessageFaultConsumer(), new TestReceiveEndpointConfiguration(ErrorQueueName)),
                 ErrorQueueName);
+        }
+
+        private class TestReceiveEndpointConfiguration : IReceiveEndpointConfiguration
+        {
+            public TestReceiveEndpointConfiguration(string queueName)
+            {
+                QueueName = queueName;
+            }
+
+            public string QueueName { get; }
         }
 
         private class OnlyListsFakeMessageFaultConsumer : IConsumerTypeProvider
