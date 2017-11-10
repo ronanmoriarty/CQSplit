@@ -1,5 +1,6 @@
 ﻿using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
+using Cafe.Waiter.Web.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cafe.Waiter.Web.Controllers

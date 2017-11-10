@@ -5,6 +5,7 @@ using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Queries.DAL.Repositories;
+using Cafe.Waiter.Web.Repositories;
 
 namespace Cafe.Waiter.Web.Controllers
 {
