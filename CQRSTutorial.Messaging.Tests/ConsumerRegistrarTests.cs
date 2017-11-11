@@ -8,13 +8,15 @@ using NUnit.Framework;
 namespace CQRSTutorial.Messaging.Tests
 {
     [TestFixture]
-    public class InMemoryMessageBusFactoryTests
+    public class ConsumerRegistrarTests
     {
-        private const string QueueName = "whatever";
-        private const string ErrorQueueName = "whatever_error";
+        private const string QueueName = "myQueue";
+        private const string ErrorQueueName = "myQueue_error";
         public static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
         private ConsumerFactory _consumerFactory;
         private IBusControl _busControl;
+        private ConsumerRegistrar _fakeMessageConsumerRegistrar;
+        private ConsumerRegistrar _faultsConsumerRegistrar;
 
         [SetUp]
         public void SetUp()
@@ -27,14 +29,18 @@ namespace CQRSTutorial.Messaging.Tests
         {
             public object Create(Type typeToCreate)
             {
-                return Activator.CreateInstance(typeToCreate); // FakeMessageConsumer and FakeMessageFaultConsumer classes are just default blank constructors - no need for IoC.
+                // FakeMessageConsumer and FakeMessageFaultConsumer classes are just default blank constructors - no need for IoC.
+                return Activator.CreateInstance(typeToCreate);
             }
         }
 
         [Test]
-        public async Task Registers_all_consumers_listed_in_consumerTypeProvider()
+        public async Task Registers_all_consumers_listed_in_consumerTypeProvider_with_the_queue_from_the_receiveEndpointConfiguration()
         {
-            CreateInMemoryBus();
+            _fakeMessageConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeMessagesOnQueue(QueueName);
+            _faultsConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeMessageFaultsOnQueue(ErrorQueueName);
+
+            CreateBus();
             StartBus();
 
             await SendMessage();
@@ -44,23 +50,11 @@ namespace CQRSTutorial.Messaging.Tests
             Assert.That(FakeMessageConsumer.MessageReceived, Is.True);
         }
 
-        private void CreateInMemoryBus()
+        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeMessagesOnQueue(string queueName)
         {
-            var inMemoryMessageBusFactory = CreateInMemoryMessageBusFactory();
-            _busControl = inMemoryMessageBusFactory.Create();
-        }
-
-        private InMemoryMessageBusFactory CreateInMemoryMessageBusFactory()
-        {
-            return new InMemoryMessageBusFactory(
-                ConfigureBusToReceiveFakeMessages(),
-                ConfigureBusToReceiveFaults());
-        }
-
-        private InMemoryReceiveEndpointsConfigurator ConfigureBusToReceiveFakeMessages()
-        {
-            return new InMemoryReceiveEndpointsConfigurator(
-                new ConsumerRegistrar(_consumerFactory, new OnlyListsFakeMessageConsumer(), new TestReceiveEndpointConfiguration(QueueName)));
+            return new ConsumerRegistrar(_consumerFactory,
+                new OnlyListsFakeMessageConsumer(),
+                new TestReceiveEndpointConfiguration(queueName));
         }
 
         private class OnlyListsFakeMessageConsumer : IConsumerTypeProvider
@@ -86,20 +80,11 @@ namespace CQRSTutorial.Messaging.Tests
             }
         }
 
-        private InMemoryReceiveEndpointsConfigurator ConfigureBusToReceiveFaults()
+        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeMessageFaultsOnQueue(string errorQueueName)
         {
-            return new InMemoryReceiveEndpointsConfigurator(
-                new ConsumerRegistrar(_consumerFactory, new OnlyListsFakeMessageFaultConsumer(), new TestReceiveEndpointConfiguration(ErrorQueueName)));
-        }
-
-        private class TestReceiveEndpointConfiguration : IReceiveEndpointConfiguration
-        {
-            public TestReceiveEndpointConfiguration(string queueName)
-            {
-                QueueName = queueName;
-            }
-
-            public string QueueName { get; }
+            return new ConsumerRegistrar(_consumerFactory,
+                new OnlyListsFakeMessageFaultConsumer(),
+                new TestReceiveEndpointConfiguration(errorQueueName));
         }
 
         private class OnlyListsFakeMessageFaultConsumer : IConsumerTypeProvider
@@ -126,6 +111,34 @@ namespace CQRSTutorial.Messaging.Tests
             }
         }
 
+        private class TestReceiveEndpointConfiguration : IReceiveEndpointConfiguration
+        {
+            public TestReceiveEndpointConfiguration(string queueName)
+            {
+                QueueName = queueName;
+            }
+
+            public string QueueName { get; }
+        }
+
+        private void CreateBus()
+        {
+            var inMemoryMessageBusFactory = CreateInMemoryMessageBusFactory();
+            _busControl = inMemoryMessageBusFactory.Create();
+        }
+
+        private InMemoryMessageBusFactory CreateInMemoryMessageBusFactory()
+        {
+            return new InMemoryMessageBusFactory(
+                CreateInMemoryReceiveEndpointsConfigurator(_fakeMessageConsumerRegistrar),
+                CreateInMemoryReceiveEndpointsConfigurator(_faultsConsumerRegistrar));
+        }
+
+        private InMemoryReceiveEndpointsConfigurator CreateInMemoryReceiveEndpointsConfigurator(ConsumerRegistrar consumerRegistrar)
+        {
+            return new InMemoryReceiveEndpointsConfigurator(consumerRegistrar);
+        }
+
         private void StartBus()
         {
             _busControl.Start();
@@ -137,13 +150,13 @@ namespace CQRSTutorial.Messaging.Tests
             await sendEndpoint.Send(new FakeMessage());
         }
 
-        private class FakeMessage
-        {
-        }
-
         private void WaitUntilBusHasProcessedMessageOrTimedOut()
         {
             ManualResetEvent.WaitOne(TimeSpan.FromSeconds(5));
+        }
+
+        private class FakeMessage
+        {
         }
 
         [TearDown]
