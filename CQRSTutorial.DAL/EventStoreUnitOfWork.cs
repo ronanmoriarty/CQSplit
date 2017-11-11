@@ -48,7 +48,7 @@ namespace CQRSTutorial.DAL
             return this;
         }
 
-        public void Execute(Action action)
+        public void ExecuteInTransaction(Action action)
         {
             Start();
             try

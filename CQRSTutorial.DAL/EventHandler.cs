@@ -18,7 +18,7 @@ namespace CQRSTutorial.DAL
         {
             using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventStore))
             {
-                unitOfWork.Execute(() =>
+                unitOfWork.ExecuteInTransaction(() =>
                 {
                     foreach (var @event in events)
                     {
