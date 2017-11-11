@@ -30,7 +30,7 @@ namespace CQRSTutorial.DAL
             Dispose();
         }
 
-        public void Enlist(params IHaveUnitOfWork[] haveUnitOfWorks)
+        public void Enroll(params IHaveUnitOfWork[] haveUnitOfWorks)
         {
             foreach (var haveUnitOfWork in haveUnitOfWorks)
             {

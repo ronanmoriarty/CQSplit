@@ -22,7 +22,7 @@ namespace CQRSTutorial.DAL
             using (var unitOfWork = _unitOfWorkFactory.Create())
             {
                 unitOfWork.Start();
-                unitOfWork.Enlist(_eventStore);
+                unitOfWork.Enroll(_eventStore);
                 try
                 {
                     foreach (var @event in events)
