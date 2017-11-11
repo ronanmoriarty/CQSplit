@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CQRSTutorial.Core;
-using log4net;
 
 namespace CQRSTutorial.DAL
 {
@@ -9,7 +7,6 @@ namespace CQRSTutorial.DAL
     {
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly IEventStore _eventStore;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(EventHandler));
 
         public EventHandler(IUnitOfWorkFactory unitOfWorkFactory, IEventStore eventStore)
         {
@@ -21,20 +18,13 @@ namespace CQRSTutorial.DAL
         {
             using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventStore))
             {
-                unitOfWork.Start();
-                try
+                unitOfWork.Execute(() =>
                 {
                     foreach (var @event in events)
                     {
                         _eventStore.Add(@event);
                     }
-                    unitOfWork.Commit();
-                }
-                catch (Exception exception)
-                {
-                    _logger.Error(exception);
-                    unitOfWork.Rollback();
-                }
+                });
             }
         }
     }

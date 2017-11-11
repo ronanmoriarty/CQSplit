@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using CQRSTutorial.DAL.Common;
+using log4net;
 
 namespace CQRSTutorial.DAL
 {
     public class EntityFrameworkUnitOfWork : IUnitOfWork
     {
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EntityFrameworkUnitOfWork));
+
         public EntityFrameworkUnitOfWork(IConnectionStringProvider connectionStringProvider)
         {
             EventStoreContext = new EventStoreContext(connectionStringProvider.GetConnectionString());
@@ -43,6 +46,21 @@ namespace CQRSTutorial.DAL
         {
             Enroll(haveUnitOfWorks);
             return this;
+        }
+
+        public void Execute(Action action)
+        {
+            Start();
+            try
+            {
+                action();
+                Commit();
+            }
+            catch (Exception exception)
+            {
+                _logger.Error(exception);
+                Rollback();
+            }
         }
     }
 }
