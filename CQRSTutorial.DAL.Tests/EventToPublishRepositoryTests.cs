@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
@@ -47,39 +45,6 @@ namespace CQRSTutorial.DAL.Tests
             Assert.That(retrievedTabOpenedEvent.IntProperty, Is.EqualTo(intPropertyValue));
             Assert.That(retrievedTabOpenedEvent.StringProperty, Is.EqualTo(stringPropertyValue));
             AssertCreated(_id);
-        }
-
-        [Test, Ignore("Flaky")] // TODO make test more robust - fails intermittently
-        public void WhenPublishing_MessagesReadOffQueueInChronologicalOrder()
-        {
-            var testEvent1 = new TestEvent
-            {
-                Id = _id1
-            };
-            _eventToPublishRepository.Add(testEvent1);
-
-            Thread.Sleep(1000); // to ensure they don't get recorded with the same time. Doesn't seem to pick up values smaller than this in database for some reason (even though datetime held in DB to millisecond precision).
-            var testEvent2 = new TestEvent
-            {
-                Id = _id2
-            };
-            _eventToPublishRepository.Add(testEvent2);
-
-            Thread.Sleep(1000);
-            var testEvent3 = new TestEvent
-            {
-                Id = _id3
-            };
-            _eventToPublishRepository.Add(testEvent3);
-
-            _eventToPublishRepository.UnitOfWork.Commit();
-
-            var eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing(2);
-            var eventsToPublish = eventsToPublishResult.EventsToPublish;
-            Assert.That(eventsToPublish.Count, Is.EqualTo(2));
-            Assert.That(eventsToPublish.First().Id, Is.EqualTo(_id1));
-            Assert.That(eventsToPublish.Last().Id, Is.EqualTo(_id2));
-            Assert.That(eventsToPublishResult.TotalNumberOfEventsToPublish, Is.EqualTo(3));
         }
 
         private void AssertCreated(Guid id)
