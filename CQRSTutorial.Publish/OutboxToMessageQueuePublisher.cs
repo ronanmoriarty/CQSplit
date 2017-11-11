@@ -10,14 +10,12 @@ namespace CQRSTutorial.Publish
         private readonly MessageBusEventPublisher _messageBusEventPublisher;
         private readonly EventToPublishMapper _eventToPublishMapper;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-        private readonly int _batchSize;
         private readonly ILog _logger;
 
         public OutboxToMessageQueuePublisher(IEventToPublishRepository eventToPublishRepository,
             MessageBusEventPublisher messageBusEventPublisher,
             EventToPublishMapper eventToPublishMapper,
             IUnitOfWorkFactory unitOfWorkFactory,
-            IOutboxToMessageQueuePublisherConfiguration outboxToMessageQueuePublisherConfiguration,
             ILog logger)
         {
             _eventToPublishRepository = eventToPublishRepository;
@@ -25,33 +23,25 @@ namespace CQRSTutorial.Publish
             _eventToPublishMapper = eventToPublishMapper;
             _unitOfWorkFactory = unitOfWorkFactory;
             _logger = logger;
-            _batchSize = outboxToMessageQueuePublisherConfiguration.BatchSize;
-            _logger.Info($"Batch size: {_batchSize}");
         }
 
         public void PublishQueuedMessages()
         {
-            var firstPass = true;
-            EventsToPublishResult eventsToPublishResult = null;
-            while (firstPass || eventsToPublishResult.TotalNumberOfEventsToPublish > _batchSize)
+            var eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing();
+            var eventsToPublish = eventsToPublishResult.EventsToPublish;
+            _logger.Debug($"Retrieved {eventsToPublish.Count} events to publish to message queue.");
+            foreach (var eventToPublish in eventsToPublish)
             {
-                eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing(_batchSize);
-                var eventsToPublish = eventsToPublishResult.EventsToPublish;
-                _logger.Debug($"Retrieved {eventsToPublish.Count} events to publish to message queue.");
-                foreach (var eventToPublish in eventsToPublish)
+                var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
+                _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
+                _messageBusEventPublisher.Handle(new[] { @event });
+                using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventToPublishRepository))
                 {
-                    var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
-                    _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
-                    _messageBusEventPublisher.Handle(new[] { @event });
-                    using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventToPublishRepository))
+                    unitOfWork.ExecuteInTransaction(() =>
                     {
-                        unitOfWork.ExecuteInTransaction(() =>
-                        {
-                            _eventToPublishRepository.Delete(eventToPublish);
-                        });
-                    }
+                        _eventToPublishRepository.Delete(eventToPublish);
+                    });
                 }
-                firstPass = false;
             }
         }
     }

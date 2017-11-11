@@ -6,7 +6,7 @@ namespace CQRSTutorial.DAL
     public interface IEventToPublishRepository : IEventStore
     {
         IEvent Read(Guid id);
-        EventsToPublishResult GetEventsAwaitingPublishing(int batchSize);
+        EventsToPublishResult GetEventsAwaitingPublishing();
         void Delete(EventToPublish eventToPublish);
     }
 }

@@ -30,9 +30,9 @@ namespace CQRSTutorial.DAL.Tests
             return _eventToPublishRepository.Read(id);
         }
 
-        public EventsToPublishResult GetEventsAwaitingPublishing(int batchSize)
+        public EventsToPublishResult GetEventsAwaitingPublishing()
         {
-            return _eventToPublishRepository.GetEventsAwaitingPublishing(batchSize);
+            return _eventToPublishRepository.GetEventsAwaitingPublishing();
         }
 
         public void Delete(EventToPublish eventToPublish)

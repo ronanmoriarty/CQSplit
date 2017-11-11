@@ -32,9 +32,9 @@ namespace CQRSTutorial.DAL
             return _eventToPublishMapper.MapToEvent(eventToPublish);
         }
 
-        public EventsToPublishResult GetEventsAwaitingPublishing(int batchSize)
+        public EventsToPublishResult GetEventsAwaitingPublishing()
         {
-            var eventsToPublish = EventStoreDbContext.EventsToPublish.OrderBy(x => x.Created).Take(batchSize);
+            var eventsToPublish = EventStoreDbContext.EventsToPublish.OrderBy(x => x.Created);
             var totalNumberOfEventsToPublish = eventsToPublish.Count();
 
             return new EventsToPublishResult
