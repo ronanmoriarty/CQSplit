@@ -23,7 +23,7 @@ namespace CQRSTutorial.DAL.Tests
         {
             CleanUp();
             _eventToPublishRepository = CreateRepository();
-            _eventToPublishRepository.UnitOfWork = new EntityFrameworkUnitOfWork(WriteModelConnectionStringProvider.Instance);
+            _eventToPublishRepository.UnitOfWork = new EventStoreUnitOfWork(WriteModelConnectionStringProvider.Instance);
         }
 
         [Test]

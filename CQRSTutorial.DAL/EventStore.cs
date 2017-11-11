@@ -32,7 +32,7 @@ namespace CQRSTutorial.DAL
             UpdateEventIdToReflectIdAssignedByORMToEventToStore(@event, eventToStore);
         }
 
-        public EventStoreContext EventStoreContext => ((EntityFrameworkUnitOfWork) UnitOfWork).EventStoreContext;
+        public EventStoreContext EventStoreContext => ((EventStoreUnitOfWork) UnitOfWork).EventStoreContext;
 
         public IEvent Read(Guid id)
         {

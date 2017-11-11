@@ -19,7 +19,7 @@ namespace CQRSTutorial.DAL
             EventStoreContext.EventsToPublish.Add(eventToPublish);
         }
 
-        private EventStoreContext EventStoreContext => ((EntityFrameworkUnitOfWork)UnitOfWork).EventStoreContext;
+        private EventStoreContext EventStoreContext => ((EventStoreUnitOfWork)UnitOfWork).EventStoreContext;
 
         public IEvent Read(Guid id)
         {

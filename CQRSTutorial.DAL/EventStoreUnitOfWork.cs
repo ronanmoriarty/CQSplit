@@ -4,11 +4,11 @@ using log4net;
 
 namespace CQRSTutorial.DAL
 {
-    public class EntityFrameworkUnitOfWork : IUnitOfWork
+    public class EventStoreUnitOfWork : IUnitOfWork
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(EntityFrameworkUnitOfWork));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EventStoreUnitOfWork));
 
-        public EntityFrameworkUnitOfWork(IConnectionStringProvider connectionStringProvider)
+        public EventStoreUnitOfWork(IConnectionStringProvider connectionStringProvider)
         {
             EventStoreContext = new EventStoreContext(connectionStringProvider.GetConnectionString());
         }

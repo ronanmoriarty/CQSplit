@@ -19,7 +19,7 @@ namespace CQRSTutorial.DAL.Tests
             var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProvider.Instance);
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId}'"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
             _repository = CreateRepository();
-            _repository.UnitOfWork = new EntityFrameworkUnitOfWork(WriteModelConnectionStringProvider.Instance);
+            _repository.UnitOfWork = new EventStoreUnitOfWork(WriteModelConnectionStringProvider.Instance);
         }
 
         [Test]
