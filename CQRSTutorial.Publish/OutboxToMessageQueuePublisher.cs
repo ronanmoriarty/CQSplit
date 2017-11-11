@@ -10,19 +10,17 @@ namespace CQRSTutorial.Publish
         private readonly MessageBusEventPublisher _messageBusEventPublisher;
         private readonly EventToPublishMapper _eventToPublishMapper;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-        private readonly ILog _logger;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(OutboxToMessageQueuePublisher));
 
         public OutboxToMessageQueuePublisher(IEventToPublishRepository eventToPublishRepository,
             MessageBusEventPublisher messageBusEventPublisher,
             EventToPublishMapper eventToPublishMapper,
-            IUnitOfWorkFactory unitOfWorkFactory,
-            ILog logger)
+            IUnitOfWorkFactory unitOfWorkFactory)
         {
             _eventToPublishRepository = eventToPublishRepository;
             _messageBusEventPublisher = messageBusEventPublisher;
             _eventToPublishMapper = eventToPublishMapper;
             _unitOfWorkFactory = unitOfWorkFactory;
-            _logger = logger;
         }
 
         public void PublishQueuedMessages()
