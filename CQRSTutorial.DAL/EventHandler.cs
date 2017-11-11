@@ -19,10 +19,9 @@ namespace CQRSTutorial.DAL
 
         public void Handle(IEnumerable<IEvent> events)
         {
-            using (var unitOfWork = _unitOfWorkFactory.Create())
+            using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventStore))
             {
                 unitOfWork.Start();
-                unitOfWork.Enroll(_eventStore);
                 try
                 {
                     foreach (var @event in events)

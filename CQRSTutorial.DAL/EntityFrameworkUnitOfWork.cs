@@ -1,4 +1,5 @@
-﻿using CQRSTutorial.DAL.Common;
+﻿using System.Collections.Generic;
+using CQRSTutorial.DAL.Common;
 
 namespace CQRSTutorial.DAL
 {
@@ -36,6 +37,12 @@ namespace CQRSTutorial.DAL
             {
                 haveUnitOfWork.UnitOfWork = this;
             }
+        }
+
+        public IUnitOfWork Enrolling(params IHaveUnitOfWork[] haveUnitOfWorks)
+        {
+            Enroll(haveUnitOfWorks);
+            return this;
         }
     }
 }
