@@ -43,12 +43,12 @@ namespace CQRSTutorial.Publish
                     var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
                     _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
                     _messageBusEventPublisher.Handle(new[] { @event });
-                    using (var unitOfWork = _unitOfWorkFactory.Create())
+                    using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventToPublishRepository))
                     {
-                        unitOfWork.Start();
-                        _eventToPublishRepository.UnitOfWork = unitOfWork;
-                        _eventToPublishRepository.Delete(eventToPublish);
-                        unitOfWork.Commit();
+                        unitOfWork.ExecuteInTransaction(() =>
+                        {
+                            _eventToPublishRepository.Delete(eventToPublish);
+                        });
                     }
                 }
                 firstPass = false;
