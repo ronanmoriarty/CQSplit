@@ -7,6 +7,6 @@ namespace CQRSTutorial.DAL
         void Start();
         void Commit();
         void Rollback();
-        void Enlist(IHaveUnitOfWork haveUnitOfWork);
+        void Enlist(params IHaveUnitOfWork[] haveUnitOfWorks);
     }
 }

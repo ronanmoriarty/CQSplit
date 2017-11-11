@@ -30,9 +30,12 @@ namespace CQRSTutorial.DAL
             Dispose();
         }
 
-        public void Enlist(IHaveUnitOfWork haveUnitOfWork)
+        public void Enlist(params IHaveUnitOfWork[] haveUnitOfWorks)
         {
-            haveUnitOfWork.UnitOfWork = this;
+            foreach (var haveUnitOfWork in haveUnitOfWorks)
+            {
+                haveUnitOfWork.UnitOfWork = this;
+            }
         }
     }
 }
