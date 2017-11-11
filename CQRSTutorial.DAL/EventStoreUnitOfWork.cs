@@ -10,14 +10,14 @@ namespace CQRSTutorial.DAL
 
         public EventStoreUnitOfWork(IConnectionStringProvider connectionStringProvider)
         {
-            EventStoreContext = new EventStoreContext(connectionStringProvider.GetConnectionString());
+            EventStoreDbContext = new EventStoreDbContext(connectionStringProvider.GetConnectionString());
         }
 
-        public EventStoreContext EventStoreContext { get; set; }
+        public EventStoreDbContext EventStoreDbContext { get; set; }
 
         public void Dispose()
         {
-            EventStoreContext.Dispose();
+            EventStoreDbContext.Dispose();
         }
 
         public void Start()
@@ -26,7 +26,7 @@ namespace CQRSTutorial.DAL
 
         public void Commit()
         {
-            EventStoreContext.SaveChanges();
+            EventStoreDbContext.SaveChanges();
         }
 
         public void Rollback()

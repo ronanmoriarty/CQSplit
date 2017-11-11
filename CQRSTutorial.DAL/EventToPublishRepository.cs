@@ -16,14 +16,14 @@ namespace CQRSTutorial.DAL
         public void Add(IEvent @event)
         {
             var eventToPublish = _eventToPublishMapper.MapToEventToPublish(@event);
-            EventStoreContext.EventsToPublish.Add(eventToPublish);
+            EventStoreDbContext.EventsToPublish.Add(eventToPublish);
         }
 
-        private EventStoreContext EventStoreContext => ((EventStoreUnitOfWork)UnitOfWork).EventStoreContext;
+        private EventStoreDbContext EventStoreDbContext => ((EventStoreUnitOfWork)UnitOfWork).EventStoreDbContext;
 
         public IEvent Read(Guid id)
         {
-            var eventToPublish = EventStoreContext.EventsToPublish.SingleOrDefault(x => x.Id == id);
+            var eventToPublish = EventStoreDbContext.EventsToPublish.SingleOrDefault(x => x.Id == id);
             if (eventToPublish == null)
             {
                 return null;
@@ -34,7 +34,7 @@ namespace CQRSTutorial.DAL
 
         public EventsToPublishResult GetEventsAwaitingPublishing(int batchSize)
         {
-            var eventsToPublish = EventStoreContext.EventsToPublish.OrderBy(x => x.Created).Take(batchSize);
+            var eventsToPublish = EventStoreDbContext.EventsToPublish.OrderBy(x => x.Created).Take(batchSize);
             var totalNumberOfEventsToPublish = eventsToPublish.Count();
 
             return new EventsToPublishResult
@@ -46,7 +46,7 @@ namespace CQRSTutorial.DAL
 
         public void Delete(EventToPublish eventToPublish)
         {
-            EventStoreContext.EventsToPublish.Remove(eventToPublish);
+            EventStoreDbContext.EventsToPublish.Remove(eventToPublish);
         }
 
         public IUnitOfWork UnitOfWork { get; set; }
