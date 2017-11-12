@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CQRSTutorial.Core;
 
@@ -32,16 +33,12 @@ namespace CQRSTutorial.DAL
             return _eventToPublishMapper.MapToEvent(eventToPublish);
         }
 
-        public EventsToPublishResult GetEventsAwaitingPublishing()
+        public IList<EventToPublish> GetEventsAwaitingPublishing()
         {
-            var eventsToPublish = EventStoreDbContext.EventsToPublish.OrderBy(x => x.Created);
-            var totalNumberOfEventsToPublish = eventsToPublish.Count();
-
-            return new EventsToPublishResult
-            {
-                EventsToPublish = eventsToPublish.ToList(),
-                TotalNumberOfEventsToPublish = totalNumberOfEventsToPublish
-            };
+            return EventStoreDbContext
+                .EventsToPublish
+                .OrderBy(x => x.Created)
+                .ToList();
         }
 
         public void Delete(EventToPublish eventToPublish)

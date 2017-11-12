@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CQRSTutorial.Core;
 
 namespace CQRSTutorial.DAL.Tests
@@ -30,7 +31,7 @@ namespace CQRSTutorial.DAL.Tests
             return _eventToPublishRepository.Read(id);
         }
 
-        public EventsToPublishResult GetEventsAwaitingPublishing()
+        public IList<EventToPublish> GetEventsAwaitingPublishing()
         {
             return _eventToPublishRepository.GetEventsAwaitingPublishing();
         }

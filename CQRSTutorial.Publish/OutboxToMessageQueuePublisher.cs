@@ -1,4 +1,5 @@
-﻿using CQRSTutorial.DAL;
+﻿using System.Collections.Generic;
+using CQRSTutorial.DAL;
 using log4net;
 using MassTransit;
 
@@ -25,8 +26,7 @@ namespace CQRSTutorial.Publish
 
         public void PublishQueuedMessages()
         {
-            var eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing();
-            var eventsToPublish = eventsToPublishResult.EventsToPublish;
+            var eventsToPublish = _eventToPublishRepository.GetEventsAwaitingPublishing();
             _logger.Debug($"Retrieved {eventsToPublish.Count} events to publish to message queue.");
             foreach (var eventToPublish in eventsToPublish)
             {
