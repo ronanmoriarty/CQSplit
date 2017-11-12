@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventToPublishSerializer
+    public class EventToPublishSerializer : IEventToPublishSerializer
     {
         private readonly Assembly _assemblyToInspectForEvents;
 
