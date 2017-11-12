@@ -12,6 +12,7 @@ namespace CQRSTutorial.Messaging.Tests
     {
         private const string QueueName = "myQueue";
         private const string ErrorQueueName = "myQueue_error";
+        private const string LoopbackAddress = "loopback://localhost/";
         public static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
         public static readonly ManualResetEvent ManualResetEvent2 = new ManualResetEvent(false);
         private ConsumerFactory _consumerFactory;
@@ -209,14 +210,19 @@ namespace CQRSTutorial.Messaging.Tests
 
         private async Task SendFakeCommand()
         {
-            var sendEndpoint = await _busControl.GetSendEndpoint(new Uri($"loopback://localhost/{QueueName}"));
+            var sendEndpoint = await GetSendEndpoint();
             await sendEndpoint.Send(new FakeCommand());
         }
 
         private async Task SendFakeCommand2()
         {
-            var sendEndpoint = await _busControl.GetSendEndpoint(new Uri($"loopback://localhost/{QueueName}"));
+            var sendEndpoint = await GetSendEndpoint();
             await sendEndpoint.Send(new FakeCommand2());
+        }
+
+        private async Task<ISendEndpoint> GetSendEndpoint()
+        {
+            return await _busControl.GetSendEndpoint(new Uri($"{LoopbackAddress}{QueueName}"));
         }
 
         private void WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent manualResetEvent)
