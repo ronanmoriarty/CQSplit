@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using CQRSTutorial.DAL;
+﻿using CQRSTutorial.DAL;
 using log4net;
 using MassTransit;
 
@@ -9,18 +8,18 @@ namespace CQRSTutorial.Publish
     {
         private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly IBusControl _busControl;
-        private readonly EventToPublishMapper _eventToPublishMapper;
+        private readonly EventToPublishSerializer _eventToPublishSerializer;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly ILog _logger = LogManager.GetLogger(typeof(OutboxToMessageQueuePublisher));
 
         public OutboxToMessageQueuePublisher(IEventToPublishRepository eventToPublishRepository,
             IBusControl busControl,
-            EventToPublishMapper eventToPublishMapper,
+            EventToPublishSerializer eventToPublishSerializer,
             IUnitOfWorkFactory unitOfWorkFactory)
         {
             _eventToPublishRepository = eventToPublishRepository;
             _busControl = busControl;
-            _eventToPublishMapper = eventToPublishMapper;
+            _eventToPublishSerializer = eventToPublishSerializer;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
 
@@ -30,7 +29,7 @@ namespace CQRSTutorial.Publish
             _logger.Debug($"Retrieved {eventsToPublish.Count} events to publish to message queue.");
             foreach (var eventToPublish in eventsToPublish)
             {
-                var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
+                var @event = _eventToPublishSerializer.Deserialize(eventToPublish);
                 _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
                 _busControl.Publish(@event);
                 using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventToPublishRepository))

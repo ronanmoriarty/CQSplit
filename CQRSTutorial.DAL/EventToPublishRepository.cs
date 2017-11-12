@@ -7,16 +7,16 @@ namespace CQRSTutorial.DAL
 {
     public class EventToPublishRepository : IEventToPublishRepository
     {
-        private readonly EventToPublishMapper _eventToPublishMapper;
+        private readonly EventToPublishSerializer _eventToPublishSerializer;
 
-        public EventToPublishRepository(EventToPublishMapper eventToPublishMapper)
+        public EventToPublishRepository(EventToPublishSerializer eventToPublishSerializer)
         {
-            _eventToPublishMapper = eventToPublishMapper;
+            _eventToPublishSerializer = eventToPublishSerializer;
         }
 
         public void Add(IEvent @event)
         {
-            var eventToPublish = _eventToPublishMapper.MapToEventToPublish(@event);
+            var eventToPublish = _eventToPublishSerializer.Serialize(@event);
             EventStoreDbContext.EventsToPublish.Add(eventToPublish);
         }
 
@@ -30,7 +30,7 @@ namespace CQRSTutorial.DAL
                 return null;
             }
 
-            return _eventToPublishMapper.MapToEvent(eventToPublish);
+            return _eventToPublishSerializer.Deserialize(eventToPublish);
         }
 
         public IList<EventToPublish> GetEventsAwaitingPublishing()

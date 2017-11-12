@@ -56,7 +56,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private EventToPublishRepository CreateRepository()
         {
-            return new EventToPublishRepository(new EventToPublishMapper(typeof(TestEvent).Assembly));
+            return new EventToPublishRepository(new EventToPublishSerializer(typeof(TestEvent).Assembly));
         }
 
         private void InsertAndRead(IEvent @event)
