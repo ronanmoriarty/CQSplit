@@ -7,13 +7,13 @@ using NUnit.Framework;
 namespace CQRSTutorial.Publish.Tests
 {
     [TestFixture]
-    public class OutboxToMessagePublisherTests
+    public class OutboxToMessageBusPublisherTests
     {
         private IEventToPublishRepository _eventToPublishRepository;
         private TestEvent _event;
         private IEventToPublishSerializer _eventToPublishSerializer;
         private IBusControl _busControl;
-        private OutboxToMessageQueuePublisher _outboxToMessagePublisher;
+        private OutboxToMessageBusPublisher _outboxToMessageBusPublisher;
         private EventToPublish _eventToPublish;
 
         [SetUp]
@@ -28,7 +28,7 @@ namespace CQRSTutorial.Publish.Tests
                 .Returns(new List<EventToPublish> { _eventToPublish });
             _eventToPublishSerializer.Deserialize(_eventToPublish).Returns(_event);
             _busControl = Substitute.For<IBusControl>();
-            _outboxToMessagePublisher = new OutboxToMessageQueuePublisher(
+            _outboxToMessageBusPublisher = new OutboxToMessageBusPublisher(
                 _eventToPublishRepository,
                 _busControl,
                 _eventToPublishSerializer,
@@ -38,7 +38,7 @@ namespace CQRSTutorial.Publish.Tests
         [Test]
         public void Publisher_publishes_event()
         {
-            _outboxToMessagePublisher.PublishQueuedMessages();
+            _outboxToMessageBusPublisher.PublishQueuedMessages();
 
             _busControl.Received(1).Publish(_event);
         }

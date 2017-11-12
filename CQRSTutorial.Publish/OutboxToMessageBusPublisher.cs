@@ -4,15 +4,15 @@ using MassTransit;
 
 namespace CQRSTutorial.Publish
 {
-    public class OutboxToMessageQueuePublisher : IOutboxToMessageQueuePublisher
+    public class OutboxToMessageBusPublisher : IOutboxToMessageBusPublisher
     {
         private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly IBusControl _busControl;
         private readonly IEventToPublishSerializer _eventToPublishSerializer;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(OutboxToMessageQueuePublisher));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(OutboxToMessageBusPublisher));
 
-        public OutboxToMessageQueuePublisher(IEventToPublishRepository eventToPublishRepository,
+        public OutboxToMessageBusPublisher(IEventToPublishRepository eventToPublishRepository,
             IBusControl busControl,
             IEventToPublishSerializer eventToPublishSerializer,
             IUnitOfWorkFactory unitOfWorkFactory)

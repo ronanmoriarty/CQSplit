@@ -1,6 +1,6 @@
 namespace CQRSTutorial.Publish
 {
-    public interface IOutboxToMessageQueuePublisher
+    public interface IOutboxToMessageBusPublisher
     {
         void PublishQueuedMessages();
     }
