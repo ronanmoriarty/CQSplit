@@ -15,14 +15,14 @@ using CQRSTutorial.Messaging.RabbitMq;
 
 namespace Cafe.Waiter.Command.Service
 {
-    public class WaiterServiceWindsorInstaller : IWindsorInstaller
+    public class WaiterCommandServiceWindsorInstaller : IWindsorInstaller
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
                 Classes
                     .FromAssembly(Assembly.GetExecutingAssembly())
-                    .InSameNamespaceAs<WaiterServiceWindsorInstaller>()
+                    .InSameNamespaceAs<WaiterCommandServiceWindsorInstaller>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
