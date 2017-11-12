@@ -13,6 +13,7 @@ namespace CQRSTutorial.Messaging.Tests
         private const string QueueName = "myQueue";
         private const string ErrorQueueName = "myQueue_error";
         public static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
+        public static readonly ManualResetEvent ManualResetEvent2 = new ManualResetEvent(false);
         private ConsumerFactory _consumerFactory;
         private IBusControl _busControl;
         private ConsumerRegistrar _consumerRegistrar;
@@ -42,27 +43,44 @@ namespace CQRSTutorial.Messaging.Tests
             CreateBus();
             StartBus();
 
-            await SendMessage();
-            WaitUntilBusHasProcessedMessageOrTimedOut();
+            await SendFakeCommand();
+            WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent);
 
             Assert.That(FakeCommandFaultConsumer.NumberOfFaults, Is.EqualTo(0));
             Assert.That(FakeCommandConsumer.CommandReceived, Is.True);
         }
 
+        [Test]
+        public async Task Can_register_two_consumers_against_the_same_receive_endpoint()
+        {
+            _consumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(QueueName);
+            _faultConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandFaultsOnQueue(ErrorQueueName);
+
+            CreateBus();
+            StartBus();
+
+            await SendFakeCommand2();
+            WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent2);
+
+            Assert.That(FakeCommand2FaultConsumer.NumberOfFaults, Is.EqualTo(0));
+            Assert.That(FakeCommand2Consumer.CommandReceived, Is.True);
+        }
+
         private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(string queueName)
         {
             return new ConsumerRegistrar(_consumerFactory,
-                new OnlyListsFakeCommandConsumer(),
+                new ListFakeCommandConsumerAndFakeCommand2Consumer(),
                 new TestReceiveEndpointConfiguration(queueName));
         }
 
-        private class OnlyListsFakeCommandConsumer : IConsumerTypeProvider
+        private class ListFakeCommandConsumerAndFakeCommand2Consumer : IConsumerTypeProvider
         {
             public List<Type> GetConsumerTypes()
             {
                 return new List<Type>
                 {
-                    typeof(FakeCommandConsumer)
+                    typeof(FakeCommandConsumer),
+                    typeof(FakeCommand2Consumer)
                 };
             }
         }
@@ -82,20 +100,36 @@ namespace CQRSTutorial.Messaging.Tests
             }
         }
 
+        private class FakeCommand2Consumer : IConsumer<FakeCommand2>
+        {
+            public static bool CommandReceived;
+            public async Task Consume(ConsumeContext<FakeCommand2> context)
+            {
+                CommandReceived = true;
+                AllowTestThreadToContinueToAssertions();
+            }
+
+            private static void AllowTestThreadToContinueToAssertions()
+            {
+                ManualResetEvent2.Set();
+            }
+        }
+
         private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeCommandFaultsOnQueue(string errorQueueName)
         {
             return new ConsumerRegistrar(_consumerFactory,
-                new OnlyListsFakeCommandFaultConsumer(),
+                new ListsFakeCommandFaultConsumerAndFakeCommand2FaultConsumer(),
                 new TestReceiveEndpointConfiguration(errorQueueName));
         }
 
-        private class OnlyListsFakeCommandFaultConsumer : IConsumerTypeProvider
+        private class ListsFakeCommandFaultConsumerAndFakeCommand2FaultConsumer : IConsumerTypeProvider
         {
             public List<Type> GetConsumerTypes()
             {
                 return new List<Type>
                 {
-                    typeof(FakeCommandFaultConsumer)
+                    typeof(FakeCommandFaultConsumer),
+                    typeof(FakeCommand2FaultConsumer)
                 };
             }
         }
@@ -116,7 +150,27 @@ namespace CQRSTutorial.Messaging.Tests
             }
         }
 
+        private class FakeCommand2FaultConsumer : IConsumer<Fault<FakeCommand2>>
+        {
+            public static int NumberOfFaults;
+
+            public async Task Consume(ConsumeContext<Fault<FakeCommand2>> context)
+            {
+                NumberOfFaults++;
+                AllowTestThreadToContinueToAssertions();
+            }
+
+            private void AllowTestThreadToContinueToAssertions()
+            {
+                ManualResetEvent2.Set();
+            }
+        }
+
         private class FakeCommand
+        {
+        }
+
+        private class FakeCommand2
         {
         }
 
@@ -153,15 +207,21 @@ namespace CQRSTutorial.Messaging.Tests
             _busControl = inMemoryMessageBusFactory.Create();
         }
 
-        private async Task SendMessage()
+        private async Task SendFakeCommand()
         {
             var sendEndpoint = await _busControl.GetSendEndpoint(new Uri($"loopback://localhost/{QueueName}"));
             await sendEndpoint.Send(new FakeCommand());
         }
 
-        private void WaitUntilBusHasProcessedMessageOrTimedOut()
+        private async Task SendFakeCommand2()
         {
-            ManualResetEvent.WaitOne(TimeSpan.FromSeconds(5));
+            var sendEndpoint = await _busControl.GetSendEndpoint(new Uri($"loopback://localhost/{QueueName}"));
+            await sendEndpoint.Send(new FakeCommand2());
+        }
+
+        private void WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent manualResetEvent)
+        {
+            manualResetEvent.WaitOne(TimeSpan.FromSeconds(5));
         }
 
         [TearDown]
