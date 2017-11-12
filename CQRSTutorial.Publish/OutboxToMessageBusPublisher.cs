@@ -1,5 +1,4 @@
-﻿using System;
-using CQRSTutorial.DAL;
+﻿using CQRSTutorial.DAL;
 using log4net;
 using MassTransit;
 
