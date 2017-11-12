@@ -1,24 +1,24 @@
 ﻿using CQRSTutorial.DAL;
-using CQRSTutorial.Messaging;
 using log4net;
+using MassTransit;
 
 namespace CQRSTutorial.Publish
 {
     public class OutboxToMessageQueuePublisher : IOutboxToMessageQueuePublisher
     {
         private readonly IEventToPublishRepository _eventToPublishRepository;
-        private readonly MessageBusEventPublisher _messageBusEventPublisher;
+        private readonly IBusControl _busControl;
         private readonly EventToPublishMapper _eventToPublishMapper;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly ILog _logger = LogManager.GetLogger(typeof(OutboxToMessageQueuePublisher));
 
         public OutboxToMessageQueuePublisher(IEventToPublishRepository eventToPublishRepository,
-            MessageBusEventPublisher messageBusEventPublisher,
+            IBusControl busControl,
             EventToPublishMapper eventToPublishMapper,
             IUnitOfWorkFactory unitOfWorkFactory)
         {
             _eventToPublishRepository = eventToPublishRepository;
-            _messageBusEventPublisher = messageBusEventPublisher;
+            _busControl = busControl;
             _eventToPublishMapper = eventToPublishMapper;
             _unitOfWorkFactory = unitOfWorkFactory;
         }
@@ -32,7 +32,7 @@ namespace CQRSTutorial.Publish
             {
                 var @event = _eventToPublishMapper.MapToEvent(eventToPublish);
                 _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
-                _messageBusEventPublisher.Handle(new[] { @event });
+                _busControl.Publish(@event);
                 using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventToPublishRepository))
                 {
                     unitOfWork.ExecuteInTransaction(() =>

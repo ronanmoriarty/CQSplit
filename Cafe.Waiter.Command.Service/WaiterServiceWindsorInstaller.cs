@@ -33,7 +33,7 @@ namespace Cafe.Waiter.Command.Service
                 Classes
                     .FromAssemblyContaining<IMessageBusFactory>()
                     .InSameNamespaceAs<IMessageBusFactory>()
-                    .Unless(type => type == typeof(MessageBusEventPublisher) || type == typeof(InMemoryReceiveEndpointsConfigurator) || type == typeof(InMemoryMessageBusFactory))
+                    .Unless(type => type == typeof(InMemoryReceiveEndpointsConfigurator) || type == typeof(InMemoryMessageBusFactory))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
