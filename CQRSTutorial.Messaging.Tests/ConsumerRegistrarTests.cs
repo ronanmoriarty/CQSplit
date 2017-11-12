@@ -15,21 +15,20 @@ namespace CQRSTutorial.Messaging.Tests
         public static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
         private ConsumerFactory _consumerFactory;
         private IBusControl _busControl;
-        private ConsumerRegistrar _fakeMessageConsumerRegistrar;
+        private ConsumerRegistrar _fakeCommandConsumerRegistrar;
         private ConsumerRegistrar _faultsConsumerRegistrar;
 
         [SetUp]
         public void SetUp()
         {
             _consumerFactory = new ConsumerFactory();
-            _busControl = null;
         }
 
         private class ConsumerFactory : IConsumerFactory
         {
             public object Create(Type typeToCreate)
             {
-                // FakeMessageConsumer and FakeMessageFaultConsumer classes are just default blank constructors - no need for IoC.
+                // FakeCommandConsumer and FakeCommandFaultConsumer classes are just default blank constructors - no need for IoC.
                 return Activator.CreateInstance(typeToCreate);
             }
         }
@@ -37,8 +36,8 @@ namespace CQRSTutorial.Messaging.Tests
         [Test]
         public async Task Registers_all_consumers_listed_in_consumerTypeProvider_with_the_queue_from_the_receiveEndpointConfiguration()
         {
-            _fakeMessageConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeMessagesOnQueue(QueueName);
-            _faultsConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeMessageFaultsOnQueue(ErrorQueueName);
+            _fakeCommandConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(QueueName);
+            _faultsConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandFaultsOnQueue(ErrorQueueName);
 
             CreateBus();
             StartBus();
@@ -46,31 +45,31 @@ namespace CQRSTutorial.Messaging.Tests
             await SendMessage();
             WaitUntilBusHasProcessedMessageOrTimedOut();
 
-            Assert.That(FakeMessageFaultConsumer.NumberOfFaults, Is.EqualTo(0));
-            Assert.That(FakeMessageConsumer.MessageReceived, Is.True);
+            Assert.That(FakeCommandFaultConsumer.NumberOfFaults, Is.EqualTo(0));
+            Assert.That(FakeCommandConsumer.CommandReceived, Is.True);
         }
 
-        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeMessagesOnQueue(string queueName)
+        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(string queueName)
         {
             return new ConsumerRegistrar(_consumerFactory,
-                new OnlyListsFakeMessageConsumer(),
+                new OnlyListsFakeCommandConsumer(),
                 new TestReceiveEndpointConfiguration(queueName));
         }
 
-        private class OnlyListsFakeMessageConsumer : IConsumerTypeProvider
+        private class OnlyListsFakeCommandConsumer : IConsumerTypeProvider
         {
             public List<Type> GetConsumerTypes()
             {
-                return new List<Type> { typeof(FakeMessageConsumer) };
+                return new List<Type> { typeof(FakeCommandConsumer) };
             }
         }
 
-        private class FakeMessageConsumer : IConsumer<FakeMessage>
+        private class FakeCommandConsumer : IConsumer<FakeCommand>
         {
-            public static bool MessageReceived;
-            public async Task Consume(ConsumeContext<FakeMessage> context)
+            public static bool CommandReceived;
+            public async Task Consume(ConsumeContext<FakeCommand> context)
             {
-                MessageReceived = true;
+                CommandReceived = true;
                 AllowTestThreadToContinueToAssertions();
             }
 
@@ -80,26 +79,26 @@ namespace CQRSTutorial.Messaging.Tests
             }
         }
 
-        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeMessageFaultsOnQueue(string errorQueueName)
+        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeCommandFaultsOnQueue(string errorQueueName)
         {
             return new ConsumerRegistrar(_consumerFactory,
-                new OnlyListsFakeMessageFaultConsumer(),
+                new OnlyListsFakeCommandFaultConsumer(),
                 new TestReceiveEndpointConfiguration(errorQueueName));
         }
 
-        private class OnlyListsFakeMessageFaultConsumer : IConsumerTypeProvider
+        private class OnlyListsFakeCommandFaultConsumer : IConsumerTypeProvider
         {
             public List<Type> GetConsumerTypes()
             {
-                return new List<Type> { typeof(FakeMessageFaultConsumer) };
+                return new List<Type> { typeof(FakeCommandFaultConsumer) };
             }
         }
 
-        private class FakeMessageFaultConsumer : IConsumer<Fault<FakeMessage>>
+        private class FakeCommandFaultConsumer : IConsumer<Fault<FakeCommand>>
         {
             public static int NumberOfFaults;
 
-            public async Task Consume(ConsumeContext<Fault<FakeMessage>> context)
+            public async Task Consume(ConsumeContext<Fault<FakeCommand>> context)
             {
                 NumberOfFaults++;
                 AllowTestThreadToContinueToAssertions();
@@ -130,7 +129,7 @@ namespace CQRSTutorial.Messaging.Tests
         private InMemoryMessageBusFactory CreateInMemoryMessageBusFactory()
         {
             return new InMemoryMessageBusFactory(
-                CreateInMemoryReceiveEndpointsConfigurator(_fakeMessageConsumerRegistrar),
+                CreateInMemoryReceiveEndpointsConfigurator(_fakeCommandConsumerRegistrar),
                 CreateInMemoryReceiveEndpointsConfigurator(_faultsConsumerRegistrar));
         }
 
@@ -147,7 +146,7 @@ namespace CQRSTutorial.Messaging.Tests
         private async Task SendMessage()
         {
             var sendEndpoint = await _busControl.GetSendEndpoint(new Uri($"loopback://localhost/{QueueName}"));
-            await sendEndpoint.Send(new FakeMessage());
+            await sendEndpoint.Send(new FakeCommand());
         }
 
         private void WaitUntilBusHasProcessedMessageOrTimedOut()
@@ -155,7 +154,7 @@ namespace CQRSTutorial.Messaging.Tests
             ManualResetEvent.WaitOne(TimeSpan.FromSeconds(5));
         }
 
-        private class FakeMessage
+        private class FakeCommand
         {
         }
 
