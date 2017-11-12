@@ -8,15 +8,15 @@ using NUnit.Framework;
 namespace CQRSTutorial.Messaging.Tests
 {
     [TestFixture]
-    public class ConsumerRegistrarTests
+    public class ConsumerRegistrarPublishTests
     {
         private const string QueueName = "myQueue";
         private const string ErrorQueueName = "myQueue_error";
         public static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
         private ConsumerFactory _consumerFactory;
         private IBusControl _busControl;
-        private ConsumerRegistrar _fakeCommandConsumerRegistrar;
-        private ConsumerRegistrar _faultsConsumerRegistrar;
+        private ConsumerRegistrar _consumerRegistrar;
+        private ConsumerRegistrar _faultConsumerRegistrar;
 
         [SetUp]
         public void SetUp()
@@ -28,48 +28,51 @@ namespace CQRSTutorial.Messaging.Tests
         {
             public object Create(Type typeToCreate)
             {
-                // FakeCommandConsumer and FakeCommandFaultConsumer classes are just default blank constructors - no need for IoC.
+                // FakeEventConsumer and FakeEventFaultConsumer classes are just default blank constructors - no need for IoC.
                 return Activator.CreateInstance(typeToCreate);
             }
         }
 
         [Test]
-        public async Task Registers_all_consumers_listed_in_consumerTypeProvider_with_the_queue_from_the_receiveEndpointConfiguration()
+        public async Task Registers_all_consumers_listed_in_consumerTypeProvider_to_receive_published_messages()
         {
-            _fakeCommandConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(QueueName);
-            _faultsConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandFaultsOnQueue(ErrorQueueName);
+            _consumerRegistrar = CreateConsumerRegistrarToConsumeFakeEventsOnQueue(QueueName);
+            _faultConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeEventFaultsOnQueue(ErrorQueueName);
 
             CreateBus();
             StartBus();
 
-            await SendMessage();
+            await PublishMessage();
             WaitUntilBusHasProcessedMessageOrTimedOut();
 
-            Assert.That(FakeCommandFaultConsumer.NumberOfFaults, Is.EqualTo(0));
-            Assert.That(FakeCommandConsumer.CommandReceived, Is.True);
+            Assert.That(FakeEventFaultConsumer.NumberOfFaults, Is.EqualTo(0));
+            Assert.That(FakeEventConsumer.EventReceived, Is.True);
         }
 
-        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(string queueName)
+        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeEventsOnQueue(string queueName)
         {
             return new ConsumerRegistrar(_consumerFactory,
-                new OnlyListsFakeCommandConsumer(),
+                new OnlyListsFakeEventConsumer(),
                 new TestReceiveEndpointConfiguration(queueName));
         }
 
-        private class OnlyListsFakeCommandConsumer : IConsumerTypeProvider
+        private class OnlyListsFakeEventConsumer : IConsumerTypeProvider
         {
             public List<Type> GetConsumerTypes()
             {
-                return new List<Type> { typeof(FakeCommandConsumer) };
+                return new List<Type>
+                {
+                    typeof(FakeEventConsumer)
+                };
             }
         }
 
-        private class FakeCommandConsumer : IConsumer<FakeCommand>
+        private class FakeEventConsumer : IConsumer<FakeEvent>
         {
-            public static bool CommandReceived;
-            public async Task Consume(ConsumeContext<FakeCommand> context)
+            public static bool EventReceived;
+            public async Task Consume(ConsumeContext<FakeEvent> context)
             {
-                CommandReceived = true;
+                EventReceived = true;
                 AllowTestThreadToContinueToAssertions();
             }
 
@@ -79,26 +82,29 @@ namespace CQRSTutorial.Messaging.Tests
             }
         }
 
-        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeCommandFaultsOnQueue(string errorQueueName)
+        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeEventFaultsOnQueue(string errorQueueName)
         {
             return new ConsumerRegistrar(_consumerFactory,
-                new OnlyListsFakeCommandFaultConsumer(),
+                new OnlyListsFakeEventFaultConsumer(),
                 new TestReceiveEndpointConfiguration(errorQueueName));
         }
 
-        private class OnlyListsFakeCommandFaultConsumer : IConsumerTypeProvider
+        private class OnlyListsFakeEventFaultConsumer : IConsumerTypeProvider
         {
             public List<Type> GetConsumerTypes()
             {
-                return new List<Type> { typeof(FakeCommandFaultConsumer) };
+                return new List<Type>
+                {
+                    typeof(FakeEventFaultConsumer)
+                };
             }
         }
 
-        private class FakeCommandFaultConsumer : IConsumer<Fault<FakeCommand>>
+        private class FakeEventFaultConsumer : IConsumer<Fault<FakeEvent>>
         {
             public static int NumberOfFaults;
 
-            public async Task Consume(ConsumeContext<Fault<FakeCommand>> context)
+            public async Task Consume(ConsumeContext<Fault<FakeEvent>> context)
             {
                 NumberOfFaults++;
                 AllowTestThreadToContinueToAssertions();
@@ -108,6 +114,10 @@ namespace CQRSTutorial.Messaging.Tests
             {
                 ManualResetEvent.Set();
             }
+        }
+
+        private class FakeEvent
+        {
         }
 
         private class TestReceiveEndpointConfiguration : IReceiveEndpointConfiguration
@@ -120,17 +130,11 @@ namespace CQRSTutorial.Messaging.Tests
             public string QueueName { get; }
         }
 
-        private void CreateBus()
-        {
-            var inMemoryMessageBusFactory = CreateInMemoryMessageBusFactory();
-            _busControl = inMemoryMessageBusFactory.Create();
-        }
-
         private InMemoryMessageBusFactory CreateInMemoryMessageBusFactory()
         {
             return new InMemoryMessageBusFactory(
-                CreateInMemoryReceiveEndpointsConfigurator(_fakeCommandConsumerRegistrar),
-                CreateInMemoryReceiveEndpointsConfigurator(_faultsConsumerRegistrar));
+                CreateInMemoryReceiveEndpointsConfigurator(_consumerRegistrar),
+                CreateInMemoryReceiveEndpointsConfigurator(_faultConsumerRegistrar));
         }
 
         private InMemoryReceiveEndpointsConfigurator CreateInMemoryReceiveEndpointsConfigurator(ConsumerRegistrar consumerRegistrar)
@@ -143,19 +147,20 @@ namespace CQRSTutorial.Messaging.Tests
             _busControl.Start();
         }
 
-        private async Task SendMessage()
+        private void CreateBus()
         {
-            var sendEndpoint = await _busControl.GetSendEndpoint(new Uri($"loopback://localhost/{QueueName}"));
-            await sendEndpoint.Send(new FakeCommand());
+            var inMemoryMessageBusFactory = CreateInMemoryMessageBusFactory();
+            _busControl = inMemoryMessageBusFactory.Create();
+        }
+
+        private async Task PublishMessage()
+        {
+            await _busControl.Publish(new FakeEvent());
         }
 
         private void WaitUntilBusHasProcessedMessageOrTimedOut()
         {
             ManualResetEvent.WaitOne(TimeSpan.FromSeconds(5));
-        }
-
-        private class FakeCommand
-        {
         }
 
         [TearDown]
