@@ -8,13 +8,13 @@ namespace CQRSTutorial.Publish
     {
         private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly IBusControl _busControl;
-        private readonly EventToPublishSerializer _eventToPublishSerializer;
+        private readonly IEventToPublishSerializer _eventToPublishSerializer;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly ILog _logger = LogManager.GetLogger(typeof(OutboxToMessageQueuePublisher));
 
         public OutboxToMessageQueuePublisher(IEventToPublishRepository eventToPublishRepository,
             IBusControl busControl,
-            EventToPublishSerializer eventToPublishSerializer,
+            IEventToPublishSerializer eventToPublishSerializer,
             IUnitOfWorkFactory unitOfWorkFactory)
         {
             _eventToPublishRepository = eventToPublishRepository;
@@ -32,7 +32,7 @@ namespace CQRSTutorial.Publish
                 var @event = _eventToPublishSerializer.Deserialize(eventToPublish);
                 _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
                 _busControl.Publish(@event);
-                RemoveEventFromEventToPublishQueue(eventToPublish);
+                //RemoveEventFromEventToPublishQueue(eventToPublish);
             }
         }
 
