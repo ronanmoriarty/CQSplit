@@ -32,13 +32,15 @@ namespace CQRSTutorial.Publish
                 var @event = _eventToPublishSerializer.Deserialize(eventToPublish);
                 _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
                 _busControl.Publish(@event);
-                using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventToPublishRepository))
-                {
-                    unitOfWork.ExecuteInTransaction(() =>
-                    {
-                        _eventToPublishRepository.Delete(eventToPublish);
-                    });
-                }
+                RemoveEventFromEventToPublishQueue(eventToPublish);
+            }
+        }
+
+        private void RemoveEventFromEventToPublishQueue(EventToPublish eventToPublish)
+        {
+            using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventToPublishRepository))
+            {
+                unitOfWork.ExecuteInTransaction(() => { _eventToPublishRepository.Delete(eventToPublish); });
             }
         }
     }
