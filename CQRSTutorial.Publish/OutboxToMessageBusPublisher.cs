@@ -1,4 +1,5 @@
-﻿using CQRSTutorial.DAL;
+﻿using System;
+using CQRSTutorial.DAL;
 using log4net;
 using MassTransit;
 
@@ -32,7 +33,7 @@ namespace CQRSTutorial.Publish
                 var @event = _eventToPublishSerializer.Deserialize(eventToPublish);
                 _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
                 _busControl.Publish(@event);
-                //RemoveEventFromEventToPublishQueue(eventToPublish);
+                RemoveEventFromEventToPublishQueue(eventToPublish);
             }
         }
 
@@ -40,7 +41,10 @@ namespace CQRSTutorial.Publish
         {
             using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventToPublishRepository))
             {
-                unitOfWork.ExecuteInTransaction(() => { _eventToPublishRepository.Delete(eventToPublish); });
+                unitOfWork.ExecuteInTransaction(() =>
+                {
+                    _eventToPublishRepository.Delete(eventToPublish);
+                });
             }
         }
     }
