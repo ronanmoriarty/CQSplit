@@ -54,7 +54,8 @@ namespace CQRSTutorial.Publish
             {
                 unitOfWork.ExecuteInTransaction(() =>
                 {
-                    _eventToPublishRepository.Delete(eventToPublish);
+                    var retrievedEventToPublish = _eventToPublishRepository.Read(eventToPublish.Id);
+                    _eventToPublishRepository.Delete(retrievedEventToPublish);
                 });
             }
         }
