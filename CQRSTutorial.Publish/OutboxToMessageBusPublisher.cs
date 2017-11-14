@@ -1,4 +1,6 @@
-﻿using CQRSTutorial.DAL;
+﻿using System.Collections.Generic;
+using CQRSTutorial.Core;
+using CQRSTutorial.DAL;
 using log4net;
 using MassTransit;
 
@@ -32,6 +34,16 @@ namespace CQRSTutorial.Publish
                 var @event = _eventToPublishSerializer.Deserialize(eventToPublish);
                 _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
                 _busControl.Publish(@event);
+                RemoveEventFromEventToPublishQueue(eventToPublish);
+            }
+        }
+
+        public void PublishEvents(IEnumerable<IEvent> events)
+        {
+            foreach (var @event in events)
+            {
+                _busControl.Publish((object) @event);
+                var eventToPublish = _eventToPublishSerializer.Serialize(@event);
                 RemoveEventFromEventToPublishQueue(eventToPublish);
             }
         }
