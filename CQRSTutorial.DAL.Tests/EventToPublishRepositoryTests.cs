@@ -15,11 +15,13 @@ namespace CQRSTutorial.DAL.Tests
         private readonly Guid _id1 = new Guid("75BD91C8-AE33-4EA3-B7BF-8E2140433A62");
         private readonly Guid _id2 = new Guid("DB0CBB04-4773-425F-A6B2-17A939568433");
         private readonly Guid _id3 = new Guid("3A0A042A-D107-4876-B43C-347C0A7C0DAD");
+        private EventToPublishSerializer _eventToPublishSerializer;
 
         [SetUp]
         public void SetUp()
         {
             CleanUp();
+            _eventToPublishSerializer = new EventToPublishSerializer(typeof(TestEvent).Assembly);
             _eventToPublishRepository = CreateRepository();
             _eventToPublishRepository.UnitOfWork = new EventStoreUnitOfWork(WriteModelConnectionStringProvider.Instance);
         }
@@ -50,20 +52,21 @@ namespace CQRSTutorial.DAL.Tests
         private void AssertCreated(Guid id)
         {
             var createdDate = _sqlExecutor.ExecuteScalar<DateTime>($"SELECT Created FROM dbo.EventsToPublish WHERE Id = '{id}'");
-            var twoSeconds = new TimeSpan(0,0,2);
-            Assert.That(createdDate, Is.EqualTo(DateTime.Now).Within(twoSeconds));
+            var tolerance = new TimeSpan(0,0,5);
+            Assert.That(createdDate, Is.EqualTo(DateTime.Now).Within(tolerance));
         }
 
         private EventToPublishRepository CreateRepository()
         {
-            return new EventToPublishRepository(new EventToPublishSerializer(typeof(TestEvent).Assembly));
+            return new EventToPublishRepository(_eventToPublishSerializer);
         }
 
         private void InsertAndRead(IEvent @event)
         {
             _eventToPublishRepository.Add(@event);
             _eventToPublishRepository.UnitOfWork.Commit();
-            _retrievedEvent = _eventToPublishRepository.Read(@event.Id);
+            var eventToPublish = _eventToPublishRepository.Read(@event.Id);
+            _retrievedEvent = _eventToPublishSerializer.Deserialize(eventToPublish);
         }
 
         [TearDown]

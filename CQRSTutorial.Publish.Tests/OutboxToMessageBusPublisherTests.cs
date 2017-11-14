@@ -21,13 +21,15 @@ namespace CQRSTutorial.Publish.Tests
         private IUnitOfWork _unitOfWork;
         private bool _invokingActionInTransaction;
         private bool _eventToPublishDeletedInTransaction;
+        private Guid _id;
 
         [SetUp]
         public void SetUp()
         {
             // TODO: don't like all the mocking and stubbing - very brittle. Consider rewriting integrating with in-memory masstransit bus and db (wasn't sure about how to capture the transactional bit though in an integration test).
             _event = new TestEvent();
-            _eventToPublish = new EventToPublish();
+            _id = new Guid("44BFA323-9BD7-4C0F-8B01-5C8A23E650EB");
+            _eventToPublish = new EventToPublish { Id = _id };
             SetupEventToPublishSerializer();
             AssumingThereIsOneEventToPublish();
             NoteWhenEventToPublishBeingDeletedAsPartOfTransaction();
@@ -54,12 +56,13 @@ namespace CQRSTutorial.Publish.Tests
             _eventToPublishRepository = Substitute.For<IEventToPublishRepository>();
             _eventToPublishRepository
                 .GetEventsAwaitingPublishing()
-                .Returns(new List<EventToPublish> {_eventToPublish});
+                .Returns(new List<EventToPublish> { _eventToPublish });
         }
 
         private void NoteWhenEventToPublishBeingDeletedAsPartOfTransaction()
         {
-            _eventToPublishRepository.When(x => x.Delete(Arg.Is(_eventToPublish))).Do(callInfo =>
+            _eventToPublishRepository.Read(Arg.Is(_id)).Returns(new EventToPublish {Id = _id});
+            _eventToPublishRepository.When(x => x.Delete(Arg.Is<EventToPublish>(eventToPublish => eventToPublish.Id == _id))).Do(callInfo =>
             {
                 if (_invokingActionInTransaction)
                 {
@@ -75,7 +78,7 @@ namespace CQRSTutorial.Publish.Tests
             _unitOfWork.When(x => x.ExecuteInTransaction(Arg.Any<Action>())).Do(callInfo =>
             {
                 _invokingActionInTransaction = true;
-                var actionToInvokeInTransaction = (Action) callInfo.Args().First();
+                var actionToInvokeInTransaction = (Action)callInfo.Args().First();
                 actionToInvokeInTransaction.Invoke();
                 _invokingActionInTransaction = false;
             });

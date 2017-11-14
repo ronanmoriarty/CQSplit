@@ -22,15 +22,9 @@ namespace CQRSTutorial.DAL
 
         private EventStoreDbContext EventStoreDbContext => ((EventStoreUnitOfWork)UnitOfWork).EventStoreDbContext;
 
-        public IEvent Read(Guid id)
+        public EventToPublish Read(Guid id)
         {
-            var eventToPublish = EventStoreDbContext.EventsToPublish.SingleOrDefault(x => x.Id == id);
-            if (eventToPublish == null)
-            {
-                return null;
-            }
-
-            return _eventToPublishSerializer.Deserialize(eventToPublish);
+            return EventStoreDbContext.EventsToPublish.SingleOrDefault(x => x.Id == id);
         }
 
         public IList<EventToPublish> GetEventsAwaitingPublishing()
