@@ -31,12 +31,6 @@ namespace Cafe.Waiter.Command.Service.Tests
             AssertThatEventSavedInEventStore();
         }
 
-        [Test]
-        public void When_handling_events_it_saves_to_EventsToPublish_table()
-        {
-            AssertThatEventWillBePublished();
-        }
-
         private void DeleteAnyExistingRowsWithSameIds()
         {
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE Id = '{_id}'");
@@ -68,13 +62,6 @@ namespace Cafe.Waiter.Command.Service.Tests
             var numberOfEventsWithCurrentId =
                 _sqlExecutor.ExecuteScalar<int>($"SELECT COUNT(*) FROM dbo.Events WHERE Id = '{_id}'");
             Assert.That(numberOfEventsWithCurrentId, Is.EqualTo(1));
-        }
-
-        private void AssertThatEventWillBePublished()
-        {
-            var numberOfEventsToPublishWithCurrentId =
-                _sqlExecutor.ExecuteScalar<int>($"SELECT COUNT(*) FROM dbo.EventsToPublish WHERE Id = '{_id}'");
-            Assert.That(numberOfEventsToPublishWithCurrentId, Is.EqualTo(1));
         }
     }
 }
