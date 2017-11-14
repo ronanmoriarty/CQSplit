@@ -20,13 +20,17 @@ namespace CQRSTutorial.Messaging
 
         public void RegisterAllConsumerTypes(Action<ReceiveEndpointArgs> configure)
         {
-            configure(new ReceiveEndpointArgs(_receiveEndpointConfiguration.QueueName, receiveEndpointConfigurator =>
+            var queueName = _receiveEndpointConfiguration.QueueName;
+            configure(new ReceiveEndpointArgs(queueName, RegisterAllConsumerTypes));
+        }
+
+        private void RegisterAllConsumerTypes(IReceiveEndpointConfigurator receiveEndpointConfigurator)
+        {
+            var consumerTypes = _consumerTypeProvider.GetConsumerTypes();
+            foreach (var consumerType in consumerTypes)
             {
-                foreach (var consumerType in _consumerTypeProvider.GetConsumerTypes())
-                {
-                    RegisterConsumerType(receiveEndpointConfigurator, consumerType);
-                }
-            }));
+                RegisterConsumerType(receiveEndpointConfigurator, consumerType);
+            }
         }
 
         private void RegisterConsumerType(IReceiveEndpointConfigurator receiveEndpointConfigurator, Type consumerType)
