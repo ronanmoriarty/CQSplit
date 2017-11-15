@@ -54,7 +54,7 @@ namespace Cafe.Waiter.Web.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public async Task Create(CreateTabModel model)
+        public async Task Create([FromBody]CreateTabModel model)
         {
             var openTabCommand = CreateOpenTabCommand(model);
             await _commandSender.Send(openTabCommand, QueueName);
