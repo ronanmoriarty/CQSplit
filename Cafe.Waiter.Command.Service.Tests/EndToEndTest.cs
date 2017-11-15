@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,7 +20,7 @@ namespace Cafe.Waiter.Command.Service.Tests
         private readonly Guid _commandId = new Guid("AAE03F19-60C3-400A-B97E-90B791E129C1");
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProvider.Instance);
         private IBusControl _busControl;
-        private const string EventConsumingApplicationQueueName = "commandService.EndToEndTest.EventProjecting.Service";
+        private const string EventConsumingApplicationQueueName = "commandService.EndToEndTest.EventConsumingApplication"; // typically Cafe.Waiter.EventProjecting.Service but could be anything.
         private const string LoopbackAddress = "loopback://localhost/";
         private static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
         private string _queueName;
@@ -42,20 +41,16 @@ namespace Cafe.Waiter.Command.Service.Tests
         {
             var registerCommandConsumers = new InMemoryReceiveEndpointsConfigurator(Container.Instance.Resolve<IConsumerRegistrar>());
             var registerEventConsumers = new InMemoryReceiveEndpointsConfigurator(
-                new ConsumerRegistrar(new DefaultConstructorConsumerFactory(), new TestConsumerTypeProvider(), new CQRSTutorial.Messaging.Tests.ReceiveEndpointConfiguration(EventConsumingApplicationQueueName))
+                new ConsumerRegistrar(
+                    new DefaultConstructorConsumerFactory(),
+                    new CQRSTutorial.Messaging.Tests.ConsumerTypeProvider(typeof(TabOpenedTestConsumer)),
+                    new CQRSTutorial.Messaging.Tests.ReceiveEndpointConfiguration(EventConsumingApplicationQueueName)
+                )
             );
             _busControl = new InMemoryMessageBusFactory(
                 registerCommandConsumers,
                 registerEventConsumers
             ).Create();
-        }
-
-        private class TestConsumerTypeProvider : IConsumerTypeProvider
-        {
-            public List<Type> GetConsumerTypes()
-            {
-                return new List<Type> {typeof(TabOpenedTestConsumer) };
-            }
         }
 
         private class TabOpenedTestConsumer : IConsumer<TabOpened>

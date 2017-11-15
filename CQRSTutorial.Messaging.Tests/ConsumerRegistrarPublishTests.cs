@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
@@ -43,19 +42,8 @@ namespace CQRSTutorial.Messaging.Tests
         private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeEventsOnQueue(string queueName)
         {
             return new ConsumerRegistrar(_consumerFactory,
-                new OnlyListsFakeEventConsumer(),
+                new ConsumerTypeProvider(typeof(FakeEventConsumer)),
                 new ReceiveEndpointConfiguration(queueName));
-        }
-
-        private class OnlyListsFakeEventConsumer : IConsumerTypeProvider
-        {
-            public List<Type> GetConsumerTypes()
-            {
-                return new List<Type>
-                {
-                    typeof(FakeEventConsumer)
-                };
-            }
         }
 
         private class FakeEventConsumer : IConsumer<FakeEvent>
@@ -76,19 +64,8 @@ namespace CQRSTutorial.Messaging.Tests
         private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeEventFaultsOnQueue(string errorQueueName)
         {
             return new ConsumerRegistrar(_consumerFactory,
-                new OnlyListsFakeEventFaultConsumer(),
+                new ConsumerTypeProvider(typeof(FakeEventFaultConsumer)),
                 new ReceiveEndpointConfiguration(errorQueueName));
-        }
-
-        private class OnlyListsFakeEventFaultConsumer : IConsumerTypeProvider
-        {
-            public List<Type> GetConsumerTypes()
-            {
-                return new List<Type>
-                {
-                    typeof(FakeEventFaultConsumer)
-                };
-            }
         }
 
         private class FakeEventFaultConsumer : IConsumer<Fault<FakeEvent>>

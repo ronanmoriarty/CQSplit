@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
@@ -61,20 +60,11 @@ namespace CQRSTutorial.Messaging.Tests
         private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(string queueName)
         {
             return new ConsumerRegistrar(_consumerFactory,
-                new ListFakeCommandConsumerAndFakeCommand2Consumer(),
-                new ReceiveEndpointConfiguration(queueName));
-        }
-
-        private class ListFakeCommandConsumerAndFakeCommand2Consumer : IConsumerTypeProvider
-        {
-            public List<Type> GetConsumerTypes()
-            {
-                return new List<Type>
-                {
+                new ConsumerTypeProvider(
                     typeof(FakeCommandConsumer),
                     typeof(FakeCommand2Consumer)
-                };
-            }
+                ),
+                new ReceiveEndpointConfiguration(queueName));
         }
 
         private class FakeCommandConsumer : IConsumer<FakeCommand>
@@ -110,20 +100,11 @@ namespace CQRSTutorial.Messaging.Tests
         private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeCommandFaultsOnQueue(string errorQueueName)
         {
             return new ConsumerRegistrar(_consumerFactory,
-                new ListsFakeCommandFaultConsumerAndFakeCommand2FaultConsumer(),
-                new ReceiveEndpointConfiguration(errorQueueName));
-        }
-
-        private class ListsFakeCommandFaultConsumerAndFakeCommand2FaultConsumer : IConsumerTypeProvider
-        {
-            public List<Type> GetConsumerTypes()
-            {
-                return new List<Type>
-                {
+                new ConsumerTypeProvider(
                     typeof(FakeCommandFaultConsumer),
                     typeof(FakeCommand2FaultConsumer)
-                };
-            }
+                ),
+                new ReceiveEndpointConfiguration(errorQueueName));
         }
 
         private class FakeCommandFaultConsumer : IConsumer<Fault<FakeCommand>>
