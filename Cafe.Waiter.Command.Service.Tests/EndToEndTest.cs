@@ -8,6 +8,7 @@ using Cafe.Waiter.Events;
 using Castle.MicroKernel.Registration;
 using CQRSTutorial.DAL.Tests.Common;
 using CQRSTutorial.Messaging;
+using CQRSTutorial.Messaging.Tests;
 using MassTransit;
 using NUnit.Framework;
 
@@ -41,20 +42,12 @@ namespace Cafe.Waiter.Command.Service.Tests
         {
             var registerCommandConsumers = new InMemoryReceiveEndpointsConfigurator(Container.Instance.Resolve<IConsumerRegistrar>());
             var registerEventConsumers = new InMemoryReceiveEndpointsConfigurator(
-                new ConsumerRegistrar(new TestConsumerFactory(), new TestConsumerTypeProvider(), new TestReceiveEndpointConfiguration(EventConsumingApplicationQueueName))
+                new ConsumerRegistrar(new DefaultConstructorConsumerFactory(), new TestConsumerTypeProvider(), new TestReceiveEndpointConfiguration(EventConsumingApplicationQueueName))
             );
             _busControl = new InMemoryMessageBusFactory(
                 registerCommandConsumers,
                 registerEventConsumers
             ).Create();
-        }
-
-        private class TestConsumerFactory : IConsumerFactory
-        {
-            public object Create(Type typeToCreate)
-            {
-                return Activator.CreateInstance(typeToCreate); // our test-specific-consumers will all have default blank constructors, so no IoC required.
-            }
         }
 
         private class TestConsumerTypeProvider : IConsumerTypeProvider
