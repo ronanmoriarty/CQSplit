@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Cafe.Waiter.Command.Service.Consumers;
@@ -12,6 +13,9 @@ using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Common;
 using CQRSTutorial.Messaging;
 using CQRSTutorial.Messaging.RabbitMq;
+using CQRSTutorial.Publish;
+using MassTransit;
+using EventHandler = CQRSTutorial.DAL.EventHandler;
 
 namespace Cafe.Waiter.Command.Service
 {
@@ -33,13 +37,13 @@ namespace Cafe.Waiter.Command.Service
                 Classes
                     .FromAssemblyContaining<IMessageBusFactory>()
                     .InSameNamespaceAs<IMessageBusFactory>()
-                    .Unless(type => type == typeof(InMemoryReceiveEndpointsConfigurator) || type == typeof(InMemoryMessageBusFactory))
+                    .Unless(IsMessagingTypeNotRequiredInCommandService)
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
                     .FromAssemblyContaining<RabbitMqMessageBusFactory>()
                     .InSameNamespaceAs<RabbitMqMessageBusFactory>()
-                    .Unless(type => type == typeof(NoReceiveEndpointsConfigurator))
+                    .Unless(IsMessagingRabbitMqTypeNotRequiredInCommandService)
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
@@ -84,10 +88,54 @@ namespace Cafe.Waiter.Command.Service
                     .DependsOn(Dependency.OnComponent("eventStores", "eventStores"))
                     .Named("compositeEventStore"),
                 Component
+                    .For<EventHandler>()
+                    .DependsOn(Dependency.OnComponent("eventStore", "compositeEventStore")),
+                Component
+                    .For<OutboxToMessageBusEventHandler>(),
+                Classes
+                    .FromAssemblyContaining<OutboxToMessageBusPublisher>()
+                    .InSameNamespaceAs<OutboxToMessageBusPublisher>()
+                    .WithServiceSelf()
+                    .WithServiceAllInterfaces(),
+                Component
+                    .For<IBusControl>()
+                    .UsingFactoryMethod(GetBus)
+                    .LifestyleSingleton(),
+                Component
+                    .For<IEnumerable<IEventHandler>>()
+                    .UsingFactoryMethod(GetEventHandlers)
+                    .Named("eventHandlers"),
+                Component
                     .For<IEventHandler>()
-                    .ImplementedBy<EventHandler>()
-                    .DependsOn(Dependency.OnComponent("eventStore", "compositeEventStore"))
+                    .ImplementedBy<CompositeEventHandler>()
+                    .DependsOn(Dependency.OnComponent("eventHandlers", "eventHandlers"))
                 );
+        }
+
+        private IBusControl GetBus(IKernel kernel)
+        {
+            var messageBusFactory = kernel.Resolve<IMessageBusFactory>();
+            return messageBusFactory.Create();
+        }
+
+        private IEnumerable<IEventHandler> GetEventHandlers(IKernel kernel)
+        {
+            return new List<IEventHandler>
+            {
+                kernel.Resolve<EventHandler>(),
+                kernel.Resolve<OutboxToMessageBusEventHandler>()
+            };
+        }
+
+        private bool IsMessagingTypeNotRequiredInCommandService(Type type)
+        {
+            return type == typeof(InMemoryReceiveEndpointsConfigurator)
+                || type == typeof(InMemoryMessageBusFactory);
+        }
+
+        private bool IsMessagingRabbitMqTypeNotRequiredInCommandService(Type type)
+        {
+            return type == typeof(NoReceiveEndpointsConfigurator);
         }
 
         private IEnumerable<IEventStore> GetEventStores(IKernel kernel)
