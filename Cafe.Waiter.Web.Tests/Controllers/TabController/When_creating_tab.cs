@@ -35,7 +35,7 @@ namespace Cafe.Waiter.Web.Tests.Controllers.TabController
 
             _sendEndpoint = Substitute.For<ISendEndpoint>();
             _sendEndpointProvider = Substitute.For<ISendEndpointProvider>();
-            _sendEndpointProvider.GetSendEndpoint().Returns(Task.FromResult(_sendEndpoint));
+            _sendEndpointProvider.GetSendEndpoint(Arg.Is<string>(queueName => queueName == "cafe.waiter.command.service")).Returns(Task.FromResult(_sendEndpoint));
             _commandSender = new CommandSender(_sendEndpointProvider);
         }
 

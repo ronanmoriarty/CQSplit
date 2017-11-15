@@ -46,7 +46,7 @@ namespace Cafe.Waiter.Web.Tests.Controllers.TabController
         [Test]
         public void PlaceOrder_command_sent()
         {
-            _commandSender.Received(1).Send(Arg.Is<PlaceOrderCommand>(command => MatchingCommand(command)));
+            _commandSender.Received(1).Send(Arg.Is<PlaceOrderCommand>(command => MatchingCommand(command)), Arg.Is<string>(queueName => queueName == "cafe.waiter.command.service"));
         }
 
         private Menu GetMenu()

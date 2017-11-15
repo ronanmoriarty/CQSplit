@@ -5,6 +5,6 @@ namespace CQRSTutorial.Messaging
 {
     public interface ISendEndpointProvider
     {
-        Task<ISendEndpoint> GetSendEndpoint();
+        Task<ISendEndpoint> GetSendEndpoint(string queueName);
     }
 }

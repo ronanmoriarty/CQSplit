@@ -17,6 +17,7 @@ namespace Cafe.Waiter.Web.Controllers
         private readonly IOpenTabsRepository _openTabsRepository;
         private readonly ICommandSender _commandSender;
         private readonly IPlaceOrderCommandFactory _placeOrderCommandFactory;
+        private readonly string QueueName = "cafe.waiter.command.service";
 
         public TabController(ITabDetailsRepository tabDetailsRepository,
             IOpenTabsRepository openTabsRepository,
@@ -47,7 +48,8 @@ namespace Cafe.Waiter.Web.Controllers
         [Route("PlaceOrder")]
         public void PlaceOrder(TabDetails tabDetails)
         {
-            _commandSender.Send(_placeOrderCommandFactory.Create(tabDetails));
+            var placeOrderCommand = _placeOrderCommandFactory.Create(tabDetails);
+            _commandSender.Send(placeOrderCommand, QueueName);
         }
 
         [HttpPost]
@@ -55,7 +57,7 @@ namespace Cafe.Waiter.Web.Controllers
         public async Task Create(CreateTabModel model)
         {
             var openTabCommand = CreateOpenTabCommand(model);
-            await _commandSender.Send(openTabCommand);
+            await _commandSender.Send(openTabCommand, QueueName);
         }
 
         private OpenTabCommand CreateOpenTabCommand(CreateTabModel model)

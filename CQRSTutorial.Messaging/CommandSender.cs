@@ -12,9 +12,9 @@ namespace CQRSTutorial.Messaging
             _sendEndpointProvider = sendEndpointProvider;
         }
 
-        public async Task Send(ICommand command)
+        public async Task Send(ICommand command, string queueName)
         {
-            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint();
+            var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(queueName);
             await sendEndpoint.Send(command);
         }
     }
