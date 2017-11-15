@@ -42,7 +42,7 @@ namespace Cafe.Waiter.Command.Service.Tests
         {
             var registerCommandConsumers = new InMemoryReceiveEndpointsConfigurator(Container.Instance.Resolve<IConsumerRegistrar>());
             var registerEventConsumers = new InMemoryReceiveEndpointsConfigurator(
-                new ConsumerRegistrar(new DefaultConstructorConsumerFactory(), new TestConsumerTypeProvider(), new TestReceiveEndpointConfiguration(EventConsumingApplicationQueueName))
+                new ConsumerRegistrar(new DefaultConstructorConsumerFactory(), new TestConsumerTypeProvider(), new CQRSTutorial.Messaging.Tests.ReceiveEndpointConfiguration(EventConsumingApplicationQueueName))
             );
             _busControl = new InMemoryMessageBusFactory(
                 registerCommandConsumers,
@@ -71,16 +71,6 @@ namespace Cafe.Waiter.Command.Service.Tests
             }
 
             public static TabOpened ReceivedTabCreatedEvent { get; set; }
-        }
-
-        private class TestReceiveEndpointConfiguration : IReceiveEndpointConfiguration
-        {
-            public TestReceiveEndpointConfiguration(string queueName)
-            {
-                QueueName = queueName;
-            }
-
-            public string QueueName { get; }
         }
 
         private void OverrideIoCRegistrationToUseInMemoryBus()

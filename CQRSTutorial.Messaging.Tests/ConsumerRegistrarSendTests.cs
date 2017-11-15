@@ -62,7 +62,7 @@ namespace CQRSTutorial.Messaging.Tests
         {
             return new ConsumerRegistrar(_consumerFactory,
                 new ListFakeCommandConsumerAndFakeCommand2Consumer(),
-                new TestReceiveEndpointConfiguration(queueName));
+                new ReceiveEndpointConfiguration(queueName));
         }
 
         private class ListFakeCommandConsumerAndFakeCommand2Consumer : IConsumerTypeProvider
@@ -111,7 +111,7 @@ namespace CQRSTutorial.Messaging.Tests
         {
             return new ConsumerRegistrar(_consumerFactory,
                 new ListsFakeCommandFaultConsumerAndFakeCommand2FaultConsumer(),
-                new TestReceiveEndpointConfiguration(errorQueueName));
+                new ReceiveEndpointConfiguration(errorQueueName));
         }
 
         private class ListsFakeCommandFaultConsumerAndFakeCommand2FaultConsumer : IConsumerTypeProvider
@@ -164,16 +164,6 @@ namespace CQRSTutorial.Messaging.Tests
 
         private class FakeCommand2
         {
-        }
-
-        private class TestReceiveEndpointConfiguration : IReceiveEndpointConfiguration
-        {
-            public TestReceiveEndpointConfiguration(string queueName)
-            {
-                QueueName = queueName;
-            }
-
-            public string QueueName { get; }
         }
 
         private InMemoryMessageBusFactory CreateInMemoryMessageBusFactory()
