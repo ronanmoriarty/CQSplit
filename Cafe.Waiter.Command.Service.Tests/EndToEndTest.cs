@@ -42,19 +42,8 @@ namespace Cafe.Waiter.Command.Service.Tests
             var registerCommandConsumers = new InMemoryReceiveEndpointsConfigurator(Container.Instance.Resolve<IConsumerRegistrar>());
             _busControl = new InMemoryMessageBusFactory(
                 registerCommandConsumers,
-                RegisterEventConsumers()
+                new InMemoryReceiveEndpointsConfigurator(ConsumerRegistrarFactory.Create(EventConsumingApplicationQueueName, typeof(TabOpenedTestConsumer)))
             ).Create();
-        }
-
-        private InMemoryReceiveEndpointsConfigurator RegisterEventConsumers()
-        {
-            return new InMemoryReceiveEndpointsConfigurator(
-                new ConsumerRegistrar(
-                    new DefaultConstructorConsumerFactory(),
-                    new CQRSTutorial.Messaging.Tests.ConsumerTypeProvider(typeof(TabOpenedTestConsumer)),
-                    new CQRSTutorial.Messaging.Tests.ReceiveEndpointConfiguration(EventConsumingApplicationQueueName)
-                )
-            );
         }
 
         private class TabOpenedTestConsumer : IConsumer<TabOpened>

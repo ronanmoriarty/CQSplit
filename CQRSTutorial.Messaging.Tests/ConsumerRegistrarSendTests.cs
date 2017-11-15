@@ -14,7 +14,6 @@ namespace CQRSTutorial.Messaging.Tests
         private const string LoopbackAddress = "loopback://localhost/";
         public static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
         public static readonly ManualResetEvent ManualResetEvent2 = new ManualResetEvent(false);
-        private IConsumerFactory _consumerFactory;
         private IBusControl _busControl;
         private ConsumerRegistrar _consumerRegistrar;
         private ConsumerRegistrar _faultConsumerRegistrar;
@@ -22,23 +21,11 @@ namespace CQRSTutorial.Messaging.Tests
         [SetUp]
         public void SetUp()
         {
-            _consumerFactory = new DefaultConstructorConsumerFactory();
-            _consumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(QueueName);
-            _faultConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandFaultsOnQueue(ErrorQueueName);
+            _consumerRegistrar = ConsumerRegistrarFactory.Create(QueueName, typeof(FakeCommandConsumer), typeof(FakeCommand2Consumer));
+            _faultConsumerRegistrar = ConsumerRegistrarFactory.Create(ErrorQueueName, typeof(FakeCommandFaultConsumer), typeof(FakeCommand2FaultConsumer));
 
             CreateBus();
             StartBus();
-        }
-
-        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(string queueName)
-        {
-            return new ConsumerRegistrar(
-                _consumerFactory,
-                new ConsumerTypeProvider(
-                    typeof(FakeCommandConsumer),
-                    typeof(FakeCommand2Consumer)
-                ),
-                new ReceiveEndpointConfiguration(queueName));
         }
 
         private class FakeCommandConsumer : IConsumer<FakeCommand>
@@ -69,16 +56,6 @@ namespace CQRSTutorial.Messaging.Tests
             {
                 ManualResetEvent2.Set();
             }
-        }
-
-        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeCommandFaultsOnQueue(string errorQueueName)
-        {
-            return new ConsumerRegistrar(_consumerFactory,
-                new ConsumerTypeProvider(
-                    typeof(FakeCommandFaultConsumer),
-                    typeof(FakeCommand2FaultConsumer)
-                ),
-                new ReceiveEndpointConfiguration(errorQueueName));
         }
 
         private class FakeCommandFaultConsumer : IConsumer<Fault<FakeCommand>>

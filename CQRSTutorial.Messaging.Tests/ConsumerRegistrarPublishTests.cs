@@ -12,7 +12,6 @@ namespace CQRSTutorial.Messaging.Tests
         private const string QueueName = "myQueue";
         private const string ErrorQueueName = "myQueue_error";
         public static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
-        private IConsumerFactory _consumerFactory;
         private IBusControl _busControl;
         private ConsumerRegistrar _consumerRegistrar;
         private ConsumerRegistrar _faultConsumerRegistrar;
@@ -20,19 +19,11 @@ namespace CQRSTutorial.Messaging.Tests
         [SetUp]
         public void SetUp()
         {
-            _consumerFactory = new DefaultConstructorConsumerFactory();
-            _consumerRegistrar = CreateConsumerRegistrarToConsumeFakeEventsOnQueue(QueueName);
-            _faultConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeEventFaultsOnQueue(ErrorQueueName);
+            _consumerRegistrar = ConsumerRegistrarFactory.Create(QueueName, typeof(FakeEventConsumer));
+            _faultConsumerRegistrar = ConsumerRegistrarFactory.Create(ErrorQueueName, typeof(FakeEventFaultConsumer));
 
             CreateBus();
             StartBus();
-        }
-
-        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeEventsOnQueue(string queueName)
-        {
-            return new ConsumerRegistrar(_consumerFactory,
-                new ConsumerTypeProvider(typeof(FakeEventConsumer)),
-                new ReceiveEndpointConfiguration(queueName));
         }
 
         private class FakeEventConsumer : IConsumer<FakeEvent>
@@ -48,13 +39,6 @@ namespace CQRSTutorial.Messaging.Tests
             {
                 ManualResetEvent.Set();
             }
-        }
-
-        private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeEventFaultsOnQueue(string errorQueueName)
-        {
-            return new ConsumerRegistrar(_consumerFactory,
-                new ConsumerTypeProvider(typeof(FakeEventFaultConsumer)),
-                new ReceiveEndpointConfiguration(errorQueueName));
         }
 
         private class FakeEventFaultConsumer : IConsumer<Fault<FakeEvent>>
