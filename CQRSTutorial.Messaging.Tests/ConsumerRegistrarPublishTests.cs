@@ -21,22 +21,11 @@ namespace CQRSTutorial.Messaging.Tests
         public void SetUp()
         {
             _consumerFactory = new DefaultConstructorConsumerFactory();
-        }
-
-        [Test]
-        public async Task Registers_all_consumers_listed_in_consumerTypeProvider_to_receive_published_messages()
-        {
             _consumerRegistrar = CreateConsumerRegistrarToConsumeFakeEventsOnQueue(QueueName);
             _faultConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeEventFaultsOnQueue(ErrorQueueName);
 
             CreateBus();
             StartBus();
-
-            await PublishMessage();
-            WaitUntilBusHasProcessedMessageOrTimedOut();
-
-            Assert.That(FakeEventFaultConsumer.NumberOfFaults, Is.EqualTo(0));
-            Assert.That(FakeEventConsumer.EventReceived, Is.True);
         }
 
         private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeEventsOnQueue(string queueName)
@@ -88,18 +77,6 @@ namespace CQRSTutorial.Messaging.Tests
         {
         }
 
-        private InMemoryMessageBusFactory CreateInMemoryMessageBusFactory()
-        {
-            return new InMemoryMessageBusFactory(
-                CreateInMemoryReceiveEndpointsConfigurator(_consumerRegistrar),
-                CreateInMemoryReceiveEndpointsConfigurator(_faultConsumerRegistrar));
-        }
-
-        private InMemoryReceiveEndpointsConfigurator CreateInMemoryReceiveEndpointsConfigurator(ConsumerRegistrar consumerRegistrar)
-        {
-            return new InMemoryReceiveEndpointsConfigurator(consumerRegistrar);
-        }
-
         private void StartBus()
         {
             _busControl.Start();
@@ -109,6 +86,23 @@ namespace CQRSTutorial.Messaging.Tests
         {
             var inMemoryMessageBusFactory = CreateInMemoryMessageBusFactory();
             _busControl = inMemoryMessageBusFactory.Create();
+        }
+
+        private InMemoryMessageBusFactory CreateInMemoryMessageBusFactory()
+        {
+            return new InMemoryMessageBusFactory(
+                new InMemoryReceiveEndpointsConfigurator(_consumerRegistrar),
+                new InMemoryReceiveEndpointsConfigurator(_faultConsumerRegistrar));
+        }
+
+        [Test]
+        public async Task Registers_all_consumers_listed_in_consumerTypeProvider_to_receive_published_messages()
+        {
+            await PublishMessage();
+            WaitUntilBusHasProcessedMessageOrTimedOut();
+
+            Assert.That(FakeEventFaultConsumer.NumberOfFaults, Is.EqualTo(0));
+            Assert.That(FakeEventConsumer.EventReceived, Is.True);
         }
 
         private async Task PublishMessage()

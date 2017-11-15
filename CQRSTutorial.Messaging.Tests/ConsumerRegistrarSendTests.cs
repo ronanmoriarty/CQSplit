@@ -23,43 +23,17 @@ namespace CQRSTutorial.Messaging.Tests
         public void SetUp()
         {
             _consumerFactory = new DefaultConstructorConsumerFactory();
-        }
-
-        [Test]
-        public async Task Registers_all_consumers_listed_in_consumerTypeProvider_with_the_queue_from_the_receiveEndpointConfiguration()
-        {
             _consumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(QueueName);
             _faultConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandFaultsOnQueue(ErrorQueueName);
 
             CreateBus();
             StartBus();
-
-            await SendFakeCommand();
-            WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent);
-
-            Assert.That(FakeCommandFaultConsumer.NumberOfFaults, Is.EqualTo(0));
-            Assert.That(FakeCommandConsumer.CommandReceived, Is.True);
-        }
-
-        [Test]
-        public async Task Can_register_two_consumers_against_the_same_receive_endpoint()
-        {
-            _consumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(QueueName);
-            _faultConsumerRegistrar = CreateConsumerRegistrarToConsumeFakeCommandFaultsOnQueue(ErrorQueueName);
-
-            CreateBus();
-            StartBus();
-
-            await SendFakeCommand2();
-            WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent2);
-
-            Assert.That(FakeCommand2FaultConsumer.NumberOfFaults, Is.EqualTo(0));
-            Assert.That(FakeCommand2Consumer.CommandReceived, Is.True);
         }
 
         private ConsumerRegistrar CreateConsumerRegistrarToConsumeFakeCommandsOnQueue(string queueName)
         {
-            return new ConsumerRegistrar(_consumerFactory,
+            return new ConsumerRegistrar(
+                _consumerFactory,
                 new ConsumerTypeProvider(
                     typeof(FakeCommandConsumer),
                     typeof(FakeCommand2Consumer)
@@ -147,16 +121,17 @@ namespace CQRSTutorial.Messaging.Tests
         {
         }
 
+        private void CreateBus()
+        {
+            var inMemoryMessageBusFactory = CreateInMemoryMessageBusFactory();
+            _busControl = inMemoryMessageBusFactory.Create();
+        }
+
         private InMemoryMessageBusFactory CreateInMemoryMessageBusFactory()
         {
             return new InMemoryMessageBusFactory(
-                CreateInMemoryReceiveEndpointsConfigurator(_consumerRegistrar),
-                CreateInMemoryReceiveEndpointsConfigurator(_faultConsumerRegistrar));
-        }
-
-        private InMemoryReceiveEndpointsConfigurator CreateInMemoryReceiveEndpointsConfigurator(ConsumerRegistrar consumerRegistrar)
-        {
-            return new InMemoryReceiveEndpointsConfigurator(consumerRegistrar);
+                new InMemoryReceiveEndpointsConfigurator(_consumerRegistrar),
+                new InMemoryReceiveEndpointsConfigurator(_faultConsumerRegistrar));
         }
 
         private void StartBus()
@@ -164,16 +139,30 @@ namespace CQRSTutorial.Messaging.Tests
             _busControl.Start();
         }
 
-        private void CreateBus()
+        [Test]
+        public async Task Registers_all_consumers_listed_in_consumerTypeProvider_with_the_queue_from_the_receiveEndpointConfiguration()
         {
-            var inMemoryMessageBusFactory = CreateInMemoryMessageBusFactory();
-            _busControl = inMemoryMessageBusFactory.Create();
+            await SendFakeCommand();
+            WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent);
+
+            Assert.That(FakeCommandFaultConsumer.NumberOfFaults, Is.EqualTo(0));
+            Assert.That(FakeCommandConsumer.CommandReceived, Is.True);
         }
 
         private async Task SendFakeCommand()
         {
             var sendEndpoint = await GetSendEndpoint();
             await sendEndpoint.Send(new FakeCommand());
+        }
+
+        [Test]
+        public async Task Can_register_two_consumers_against_the_same_receive_endpoint()
+        {
+            await SendFakeCommand2();
+            WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent2);
+
+            Assert.That(FakeCommand2FaultConsumer.NumberOfFaults, Is.EqualTo(0));
+            Assert.That(FakeCommand2Consumer.CommandReceived, Is.True);
         }
 
         private async Task SendFakeCommand2()
