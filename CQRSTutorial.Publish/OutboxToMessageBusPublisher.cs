@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using log4net;
@@ -27,35 +29,33 @@ namespace CQRSTutorial.Publish
 
         public void PublishQueuedMessages()
         {
-            var eventsToPublish = _eventToPublishRepository.GetEventsAwaitingPublishing();
-            _logger.Debug($"Retrieved {eventsToPublish.Count} events to publish to message queue.");
-            foreach (var eventToPublish in eventsToPublish)
-            {
-                var @event = _eventToPublishSerializer.Deserialize(eventToPublish);
-                _logger.Debug($"Publishing event [Id:{@event.Id};Type:{eventToPublish.EventType}]...");
-                _busControl.Publish(@event);
-                RemoveEventFromEventToPublishQueue(eventToPublish);
-            }
+            var events = _eventToPublishRepository
+                .GetEventsAwaitingPublishing()
+                .Select(eventToPublish => _eventToPublishSerializer.Deserialize(eventToPublish))
+                .ToList();
+            _logger.Debug($"Retrieved {events.Count} events to publish to message queue.");
+            PublishEvents(events);
         }
 
         public void PublishEvents(IEnumerable<IEvent> events)
         {
             foreach (var @event in events)
             {
+                _logger.Debug($"Publishing event [Id:{@event.Id}; Type:{@event.GetType()}]...");
                 _busControl.Publish((object) @event);
-                var eventToPublish = _eventToPublishSerializer.Serialize(@event);
-                RemoveEventFromEventToPublishQueue(eventToPublish);
+                RemoveEventFromEventToPublishQueue(@event.Id);
             }
         }
 
-        private void RemoveEventFromEventToPublishQueue(EventToPublish eventToPublish)
+        private void RemoveEventFromEventToPublishQueue(Guid eventId)
         {
             using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventToPublishRepository))
             {
                 unitOfWork.ExecuteInTransaction(() =>
                 {
-                    var retrievedEventToPublish = _eventToPublishRepository.Read(eventToPublish.Id);
+                    var retrievedEventToPublish = _eventToPublishRepository.Read(eventId);
                     _eventToPublishRepository.Delete(retrievedEventToPublish);
+                    _logger.Debug($"Removed event [Id: {eventId}] from dbo.EventsToPublish because it has been published to message bus.");
                 });
             }
         }
