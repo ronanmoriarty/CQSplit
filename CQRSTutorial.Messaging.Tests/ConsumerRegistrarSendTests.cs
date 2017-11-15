@@ -15,7 +15,7 @@ namespace CQRSTutorial.Messaging.Tests
         private const string LoopbackAddress = "loopback://localhost/";
         public static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
         public static readonly ManualResetEvent ManualResetEvent2 = new ManualResetEvent(false);
-        private ConsumerFactory _consumerFactory;
+        private IConsumerFactory _consumerFactory;
         private IBusControl _busControl;
         private ConsumerRegistrar _consumerRegistrar;
         private ConsumerRegistrar _faultConsumerRegistrar;
@@ -23,16 +23,7 @@ namespace CQRSTutorial.Messaging.Tests
         [SetUp]
         public void SetUp()
         {
-            _consumerFactory = new ConsumerFactory();
-        }
-
-        private class ConsumerFactory : IConsumerFactory
-        {
-            public object Create(Type typeToCreate)
-            {
-                // FakeCommandConsumer and FakeCommandFaultConsumer classes are just default blank constructors - no need for IoC.
-                return Activator.CreateInstance(typeToCreate);
-            }
+            _consumerFactory = new DefaultConstructorConsumerFactory();
         }
 
         [Test]
