@@ -14,55 +14,19 @@ namespace CQRSTutorial.Messaging.Tests
         public static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
         private IBusControl _busControl;
         private ConsumerRegistrar _consumerRegistrar;
-        private ConsumerRegistrar _faultConsumerRegistrar;
+        private ConsumerRegistrar _faultEventConsumerRegistrar;
+        private Consumer<FakeEvent> _fakeEventConsumer;
+        private Consumer<Fault<FakeEvent>> _fakeEventFaultConsumer;
 
         [SetUp]
         public void SetUp()
         {
-            _consumerRegistrar = ConsumerRegistrarFactory.Create(QueueName, typeof(FakeEventConsumer));
-            _faultConsumerRegistrar = ConsumerRegistrarFactory.Create(ErrorQueueName, typeof(FakeEventFaultConsumer));
+            _fakeEventConsumer = new Consumer<FakeEvent>(ManualResetEvent);
+            _consumerRegistrar = ConsumerRegistrarFactory.Create(QueueName, _fakeEventConsumer);
+            _fakeEventFaultConsumer = new Consumer<Fault<FakeEvent>>(ManualResetEvent);
+            _faultEventConsumerRegistrar = ConsumerRegistrarFactory.Create(ErrorQueueName, _fakeEventFaultConsumer);
 
             CreateBus();
-            StartBus();
-        }
-
-        private class FakeEventConsumer : IConsumer<FakeEvent>
-        {
-            public static bool EventReceived;
-            public async Task Consume(ConsumeContext<FakeEvent> context)
-            {
-                EventReceived = true;
-                AllowTestThreadToContinueToAssertions();
-            }
-
-            private static void AllowTestThreadToContinueToAssertions()
-            {
-                ManualResetEvent.Set();
-            }
-        }
-
-        private class FakeEventFaultConsumer : IConsumer<Fault<FakeEvent>>
-        {
-            public static int NumberOfFaults;
-
-            public async Task Consume(ConsumeContext<Fault<FakeEvent>> context)
-            {
-                NumberOfFaults++;
-                AllowTestThreadToContinueToAssertions();
-            }
-
-            private void AllowTestThreadToContinueToAssertions()
-            {
-                ManualResetEvent.Set();
-            }
-        }
-
-        private class FakeEvent
-        {
-        }
-
-        private void StartBus()
-        {
             _busControl.Start();
         }
 
@@ -76,7 +40,7 @@ namespace CQRSTutorial.Messaging.Tests
         {
             return new InMemoryMessageBusFactory(
                 new InMemoryReceiveEndpointsConfigurator(_consumerRegistrar),
-                new InMemoryReceiveEndpointsConfigurator(_faultConsumerRegistrar));
+                new InMemoryReceiveEndpointsConfigurator(_faultEventConsumerRegistrar));
         }
 
         [Test]
@@ -85,8 +49,8 @@ namespace CQRSTutorial.Messaging.Tests
             await PublishMessage();
             WaitUntilBusHasProcessedMessageOrTimedOut();
 
-            Assert.That(FakeEventFaultConsumer.NumberOfFaults, Is.EqualTo(0));
-            Assert.That(FakeEventConsumer.EventReceived, Is.True);
+            Assert.That(_fakeEventConsumer.ReceivedMessage, Is.True);
+            Assert.That(_fakeEventFaultConsumer.ReceivedMessage, Is.False);
         }
 
         private async Task PublishMessage()
@@ -97,6 +61,10 @@ namespace CQRSTutorial.Messaging.Tests
         private void WaitUntilBusHasProcessedMessageOrTimedOut()
         {
             ManualResetEvent.WaitOne(TimeSpan.FromSeconds(5));
+        }
+
+        private class FakeEvent
+        {
         }
 
         [TearDown]

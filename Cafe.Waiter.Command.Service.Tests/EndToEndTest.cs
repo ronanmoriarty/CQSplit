@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Cafe.Waiter.Commands;
@@ -24,6 +25,7 @@ namespace Cafe.Waiter.Command.Service.Tests
         private const string LoopbackAddress = "loopback://localhost/";
         private static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
         private string _queueName;
+        private Consumer<TabOpened> _tabOpenedTestConsumer;
 
         [SetUp]
         public void SetUp()
@@ -34,32 +36,17 @@ namespace Cafe.Waiter.Command.Service.Tests
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId.ToString()}'");
             CreateBus();
             OverrideIoCRegistrationToUseInMemoryBus();
-            StartBus();
+            _busControl.Start();
         }
 
         private void CreateBus()
         {
             var registerCommandConsumers = new InMemoryReceiveEndpointsConfigurator(Container.Instance.Resolve<IConsumerRegistrar>());
+            _tabOpenedTestConsumer = new Consumer<TabOpened>(ManualResetEvent);
             _busControl = new InMemoryMessageBusFactory(
                 registerCommandConsumers,
-                new InMemoryReceiveEndpointsConfigurator(ConsumerRegistrarFactory.Create(EventConsumingApplicationQueueName, typeof(TabOpenedTestConsumer)))
+                new InMemoryReceiveEndpointsConfigurator(ConsumerRegistrarFactory.Create(EventConsumingApplicationQueueName, _tabOpenedTestConsumer))
             ).Create();
-        }
-
-        private class TabOpenedTestConsumer : IConsumer<TabOpened>
-        {
-            public async Task Consume(ConsumeContext<TabOpened> context)
-            {
-                ReceivedTabCreatedEvent = context.Message;
-                AllowTestThreadToContinueToAssertions();
-            }
-
-            private void AllowTestThreadToContinueToAssertions()
-            {
-                ManualResetEvent.Set();
-            }
-
-            public static TabOpened ReceivedTabCreatedEvent { get; set; }
         }
 
         private void OverrideIoCRegistrationToUseInMemoryBus()
@@ -70,11 +57,6 @@ namespace Cafe.Waiter.Command.Service.Tests
                 .IsDefault());
         }
 
-        private void StartBus()
-        {
-            _busControl.Start();
-        }
-
         [Test]
         public async Task CreateTabCommand_causes_TabCreated_event_to_be_published()
         {
@@ -83,7 +65,7 @@ namespace Cafe.Waiter.Command.Service.Tests
             await Send(openTabCommand);
             WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent);
 
-            var receivedTabCreatedEvent = TabOpenedTestConsumer.ReceivedTabCreatedEvent;
+            var receivedTabCreatedEvent = _tabOpenedTestConsumer.ReceivedMessages.Single();
             Assert.That(receivedTabCreatedEvent, Is.Not.Null);
             Assert.That(receivedTabCreatedEvent.CommandId, Is.EqualTo(_commandId));
             Assert.That(receivedTabCreatedEvent.AggregateId, Is.EqualTo(_aggregateId));
