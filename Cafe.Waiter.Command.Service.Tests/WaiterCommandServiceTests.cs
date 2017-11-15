@@ -1,4 +1,5 @@
 ﻿using CQRSTutorial.Messaging;
+using CQRSTutorial.Publish;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;
@@ -11,6 +12,7 @@ namespace Cafe.Waiter.Command.Service.Tests
         private WaiterCommandService _waiterCommandService;
         private IMessageBusFactory _messageBusFactory;
         private IBusControl _busControl;
+        private IOutboxToMessageBusPublisher _outboxToMessageBusPublisher;
 
         [SetUp]
         public void SetUp()
@@ -18,7 +20,8 @@ namespace Cafe.Waiter.Command.Service.Tests
             _busControl = Substitute.For<IBusControl>();
             _messageBusFactory = Substitute.For<IMessageBusFactory>();
             _messageBusFactory.Create().Returns(_busControl);
-            _waiterCommandService = new WaiterCommandService(_messageBusFactory);
+            _outboxToMessageBusPublisher = Substitute.For<IOutboxToMessageBusPublisher>();
+            _waiterCommandService = new WaiterCommandService(_messageBusFactory, _outboxToMessageBusPublisher);
         }
 
         [Test]
@@ -27,6 +30,14 @@ namespace Cafe.Waiter.Command.Service.Tests
             _waiterCommandService.Start();
 
             _busControl.Received(1).Start();
+        }
+
+        [Test]
+        public void Starting_waiter_service_publishes_any_existing_messages_in_outbox()
+        {
+            _waiterCommandService.Start();
+
+            _outboxToMessageBusPublisher.Received(1).PublishQueuedMessages();
         }
 
         [Test]
