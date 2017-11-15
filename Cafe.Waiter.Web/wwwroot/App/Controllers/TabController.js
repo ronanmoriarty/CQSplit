@@ -30,6 +30,7 @@
             console.log("CreateTab command submitted. Table Number:" + $scope.formData.tableNumber + "; Waiter:" + $scope.waiter);
         }, function (errorResponse) {
             console.log(errorResponse);
+            toastr.error('An error occurred creating a new tab.');
         });
     };
 
