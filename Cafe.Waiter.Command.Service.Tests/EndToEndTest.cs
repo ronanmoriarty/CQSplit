@@ -28,6 +28,8 @@ namespace Cafe.Waiter.Command.Service.Tests
         [SetUp]
         public void SetUp()
         {
+            Container.Reset();
+            Bootstrapper.Start();
             _queueName = ConfigurationManager.AppSettings["QueueName"];
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId.ToString()}'");
             CreateBus();
@@ -132,7 +134,7 @@ namespace Cafe.Waiter.Command.Service.Tests
 
         private async Task<ISendEndpoint> GetSendEndpoint()
         {
-            return await _busControl.GetSendEndpoint(new Uri($"{LoopbackAddress}{_queueName}")); // TODO test fails when running as part of overall test suite - seems to sending via RabbitMQ instead of using in-memory transport.
+            return await _busControl.GetSendEndpoint(new Uri($"{LoopbackAddress}{_queueName}"));
         }
 
         private void WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent manualResetEvent)
