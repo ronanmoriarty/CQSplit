@@ -17,7 +17,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Projectors
         {
             _openTabInserter.Insert(new OpenTab
             {
-                Id = message.Id,
+                Id = message.AggregateId,
                 TableNumber = message.TableNumber,
                 Waiter = message.Waiter,
                 Status = TabStatus.Seated
