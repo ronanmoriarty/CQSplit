@@ -17,7 +17,16 @@ namespace Cafe.Waiter.Web.Repositories
 
         public TabDetails GetTabDetails(Guid id)
         {
-            return Map(new WaiterDbContext(_connectionStringProvider.GetConnectionString()).TabDetails.Single(x => x.Id == id));
+            using (var waiterDbContext = new WaiterDbContext(_connectionStringProvider.GetConnectionString()))
+            {
+                var serializedTabDetails = waiterDbContext.TabDetails.SingleOrDefault(x => x.Id == id);
+                if (serializedTabDetails == null)
+                {
+                    return null;
+                }
+
+                return Map(serializedTabDetails);
+            }
         }
 
         private TabDetails Map(Queries.DAL.Serialized.TabDetails tabDetails)

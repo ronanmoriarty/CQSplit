@@ -39,6 +39,16 @@ namespace Cafe.Waiter.Web.Tests.Repositories
             CollectionAssert.AreEquivalent(retrievedTabDetails.Items, retrievedTabDetails.Items);
         }
 
+        [Test]
+        public void Returns_null_when_tabdetails_not_found()
+        {
+            var nonExistentTabId = new Guid("FCF36E7C-7BA0-48DA-9CDF-3D9A2D94C8FF");
+
+            var retrievedTabDetails = _tabDetailsRepository.GetTabDetails(nonExistentTabId);
+
+            Assert.That(retrievedTabDetails, Is.Null);
+        }
+
         private TabDetails GetTabDetails()
         {
             return new TabDetails
