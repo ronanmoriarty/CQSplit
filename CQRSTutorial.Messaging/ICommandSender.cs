@@ -5,6 +5,6 @@ namespace CQRSTutorial.Messaging
 {
     public interface ICommandSender
     {
-        Task Send(ICommand command);
+        Task Send<TCommand>(TCommand command) where TCommand : class, ICommand;
     }
 }

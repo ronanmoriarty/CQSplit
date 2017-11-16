@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CQRSTutorial.Core;
 
 namespace CQRSTutorial.DAL.Tests
@@ -25,14 +26,14 @@ namespace CQRSTutorial.DAL.Tests
         public Action<IEvent> OnBeforeAdding { get; set; } = @event => { };
         public Action<IEvent> OnAfterAdding { get; set; } = @event => { };
 
-        public IEvent Read(Guid id)
+        public EventToPublish Read(Guid id)
         {
             return _eventToPublishRepository.Read(id);
         }
 
-        public EventsToPublishResult GetEventsAwaitingPublishing(int batchSize)
+        public IList<EventToPublish> GetEventsAwaitingPublishing()
         {
-            return _eventToPublishRepository.GetEventsAwaitingPublishing(batchSize);
+            return _eventToPublishRepository.GetEventsAwaitingPublishing();
         }
 
         public void Delete(EventToPublish eventToPublish)

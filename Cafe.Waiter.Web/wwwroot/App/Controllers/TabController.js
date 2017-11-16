@@ -28,8 +28,10 @@
             }
         }).then(function (successResponse) {
             console.log("CreateTab command submitted. Table Number:" + $scope.formData.tableNumber + "; Waiter:" + $scope.waiter);
+            toastr.success("Tab created.");
         }, function (errorResponse) {
             console.log(errorResponse);
+            toastr.error('An error occurred creating a new tab.');
         });
     };
 

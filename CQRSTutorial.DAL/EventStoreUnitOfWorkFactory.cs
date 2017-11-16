@@ -2,18 +2,18 @@
 
 namespace CQRSTutorial.DAL
 {
-    public class EntityFrameworkUnitOfWorkFactory : IUnitOfWorkFactory
+    public class EventStoreUnitOfWorkFactory : IUnitOfWorkFactory
     {
         private readonly IConnectionStringProvider _connectionStringProvider;
 
-        public EntityFrameworkUnitOfWorkFactory(IConnectionStringProvider connectionStringProvider)
+        public EventStoreUnitOfWorkFactory(IConnectionStringProvider connectionStringProvider)
         {
             _connectionStringProvider = connectionStringProvider;
         }
 
         public IUnitOfWork Create()
         {
-            return new EntityFrameworkUnitOfWork(_connectionStringProvider);
+            return new EventStoreUnitOfWork(_connectionStringProvider);
         }
     }
 }

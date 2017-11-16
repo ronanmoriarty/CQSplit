@@ -44,13 +44,16 @@ namespace Cafe.Waiter.Web.Controllers
         }
 
         [HttpPost]
+        [Route("PlaceOrder")]
         public void PlaceOrder(TabDetails tabDetails)
         {
-            _commandSender.Send(_placeOrderCommandFactory.Create(tabDetails));
+            var placeOrderCommand = _placeOrderCommandFactory.Create(tabDetails);
+            _commandSender.Send(placeOrderCommand);
         }
 
         [HttpPost]
-        public async Task Create(CreateTabModel model)
+        [Route("Create")]
+        public async Task Create([FromBody]CreateTabModel model)
         {
             var openTabCommand = CreateOpenTabCommand(model);
             await _commandSender.Send(openTabCommand);

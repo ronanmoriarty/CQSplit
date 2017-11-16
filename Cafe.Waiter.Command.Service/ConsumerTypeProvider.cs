@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cafe.Waiter.Command.Service.Consumers;
 using CQRSTutorial.Messaging;
 
@@ -9,16 +10,12 @@ namespace Cafe.Waiter.Command.Service
     {
         public List<Type> GetConsumerTypes()
         {
-            var consumerTypes = new List<Type>();
-            consumerTypes.AddRange(new[]
-            {
-                typeof(OpenTabConsumer),
-                typeof(PlaceOrderConsumer),
-                typeof(MarkDrinksServedConsumer),
-                typeof(MarkFoodServedConsumer),
-                typeof(CloseTabConsumer)
-            });
-            return consumerTypes;
+            return typeof(OpenTabConsumer)
+                .Assembly
+                .GetTypes()
+                .Where(type => type.BaseType.IsGenericType
+                    && type.BaseType.GetGenericTypeDefinition() == typeof(Consumer<>))
+                .ToList();
         }
     }
 }

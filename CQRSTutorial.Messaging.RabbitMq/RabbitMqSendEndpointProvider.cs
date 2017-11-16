@@ -15,10 +15,10 @@ namespace CQRSTutorial.Messaging.RabbitMq
             _rabbitMqHostConfiguration = rabbitMqHostConfiguration;
         }
 
-        public async Task<ISendEndpoint> GetSendEndpoint()
+        public async Task<ISendEndpoint> GetSendEndpoint(string queueName)
         {
-            var uri = _rabbitMqHostConfiguration.Uri.AbsoluteUri;
-            return await _busControl.GetSendEndpoint(new Uri(uri));
+            var uri = new Uri($"{_rabbitMqHostConfiguration.Uri}/{queueName}");
+            return await _busControl.GetSendEndpoint(uri);
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
-using CQRSTutorial.Core;
+using System.Collections.Generic;
 
 namespace CQRSTutorial.DAL
 {
     public interface IEventToPublishRepository : IEventStore
     {
-        IEvent Read(Guid id);
-        EventsToPublishResult GetEventsAwaitingPublishing(int batchSize);
+        EventToPublish Read(Guid id);
+        IList<EventToPublish> GetEventsAwaitingPublishing();
         void Delete(EventToPublish eventToPublish);
     }
 }

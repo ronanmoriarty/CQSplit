@@ -27,12 +27,12 @@ namespace CQRSTutorial.DAL
                 Created = DateTime.Now
             };
 
-            EventStoreContext.Events.Add(eventToStore);
+            EventStoreDbContext.Events.Add(eventToStore);
 
             UpdateEventIdToReflectIdAssignedByORMToEventToStore(@event, eventToStore);
         }
 
-        public EventStoreContext EventStoreContext => ((EntityFrameworkUnitOfWork) UnitOfWork).EventStoreContext;
+        public EventStoreDbContext EventStoreDbContext => ((EventStoreUnitOfWork) UnitOfWork).EventStoreDbContext;
 
         public IEvent Read(Guid id)
         {
@@ -42,12 +42,12 @@ namespace CQRSTutorial.DAL
 
         private Event Get(Guid id)
         {
-            return EventStoreContext.Events.SingleOrDefault(x => x.Id == id);
+            return EventStoreDbContext.Events.SingleOrDefault(x => x.Id == id);
         }
 
         public IEnumerable<IEvent> GetAllEventsFor(Guid aggregateId)
         {
-            return EventStoreContext.Events.Select(@event => _eventMapper.MapToEvent(@event)).ToList();
+            return EventStoreDbContext.Events.Select(@event => _eventMapper.MapToEvent(@event)).ToList();
         }
 
         private void UpdateEventIdToReflectIdAssignedByORMToEventToStore(IEvent @event, Event eventToStore)

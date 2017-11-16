@@ -6,25 +6,25 @@ using Newtonsoft.Json;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventToPublishMapper
+    public class EventToPublishSerializer : IEventToPublishSerializer
     {
         private readonly Assembly _assemblyToInspectForEvents;
 
-        public EventToPublishMapper(Assembly assemblyToInspectForEvents)
+        public EventToPublishSerializer(Assembly assemblyToInspectForEvents)
         {
             _assemblyToInspectForEvents = assemblyToInspectForEvents;
         }
 
-        public IEvent MapToEvent(EventToPublish eventToPublish)
+        public IEvent Deserialize(EventToPublish eventToPublish)
         {
-            string data = eventToPublish.Data;
-            string eventType = eventToPublish.EventType;
-            var @event = (IEvent)JsonConvert.DeserializeObject(data, GetEventTypeFrom(eventType));
+            var data = eventToPublish.Data;
+            var eventTypeString = eventToPublish.EventType;
+            var @event = (IEvent)JsonConvert.DeserializeObject(data, GetEventTypeFromString(eventTypeString));
             AssignEventIdFromEventToPublishId(@event, eventToPublish);
             return @event;
         }
 
-        public EventToPublish MapToEventToPublish(IEvent @event)
+        public EventToPublish Serialize(IEvent @event)
         {
             return new EventToPublish
             {
@@ -35,7 +35,7 @@ namespace CQRSTutorial.DAL
             };
         }
 
-        private Type GetEventTypeFrom(string eventType)
+        private Type GetEventTypeFromString(string eventType)
         {
             return _assemblyToInspectForEvents.GetTypes()
                 .Single(t => typeof(IEvent).IsAssignableFrom(t) && t.Name == eventType);

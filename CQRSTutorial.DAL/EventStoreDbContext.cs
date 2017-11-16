@@ -3,9 +3,9 @@ using System.Data.SqlClient;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventStoreContext : DbContext
+    public class EventStoreDbContext : DbContext
     {
-        public EventStoreContext(string connectionString)
+        public EventStoreDbContext(string connectionString)
             : base(new SqlConnection(connectionString), true)
         {
         }

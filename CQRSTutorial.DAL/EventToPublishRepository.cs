@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CQRSTutorial.Core;
 
@@ -6,47 +7,37 @@ namespace CQRSTutorial.DAL
 {
     public class EventToPublishRepository : IEventToPublishRepository
     {
-        private readonly EventToPublishMapper _eventToPublishMapper;
+        private readonly EventToPublishSerializer _eventToPublishSerializer;
 
-        public EventToPublishRepository(EventToPublishMapper eventToPublishMapper)
+        public EventToPublishRepository(EventToPublishSerializer eventToPublishSerializer)
         {
-            _eventToPublishMapper = eventToPublishMapper;
+            _eventToPublishSerializer = eventToPublishSerializer;
         }
 
         public void Add(IEvent @event)
         {
-            var eventToPublish = _eventToPublishMapper.MapToEventToPublish(@event);
-            EventStoreContext.EventsToPublish.Add(eventToPublish);
+            var eventToPublish = _eventToPublishSerializer.Serialize(@event);
+            EventStoreDbContext.EventsToPublish.Add(eventToPublish);
         }
 
-        private EventStoreContext EventStoreContext => ((EntityFrameworkUnitOfWork)UnitOfWork).EventStoreContext;
+        private EventStoreDbContext EventStoreDbContext => ((EventStoreUnitOfWork)UnitOfWork).EventStoreDbContext;
 
-        public IEvent Read(Guid id)
+        public EventToPublish Read(Guid id)
         {
-            var eventToPublish = EventStoreContext.EventsToPublish.SingleOrDefault(x => x.Id == id);
-            if (eventToPublish == null)
-            {
-                return null;
-            }
-
-            return _eventToPublishMapper.MapToEvent(eventToPublish);
+            return EventStoreDbContext.EventsToPublish.SingleOrDefault(x => x.Id == id);
         }
 
-        public EventsToPublishResult GetEventsAwaitingPublishing(int batchSize)
+        public IList<EventToPublish> GetEventsAwaitingPublishing()
         {
-            var eventsToPublish = EventStoreContext.EventsToPublish.OrderBy(x => x.Created).Take(batchSize);
-            var totalNumberOfEventsToPublish = eventsToPublish.Count();
-
-            return new EventsToPublishResult
-            {
-                EventsToPublish = eventsToPublish.ToList(),
-                TotalNumberOfEventsToPublish = totalNumberOfEventsToPublish
-            };
+            return EventStoreDbContext
+                .EventsToPublish
+                .OrderBy(x => x.Created)
+                .ToList();
         }
 
         public void Delete(EventToPublish eventToPublish)
         {
-            EventStoreContext.EventsToPublish.Remove(eventToPublish);
+            EventStoreDbContext.EventsToPublish.Remove(eventToPublish);
         }
 
         public IUnitOfWork UnitOfWork { get; set; }

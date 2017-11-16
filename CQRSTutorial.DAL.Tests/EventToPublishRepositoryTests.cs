@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Threading;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
@@ -17,13 +15,15 @@ namespace CQRSTutorial.DAL.Tests
         private readonly Guid _id1 = new Guid("75BD91C8-AE33-4EA3-B7BF-8E2140433A62");
         private readonly Guid _id2 = new Guid("DB0CBB04-4773-425F-A6B2-17A939568433");
         private readonly Guid _id3 = new Guid("3A0A042A-D107-4876-B43C-347C0A7C0DAD");
+        private EventToPublishSerializer _eventToPublishSerializer;
 
         [SetUp]
         public void SetUp()
         {
             CleanUp();
+            _eventToPublishSerializer = new EventToPublishSerializer(typeof(TestEvent).Assembly);
             _eventToPublishRepository = CreateRepository();
-            _eventToPublishRepository.UnitOfWork = new EntityFrameworkUnitOfWork(WriteModelConnectionStringProvider.Instance);
+            _eventToPublishRepository.UnitOfWork = new EventStoreUnitOfWork(WriteModelConnectionStringProvider.Instance);
         }
 
         [Test]
@@ -49,56 +49,24 @@ namespace CQRSTutorial.DAL.Tests
             AssertCreated(_id);
         }
 
-        [Test, Ignore("Flaky")] // TODO make test more robust - fails intermittently
-        public void WhenPublishing_MessagesReadOffQueueInChronologicalOrder()
-        {
-            var testEvent1 = new TestEvent
-            {
-                Id = _id1
-            };
-            _eventToPublishRepository.Add(testEvent1);
-
-            Thread.Sleep(1000); // to ensure they don't get recorded with the same time. Doesn't seem to pick up values smaller than this in database for some reason (even though datetime held in DB to millisecond precision).
-            var testEvent2 = new TestEvent
-            {
-                Id = _id2
-            };
-            _eventToPublishRepository.Add(testEvent2);
-
-            Thread.Sleep(1000);
-            var testEvent3 = new TestEvent
-            {
-                Id = _id3
-            };
-            _eventToPublishRepository.Add(testEvent3);
-
-            _eventToPublishRepository.UnitOfWork.Commit();
-
-            var eventsToPublishResult = _eventToPublishRepository.GetEventsAwaitingPublishing(2);
-            var eventsToPublish = eventsToPublishResult.EventsToPublish;
-            Assert.That(eventsToPublish.Count, Is.EqualTo(2));
-            Assert.That(eventsToPublish.First().Id, Is.EqualTo(_id1));
-            Assert.That(eventsToPublish.Last().Id, Is.EqualTo(_id2));
-            Assert.That(eventsToPublishResult.TotalNumberOfEventsToPublish, Is.EqualTo(3));
-        }
-
         private void AssertCreated(Guid id)
         {
             var createdDate = _sqlExecutor.ExecuteScalar<DateTime>($"SELECT Created FROM dbo.EventsToPublish WHERE Id = '{id}'");
-            var twoSeconds = new TimeSpan(0,0,2);
-            Assert.That(createdDate, Is.EqualTo(DateTime.Now).Within(twoSeconds));
+            var tolerance = new TimeSpan(0,0,5);
+            Assert.That(createdDate, Is.EqualTo(DateTime.Now).Within(tolerance));
         }
 
         private EventToPublishRepository CreateRepository()
         {
-            return new EventToPublishRepository(new EventToPublishMapper(typeof(TestEvent).Assembly));
+            return new EventToPublishRepository(_eventToPublishSerializer);
         }
 
         private void InsertAndRead(IEvent @event)
         {
             _eventToPublishRepository.Add(@event);
             _eventToPublishRepository.UnitOfWork.Commit();
-            _retrievedEvent = _eventToPublishRepository.Read(@event.Id);
+            var eventToPublish = _eventToPublishRepository.Read(@event.Id);
+            _retrievedEvent = _eventToPublishSerializer.Deserialize(eventToPublish);
         }
 
         [TearDown]

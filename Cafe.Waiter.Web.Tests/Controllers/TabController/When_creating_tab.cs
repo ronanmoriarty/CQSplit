@@ -23,6 +23,8 @@ namespace Cafe.Waiter.Web.Tests.Controllers.TabController
         private ICommandSender _commandSender;
         private ISendEndpointProvider _sendEndpointProvider;
         private CreateTabModel _model;
+        private ICommandSendConfiguration _commandSendConfiguration;
+        private const string CommandServiceQueueName = "cafe.waiter.command.service";
 
         [SetUp]
         public void SetUp()
@@ -35,8 +37,10 @@ namespace Cafe.Waiter.Web.Tests.Controllers.TabController
 
             _sendEndpoint = Substitute.For<ISendEndpoint>();
             _sendEndpointProvider = Substitute.For<ISendEndpointProvider>();
-            _sendEndpointProvider.GetSendEndpoint().Returns(Task.FromResult(_sendEndpoint));
-            _commandSender = new CommandSender(_sendEndpointProvider);
+            _sendEndpointProvider.GetSendEndpoint(Arg.Is<string>(queueName => queueName == CommandServiceQueueName)).Returns(Task.FromResult(_sendEndpoint));
+            _commandSendConfiguration = Substitute.For<ICommandSendConfiguration>();
+            _commandSendConfiguration.QueueName.Returns(CommandServiceQueueName);
+            _commandSender = new CommandSender(_sendEndpointProvider, _commandSendConfiguration);
         }
 
         [Test]

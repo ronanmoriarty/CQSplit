@@ -31,13 +31,13 @@ namespace CQRSTutorial.DAL.Tests
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE ID IN ('{Id1}','{Id2}')");
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE ID IN ('{Id1}','{Id2}')");
             _eventToPublishRepositoryDecorator = CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(
-                new EventToPublishRepository(new EventToPublishMapper(Assembly.GetExecutingAssembly())
+                new EventToPublishRepository(new EventToPublishSerializer(Assembly.GetExecutingAssembly())
                 )
             );
             _eventStore = new EventStore(new EventMapper(Assembly.GetExecutingAssembly())
             );
             _eventHandler = new EventHandler(
-                new EntityFrameworkUnitOfWorkFactory(WriteModelConnectionStringProvider.Instance),
+                new EventStoreUnitOfWorkFactory(WriteModelConnectionStringProvider.Instance),
                 new CompositeEventStore(
                     new[]
                     {

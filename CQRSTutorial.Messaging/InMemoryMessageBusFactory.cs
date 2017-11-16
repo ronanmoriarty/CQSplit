@@ -1,4 +1,5 @@
 using MassTransit;
+using MassTransit.Log4NetIntegration;
 
 namespace CQRSTutorial.Messaging
 {
@@ -18,6 +19,7 @@ namespace CQRSTutorial.Messaging
 
         private void ConfigureReceiveEndpoints(IInMemoryBusFactoryConfigurator inMemoryBusFactoryConfigurator)
         {
+            inMemoryBusFactoryConfigurator.UseLog4Net();
             foreach (var inMemoryReceiveEndpointsConfigurator in _inMemoryReceiveEndpointsConfigurators)
             {
                 inMemoryReceiveEndpointsConfigurator.Configure(inMemoryBusFactoryConfigurator);
