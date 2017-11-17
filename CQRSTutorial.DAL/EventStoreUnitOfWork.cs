@@ -20,26 +20,14 @@ namespace CQRSTutorial.DAL
             EventStoreDbContext.Dispose();
         }
 
-        public void Start()
-        {
-        }
-
         public void Commit()
         {
             EventStoreDbContext.SaveChanges();
         }
 
-        public void Rollback()
+        private void Rollback()
         {
             Dispose();
-        }
-
-        public void Enroll(params IHaveUnitOfWork[] haveUnitOfWorks)
-        {
-            foreach (var haveUnitOfWork in haveUnitOfWorks)
-            {
-                haveUnitOfWork.UnitOfWork = this;
-            }
         }
 
         public IUnitOfWork Enrolling(params IHaveUnitOfWork[] haveUnitOfWorks)
@@ -48,9 +36,16 @@ namespace CQRSTutorial.DAL
             return this;
         }
 
+        private void Enroll(params IHaveUnitOfWork[] haveUnitOfWorks)
+        {
+            foreach (var haveUnitOfWork in haveUnitOfWorks)
+            {
+                haveUnitOfWork.UnitOfWork = this;
+            }
+        }
+
         public void ExecuteInTransaction(Action action)
         {
-            Start();
             try
             {
                 action();
