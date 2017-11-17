@@ -49,7 +49,7 @@ namespace CQRSTutorial.DAL.Tests
 
         private IEventRepository CreateRepository()
         {
-            return new EventStore(new EventMapper(typeof(TestEvent).Assembly));
+            return new EventStore(new EventSerializer(typeof(TestEvent).Assembly));
         }
 
         private void InsertAndRead(IEvent @event)

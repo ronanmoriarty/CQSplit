@@ -6,16 +6,16 @@ using Newtonsoft.Json;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventMapper
+    public class EventSerializer
     {
         private readonly Assembly _assemblyContainingEvents;
 
-        public EventMapper(Assembly assemblyContainingEvents)
+        public EventSerializer(Assembly assemblyContainingEvents)
         {
             _assemblyContainingEvents = assemblyContainingEvents;
         }
 
-        public IEvent MapToEvent(Event storedEvent)
+        public IEvent Deserialize(Event storedEvent)
         {
             var @event = (IEvent)JsonConvert.DeserializeObject(storedEvent.Data, GetEventTypeFrom(storedEvent.EventType));
             AssignEventIdFromEventToPublishId(@event, storedEvent);

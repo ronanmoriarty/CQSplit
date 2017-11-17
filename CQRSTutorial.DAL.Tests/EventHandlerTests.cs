@@ -34,7 +34,7 @@ namespace CQRSTutorial.DAL.Tests
                 new EventToPublishRepository(new EventToPublishSerializer(Assembly.GetExecutingAssembly())
                 )
             );
-            _eventStore = new EventStore(new EventMapper(Assembly.GetExecutingAssembly())
+            _eventStore = new EventStore(new EventSerializer(Assembly.GetExecutingAssembly())
             );
             _eventHandler = new EventHandler(
                 new EventStoreUnitOfWorkFactory(WriteModelConnectionStringProvider.Instance),

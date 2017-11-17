@@ -8,11 +8,11 @@ namespace CQRSTutorial.DAL
 {
     public class EventStore : IEventRepository
     {
-        private readonly EventMapper _eventMapper;
+        private readonly EventSerializer _eventSerializer;
 
-        public EventStore(EventMapper eventMapper)
+        public EventStore(EventSerializer eventSerializer)
         {
-            _eventMapper = eventMapper;
+            _eventSerializer = eventSerializer;
         }
 
         public void Add(IEvent @event)
@@ -37,7 +37,7 @@ namespace CQRSTutorial.DAL
         public IEvent Read(Guid id)
         {
             var storedEvent = Get(id);
-            return _eventMapper.MapToEvent(storedEvent);
+            return _eventSerializer.Deserialize(storedEvent);
         }
 
         private Event Get(Guid id)
@@ -47,7 +47,7 @@ namespace CQRSTutorial.DAL
 
         public IEnumerable<IEvent> GetAllEventsFor(Guid aggregateId)
         {
-            return EventStoreDbContext.Events.Select(@event => _eventMapper.MapToEvent(@event)).ToList();
+            return EventStoreDbContext.Events.Select(@event => _eventSerializer.Deserialize(@event)).ToList();
         }
 
         private void UpdateEventIdToReflectIdAssignedByORMToEventToStore(IEvent @event, Event eventToStore)

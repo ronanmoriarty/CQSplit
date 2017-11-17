@@ -51,7 +51,7 @@ namespace Cafe.Waiter.Command.Service
                     .Instance(typeof(TabOpened).Assembly)
                     .Named("assemblyForEventMapper"),
                 Component
-                    .For<EventMapper>()
+                    .For<EventSerializer>()
                     .DependsOn(Dependency.OnComponent("assemblyContainingEvents", "assemblyForEventMapper")),
                 Component
                     .For<IConnectionStringProvider>()
