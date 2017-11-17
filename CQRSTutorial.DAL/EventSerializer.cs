@@ -15,6 +15,19 @@ namespace CQRSTutorial.DAL
             _assemblyContainingEvents = assemblyContainingEvents;
         }
 
+        public Event Serialize(IEvent @event)
+        {
+            return new Event
+            {
+                Id = @event.Id,
+                AggregateId = @event.AggregateId,
+                CommandId = @event.CommandId,
+                EventType = @event.GetType().Name,
+                Data = JsonConvert.SerializeObject(@event),
+                Created = DateTime.Now
+            };
+        }
+
         public IEvent Deserialize(Event storedEvent)
         {
             var @event = (IEvent)JsonConvert.DeserializeObject(storedEvent.Data, GetEventTypeFrom(storedEvent.EventType));

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using CQRSTutorial.Core;
-using Newtonsoft.Json;
 
 namespace CQRSTutorial.DAL
 {
@@ -17,15 +16,7 @@ namespace CQRSTutorial.DAL
 
         public void Add(IEvent @event)
         {
-            var eventToStore = new Event
-            {
-                Id = @event.Id,
-                AggregateId = @event.AggregateId,
-                CommandId = @event.CommandId,
-                EventType = @event.GetType().Name,
-                Data = JsonConvert.SerializeObject(@event),
-                Created = DateTime.Now
-            };
+            var eventToStore = _eventSerializer.Serialize(@event);
 
             EventStoreDbContext.Events.Add(eventToStore);
 
