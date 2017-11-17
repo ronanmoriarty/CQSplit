@@ -23,7 +23,7 @@ namespace CQRSTutorial.DAL
                 Id = @event.Id,
                 AggregateId = @event.AggregateId,
                 CommandId = @event.CommandId,
-                EventType = @event.GetType().Name,
+                EventType = @event.GetType().FullName,
                 Data = JsonConvert.SerializeObject(@event),
                 Created = DateTime.Now
             };
@@ -39,7 +39,7 @@ namespace CQRSTutorial.DAL
         private Type GetEventTypeFrom(string eventType)
         {
             return _assemblyContainingEvents.GetTypes()
-                .Single(t => typeof(IEvent).IsAssignableFrom(t) && t.Name == eventType);
+                .Single(t => typeof(IEvent).IsAssignableFrom(t) && t.FullName == eventType);
         }
 
         private void AssignEventIdFromEventToPublishId(IEvent @event, Event eventToPublish)
