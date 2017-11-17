@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Serialized;
 
 namespace CQRSTutorial.DAL
 {
@@ -27,13 +28,8 @@ namespace CQRSTutorial.DAL
 
         public IEvent Read(Guid id)
         {
-            var storedEvent = Get(id);
-            return _eventSerializer.Deserialize(storedEvent);
-        }
-
-        private Event Get(Guid id)
-        {
-            return EventStoreDbContext.Events.SingleOrDefault(x => x.Id == id);
+            var serializedEvent = EventStoreDbContext.Events.SingleOrDefault(x => x.Id == id);
+            return _eventSerializer.Deserialize(serializedEvent);
         }
 
         public IEnumerable<IEvent> GetAllEventsFor(Guid aggregateId)

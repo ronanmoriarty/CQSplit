@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Data.SqlClient;
+using CQRSTutorial.DAL.Serialized;
 
 namespace CQRSTutorial.DAL
 {

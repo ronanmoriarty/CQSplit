@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Serialized;
 using Newtonsoft.Json;
 
 namespace CQRSTutorial.DAL
@@ -28,10 +29,10 @@ namespace CQRSTutorial.DAL
             };
         }
 
-        public IEvent Deserialize(Event storedEvent)
+        public IEvent Deserialize(Event serializedEvent)
         {
-            var @event = (IEvent)JsonConvert.DeserializeObject(storedEvent.Data, GetEventTypeFrom(storedEvent.EventType));
-            AssignEventIdFromEventToPublishId(@event, storedEvent);
+            var @event = (IEvent)JsonConvert.DeserializeObject(serializedEvent.Data, GetEventTypeFrom(serializedEvent.EventType));
+            AssignEventIdFromEventToPublishId(@event, serializedEvent);
             return @event;
         }
 

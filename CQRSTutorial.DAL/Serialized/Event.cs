@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CQRSTutorial.DAL
+namespace CQRSTutorial.DAL.Serialized
 {
     public class Event
     {
