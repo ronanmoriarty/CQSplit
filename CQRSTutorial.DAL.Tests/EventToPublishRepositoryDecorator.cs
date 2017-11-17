@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Serialized;
 
 namespace CQRSTutorial.DAL.Tests
 {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Serialized;
 using Newtonsoft.Json;
 
 namespace CQRSTutorial.DAL

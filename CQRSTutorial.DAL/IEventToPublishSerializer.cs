@@ -1,4 +1,5 @@
 ﻿using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Serialized;
 
 namespace CQRSTutorial.DAL
 {

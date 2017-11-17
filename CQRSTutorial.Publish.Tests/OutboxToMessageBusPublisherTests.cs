@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CQRSTutorial.DAL;
+using CQRSTutorial.DAL.Serialized;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CQRSTutorial.DAL.Serialized;
 
 namespace CQRSTutorial.DAL
 {

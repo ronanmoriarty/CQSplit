@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CQRSTutorial.DAL
+namespace CQRSTutorial.DAL.Serialized
 {
     [Table("EventsToPublish")]
     public class EventToPublish
