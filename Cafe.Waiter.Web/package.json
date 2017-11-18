@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -- wwwroot/App/**/*spec.js"
+    "test": "karma start karma.conf.js"
   },
   "keywords": [],
   "author": "",
