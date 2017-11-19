@@ -9,8 +9,7 @@
             // console.log(errorResponse);
         });
 
-        // console.log("tabId is:");
-        // $scope.id = $routeParams.tabId;
+        $scope.id = $routeParams.tabId;
         // console.log($scope.id);
         // var tabDetailsUrl = "/api/tab/" + $scope.id;
         // $http({
