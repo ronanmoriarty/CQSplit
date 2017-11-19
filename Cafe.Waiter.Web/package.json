@@ -12,6 +12,7 @@
   "devDependencies": {
     "angular": "^1.6.6",
     "angular-mocks": "^1.6.6",
+    "angular-route": "^1.6.6",
     "chai": "^4.1.2",
     "karma": "^1.7.1",
     "karma-chai": "^0.1.0",
