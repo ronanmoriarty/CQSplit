@@ -10,24 +10,23 @@
         });
 
         $scope.id = $routeParams.tabId;
-        // console.log($scope.id);
-        // var tabDetailsUrl = "/api/tab/" + $scope.id;
-        // $http({
-        //     method: "GET",
-        //     url: tabDetailsUrl
-        // }).then(function(successResponse) {
-        //     $scope.waiter = successResponse.data.waiter;
-        //     $scope.tableNumber = successResponse.data.tableNumber;
-        //     $scope.status = successResponse.data.status;
-        //     $scope.selectedItems = successResponse.data.items;
+        var tabDetailsUrl = "/api/tab/" + $scope.id;
+        $http({
+            method: "GET",
+            url: tabDetailsUrl
+        }).then(function(successResponse) {
+            $scope.waiter = successResponse.data.waiter;
+            $scope.tableNumber = successResponse.data.tableNumber;
+            $scope.status = successResponse.data.status;
+            $scope.selectedItems = successResponse.data.items;
         //     var tabDetailsIndex = 0;
         //     $scope.selectedItems.forEach(function (item) {
         //         item.tabDetailsIndex = tabDetailsIndex;
         //         tabDetailsIndex++;
         //     });
-        // }, function (errorResponse) {
-        //     console.log(errorResponse);
-        // });
+        }, function (errorResponse) {
+            // console.log(errorResponse);
+        });
 
         // $scope.formData = {};
 
