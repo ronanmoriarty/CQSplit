@@ -30,17 +30,19 @@
 
         // $scope.formData = {};
 
-        // $scope.addMenuItem = function () {
-        //     console.log("Add item to selected items...");
-        //     var selectedMenuItem = $scope.menuItems.find(function(item) { return item.id === $scope.formData.newMenuItem.id });
-        //     $scope.selectedItems.push({
+        $scope.addMenuItem = function () {
+             console.log("Add item to selected items...");
+             console.log('$scope.menuItems: ', $scope.menuItems);
+             console.log('$scope.menuItems.find: ', $scope.menuItems.find);
+             var selectedMenuItem = $scope.menuItems.find(function(item) { return true; }); //item.id === $scope.formData.newMenuItem.id });
+             $scope.selectedItems.push({
         //         menuNumber: selectedMenuItem.id,
         //         isDrink: selectedMenuItem.isDrink,
         //         name: selectedMenuItem.name,
         //         notes: $scope.formData.notes,
         //         tabDetailsIndex: Math.max.apply(null, $scope.selectedItems.map(function(item) { return item.tabDetailsIndex })) + 1
-        //     });
-        // };
+             });
+        };
 
         // $scope.removeMenuItem = function(index) {
         //     console.log("Remove menu item from selected items...");
