@@ -100,6 +100,13 @@ describe('DetailsController', function() {
         assert.equal(selectedItem.notes, item.notes);
       });
     });
+
+    it('should set the tabDetailsIndex for each item', function() {
+      $scope.selectedItems.forEach(function(item, index) {
+        assert.equal(item.tabDetailsIndex, index);
+      });
+    });
+
   });
 
   describe('when adding menu item', function() {

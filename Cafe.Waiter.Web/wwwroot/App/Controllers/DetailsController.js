@@ -19,11 +19,11 @@
             $scope.tableNumber = successResponse.data.tableNumber;
             $scope.status = successResponse.data.status;
             $scope.selectedItems = successResponse.data.items;
-        //     var tabDetailsIndex = 0;
-        //     $scope.selectedItems.forEach(function (item) {
-        //         item.tabDetailsIndex = tabDetailsIndex;
-        //         tabDetailsIndex++;
-        //     });
+            var tabDetailsIndex = 0;
+            $scope.selectedItems.forEach(function (item) {
+                item.tabDetailsIndex = tabDetailsIndex;
+                tabDetailsIndex++;
+            });
         }, function (errorResponse) {
             // console.log(errorResponse);
         });
