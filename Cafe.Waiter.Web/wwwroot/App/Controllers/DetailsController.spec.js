@@ -142,7 +142,7 @@ describe('DetailsController', function() {
         };
       });
 
-      it('should add to selected items list', function() {
+      it('should add item to the bottom of the selected items list', function() {
         var lastItem,
           initialNumberOfSelectedItems,
           expectedNewTabDetailsIndex;
@@ -159,14 +159,6 @@ describe('DetailsController', function() {
         assert.equal(lastItem.name, menuItem1.name);
         assert.equal(lastItem.notes, notes);
         assert.equal(lastItem.tabDetailsIndex, expectedNewTabDetailsIndex);
-      });
-
-      it('should add item to the bottom of the selected items list', function() {
-        var lastItem;
-        $scope.addMenuItem();
-
-        lastItem = $scope.selectedItems[$scope.selectedItems.length - 1];
-        assert.equal(lastItem.tabDetailsIndex, 2);
       });
     });
 
