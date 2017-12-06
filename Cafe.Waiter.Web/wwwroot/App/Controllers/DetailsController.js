@@ -1,32 +1,43 @@
 ﻿waiterModule.controller("DetailsController", ["$scope", "$http", "$routeParams", function ($scope, $http, $routeParams) {
-        var menuUrl = "/api/menu";
+
         $http({
             method: "GET",
-            url: menuUrl
+            url: getMenuUrl()
         }).then(function (successResponse) {
             $scope.menuItems = successResponse.data.items;
         }, function (errorResponse) {
             console.log(errorResponse);
         });
 
+        function getMenuUrl(){
+            return "/api/menu";
+        }
+
         $scope.id = $routeParams.tabId;
-        var tabDetailsUrl = "/api/tab/" + $scope.id;
         $http({
             method: "GET",
-            url: tabDetailsUrl
+            url: getTabDetailsUrl($scope.id)
         }).then(function(successResponse) {
-            $scope.waiter = successResponse.data.waiter;
-            $scope.tableNumber = successResponse.data.tableNumber;
-            $scope.status = successResponse.data.status;
-            $scope.selectedItems = successResponse.data.items;
+            loadTabFromDetails(successResponse);
+        }, function (errorResponse) {
+            console.log(errorResponse);
+        });
+
+        function getTabDetailsUrl(tabDetailsId){
+            return "/api/tab/" + tabDetailsId;
+        }
+
+        function loadTabFromDetails(response){
+            $scope.waiter = response.data.waiter;
+            $scope.tableNumber = response.data.tableNumber;
+            $scope.status = response.data.status;
+            $scope.selectedItems = response.data.items;
             var tabDetailsIndex = 0;
             $scope.selectedItems.forEach(function (item) {
                 item.tabDetailsIndex = tabDetailsIndex;
                 tabDetailsIndex++;
             });
-        }, function (errorResponse) {
-            console.log(errorResponse);
-        });
+        }
 
         $scope.formData = {};
 
