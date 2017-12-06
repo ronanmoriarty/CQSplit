@@ -64,35 +64,18 @@
         };
 
         $scope.placeOrder = function() {
-        //     var selectedItems = $scope.selectedItems.map(
-        //         function (item) {
-        //             return {
-        //                 menuNumber: item.menuNumber,
-        //                 isDrink: item.isDrink,
-        //                 name: item.name,
-        //                 notes: item.notes
-        //             };
-        //         }
-        //     );
-
-        //     var tabDetails = {
-        //         id: $scope.id,
-        //         waiter: $scope.waiter,
-        //         tableNumber: $scope.tableNumber,
-        //         status: $scope.status,
-        //         items: selectedItems
-        //     };
+            var tabDetails = {
+                id: $scope.id,
+                waiter: $scope.waiter,
+                tableNumber: $scope.tableNumber,
+                status: $scope.status,
+                items: $scope.selectedItems
+            };
 
             $http({
                 method: "POST",
                 url: "/api/tab/placeOrder",
-        //         data: tabDetails
-        //     }).then(function (successResponse) {
-        //         console.log("Success placing order");
-        //         console.log(successResponse);
-        //     }, function (errorResponse) {
-        //         console.log("Error placing order");
-        //         console.log(errorResponse);
+                data: tabDetails
             });
         };
     }

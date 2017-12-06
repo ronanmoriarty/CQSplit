@@ -113,77 +113,93 @@ describe('DetailsController', function() {
     });
   });
 
-  describe('when adding menu item', function() {
-    it('should add to selected items list', function() {
-      var lastItem;
-      $scope.formData = {
-        newMenuItem: {
-          id: 123
-        },
-        notes: 'some notes'
-      };
-      $scope.selectedItems = [];
 
-      $scope.addMenuItem();
-
-      assert.equal($scope.selectedItems.length, 1);
-      lastItem = $scope.selectedItems[$scope.selectedItems.length - 1];
-      assert.equal(lastItem.menuNumber, 123);
-      assert.equal(lastItem.isDrink, true);
-      assert.equal(lastItem.name, 'Lemonade');
-      assert.equal(lastItem.notes, 'some notes');
-      assert.equal(lastItem.tabDetailsIndex, 0);
-    });
-
-    it('should add item to the bottom of the selected items list', function() {
-      var lastItem;
-      $scope.formData = {
-        newMenuItem: {
-          id: 123
-        }
-      };
-      $scope.selectedItems = [
-        {tabDetailsIndex: 0},
-        {tabDetailsIndex: 1}
-      ];
-
-      $scope.addMenuItem();
-
-      lastItem = $scope.selectedItems[$scope.selectedItems.length - 1];
-      assert.equal(lastItem.tabDetailsIndex, 2);
-    });
-  });
-
-  describe('when removing selected item', function(){
-    it('selected item should not be in the list of selected items any more', function() {
-      var itemThatShouldHaveBeenRemoved;
-
+  describe('when tab loaded', function() {
+    beforeEach(function() {
       $scope.selectedItems = items;
       $scope.selectedItems.forEach(function(item, index){
         item.tabDetailsIndex = index;
       });
+      $scope.id = 543;
+    });
 
-      $scope.removeMenuItem(0);
-
-      assert.equal($scope.selectedItems.length, 1);
-      itemThatShouldHaveBeenRemoved = $scope.selectedItems.find(function(item) {
-        return item.menuNumber === menuNumber1
-          & item.isDrink === isDrink1
-          & item.name === name1
-          & item.notes === notes1;
+    describe('when adding menu item', function() {
+      beforeEach(function() {
+        $scope.formData = {
+          newMenuItem: {
+            id: 123
+          },
+          notes: 'some notes'
+        };
       });
 
-      assert.isUndefined(itemThatShouldHaveBeenRemoved);
+      it('should add to selected items list', function() {
+        var lastItem,
+          initialNumberOfSelectedItems,
+          expectedNewTabDetailsIndex;
+
+        initialNumberOfSelectedItems = $scope.selectedItems.length;
+        expectedNewTabDetailsIndex = initialNumberOfSelectedItems;
+
+        $scope.addMenuItem();
+
+        assert.equal($scope.selectedItems.length, initialNumberOfSelectedItems + 1);
+        lastItem = $scope.selectedItems[$scope.selectedItems.length - 1];
+        assert.equal(lastItem.menuNumber, 123);
+        assert.equal(lastItem.isDrink, true);
+        assert.equal(lastItem.name, 'Lemonade');
+        assert.equal(lastItem.notes, 'some notes');
+        assert.equal(lastItem.tabDetailsIndex, expectedNewTabDetailsIndex);
+      });
+
+      it('should add item to the bottom of the selected items list', function() {
+        var lastItem;
+        $scope.addMenuItem();
+
+        lastItem = $scope.selectedItems[$scope.selectedItems.length - 1];
+        assert.equal(lastItem.tabDetailsIndex, 2);
+      });
     });
-  });
 
-  describe('when placing order', function() {
-    it('should post tab details to api', function() {
-      $httpBackend.expectPOST('/api/tab/placeOrder').respond(200, '');
+    describe('when removing selected item', function(){
+      it('selected item should not be in the list of selected items any more', function() {
+        var itemThatShouldHaveBeenRemoved;
 
-      $scope.placeOrder();
-      $httpBackend.flush();
+        $scope.selectedItems = items;
+        $scope.selectedItems.forEach(function(item, index){
+          item.tabDetailsIndex = index;
+        });
 
+        $scope.removeMenuItem(0);
+
+        assert.equal($scope.selectedItems.length, 1);
+        itemThatShouldHaveBeenRemoved = $scope.selectedItems.find(function(item) {
+          return item.menuNumber === menuNumber1
+            & item.isDrink === isDrink1
+            & item.name === name1
+            & item.notes === notes1;
+        });
+
+        assert.isUndefined(itemThatShouldHaveBeenRemoved);
+      });
     });
+
+    describe('when placing order', function() {
+      it('should post tab details to api', function() {
+        var tabDetails = {
+              id: 543,
+              waiter: waiter,
+              tableNumber: tableNumber,
+              status: status,
+              items: items
+          };
+        $httpBackend.expectPOST('/api/tab/placeOrder', tabDetails).respond(200, '');
+
+        $scope.placeOrder();
+        $httpBackend.flush();
+
+      });
+    });
+
   });
 });
