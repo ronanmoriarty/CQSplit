@@ -50,7 +50,7 @@ describe('TabController', function() {
     }));
 
     it('should load tabs from api', function() {
-        assert.equal($scope.tabs.length, 2);
+        assert.deepEqual($scope.tabs, tabs);
     });
 
     describe('when tabs loaded', function() {
