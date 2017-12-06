@@ -6,11 +6,17 @@ describe('TabController', function() {
         tab2,
         $httpBackend,
         waiter,
-        tableNumber;
+        tableNumber,
+        notificationService;
 
     beforeEach(function() {
         module('waiter');
     });
+
+    beforeEach(module(function($provide) {
+        $provide.value('notificationService', notificationService);
+        notificationService = sinon.spy();
+    }));
 
     beforeEach(inject(function($rootScope, _$httpBackend_, $controller){
         tab1 = {
@@ -35,7 +41,7 @@ describe('TabController', function() {
         _$httpBackend_
             .when('GET', '/api/tab')
             .respond(200, tabs);
-        ctrl = $controller('TabController', {$scope: $scope});
+        ctrl = $controller('TabController', {$scope: $scope, notificationService: notificationService});
         _$httpBackend_.flush();
         $httpBackend = _$httpBackend_;
     }));
@@ -54,10 +60,31 @@ describe('TabController', function() {
 
         describe('when creating new tab', function() {
             it('should post to api', function() {
-                $httpBackend.expectPOST('/api/tab/create', {waiter: waiter, tableNumber: tableNumber}).respond(200, '');
+                $httpBackend
+                    .expectPOST('/api/tab/create', {
+                        waiter: waiter,
+                        tableNumber: tableNumber
+                    })
+                    .respond(200, '');
 
                 $scope.createNewTab();
                 $httpBackend.flush();
+            });
+
+            describe('and tab created successfully', function() {
+                beforeEach(function() {
+                    $httpBackend
+                        .when('/api/tab/create', {
+                            waiter: waiter,
+                            tableNumber: tableNumber
+                        })
+                        .respond(200, '');
+                });
+
+                it('should notify user when tab created successfully', function() {
+                    $scope.createNewTab();
+                    $httpBackend.flush();
+                });
             });
         });
     });

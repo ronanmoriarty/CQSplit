@@ -1,4 +1,4 @@
-﻿waiterModule.controller("TabController", ["$scope", "$http", "$location", function ($scope, $http, $location) {
+﻿waiterModule.controller("TabController", ["$scope", "$http", "$location", "notificationService", function ($scope, $http, $location, notificationService) {
     var tabListUrl = "/api/tab";
     $scope.waiter = "Jim"; // hard-coded for now. TODO get this from api later
     $http({

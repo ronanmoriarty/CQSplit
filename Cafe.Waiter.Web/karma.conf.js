@@ -19,6 +19,7 @@ module.exports = function(config) {
       'node_modules/angular-route/angular-route.js',
       'PolyFills/**/*.js',
       'wwwroot/App/WaiterModule.js',
+      'wwwroot/App/**/*Service.js',
       'wwwroot/App/**/*Controller.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'wwwroot/App/**/*spec.js'
