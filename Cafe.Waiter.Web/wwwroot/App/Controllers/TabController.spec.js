@@ -16,7 +16,8 @@ describe('TabController', function() {
     beforeEach(module(function($provide) {
         $provide.value('notificationService', notificationService);
         notificationService = {
-            success: sinon.spy()
+            success: sinon.spy(),
+            error: sinon.spy()
         };
     }));
 
@@ -76,6 +77,24 @@ describe('TabController', function() {
                 $httpBackend.flush();
 
                 assert.equal(notificationService.success.withArgs('Tab created.').callCount, 1);
+            });
+        });
+
+        describe('when tab creation fails', function() {
+            beforeEach(function() {
+                $httpBackend
+                    .when('POST', '/api/tab/create', {
+                        waiter: waiter,
+                        tableNumber: tableNumber
+                    })
+                    .respond(500, {});
+            });
+
+            it('should notify user when tab creation failed', function() {
+                $scope.createNewTab();
+                $httpBackend.flush();
+
+                assert.equal(notificationService.error.withArgs('An error occurred while creating new tab.').callCount, 1);
             });
         });
     });
