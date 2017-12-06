@@ -6,7 +6,7 @@
         }).then(function (successResponse) {
             $scope.menuItems = successResponse.data.items;
         }, function (errorResponse) {
-            // console.log(errorResponse);
+            console.log(errorResponse);
         });
 
         $scope.id = $routeParams.tabId;
@@ -25,7 +25,7 @@
                 tabDetailsIndex++;
             });
         }, function (errorResponse) {
-            // console.log(errorResponse);
+            console.log(errorResponse);
         });
 
         // $scope.formData = {};
