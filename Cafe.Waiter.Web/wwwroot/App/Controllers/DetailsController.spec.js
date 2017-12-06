@@ -118,15 +118,15 @@ describe('DetailsController', function() {
   });
 
   describe('when tab loaded', function() {
-    var tabDetailsId;
+    var initialNumberOfSelectedItems;
 
     beforeEach(function() {
       $scope.selectedItems = items;
       $scope.selectedItems.forEach(function(item, index){
         item.tabDetailsIndex = index;
       });
-      tabDetailsId = 543;
-      $scope.id = tabDetailsId;
+      $scope.id = tabId;
+      initialNumberOfSelectedItems = $scope.selectedItems.length;
     });
 
     describe('when adding menu item', function() {
@@ -136,7 +136,7 @@ describe('DetailsController', function() {
         notes = 'some notes';
         $scope.formData = {
           newMenuItem: {
-            id: 123
+            id: menuItem1.id
           },
           notes: notes
         };
@@ -144,10 +144,8 @@ describe('DetailsController', function() {
 
       it('should add item to the bottom of the selected items list', function() {
         var lastItem,
-          initialNumberOfSelectedItems,
           expectedNewTabDetailsIndex;
 
-        initialNumberOfSelectedItems = $scope.selectedItems.length;
         expectedNewTabDetailsIndex = initialNumberOfSelectedItems;
 
         $scope.addMenuItem();
@@ -168,7 +166,7 @@ describe('DetailsController', function() {
 
         $scope.removeMenuItem(0);
 
-        assert.equal($scope.selectedItems.length, 1);
+        assert.equal($scope.selectedItems.length, initialNumberOfSelectedItems - 1);
         itemThatShouldHaveBeenRemoved = $scope.selectedItems.find(function(item) {
           return item.menuNumber === menuNumber1
             & item.isDrink === isDrink1
@@ -183,7 +181,7 @@ describe('DetailsController', function() {
     describe('when placing order', function() {
       it('should post tab details to api', function() {
         var tabDetails = {
-              id: tabDetailsId,
+              id: tabId,
               waiter: waiter,
               tableNumber: tableNumber,
               status: status,
