@@ -27,7 +27,7 @@
                 tableNumber: $scope.formData.tableNumber
             }
         }).then(function (successResponse) {
-            // toastr.success("Tab created.");
+            notificationService.success('Tab created.');
         }, function (errorResponse) {
             console.log(errorResponse);
             // toastr.error('An error occurred creating a new tab.');
