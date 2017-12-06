@@ -9,9 +9,13 @@ describe('DetailsController', function() {
     $scope = $rootScope.$new();
     menuItems = [
       {
-        id: 123
+        id: 123,
+        isDrink: true,
+        name: 'Lemonade'
       },{
-        id: 234
+        id: 234,
+        isDrink: false,
+        name: 'Lasagne'
       }
     ];
     _$httpBackend_
@@ -96,7 +100,8 @@ describe('DetailsController', function() {
       $scope.formData = {
         newMenuItem: {
           id: 123
-        }
+        },
+        notes: 'some notes'
       };
       $scope.selectedItems = [];
 
@@ -105,6 +110,10 @@ describe('DetailsController', function() {
       assert.equal($scope.selectedItems.length, 1);
       lastItem = $scope.selectedItems[$scope.selectedItems.length - 1];
       assert.equal(lastItem.menuNumber, 123);
+      assert.equal(lastItem.isDrink, true);
+      assert.equal(lastItem.name, 'Lemonade');
+      assert.equal(lastItem.notes, 'some notes');
+      assert.equal(lastItem.tabDetailsIndex, 0);
     });
   });
 });
