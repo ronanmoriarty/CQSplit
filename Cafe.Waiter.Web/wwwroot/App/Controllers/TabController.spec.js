@@ -7,18 +7,29 @@ describe('TabController', function() {
         $httpBackend,
         waiter,
         tableNumber,
-        notificationService;
+        notificationService,
+        $location,
+        detailsPath;
 
     beforeEach(function() {
         module('waiter');
     });
 
     beforeEach(module(function($provide) {
-        $provide.value('notificationService', notificationService);
         notificationService = {
             success: sinon.spy(),
             error: sinon.spy()
         };
+        $provide.value('notificationService', notificationService);
+        $location = {
+            path: sinon.stub()
+        };
+
+        detailsPath = {
+            search: sinon.spy()
+        };
+        $location.path.withArgs('/details').returns(detailsPath);
+        $provide.value('$location', $location);
     }));
 
     beforeEach(inject(function($rootScope, _$httpBackend_, $controller){
@@ -39,19 +50,21 @@ describe('TabController', function() {
             tab2
         ];
         tableNumber = 11;
-        waiter = 'Jim';
+        waiter = 'Bill';
         $scope = $rootScope.$new();
         _$httpBackend_
             .when('GET', '/api/tab')
             .respond(200, tabs);
-        ctrl = $controller('TabController', {$scope: $scope, notificationService: notificationService});
+        ctrl = $controller('TabController', {$scope: $scope, notificationService: notificationService, $location: $location});
         _$httpBackend_.flush();
 
         $httpBackend = _$httpBackend_;
     }));
 
-    it('should load tabs from api', function() {
-        assert.deepEqual($scope.tabs, tabs);
+    describe('when loading tabs', function() {
+        it('should load tabs from api', function() {
+            assert.deepEqual($scope.tabs, tabs);
+        });
     });
 
     describe('when tabs loaded', function() {
@@ -96,6 +109,18 @@ describe('TabController', function() {
 
                 assert.equal(notificationService.error.withArgs('An error occurred while creating new tab.').callCount, 1);
             });
+        });
+    });
+
+    describe('when viewing tab details', function() {
+        it('should load details view for selected tab', function() {
+            var tabId;
+
+            tabId = 456;
+
+            $scope.viewDetails(tabId);
+
+            assert.equal(detailsPath.search.withArgs({tabId: tabId}).callCount, 1);
         });
     });
 });

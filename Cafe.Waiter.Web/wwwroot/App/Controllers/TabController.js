@@ -36,7 +36,7 @@
         };
     }
 
-    // $scope.viewDetails = function(id) {
-    //     $location.path("/details").search({tabId: id});
-    // };
+    $scope.viewDetails = function(id) {
+        $location.path("/details").search({tabId: id});
+    };
 }]);
