@@ -1,5 +1,5 @@
 describe('DetailsController', function() {
-  var $scope, menuItems, tabId, menuNumber1, isDrink1, name1, notes1, menuNumber2, isDrink2, name2, notes2;
+  var $scope, menuItems, tabId, menuNumber1, isDrink1, name1, notes1, menuNumber2, isDrink2, name2, notes2, $httpBackend;
 
   beforeEach(function(){
     module('waiter');
@@ -66,6 +66,7 @@ describe('DetailsController', function() {
       });
     ctrl = $controller('DetailsController', {$scope: $scope, $routeParams: $routeParams});
     _$httpBackend_.flush();
+    $httpBackend = _$httpBackend_;
   }));
 
   describe('when loading details page', function() {
@@ -173,6 +174,16 @@ describe('DetailsController', function() {
       });
 
       assert.isUndefined(itemThatShouldHaveBeenRemoved);
+    });
+  });
+
+  describe('when placing order', function() {
+    it('should post tab details to api', function() {
+      $httpBackend.expectPOST('/api/tab/placeOrder').respond(200, '');
+
+      $scope.placeOrder();
+      $httpBackend.flush();
+
     });
   });
 });

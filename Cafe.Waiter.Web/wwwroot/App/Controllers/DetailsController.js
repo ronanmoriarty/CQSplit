@@ -63,7 +63,7 @@
             $scope.selectedItems = $scope.selectedItems.filter(function(item) { return item.tabDetailsIndex !== index; });
         };
 
-        // $scope.placeOrder = function() {
+        $scope.placeOrder = function() {
         //     var selectedItems = $scope.selectedItems.map(
         //         function (item) {
         //             return {
@@ -83,9 +83,9 @@
         //         items: selectedItems
         //     };
 
-        //     $http({
-        //         method: "POST",
-        //         url: "/api/tab/placeOrder",
+            $http({
+                method: "POST",
+                url: "/api/tab/placeOrder",
         //         data: tabDetails
         //     }).then(function (successResponse) {
         //         console.log("Success placing order");
@@ -93,7 +93,7 @@
         //     }, function (errorResponse) {
         //         console.log("Error placing order");
         //         console.log(errorResponse);
-        //     });
-        // }
+            });
+        };
     }
 ]);
