@@ -1,5 +1,5 @@
 describe('DetailsController', function() {
-  var $scope, menuItems, tabId, menuNumber1, isDrink1, name1, notes1, menuNumber2, isDrink2, name2, notes2, $httpBackend;
+  var $scope, menuItems, menuItem1, menuItem2, tabId, menuNumber1, isDrink1, name1, notes1, menuNumber2, isDrink2, name2, notes2, $httpBackend;
 
   beforeEach(function(){
     module('waiter');
@@ -7,17 +7,21 @@ describe('DetailsController', function() {
 
   beforeEach(inject(function($rootScope, _$httpBackend_, $controller){
     $scope = $rootScope.$new();
+    menuItem1 = {
+      id: 123,
+      isDrink: true,
+      name: 'Lemonade'
+    };
+    menuItem2 = {
+      id: 234,
+      isDrink: false,
+      name: 'Lasagne'
+    };
     menuItems = [
-      {
-        id: 123,
-        isDrink: true,
-        name: 'Lemonade'
-      },{
-        id: 234,
-        isDrink: false,
-        name: 'Lasagne'
-      }
+      menuItem1,
+      menuItem2
     ];
+
     _$httpBackend_
       .when('GET', '/api/menu')
       .respond(200,
@@ -113,23 +117,28 @@ describe('DetailsController', function() {
     });
   });
 
-
   describe('when tab loaded', function() {
+    var tabDetailsId;
+
     beforeEach(function() {
       $scope.selectedItems = items;
       $scope.selectedItems.forEach(function(item, index){
         item.tabDetailsIndex = index;
       });
-      $scope.id = 543;
+      tabDetailsId = 543;
+      $scope.id = tabDetailsId;
     });
 
     describe('when adding menu item', function() {
+      var notes;
+
       beforeEach(function() {
+        notes = 'some notes';
         $scope.formData = {
           newMenuItem: {
             id: 123
           },
-          notes: 'some notes'
+          notes: notes
         };
       });
 
@@ -145,10 +154,10 @@ describe('DetailsController', function() {
 
         assert.equal($scope.selectedItems.length, initialNumberOfSelectedItems + 1);
         lastItem = $scope.selectedItems[$scope.selectedItems.length - 1];
-        assert.equal(lastItem.menuNumber, 123);
-        assert.equal(lastItem.isDrink, true);
-        assert.equal(lastItem.name, 'Lemonade');
-        assert.equal(lastItem.notes, 'some notes');
+        assert.equal(lastItem.menuNumber, menuItem1.id);
+        assert.equal(lastItem.isDrink, menuItem1.isDrink);
+        assert.equal(lastItem.name, menuItem1.name);
+        assert.equal(lastItem.notes, notes);
         assert.equal(lastItem.tabDetailsIndex, expectedNewTabDetailsIndex);
       });
 
@@ -187,7 +196,7 @@ describe('DetailsController', function() {
     describe('when placing order', function() {
       it('should post tab details to api', function() {
         var tabDetails = {
-              id: 543,
+              id: tabDetailsId,
               waiter: waiter,
               tableNumber: tableNumber,
               status: status,
@@ -197,9 +206,7 @@ describe('DetailsController', function() {
 
         $scope.placeOrder();
         $httpBackend.flush();
-
       });
     });
-
   });
 });
