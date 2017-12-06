@@ -33,7 +33,7 @@
         $scope.addMenuItem = function () {
             var selectedMenuItem;
 
-            selectedMenuItem = $scope.menuItems.find(function(item) { return item.id === $scope.formData.newMenuItem.id; });
+            selectedMenuItem = getSelectedMenuItem();
             $scope.selectedItems.push({
                 menuNumber: selectedMenuItem.id,
                 isDrink: selectedMenuItem.isDrink,
@@ -42,6 +42,10 @@
                 tabDetailsIndex: getNewTabDetailsIndex()
             });
         };
+
+        function getSelectedMenuItem(){
+            return $scope.menuItems.find(function(item) { return item.id === $scope.formData.newMenuItem.id; });
+        }
 
         function getNewTabDetailsIndex(){
             var maxTabDetailsIndex = Math.max.apply(null, $scope.selectedItems.map(function(item) {
