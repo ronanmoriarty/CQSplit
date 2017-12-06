@@ -90,7 +90,15 @@ describe('DetailsController', function() {
     });
 
     it('should set the selected items from the tab', function(){
-      assert.deepEqual($scope.selectedItems, items);
+      var selectedItem;
+
+      items.forEach(function(item, index){
+        selectedItem = $scope.selectedItems[index];
+        assert.equal(selectedItem.menuNumber, item.menuNumber);
+        assert.equal(selectedItem.isDrink, item.isDrink);
+        assert.equal(selectedItem.name, item.name);
+        assert.equal(selectedItem.notes, item.notes);
+      });
     });
   });
 
