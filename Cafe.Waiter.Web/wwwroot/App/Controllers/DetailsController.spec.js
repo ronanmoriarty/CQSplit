@@ -166,11 +166,6 @@ describe('DetailsController', function() {
       it('selected item should not be in the list of selected items any more', function() {
         var itemThatShouldHaveBeenRemoved;
 
-        $scope.selectedItems = items;
-        $scope.selectedItems.forEach(function(item, index){
-          item.tabDetailsIndex = index;
-        });
-
         $scope.removeMenuItem(0);
 
         assert.equal($scope.selectedItems.length, 1);
