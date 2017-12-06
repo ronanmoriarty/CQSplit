@@ -17,6 +17,7 @@ module.exports = function(config) {
     files: [
       'node_modules/angular/angular.js',
       'node_modules/angular-route/angular-route.js',
+      'PolyFills/**/*.js',
       'wwwroot/App/WaiterModule.js',
       'wwwroot/App/**/*Controller.js',
       'node_modules/angular-mocks/angular-mocks.js',
