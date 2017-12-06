@@ -31,16 +31,29 @@
         // $scope.formData = {};
 
         $scope.addMenuItem = function () {
-             var selectedMenuItem = $scope.menuItems.find(function(item) { return item.id === $scope.formData.newMenuItem.id; });
-             $scope.selectedItems.push({
+            var selectedMenuItem;
+
+            selectedMenuItem = $scope.menuItems.find(function(item) { return item.id === $scope.formData.newMenuItem.id; });
+            $scope.selectedItems.push({
                 menuNumber: selectedMenuItem.id,
                 isDrink: selectedMenuItem.isDrink,
                 name: selectedMenuItem.name,
                 notes: $scope.formData.notes,
-                tabDetailsIndex: 0
-        //         tabDetailsIndex: Math.max.apply(null, $scope.selectedItems.map(function(item) { return item.tabDetailsIndex })) + 1
-             });
+                tabDetailsIndex: getNewTabDetailsIndex()
+            });
         };
+
+        function getNewTabDetailsIndex(){
+            var maxTabDetailsIndex = Math.max.apply(null, $scope.selectedItems.map(function(item) {
+                return item.tabDetailsIndex;
+            }));
+            var newTabDetailsIndex = maxTabDetailsIndex + 1;
+            if(newTabDetailsIndex < 0) {
+                newTabDetailsIndex = 0;
+            }
+
+            return newTabDetailsIndex;
+        }
 
         // $scope.removeMenuItem = function(index) {
         //     console.log("Remove menu item from selected items...");

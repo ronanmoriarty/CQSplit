@@ -115,5 +115,23 @@ describe('DetailsController', function() {
       assert.equal(lastItem.notes, 'some notes');
       assert.equal(lastItem.tabDetailsIndex, 0);
     });
+
+    it('should add item to the bottom of the selected items list', function() {
+      var lastItem;
+      $scope.formData = {
+        newMenuItem: {
+          id: 123
+        }
+      };
+      $scope.selectedItems = [
+        {tabDetailsIndex: 0},
+        {tabDetailsIndex: 1}
+      ];
+
+      $scope.addMenuItem();
+
+      lastItem = $scope.selectedItems[$scope.selectedItems.length - 1];
+      assert.equal(lastItem.tabDetailsIndex, 2);
+    });
   });
 });
