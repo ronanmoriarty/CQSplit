@@ -59,10 +59,9 @@
             return newTabDetailsIndex;
         }
 
-        // $scope.removeMenuItem = function(index) {
-        //     console.log("Remove menu item from selected items...");
-        //     $scope.selectedItems = $scope.selectedItems.filter(function(item) { return item.tabDetailsIndex !== index });
-        // };
+        $scope.removeMenuItem = function(index) {
+            $scope.selectedItems = $scope.selectedItems.filter(function(item) { return item.tabDetailsIndex !== index; });
+        };
 
         // $scope.placeOrder = function() {
         //     var selectedItems = $scope.selectedItems.map(

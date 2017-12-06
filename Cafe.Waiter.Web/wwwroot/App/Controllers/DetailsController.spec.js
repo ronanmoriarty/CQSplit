@@ -152,4 +152,27 @@ describe('DetailsController', function() {
       assert.equal(lastItem.tabDetailsIndex, 2);
     });
   });
+
+  describe('when removing selected item', function(){
+    it('selected item should not be in the list of selected items any more', function() {
+      var itemThatShouldHaveBeenRemoved;
+
+      $scope.selectedItems = items;
+      $scope.selectedItems.forEach(function(item, index){
+        item.tabDetailsIndex = index;
+      });
+
+      $scope.removeMenuItem(0);
+
+      assert.equal($scope.selectedItems.length, 1);
+      itemThatShouldHaveBeenRemoved = $scope.selectedItems.find(function(item) {
+        return item.menuNumber === menuNumber1
+          & item.isDrink === isDrink1
+          & item.name === name1
+          & item.notes === notes1;
+      });
+
+      assert.isUndefined(itemThatShouldHaveBeenRemoved);
+    });
+  });
 });
