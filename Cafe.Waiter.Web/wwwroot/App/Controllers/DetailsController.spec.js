@@ -107,6 +107,9 @@ describe('DetailsController', function() {
       });
     });
 
+    it('should be ready to add form data', function() {
+      assert.isDefined($scope.formData);
+    });
   });
 
   describe('when adding menu item', function() {

@@ -28,7 +28,7 @@
             console.log(errorResponse);
         });
 
-        // $scope.formData = {};
+        $scope.formData = {};
 
         $scope.addMenuItem = function () {
             var selectedMenuItem;
