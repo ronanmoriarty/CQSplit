@@ -17,25 +17,25 @@
         console.log(errorResponse);
     });
 
-    var createTabUrl = "/api/tab/create";
-    $scope.createNewTab = function() {
-        $http({
-            method: "POST",
-            url: createTabUrl,
-            data: {
-                waiter: $scope.waiter,
-                tableNumber: $scope.formData.tableNumber
-            }
-        }).then(function (successResponse) {
-            console.log("CreateTab command submitted. Table Number:" + $scope.formData.tableNumber + "; Waiter:" + $scope.waiter);
-            toastr.success("Tab created.");
-        }, function (errorResponse) {
-            console.log(errorResponse);
-            toastr.error('An error occurred creating a new tab.');
-        });
-    };
+    // var createTabUrl = "/api/tab/create";
+    // $scope.createNewTab = function() {
+    //     $http({
+    //         method: "POST",
+    //         url: createTabUrl,
+    //         data: {
+    //             waiter: $scope.waiter,
+    //             tableNumber: $scope.formData.tableNumber
+    //         }
+    //     }).then(function (successResponse) {
+    //         console.log("CreateTab command submitted. Table Number:" + $scope.formData.tableNumber + "; Waiter:" + $scope.waiter);
+    //         toastr.success("Tab created.");
+    //     }, function (errorResponse) {
+    //         console.log(errorResponse);
+    //         toastr.error('An error occurred creating a new tab.');
+    //     });
+    // };
 
-    $scope.viewDetails = function(id) {
-        $location.path("/details").search({tabId: id});
-    };
+    // $scope.viewDetails = function(id) {
+    //     $location.path("/details").search({tabId: id});
+    // };
 }]);
