@@ -43,6 +43,25 @@ describe('DetailsController', function() {
     $httpBackend = _$httpBackend_;
   }));
 
+  describe('when tab has no items', function(){
+    beforeEach(function(){
+      items = [];
+      $httpBackend
+        .when('GET', '/api/tab/' + tabId)
+        .respond(200, {
+          waiter: waiter,
+          tableNumber: tableNumber,
+          status: status,
+          items: items
+        });
+      $httpBackend.flush();
+    });
+
+    it('should have an empty list of selected items', function(){
+      assert.equal($scope.selectedItems.length, 0);
+    });
+  });
+
   describe('when tab has items', function(){
     beforeEach(function(){
       menuNumber1 = 12;
