@@ -45,7 +45,7 @@ describe('DetailsController', function() {
 
   describe('when tab has no items', function(){
     beforeEach(function(){
-      items = [];
+      items = undefined;
       $httpBackend
         .when('GET', '/api/tab/' + tabId)
         .respond(200, {
