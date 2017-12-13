@@ -1,85 +1,101 @@
 ﻿waiterModule.controller("DetailsController", ["$scope", "$http", "$routeParams", function ($scope, $http, $routeParams) {
-        var menuUrl = "/api/menu";
+
         $http({
             method: "GET",
-            url: menuUrl
+            url: getMenuUrl()
         }).then(function (successResponse) {
             $scope.menuItems = successResponse.data.items;
         }, function (errorResponse) {
             console.log(errorResponse);
         });
 
-        console.log("tabId is:");
+        function getMenuUrl(){
+            return "/api/menu";
+        }
+
         $scope.id = $routeParams.tabId;
-        console.log($scope.id);
-        var tabDetailsUrl = "/api/tab/" + $scope.id;
         $http({
             method: "GET",
-            url: tabDetailsUrl
+            url: getTabDetailsUrl($scope.id)
         }).then(function(successResponse) {
-            $scope.waiter = successResponse.data.waiter;
-            $scope.tableNumber = successResponse.data.tableNumber;
-            $scope.status = successResponse.data.status;
-            $scope.selectedItems = successResponse.data.items;
-            var tabDetailsIndex = 0;
-            $scope.selectedItems.forEach(function (item) {
-                item.tabDetailsIndex = tabDetailsIndex;
-                tabDetailsIndex++;
-            });
+            loadTabFromDetails(successResponse);
         }, function (errorResponse) {
             console.log(errorResponse);
         });
 
+        function getTabDetailsUrl(tabDetailsId){
+            return "/api/tab/" + tabDetailsId;
+        }
+
+        function loadTabFromDetails(response){
+            $scope.waiter = response.data.waiter;
+            $scope.tableNumber = response.data.tableNumber;
+            $scope.status = response.data.status;
+            loadItems(response.data.items);
+        }
+
+        function loadItems(items){
+            if(items){
+                $scope.selectedItems = items;
+                var tabDetailsIndex = 0;
+                $scope.selectedItems.forEach(function (item) {
+                    item.tabDetailsIndex = tabDetailsIndex;
+                    tabDetailsIndex++;
+                });
+            } else {
+                $scope.selectedItems = [];
+            }
+        }
+
         $scope.formData = {};
 
         $scope.addMenuItem = function () {
-            console.log("Add item to selected items...");
-            var selectedMenuItem = $scope.menuItems.find(function(item) { return item.id === $scope.formData.newMenuItem.id });
+            var selectedMenuItem;
+
+            selectedMenuItem = getSelectedMenuItem();
             $scope.selectedItems.push({
                 menuNumber: selectedMenuItem.id,
                 isDrink: selectedMenuItem.isDrink,
                 name: selectedMenuItem.name,
                 notes: $scope.formData.notes,
-                tabDetailsIndex: Math.max.apply(null, $scope.selectedItems.map(function(item) { return item.tabDetailsIndex })) + 1
+                tabDetailsIndex: getNewTabDetailsIndex()
             });
         };
 
+        function getSelectedMenuItem(){
+            return $scope.menuItems.find(function(item) { return item.id === $scope.formData.newMenuItem.id; });
+        }
+
+        function getNewTabDetailsIndex(){
+            var maxTabDetailsIndex = Math.max.apply(null, $scope.selectedItems.map(function(item) {
+                return item.tabDetailsIndex;
+            }));
+            var newTabDetailsIndex = maxTabDetailsIndex + 1;
+            if(newTabDetailsIndex < 0) {
+                newTabDetailsIndex = 0;
+            }
+
+            return newTabDetailsIndex;
+        }
+
         $scope.removeMenuItem = function(index) {
-            console.log("Remove menu item from selected items...");
-            $scope.selectedItems = $scope.selectedItems.filter(function(item) { return item.tabDetailsIndex !== index });
+            $scope.selectedItems = $scope.selectedItems.filter(function(item) { return item.tabDetailsIndex !== index; });
         };
 
         $scope.placeOrder = function() {
-            var selectedItems = $scope.selectedItems.map(
-                function (item) {
-                    return {
-                        menuNumber: item.menuNumber,
-                        isDrink: item.isDrink,
-                        name: item.name,
-                        notes: item.notes
-                    };
-                }
-            );
-
             var tabDetails = {
                 id: $scope.id,
                 waiter: $scope.waiter,
                 tableNumber: $scope.tableNumber,
                 status: $scope.status,
-                items: selectedItems
+                items: $scope.selectedItems
             };
 
             $http({
                 method: "POST",
                 url: "/api/tab/placeOrder",
                 data: tabDetails
-            }).then(function (successResponse) {
-                console.log("Success placing order");
-                console.log(successResponse);
-            }, function (errorResponse) {
-                console.log("Error placing order");
-                console.log(errorResponse);
             });
-        }
+        };
     }
 ]);
