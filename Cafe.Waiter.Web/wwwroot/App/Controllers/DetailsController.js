@@ -31,8 +31,12 @@
             $scope.waiter = response.data.waiter;
             $scope.tableNumber = response.data.tableNumber;
             $scope.status = response.data.status;
-            if(response.data.items){
-                $scope.selectedItems = response.data.items;
+            loadItems(response.data.items);
+        }
+
+        function loadItems(items){
+            if(items){
+                $scope.selectedItems = items;
                 var tabDetailsIndex = 0;
                 $scope.selectedItems.forEach(function (item) {
                     item.tabDetailsIndex = tabDetailsIndex;
