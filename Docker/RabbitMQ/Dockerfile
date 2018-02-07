@@ -10,4 +10,5 @@ RUN Invoke-WebRequest -Uri "https://www.rabbitmq.com/releases/rabbitmq-server/v$
         Remove-Item -Force -Path "c:\\rabbitmq.zip" ;
 RUN $path = [Environment]::GetEnvironmentVariable('Path', 'Machine'); \
     [Environment]::SetEnvironmentVariable('Path', $path + ';C:\rabbitmq_server-' + $env:RABBITMQ_VERSION + '\sbin', 'Machine')
+CMD rabbitmq-server.bat
 EXPOSE 15672
