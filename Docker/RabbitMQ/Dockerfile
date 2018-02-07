@@ -8,4 +8,6 @@ ENV RABBITMQ_VERSION=3.6.15
 RUN Invoke-WebRequest -Uri "https://www.rabbitmq.com/releases/rabbitmq-server/v$env:RABBITMQ_VERSION/rabbitmq-server-windows-$env:RABBITMQ_VERSION.zip" -OutFile "c:\\rabbitmq.zip"; \
         Expand-Archive -Path "c:\\rabbitmq.zip" -DestinationPath "c:\\" ; \
         Remove-Item -Force -Path "c:\\rabbitmq.zip" ;
+RUN $path = [Environment]::GetEnvironmentVariable('Path', 'Machine'); \
+    [Environment]::SetEnvironmentVariable('Path', $path + ';C:\rabbitmq_server-' + $env:RABBITMQ_VERSION + '\sbin', 'Machine')
 EXPOSE 15672
