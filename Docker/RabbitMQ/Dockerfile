@@ -1,8 +1,10 @@
 FROM ronanmoriarty/chocolatey:v1
-WORKDIR /app
-ENV RABBITMQ_VERSION=3.6.15
+ENV ERLANG_HOME="c:\\erlang"
 SHELL [ "powershell", "-command"]
-RUN choco install erlang --version 20.2 -y
+RUN Invoke-WebRequest -Uri "http://erlang.org/download/otp_win64_20.2.exe" -OutFile "c:\\erlang_install.exe" ; \
+        Start-Process -Wait -FilePath "c:\\erlang_install.exe" -ArgumentList /S, /D=$env:ERLANG_HOME ; \
+        Remove-Item -Force -Path "C:\\erlang_install.exe" ;
+ENV RABBITMQ_VERSION=3.6.15
 RUN Invoke-WebRequest -Uri "https://www.rabbitmq.com/releases/rabbitmq-server/v$env:RABBITMQ_VERSION/rabbitmq-server-windows-$env:RABBITMQ_VERSION.zip" -OutFile "c:\\rabbitmq.zip"; \
         Expand-Archive -Path "c:\\rabbitmq.zip" -DestinationPath "c:\\" ; \
         Remove-Item -Force -Path "c:\\rabbitmq.zip" ;
