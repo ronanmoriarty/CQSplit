@@ -1,4 +1,4 @@
-FROM ronanmoriarty/chocolatey:v1
+FROM microsoft/windowsservercore
 ENV ERLANG_HOME="c:\\erlang"
 SHELL [ "powershell", "-command"]
 RUN Invoke-WebRequest -Uri "http://erlang.org/download/otp_win64_20.2.exe" -OutFile "c:\\erlang_install.exe" ; \
