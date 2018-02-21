@@ -13,6 +13,6 @@ ENV RABBITMQ_SERVER=C:\\rabbitmq_server-${RABBITMQ_VERSION}
 RUN $path = [Environment]::GetEnvironmentVariable('Path', 'Machine'); \
     [Environment]::SetEnvironmentVariable('Path', $path + ';C:\rabbitmq_server-' + $env:RABBITMQ_VERSION + '\sbin', 'Machine')
 RUN rabbitmq-plugins enable rabbitmq_management --offline
-
+COPY rabbitmq.config C:\\Users\\ContainerAdministrator\\AppData\\Roaming\\RabbitMQ\\rabbitmq.config
 ENTRYPOINT rabbitmq-server
 EXPOSE 15672
