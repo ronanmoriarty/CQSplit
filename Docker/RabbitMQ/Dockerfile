@@ -12,8 +12,7 @@ RUN Invoke-WebRequest -Uri "https://www.rabbitmq.com/releases/rabbitmq-server/v$
 ENV RABBITMQ_SERVER=C:\\rabbitmq_server-${RABBITMQ_VERSION}
 RUN $path = [Environment]::GetEnvironmentVariable('Path', 'Machine'); \
     [Environment]::SetEnvironmentVariable('Path', $path + ';C:\rabbitmq_server-' + $env:RABBITMQ_VERSION + '\sbin', 'Machine')
-ADD Wait-Service.ps1 /Wait-Service.ps1
-CMD rabbitmq-service install; \
-        net start rabbitmq; \
-        .\Wait-Service.ps1 -ServiceName rabbitmq -AllowServiceRestart
+RUN rabbitmq-plugins enable rabbitmq_management --offline
+
+ENTRYPOINT rabbitmq-server
 EXPOSE 15672
