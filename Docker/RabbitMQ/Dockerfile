@@ -15,4 +15,4 @@ RUN $path = [Environment]::GetEnvironmentVariable('Path', 'Machine'); \
 RUN rabbitmq-plugins enable rabbitmq_management --offline
 COPY rabbitmq.config C:\\Users\\ContainerAdministrator\\AppData\\Roaming\\RabbitMQ\\rabbitmq.config
 ENTRYPOINT rabbitmq-server
-EXPOSE 15672
+EXPOSE 5672 15672
