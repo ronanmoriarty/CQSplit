@@ -6,11 +6,11 @@ using CQRSTutorial.DAL.Serialized;
 
 namespace CQRSTutorial.DAL
 {
-    public class EventStore : IEventRepository
+    public class EventRepository : IEventRepository
     {
         private readonly EventSerializer _eventSerializer;
 
-        public EventStore(EventSerializer eventSerializer)
+        public EventRepository(EventSerializer eventSerializer)
         {
             _eventSerializer = eventSerializer;
         }

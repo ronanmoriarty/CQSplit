@@ -142,7 +142,7 @@ namespace Cafe.Waiter.Command.Service
         {
             return new List<IEventStore>
             {
-                kernel.Resolve<EventStore>(),
+                kernel.Resolve<EventRepository>(),
                 kernel.Resolve<EventToPublishRepository>()
             };
         }
