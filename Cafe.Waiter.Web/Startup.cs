@@ -39,9 +39,9 @@ namespace Cafe.Waiter.Web
             services.Add(new ServiceDescriptor(typeof(IPlaceOrderCommandFactory), typeof(PlaceOrderCommandFactory), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(ICommandSender), typeof(CommandSender), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(ISendEndpointProvider), typeof(RabbitMqSendEndpointProvider), ServiceLifetime.Transient));
-            var rabbitMqMessageBusFactory = new RabbitMqMessageBusFactory(new EnvironmentVariableRabbitMqHostConfiguration(), NoReceiveEndpointsConfigurator.Instance);
+            var rabbitMqMessageBusFactory = new RabbitMqMessageBusFactory(new RabbitMqHostConfiguration(Configuration), NoReceiveEndpointsConfigurator.Instance);
             services.Add(new ServiceDescriptor(typeof(IBusControl), rabbitMqMessageBusFactory.Create()));
-            services.Add(new ServiceDescriptor(typeof(IRabbitMqHostConfiguration), typeof(EnvironmentVariableRabbitMqHostConfiguration), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IRabbitMqHostConfiguration), typeof(RabbitMqHostConfiguration), ServiceLifetime.Transient));
             services.AddSingleton(typeof(IConfigurationRoot), Configuration);
             services.Add(new ServiceDescriptor(typeof(ICommandSendConfiguration), typeof(CommandSendConfiguration), ServiceLifetime.Transient));
 
