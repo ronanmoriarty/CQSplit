@@ -5,15 +5,15 @@ namespace Cafe.Waiter.Web
 {
     public class RabbitMqHostConfiguration : IRabbitMqHostConfiguration
     {
-        private readonly IConfigurationSection _configurationSection;
+        private readonly IConfiguration _configuration;
 
         public RabbitMqHostConfiguration(IConfigurationRoot configuration)
         {
-            _configurationSection = configuration.GetSection("RabbitMq");
+            _configuration = configuration;
         }
 
-        public string Uri => _configurationSection["Uri"];
-        public string Username => _configurationSection["Username"];
-        public string Password => _configurationSection["Password"];
+        public string Uri => _configuration["RabbitMq:Uri"];
+        public string Username => _configuration["RabbitMq:Username"];
+        public string Password => _configuration["RabbitMq:Password"];
     }
 }
