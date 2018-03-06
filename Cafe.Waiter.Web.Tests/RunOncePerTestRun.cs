@@ -36,7 +36,8 @@ namespace Cafe.Waiter.Web.Tests
         {
             return new HostingEnvironment
             {
-                ContentRootPath = GetFolderThatContainsAppSettingsJsonFile()
+                ContentRootPath = GetFolderThatContainsAppSettingsJsonFile(),
+                EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"
             };
         }
 
