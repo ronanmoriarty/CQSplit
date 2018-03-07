@@ -54,10 +54,13 @@ Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    NUnit3("./**/bin/" + configuration + "/*.Tests.dll", new NUnit3Settings {
+    var nunitSearchPattern = "./**/bin/" + configuration + "/net461/*.Tests.dll";
+    Information("NUnit Search Pattern:" + nunitSearchPattern);
+    NUnit3(nunitSearchPattern, new NUnit3Settings {
         NoResults = true
         });
 });
+
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
