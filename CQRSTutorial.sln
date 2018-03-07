@@ -53,6 +53,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL", "CQRSTut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL.Tests", "CQRSTutorial.DAL.Tests\CQRSTutorial.DAL.Tests.csproj", "{EFD7279E-2F32-4E34-AA11-B365C7D52BBB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRSTutorial.Messaging.Tests.Common", "CQRSTutorial.Messaging.Tests.Common\CQRSTutorial.Messaging.Tests.Common.csproj", "{CBAC0F41-B227-4A0A-8DB7-40F1F03D5A0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -151,6 +153,10 @@ Global
 		{EFD7279E-2F32-4E34-AA11-B365C7D52BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFD7279E-2F32-4E34-AA11-B365C7D52BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFD7279E-2F32-4E34-AA11-B365C7D52BBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBAC0F41-B227-4A0A-8DB7-40F1F03D5A0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBAC0F41-B227-4A0A-8DB7-40F1F03D5A0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBAC0F41-B227-4A0A-8DB7-40F1F03D5A0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBAC0F41-B227-4A0A-8DB7-40F1F03D5A0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,6 +185,7 @@ Global
 		{CD9AD796-01F1-40D1-AD70-9F5824370C8C} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
 		{5DE24FE6-D672-42D3-BAFB-73B7FBDF00F8} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
 		{EFD7279E-2F32-4E34-AA11-B365C7D52BBB} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
+		{CBAC0F41-B227-4A0A-8DB7-40F1F03D5A0D} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82CC2E35-6545-4F3F-A883-30477B81350D}

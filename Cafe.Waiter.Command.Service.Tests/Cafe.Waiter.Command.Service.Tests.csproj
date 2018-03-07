@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Cafe.Waiter.Command.Service\Cafe.Waiter.Command.Service.csproj" />
     <ProjectReference Include="..\Cafe.Waiter.Commands\Cafe.Waiter.Commands.csproj" />
     <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj" />
+    <ProjectReference Include="..\CQRSTutorial.Messaging.Tests.Common\CQRSTutorial.Messaging.Tests.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
