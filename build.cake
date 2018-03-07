@@ -20,7 +20,9 @@ var configuration = Argument("configuration", "Release");
 Task("Clean")
     .Does(() =>
 {
-    CleanDirectories("./**/bin/" + configuration);
+    var cleanDirectoriesSearchPattern = "./**/bin/" + configuration;
+    Information("CleanDirectories at: " + cleanDirectoriesSearchPattern);
+    CleanDirectories(cleanDirectoriesSearchPattern);
 });
 
 Task("Restore-NuGet-Packages")
