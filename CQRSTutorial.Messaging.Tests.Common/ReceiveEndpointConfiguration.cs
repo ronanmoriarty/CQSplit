@@ -1,4 +1,4 @@
-﻿namespace CQRSTutorial.Messaging.Tests
+﻿namespace CQRSTutorial.Messaging.Tests.Common
 {
     public class ReceiveEndpointConfiguration : IReceiveEndpointConfiguration
     {

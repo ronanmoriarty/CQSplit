@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
 
-namespace CQRSTutorial.Messaging.Tests
+namespace CQRSTutorial.Messaging.Tests.Common
 {
     public class Consumer<TMessage>
         : IConsumer<TMessage> where TMessage : class

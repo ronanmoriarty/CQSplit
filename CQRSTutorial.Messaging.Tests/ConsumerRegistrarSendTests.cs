@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using CQRSTutorial.Messaging.Tests.Common;
 using MassTransit;
 using NUnit.Framework;
 

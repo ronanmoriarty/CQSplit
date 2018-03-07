@@ -2,7 +2,7 @@
 using System.Linq;
 using MassTransit;
 
-namespace CQRSTutorial.Messaging.Tests
+namespace CQRSTutorial.Messaging.Tests.Common
 {
     public class PreviouslyConstructedConsumerFactory : IConsumerFactory
     {

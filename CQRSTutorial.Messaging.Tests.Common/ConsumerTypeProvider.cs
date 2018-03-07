@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CQRSTutorial.Messaging.Tests
+namespace CQRSTutorial.Messaging.Tests.Common
 {
     public class ConsumerTypeProvider : IConsumerTypeProvider
     {
