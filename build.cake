@@ -22,7 +22,11 @@ var configuration = Argument("configuration", "Release");
 Task("Clean")
     .Does(() =>
 {
-    var cleanDirectoriesSearchPattern = "./**/bin/" + configuration;
+    var cleanDirectoriesSearchPattern = "./CQRSTutorial.*/**/bin/" + configuration;
+    Information("CleanDirectories at: " + cleanDirectoriesSearchPattern);
+    CleanDirectories(cleanDirectoriesSearchPattern);
+
+    cleanDirectoriesSearchPattern = "./Cafe.Waiter.*/**/bin/" + configuration;
     Information("CleanDirectories at: " + cleanDirectoriesSearchPattern);
     CleanDirectories(cleanDirectoriesSearchPattern);
 });
