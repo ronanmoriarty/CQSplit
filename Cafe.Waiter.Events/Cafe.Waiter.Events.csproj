@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CQRSTutorial.Core" Version="1.0.0-pre" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj" />
-    <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj" />
   </ItemGroup>
 
 </Project>
