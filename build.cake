@@ -66,6 +66,16 @@ Task("Run-Unit-Tests-Without-Build")
     KillNUnitAgentProcesses();
 });
 
+Task("Create-Nuget-Packages")
+    .IsDependentOn("Run-Unit-Tests")
+    .Does(() =>
+{
+    var nuGetPackSettings = new NuGetPackSettings {
+        OutputDirectory = "C:\\.nuget.local"
+    };
+    NuGetPack("./CQRSTutorial.Core/CQRSTutorial.Core.nuspec", nuGetPackSettings);
+});
+
 void RunNUnitTests()
 {
     var nunitSearchPattern = "./**/bin/" + configuration + "/net461/*.Tests.dll";
