@@ -60,13 +60,13 @@ Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    RunNUnitTests();
+    RunNUnitTests("./**/bin/" + configuration + "/net461/*.Tests.dll");
 });
 
 Task("Run-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunNUnitTests();
+    RunNUnitTests("./**/bin/" + configuration + "/net461/*.Tests.dll");
     KillNUnitAgentProcesses();
 });
 
@@ -113,9 +113,8 @@ Task("Create-Nuget-Packages")
     NuGetPack("./CQRSTutorial.Core/CQRSTutorial.Core.nuspec", nuGetPackSettings);
 });
 
-void RunNUnitTests()
+void RunNUnitTests(string nunitSearchPattern)
 {
-    var nunitSearchPattern = "./**/bin/" + configuration + "/net461/*.Tests.dll";
     Information("NUnit Search Pattern:" + nunitSearchPattern);
     NUnit3(nunitSearchPattern, new NUnit3Settings {
         NoResults = true
