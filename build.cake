@@ -70,6 +70,14 @@ Task("Run-Unit-Tests-Without-Build")
     KillNUnitAgentProcesses();
 });
 
+Task("Clean-CQRS")
+    .Does(() =>
+{
+    var cleanDirectoriesSearchPattern = "./src/CQRS/**/bin/" + configuration;
+    Information("CleanDirectories at: " + cleanDirectoriesSearchPattern);
+    CleanDirectories(cleanDirectoriesSearchPattern);
+});
+
 Task("Create-Nuget-Packages")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
