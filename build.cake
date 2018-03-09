@@ -78,6 +78,13 @@ Task("Clean-CQRS")
     CleanDirectories(cleanDirectoriesSearchPattern);
 });
 
+Task("Restore-NuGet-Packages-CQRS")
+    .IsDependentOn("Clean-CQRS")
+    .Does(() =>
+{
+    NuGetRestore("./src/CQRS/CQRS.sln");
+});
+
 Task("Create-Nuget-Packages")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
