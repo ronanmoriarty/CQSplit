@@ -103,6 +103,13 @@ Task("Build-CQRS")
     }
 });
 
+Task("Run-Unit-Tests-CQRS")
+    .IsDependentOn("Build-CQRS")
+    .Does(() =>
+{
+    RunNUnitTests("./src/CQRS/**/bin/" + configuration + "/net461/*.Tests.dll");
+});
+
 Task("Create-Nuget-Packages")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
