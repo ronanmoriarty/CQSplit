@@ -85,6 +85,24 @@ Task("Restore-NuGet-Packages-CQRS")
     NuGetRestore("./src/CQRS/CQRS.sln");
 });
 
+Task("Build-CQRS")
+    .IsDependentOn("Restore-NuGet-Packages-CQRS")
+    .Does(() =>
+{
+    if(IsRunningOnWindows())
+    {
+      // Use MSBuild
+      MSBuild("./src/CQRS/CQRS.sln", settings =>
+        settings.SetConfiguration(configuration));
+    }
+    else
+    {
+      // Use XBuild
+      XBuild("./src/CQRS/CQRS.sln", settings =>
+        settings.SetConfiguration(configuration));
+    }
+});
+
 Task("Create-Nuget-Packages")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
