@@ -110,14 +110,14 @@ Task("Run-Unit-Tests-CQRS")
     RunNUnitTests("./src/CQRS/**/bin/" + configuration + "/net461/*.Tests.dll");
 });
 
-Task("Create-Nuget-Packages")
-    .IsDependentOn("Run-Unit-Tests")
+Task("Create-Nuget-Packages-CQRS")
+    .IsDependentOn("Run-Unit-Tests-CQRS")
     .Does(() =>
 {
     var nuGetPackSettings = new NuGetPackSettings {
         OutputDirectory = "C:\\.nuget.local"
     };
-    NuGetPack("./CQRSTutorial.Core/CQRSTutorial.Core.nuspec", nuGetPackSettings);
+    NuGetPack("./src/CQRS/CQRSTutorial.Core/CQRSTutorial.Core.nuspec", nuGetPackSettings);
 });
 
 void RunNUnitTests(string nunitSearchPattern)
