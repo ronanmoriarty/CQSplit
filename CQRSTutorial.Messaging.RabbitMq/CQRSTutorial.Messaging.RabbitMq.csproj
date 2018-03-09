@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CQRSTutorial.Messaging" Version="1.0.0-pre" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="3.5.7" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CQRSTutorial.Messaging\CQRSTutorial.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

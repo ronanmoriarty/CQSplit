@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>CQRSTutorial.Messaging</id>
+    <version>1.0.0-pre</version>
+    <authors>Ronan Moriarty</authors>
+    <owners>Fundraising Innovations Ltd.</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="MassTransit" version="3.5.7" />
+        <dependency id="MassTransit.Log4Net" version="3.5.7" />
+        <dependency id="CQRSTutorial.Core" version="1.0.0-pre" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Debug\netstandard2.0\CQRSTutorial.Messaging.dll" target="lib" />
+  </files>
+</package>

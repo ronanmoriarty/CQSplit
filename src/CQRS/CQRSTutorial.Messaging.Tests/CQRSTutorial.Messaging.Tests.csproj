@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj" />
     <ProjectReference Include="..\CQRSTutorial.Messaging.Tests.Common\CQRSTutorial.Messaging.Tests.Common.csproj" />
     <ProjectReference Include="..\CQRSTutorial.Messaging\CQRSTutorial.Messaging.csproj" />
   </ItemGroup>
