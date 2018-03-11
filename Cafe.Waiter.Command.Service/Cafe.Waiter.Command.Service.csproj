@@ -7,12 +7,12 @@
 
   <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="4.1.0" />
+    <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.0-pre" />
     <PackageReference Include="Topshelf" Version="4.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj" />
-    <ProjectReference Include="..\CQRSTutorial.Messaging.RabbitMq\CQRSTutorial.Messaging.RabbitMq.csproj" />
     <ProjectReference Include="..\CQRSTutorial.Publish\CQRSTutorial.Publish.csproj" />
   </ItemGroup>
 

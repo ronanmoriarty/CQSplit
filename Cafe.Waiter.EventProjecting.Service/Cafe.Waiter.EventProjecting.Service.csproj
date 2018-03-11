@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="4.1.0" />
+    <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.0-pre" />
     <PackageReference Include="EntityFramework" Version="6.2.0" />
     <PackageReference Include="Topshelf" Version="4.0.3" />
   </ItemGroup>
@@ -14,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Cafe.Waiter.Events\Cafe.Waiter.Events.csproj" />
     <ProjectReference Include="..\Cafe.Waiter.Queries.DAL\Cafe.Waiter.Queries.DAL.csproj" />
-    <ProjectReference Include="..\CQRSTutorial.Messaging.RabbitMq\CQRSTutorial.Messaging.RabbitMq.csproj" />
   </ItemGroup>
 
   <ItemGroup>
