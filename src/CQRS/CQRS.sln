@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Core", "CQRSTutorial.Core\CQRSTutorial.Core.csproj", "{0C4DD36D-EE4A-4730-9365-FA894C132B90}"
 EndProject
@@ -14,6 +14,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Messaging.Tests.Common", "CQRSTutorial.Messaging.Tests.Common\CQRSTutorial.Messaging.Tests.Common.csproj", "{B26B30A3-CC8D-4112-A345-5F535195E8C7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Messaging.RabbitMq", "CQRSTutorial.Messaging.RabbitMq\CQRSTutorial.Messaging.RabbitMq.csproj", "{268519B5-FE79-4678-88A8-2883528693A0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL.Common", "CQRSTutorial.DAL.Common\CQRSTutorial.DAL.Common.csproj", "{29E96C47-75B2-4324-92C8-2EECEF9447D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL", "CQRSTutorial.DAL\CQRSTutorial.DAL.csproj", "{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL.Tests.Common", "CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj", "{08307542-E409-452A-B760-77F81E76D237}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL.Tests", "CQRSTutorial.DAL.Tests\CQRSTutorial.DAL.Tests.csproj", "{CDD45365-53FC-4B96-B014-BDA771C1E080}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +53,22 @@ Global
 		{268519B5-FE79-4678-88A8-2883528693A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{268519B5-FE79-4678-88A8-2883528693A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{268519B5-FE79-4678-88A8-2883528693A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29E96C47-75B2-4324-92C8-2EECEF9447D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29E96C47-75B2-4324-92C8-2EECEF9447D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29E96C47-75B2-4324-92C8-2EECEF9447D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29E96C47-75B2-4324-92C8-2EECEF9447D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08307542-E409-452A-B760-77F81E76D237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08307542-E409-452A-B760-77F81E76D237}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08307542-E409-452A-B760-77F81E76D237}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08307542-E409-452A-B760-77F81E76D237}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDD45365-53FC-4B96-B014-BDA771C1E080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDD45365-53FC-4B96-B014-BDA771C1E080}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDD45365-53FC-4B96-B014-BDA771C1E080}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDD45365-53FC-4B96-B014-BDA771C1E080}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

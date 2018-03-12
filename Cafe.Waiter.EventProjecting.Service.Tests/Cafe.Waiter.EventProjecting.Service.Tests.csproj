@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CQRSTutorial.DAL.Tests.Common" Version="1.0.0-pre" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
     <PackageReference Include="NSubstitute" Version="3.1.0" />
     <PackageReference Include="NUnit" Version="3.8.1" />
@@ -13,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Cafe.Waiter.EventProjecting.Service\Cafe.Waiter.EventProjecting.Service.csproj" />
-    <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

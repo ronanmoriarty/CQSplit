@@ -5,13 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CQRSTutorial.DAL.Common" Version="1.0.0-pre" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CQRSTutorial.DAL.Common\CQRSTutorial.DAL.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -121,6 +121,9 @@ Task("Create-Nuget-Packages-CQRS")
     NuGetPack("./src/CQRS/CQRSTutorial.Messaging/CQRSTutorial.Messaging.nuspec", nuGetPackSettings);
     NuGetPack("./src/CQRS/CQRSTutorial.Messaging.Tests.Common/CQRSTutorial.Messaging.Tests.Common.nuspec", nuGetPackSettings);
     NuGetPack("./src/CQRS/CQRSTutorial.Messaging.RabbitMq/CQRSTutorial.Messaging.RabbitMq.nuspec", nuGetPackSettings);
+    NuGetPack("./src/CQRS/CQRSTutorial.DAL/CQRSTutorial.DAL.nuspec", nuGetPackSettings);
+    NuGetPack("./src/CQRS/CQRSTutorial.DAL.Common/CQRSTutorial.DAL.Common.nuspec", nuGetPackSettings);
+    NuGetPack("./src/CQRS/CQRSTutorial.DAL.Tests.Common/CQRSTutorial.DAL.Tests.Common.nuspec", nuGetPackSettings);
 });
 
 void RunNUnitTests(string nunitSearchPattern)

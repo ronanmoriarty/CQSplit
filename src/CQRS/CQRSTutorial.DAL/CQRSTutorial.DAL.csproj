@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CQRSTutorial.Core" Version="1.0.0-pre" />
     <PackageReference Include="EntityFramework" Version="6.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj" />
     <ProjectReference Include="..\CQRSTutorial.DAL.Common\CQRSTutorial.DAL.Common.csproj" />
   </ItemGroup>
 
