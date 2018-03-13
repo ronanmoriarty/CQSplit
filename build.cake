@@ -22,7 +22,7 @@ var configuration = Argument("configuration", "Release");
 Task("Clean")
     .Does(() =>
 {
-    var cleanDirectoriesSearchPattern = "./Cafe.Waiter.*/**/bin/" + configuration;
+    var cleanDirectoriesSearchPattern = "./src/Cafe/**/bin/" + configuration;
     Information("CleanDirectories at: " + cleanDirectoriesSearchPattern);
     CleanDirectories(cleanDirectoriesSearchPattern);
 });
@@ -31,7 +31,7 @@ Task("Restore-NuGet-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    NuGetRestore("./Cafe.sln");
+    NuGetRestore("./src/Cafe/Cafe.sln");
 });
 
 Task("Build")
@@ -41,13 +41,13 @@ Task("Build")
     if(IsRunningOnWindows())
     {
       // Use MSBuild
-      MSBuild("./Cafe.sln", settings =>
+      MSBuild("./src/Cafe/Cafe.sln", settings =>
         settings.SetConfiguration(configuration));
     }
     else
     {
       // Use XBuild
-      XBuild("./Cafe.sln", settings =>
+      XBuild("./src/Cafe/Cafe.sln", settings =>
         settings.SetConfiguration(configuration));
     }
 });
@@ -56,13 +56,13 @@ Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    RunNUnitTests("./**/bin/" + configuration + "/net461/*.Tests.dll");
+    RunNUnitTests("./src/Cafe/**/bin/" + configuration + "/net461/*.Tests.dll");
 });
 
 Task("Run-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunNUnitTests("./**/bin/" + configuration + "/net461/*.Tests.dll");
+    RunNUnitTests("./src/Cafe/**/bin/" + configuration + "/net461/*.Tests.dll");
     KillNUnitAgentProcesses();
 });
 
