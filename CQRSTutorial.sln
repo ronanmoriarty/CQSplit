@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.26730.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cafe.Waiter", "Cafe.Waiter", "{2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CQRS", "CQRS", "{C8B7C92A-A580-43E6-BC50-86924F408F6F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cafe.Waiter.Web", "Cafe.Waiter.Web\Cafe.Waiter.Web.csproj", "{20DC8351-7C03-454D-9E0D-2403FEA7EAB8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cafe.Waiter.Web.Tests", "Cafe.Waiter.Web.Tests\Cafe.Waiter.Web.Tests.csproj", "{AB0A210E-3E4C-458D-9B38-DB3D46A6C34E}"
@@ -30,10 +28,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cafe.Waiter.EventProjecting.Service", "Cafe.Waiter.EventProjecting.Service\Cafe.Waiter.EventProjecting.Service.csproj", "{2618FE24-0CC2-4BDA-BFCE-EE35EE1A999C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cafe.Waiter.EventProjecting.Service.Tests", "Cafe.Waiter.EventProjecting.Service.Tests\Cafe.Waiter.EventProjecting.Service.Tests.csproj", "{E87ED5BA-15DE-4BA8-A451-07E1E191DC76}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Publish", "CQRSTutorial.Publish\CQRSTutorial.Publish.csproj", "{C39D3690-C646-4F17-8A96-53CB841224B7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Publish.Tests", "CQRSTutorial.Publish.Tests\CQRSTutorial.Publish.Tests.csproj", "{DDB996C1-7121-49F2-A14F-296692EB216A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,14 +83,6 @@ Global
 		{E87ED5BA-15DE-4BA8-A451-07E1E191DC76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E87ED5BA-15DE-4BA8-A451-07E1E191DC76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E87ED5BA-15DE-4BA8-A451-07E1E191DC76}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C39D3690-C646-4F17-8A96-53CB841224B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C39D3690-C646-4F17-8A96-53CB841224B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C39D3690-C646-4F17-8A96-53CB841224B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C39D3690-C646-4F17-8A96-53CB841224B7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DDB996C1-7121-49F2-A14F-296692EB216A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDB996C1-7121-49F2-A14F-296692EB216A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDB996C1-7121-49F2-A14F-296692EB216A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDB996C1-7121-49F2-A14F-296692EB216A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,8 +100,6 @@ Global
 		{15BCDDC7-4884-4447-9179-2A3EF3C92A78} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 		{2618FE24-0CC2-4BDA-BFCE-EE35EE1A999C} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 		{E87ED5BA-15DE-4BA8-A451-07E1E191DC76} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
-		{C39D3690-C646-4F17-8A96-53CB841224B7} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
-		{DDB996C1-7121-49F2-A14F-296692EB216A} = {C8B7C92A-A580-43E6-BC50-86924F408F6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82CC2E35-6545-4F3F-A883-30477B81350D}

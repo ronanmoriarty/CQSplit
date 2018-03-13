@@ -124,6 +124,7 @@ Task("Create-Nuget-Packages-CQRS")
     NuGetPack("./src/CQRS/CQRSTutorial.DAL/CQRSTutorial.DAL.nuspec", nuGetPackSettings);
     NuGetPack("./src/CQRS/CQRSTutorial.DAL.Common/CQRSTutorial.DAL.Common.nuspec", nuGetPackSettings);
     NuGetPack("./src/CQRS/CQRSTutorial.DAL.Tests.Common/CQRSTutorial.DAL.Tests.Common.nuspec", nuGetPackSettings);
+    NuGetPack("./src/CQRS/CQRSTutorial.Publish/CQRSTutorial.Publish.nuspec", nuGetPackSettings);
 });
 
 void RunNUnitTests(string nunitSearchPattern)

@@ -23,6 +23,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL.Tests.Comm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL.Tests", "CQRSTutorial.DAL.Tests\CQRSTutorial.DAL.Tests.csproj", "{CDD45365-53FC-4B96-B014-BDA771C1E080}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Publish", "CQRSTutorial.Publish\CQRSTutorial.Publish.csproj", "{084806F2-1F0B-4B87-BEE1-B33A4E6905ED}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Publish.Tests", "CQRSTutorial.Publish.Tests\CQRSTutorial.Publish.Tests.csproj", "{20B91A87-833F-4E96-85EE-8A2805CD9E82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{CDD45365-53FC-4B96-B014-BDA771C1E080}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDD45365-53FC-4B96-B014-BDA771C1E080}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDD45365-53FC-4B96-B014-BDA771C1E080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{084806F2-1F0B-4B87-BEE1-B33A4E6905ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{084806F2-1F0B-4B87-BEE1-B33A4E6905ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{084806F2-1F0B-4B87-BEE1-B33A4E6905ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{084806F2-1F0B-4B87-BEE1-B33A4E6905ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20B91A87-833F-4E96-85EE-8A2805CD9E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20B91A87-833F-4E96-85EE-8A2805CD9E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20B91A87-833F-4E96-85EE-8A2805CD9E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20B91A87-833F-4E96-85EE-8A2805CD9E82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
