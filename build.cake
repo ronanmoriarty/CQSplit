@@ -22,11 +22,7 @@ var configuration = Argument("configuration", "Release");
 Task("Clean")
     .Does(() =>
 {
-    var cleanDirectoriesSearchPattern = "./CQRSTutorial.*/**/bin/" + configuration;
-    Information("CleanDirectories at: " + cleanDirectoriesSearchPattern);
-    CleanDirectories(cleanDirectoriesSearchPattern);
-
-    cleanDirectoriesSearchPattern = "./Cafe.Waiter.*/**/bin/" + configuration;
+    var cleanDirectoriesSearchPattern = "./Cafe.Waiter.*/**/bin/" + configuration;
     Information("CleanDirectories at: " + cleanDirectoriesSearchPattern);
     CleanDirectories(cleanDirectoriesSearchPattern);
 });
@@ -35,7 +31,7 @@ Task("Restore-NuGet-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    NuGetRestore("./CQRSTutorial.sln");
+    NuGetRestore("./Cafe.sln");
 });
 
 Task("Build")
@@ -45,13 +41,13 @@ Task("Build")
     if(IsRunningOnWindows())
     {
       // Use MSBuild
-      MSBuild("./CQRSTutorial.sln", settings =>
+      MSBuild("./Cafe.sln", settings =>
         settings.SetConfiguration(configuration));
     }
     else
     {
       // Use XBuild
-      XBuild("./CQRSTutorial.sln", settings =>
+      XBuild("./Cafe.sln", settings =>
         settings.SetConfiguration(configuration));
     }
 });
