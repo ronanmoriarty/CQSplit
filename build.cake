@@ -140,7 +140,7 @@ void RunNUnitTests(string nunitSearchPattern)
 void KillNUnitAgentProcesses()
 {
     Information("Killing NUnit Agent processes...");
-    StartPowershellScript("Get-Process -Name nunit-agent | Stop-Process");
+    StartPowershellScript("Get-Process -Name nunit-agent -ErrorAction SilentlyContinue | Stop-Process");
 }
 
 //////////////////////////////////////////////////////////////////////
