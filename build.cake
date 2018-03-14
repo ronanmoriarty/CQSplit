@@ -31,7 +31,7 @@ Task("Restore-NuGet-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    NuGetRestore("./src/Cafe/Cafe.sln");
+    DotNetCoreRestore("./src/Cafe/Cafe.sln");
 });
 
 Task("Build")
