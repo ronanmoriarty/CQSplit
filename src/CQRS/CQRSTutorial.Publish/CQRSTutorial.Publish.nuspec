@@ -16,6 +16,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\net461\CQRSTutorial.Publish.dll" target="lib" />
+    <file src="bin\Release\net461\CQRSTutorial.Publish.dll" target="lib\net461" />
   </files>
 </package>

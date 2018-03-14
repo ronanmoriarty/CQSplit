@@ -17,6 +17,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\net461\CQRSTutorial.DAL.dll" target="lib" />
+    <file src="bin\Release\net461\CQRSTutorial.DAL.dll" target="lib\net461" />
   </files>
 </package>
