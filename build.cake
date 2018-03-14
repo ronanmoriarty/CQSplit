@@ -80,7 +80,7 @@ Task("Clean-CQRS")
     CleanDirectories(cleanDirectoriesSearchPattern);
 });
 
-Task("Restore-NuGet-Packages-CQRS")
+Task("Restore-CQRS-NuGet-Packages")
     .IsDependentOn("Clean-CQRS")
     .Does(() =>
 {
@@ -88,7 +88,7 @@ Task("Restore-NuGet-Packages-CQRS")
 });
 
 Task("Build-CQRS")
-    .IsDependentOn("Restore-NuGet-Packages-CQRS")
+    .IsDependentOn("Restore-CQRS-NuGet-Packages")
     .Does(() =>
 {
     if(IsRunningOnWindows())
@@ -105,15 +105,15 @@ Task("Build-CQRS")
     }
 });
 
-Task("Run-Unit-Tests-CQRS")
+Task("Run-CQRS-Unit-Tests")
     .IsDependentOn("Build-CQRS")
     .Does(() =>
 {
     RunNUnitTests("./src/CQRS/**/bin/" + configuration + "/net461/*.Tests.dll");
 });
 
-Task("Create-Nuget-Packages-CQRS")
-    .IsDependentOn("Run-Unit-Tests-CQRS")
+Task("Create-CQRS-Nuget-Packages")
+    .IsDependentOn("Run-CQRS-Unit-Tests")
     .Does(() =>
 {
     var nuGetPackSettings = new NuGetPackSettings {
