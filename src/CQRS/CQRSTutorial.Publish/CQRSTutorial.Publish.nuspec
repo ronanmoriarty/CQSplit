@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>CQRSTutorial.Publish</id>
+    <version>1.0.0-pre</version>
+    <authors>Ronan Moriarty</authors>
+    <owners>Fundraising Innovations Ltd.</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework="net461">
+        <dependency id="CQRSTutorial.DAL" version="1.0.0-pre" />
+        <dependency id="CQRSTutorial.Messaging" version="1.0.0-pre" />
+        <dependency id="log4Net" version="2.0.8" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\net461\CQRSTutorial.Publish.dll" target="lib" />
+  </files>
+</package>

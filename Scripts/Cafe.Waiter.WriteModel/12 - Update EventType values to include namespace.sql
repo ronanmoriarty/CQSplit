@@ -1,1 +1,0 @@
-UPDATE dbo.EventsToPublish SET EventType = 'Cafe.Waiter.Events.TabOpened' WHERE EventType = 'TabOpened'

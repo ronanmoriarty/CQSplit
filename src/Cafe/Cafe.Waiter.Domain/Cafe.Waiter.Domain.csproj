@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CQRSTutorial.Core" Version="1.0.0-pre" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj" />
+    <ProjectReference Include="..\Cafe.Waiter.Events\Cafe.Waiter.Events.csproj" />
+  </ItemGroup>
+
+</Project>
