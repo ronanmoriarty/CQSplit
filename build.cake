@@ -84,7 +84,7 @@ Task("Restore-NuGet-Packages-CQRS")
     .IsDependentOn("Clean-CQRS")
     .Does(() =>
 {
-    NuGetRestore("./src/CQRS/CQRS.sln");
+    DotNetCoreRestore("./src/CQRS/CQRS.sln");
 });
 
 Task("Build-CQRS")
