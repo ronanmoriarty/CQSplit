@@ -56,15 +56,21 @@ Task("Run-Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    RunNUnitTests("./src/Cafe/**/bin/" + configuration + "/net461/*.Tests.dll");
+    RunCafeUnitTests();
 });
 
 Task("Run-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunNUnitTests("./src/Cafe/**/bin/" + configuration + "/net461/*.Tests.dll");
-    KillNUnitAgentProcesses();
+    RunCafeUnitTests();
 });
+
+private void RunCafeUnitTests()
+{
+    RunNUnitTests("./src/Cafe/**/bin/" + configuration + "/net461/*.Tests.dll");
+    DotNetCoreTest("./src/Cafe/Cafe.Waiter.Web.Tests/Cafe.Waiter.Web.Tests.csproj");
+    KillNUnitAgentProcesses();
+}
 
 Task("Clean-CQRS")
     .Does(() =>
