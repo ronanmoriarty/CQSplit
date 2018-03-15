@@ -1,5 +1,6 @@
-FROM microsoft/dotnet-framework-build:4.7.1
+#escape=`
+FROM microsoft/mssql-server-windows-express
 WORKDIR /app
-COPY . .
-RUN dotnet restore
-RUN msbuild.exe /t:Build /p:Configuration=Release /p:OutputPath=out
+COPY .\src\Scripts\Cafe.Waiter.WriteModel .\scripts
+SHELL [ "powershell" ]
+ENTRYPOINT [ "powershell" ]
