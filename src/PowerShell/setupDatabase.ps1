@@ -1,7 +1,9 @@
 [CmdletBinding()]
 Param(
-    [string]$dbName = 'CQRSTutorial.Cafe.Waiter.WriteModel',
-    [string]$dbFolder = 'C:\app\databases'
+    [Parameter(Mandatory=$true)]
+    [string]$dbName,
+    [Parameter(Mandatory=$true)]
+    [string]$dbFolder
 )
 
 [reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo")
