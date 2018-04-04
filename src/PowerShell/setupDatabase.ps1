@@ -8,6 +8,30 @@ Param(
 
 [reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo")
 
+function CreateNewDatabase ($dbFolder, $mdfFilePath, $server, $dbName) {
+    if(!(Test-Path $dbFolder))
+    {
+        mkdir $dbFolder
+    }
+
+    try
+    {
+        Write-Host "$mdfFilePath does not exist. Creating new database..."
+        $database = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Database -ArgumentList $server, $dbName
+        $database.DatabaseOptions.AutoShrink = $true
+        $primaryFileGroup = New-Object -TypeName Microsoft.SqlServer.Management.Smo.FileGroup -ArgumentList $database, 'PRIMARY'
+        $database.FileGroups.Add($primaryFileGroup)
+        $dataFile = New-Object -TypeName Microsoft.SqlServer.Management.Smo.DataFile -ArgumentList $primaryFileGroup, "$($dbName)_Data", $mdfFilePath
+        $primaryFileGroup.Files.Add($dataFile)
+        $database.Create()
+        Get-ChildItem $dbFolder
+    }
+    catch [Exception]
+    {
+        Write-Output $_.Exception|format-list -force
+    }
+}
+
 $server = new-object ("Microsoft.SqlServer.Management.Smo.Server") "."
 $database = $server.Databases[$dbName]
 if($database -eq $null)
@@ -20,26 +44,7 @@ if($database -eq $null)
     }
     else
     {
-        if(!(Test-Path $dbFolder))
-        {
-            mkdir $dbFolder
-        }
-
-        try
-        {
-            Write-Host "$mdfFilePath does not exist. Creating new database..."
-            $database = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Database -ArgumentList $server, $dbName
-            $database.DatabaseOptions.AutoShrink = $true
-            $primaryFileGroup = New-Object -TypeName Microsoft.SqlServer.Management.Smo.FileGroup -ArgumentList $database, 'PRIMARY'
-            $database.FileGroups.Add($primaryFileGroup)
-            $dataFile = New-Object -TypeName Microsoft.SqlServer.Management.Smo.DataFile -ArgumentList $primaryFileGroup, "$($dbName)_Data", $mdfFilePath
-            $primaryFileGroup.Files.Add($dataFile)
-            $database.Create()
-        }
-        catch [Exception]
-        {
-            Write-Output $_.Exception|format-list -force
-        }
+        CreateNewDatabase $dbFolder $mdfFilePath $server $dbName
     }
 }
 else
