@@ -13,6 +13,11 @@ function GetMdfFilePath($dbName)
     return "$dbFolder\$dbName.mdf"
 }
 
+function GetLdfFilePath($dbName)
+{
+    return "$dbFolder\$($dbName)_log.ldf"
+}
+
 function CreateNewDatabase ($server, $dbName) {
     if(!(Test-Path $dbFolder))
     {
@@ -38,11 +43,11 @@ function CreateNewDatabase ($server, $dbName) {
     }
 }
 
-function AttachExistingDatabase ($mdfFilePath, $ldfFilePath, $server, $dbName) {
-    Write-Host "WriteModel database $mdfFilePath found. Attaching as $dbName..."
+function AttachExistingDatabase ($server, $dbName) {
+    Write-Host "Attaching database $dbName..."
     $dataFiles = New-Object System.Collections.Specialized.StringCollection
-    $dataFiles.Add($mdfFilePath)
-    $dataFiles.Add($ldfFilePath)
+    $dataFiles.Add((GetMdfFilePath $dbName))
+    $dataFiles.Add((GetLdfFilePath $dbName))
     $server.AttachDatabase($dbName, $dataFiles)
     Write-Host $server.Databases
 }
@@ -52,11 +57,9 @@ $database = $server.Databases[$dbName]
 if($database -eq $null)
 {
     Write-Host "$dbName database not found."
-    $mdfFilePath = "$dbFolder\$dbName.mdf"
-    $ldfFilePath = "$dbFolder\$($dbName)_log.ldf"
-    if(Test-Path $mdfFilePath)
+    if(Test-Path (GetMdfFilePath $dbName))
     {
-        AttachExistingDatabase $mdfFilePath $ldfFilePath $server $dbName
+        AttachExistingDatabase $server $dbName
     }
     else
     {
