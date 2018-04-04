@@ -67,21 +67,26 @@ function DatabaseFilesExist ()
     return $dbFilesExist
 }
 
-$server = new-object Microsoft.SqlServer.Management.Smo.Server -ArgumentList "."
-$database = $server.Databases[$dbName]
-if($database -eq $null)
+function EnsureDatabaseExists()
 {
-    Write-Host "$dbName database not found."
-    if(DatabaseFilesExist)
+    $server = new-object Microsoft.SqlServer.Management.Smo.Server -ArgumentList "."
+    $database = $server.Databases[$dbName]
+    if($database -eq $null)
     {
-        AttachExistingDatabase $server $dbName
+        Write-Host "$dbName database not found."
+        if(DatabaseFilesExist)
+        {
+            AttachExistingDatabase $server $dbName
+        }
+        else
+        {
+            CreateNewDatabase $server $dbName
+        }
     }
     else
     {
-        CreateNewDatabase $server $dbName
+        Write-Host "$dbName already attached."
     }
 }
-else
-{
-    Write-Host "$dbName already attached."
-}
+
+EnsureDatabaseExists
