@@ -8,7 +8,12 @@ Param(
 
 [reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo")
 
-function CreateNewDatabase ($dbFolder, $mdfFilePath, $server, $dbName) {
+function GetMdfFilePath($dbName)
+{
+    return "$dbFolder\$dbName.mdf"
+}
+
+function CreateNewDatabase ($server, $dbName) {
     if(!(Test-Path $dbFolder))
     {
         mkdir $dbFolder
@@ -16,11 +21,12 @@ function CreateNewDatabase ($dbFolder, $mdfFilePath, $server, $dbName) {
 
     try
     {
-        Write-Host "$mdfFilePath does not exist. Creating new database..."
+        Write-Host "Creating new database $dbName..."
         $database = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Database -ArgumentList $server, $dbName
         $database.DatabaseOptions.AutoShrink = $true
         $primaryFileGroup = New-Object -TypeName Microsoft.SqlServer.Management.Smo.FileGroup -ArgumentList $database, 'PRIMARY'
         $database.FileGroups.Add($primaryFileGroup)
+        $mdfFilePath = GetMdfFilePath $dbName
         $dataFile = New-Object -TypeName Microsoft.SqlServer.Management.Smo.DataFile -ArgumentList $primaryFileGroup, "$($dbName)_Data", $mdfFilePath
         $primaryFileGroup.Files.Add($dataFile)
         $database.Create()
@@ -54,7 +60,7 @@ if($database -eq $null)
     }
     else
     {
-        CreateNewDatabase $dbFolder $mdfFilePath $server $dbName
+        CreateNewDatabase $server $dbName
     }
 }
 else
