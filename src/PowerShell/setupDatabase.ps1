@@ -3,7 +3,9 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$dbName,
     [Parameter(Mandatory=$true)]
-    [string]$dbFolder
+    [string]$dbFolder,
+    [Parameter(Mandatory=$true)]
+    [string]$dbScriptsFolder
 )
 
 [reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo")
@@ -89,4 +91,11 @@ function EnsureDatabaseExists()
     }
 }
 
+function ApplyDatabaseMigrations()
+{
+    Write-Host "Applying scripts from $dbScriptsFolder..."
+    Get-ChildItem $dbScriptsFolder | Sort-Object | ForEach-Object { Invoke-SqlCmd -InputFile $_.FullName -ServerInstance "." -Database $dbName }
+}
+
 EnsureDatabaseExists
+ApplyDatabaseMigrations
