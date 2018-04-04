@@ -52,12 +52,27 @@ function AttachExistingDatabase ($server, $dbName) {
     Write-Host $server.Databases
 }
 
+function DatabaseFilesExist ()
+{
+    $dbFilesExist = (Test-Path (GetMdfFilePath $dbName)) -and (Test-Path (GetLdfFilePath $dbName))
+    if($dbFilesExist)
+    {
+        Write-Host "Files found for $dbName database."
+    }
+    else
+    {
+        Write-Host "No files found for $dbName database."
+    }
+
+    return $dbFilesExist
+}
+
 $server = new-object Microsoft.SqlServer.Management.Smo.Server -ArgumentList "."
 $database = $server.Databases[$dbName]
 if($database -eq $null)
 {
     Write-Host "$dbName database not found."
-    if(Test-Path (GetMdfFilePath $dbName))
+    if(DatabaseFilesExist)
     {
         AttachExistingDatabase $server $dbName
     }
