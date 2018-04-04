@@ -28,19 +28,29 @@ function CreateNewDatabase ($dbFolder, $mdfFilePath, $server, $dbName) {
     }
     catch [Exception]
     {
-        Write-Output $_.Exception|format-list -force
+        Write-Host $_.Exception|format-list -force
     }
 }
 
-$server = new-object ("Microsoft.SqlServer.Management.Smo.Server") "."
+function AttachExistingDatabase ($mdfFilePath, $ldfFilePath, $server, $dbName) {
+    Write-Host "WriteModel database $mdfFilePath found. Attaching as $dbName..."
+    $dataFiles = New-Object System.Collections.Specialized.StringCollection
+    $dataFiles.Add($mdfFilePath)
+    $dataFiles.Add($ldfFilePath)
+    $server.AttachDatabase($dbName, $dataFiles)
+    Write-Host $server.Databases
+}
+
+$server = new-object Microsoft.SqlServer.Management.Smo.Server -ArgumentList "."
 $database = $server.Databases[$dbName]
 if($database -eq $null)
 {
     Write-Host "$dbName database not found."
     $mdfFilePath = "$dbFolder\$dbName.mdf"
+    $ldfFilePath = "$dbFolder\$($dbName)_log.ldf"
     if(Test-Path $mdfFilePath)
     {
-        Write-Host "WriteModel database $mdfFilePath found. Attaching as $dbName..."
+        AttachExistingDatabase $mdfFilePath $ldfFilePath $server $dbName
     }
     else
     {
