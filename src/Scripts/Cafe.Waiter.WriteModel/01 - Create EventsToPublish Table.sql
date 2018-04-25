@@ -1,13 +1,11 @@
-IF EXISTS(SELECT 1 FROM sys.tables WHERE object_id = OBJECT_ID(N'dbo.EventsToPublish'))
+IF NOT EXISTS(SELECT 1 FROM sys.tables WHERE object_id = OBJECT_ID(N'dbo.EventsToPublish'))
 BEGIN
-	DROP TABLE dbo.EventsToPublish
+	CREATE TABLE dbo.EventsToPublish
+	(
+		Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+		EventType NVARCHAR(25) NOT NULL,
+		[Data] NVARCHAR(MAX) NOT NULL,
+		Created DATETIME NOT NULL
+	)
 END
 GO
-
-CREATE TABLE dbo.EventsToPublish
-(
-	Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
-	EventType NVARCHAR(25) NOT NULL,
-	[Data] NVARCHAR(MAX) NOT NULL,
-	Created DATETIME NOT NULL
-)
