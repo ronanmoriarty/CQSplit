@@ -78,10 +78,14 @@ function GetLocalSqlServer()
     return new-object Microsoft.SqlServer.Management.Smo.Server -ArgumentList "."
 }
 
+function DatabaseExists()
+{
+    return ((GetLocalSqlServer).Databases[$dbName]) -ne $null
+}
+
 function EnsureDatabaseExists()
 {
-    $database = (GetLocalSqlServer).Databases[$dbName]
-    if($database -eq $null)
+    if(-Not (DatabaseExists))
     {
         Write-Host "$dbName database not found."
         if(DatabaseFilesExist)
