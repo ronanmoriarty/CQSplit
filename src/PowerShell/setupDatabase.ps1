@@ -20,7 +20,7 @@ function GetLdfFilePath($dbName)
     return "$dbFolder\$($dbName)_log.ldf"
 }
 
-function CreateNewDatabase ($server, $dbName) {
+function CreateNewDatabase ($server) {
     if(!(Test-Path $dbFolder))
     {
         mkdir $dbFolder
@@ -45,7 +45,7 @@ function CreateNewDatabase ($server, $dbName) {
     }
 }
 
-function AttachExistingDatabase ($server, $dbName) {
+function AttachExistingDatabase ($server) {
     Write-Host "Attaching database $dbName..."
     $dataFiles = New-Object System.Collections.Specialized.StringCollection
     $dataFiles.Add((GetMdfFilePath $dbName))
@@ -80,11 +80,11 @@ function EnsureDatabaseExists()
         Write-Host "$dbName database not found."
         if(DatabaseFilesExist)
         {
-            AttachExistingDatabase $server $dbName
+            AttachExistingDatabase $server
         }
         else
         {
-            CreateNewDatabase $server $dbName
+            CreateNewDatabase $server
         }
     }
     else
