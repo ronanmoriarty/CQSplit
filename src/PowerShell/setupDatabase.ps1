@@ -20,7 +20,7 @@ function GetLdfFilePath($dbName)
     return "$dbFolder\$($dbName)_log.ldf"
 }
 
-function CreateNewDatabase ($server) {
+function CreateNewDatabase () {
     if(!(Test-Path $dbFolder))
     {
         mkdir $dbFolder
@@ -29,6 +29,7 @@ function CreateNewDatabase ($server) {
     try
     {
         Write-Host "Creating new database $dbName..."
+        $server = GetLocalSqlServer
         $database = New-Object -TypeName Microsoft.SqlServer.Management.Smo.Database -ArgumentList $server, $dbName
         $database.DatabaseOptions.AutoShrink = $true
         $primaryFileGroup = New-Object -TypeName Microsoft.SqlServer.Management.Smo.FileGroup -ArgumentList $database, 'PRIMARY'
@@ -45,11 +46,12 @@ function CreateNewDatabase ($server) {
     }
 }
 
-function AttachExistingDatabase ($server) {
+function AttachExistingDatabase () {
     Write-Host "Attaching database $dbName..."
     $dataFiles = New-Object System.Collections.Specialized.StringCollection
     $dataFiles.Add((GetMdfFilePath $dbName))
     $dataFiles.Add((GetLdfFilePath $dbName))
+    $server = GetLocalSqlServer
     $server.AttachDatabase($dbName, $dataFiles)
     Write-Host $server.Databases
 }
@@ -71,20 +73,24 @@ function DatabaseFilesExist ()
     return $dbFilesExist
 }
 
+function GetLocalSqlServer()
+{
+    return new-object Microsoft.SqlServer.Management.Smo.Server -ArgumentList "."
+}
+
 function EnsureDatabaseExists()
 {
-    $server = new-object Microsoft.SqlServer.Management.Smo.Server -ArgumentList "."
-    $database = $server.Databases[$dbName]
+    $database = (GetLocalSqlServer).Databases[$dbName]
     if($database -eq $null)
     {
         Write-Host "$dbName database not found."
         if(DatabaseFilesExist)
         {
-            AttachExistingDatabase $server
+            AttachExistingDatabase
         }
         else
         {
-            CreateNewDatabase $server
+            CreateNewDatabase
         }
     }
     else
