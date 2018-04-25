@@ -56,10 +56,12 @@ function AttachExistingDatabase ($server, $dbName) {
 
 function DatabaseFilesExist ()
 {
-    $dbFilesExist = (Test-Path (GetMdfFilePath $dbName)) -and (Test-Path (GetLdfFilePath $dbName))
+    $mdfFilePath = GetMdfFilePath $dbName
+    $ldfFilePath = GetLdfFilePath $dbName
+    $dbFilesExist = (Test-Path ($mdfFilePath)) -and (Test-Path ($ldfFilePath))
     if($dbFilesExist)
     {
-        Write-Host "Files found for $dbName database."
+        Write-Host "Files $mdfFilePath and $ldfFilePath found for $dbName database."
     }
     else
     {
