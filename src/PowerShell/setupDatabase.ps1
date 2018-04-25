@@ -97,6 +97,7 @@ function ApplyDatabaseMigrations()
 {
     Write-Host "Applying scripts from $dbScriptsFolder..."
     Get-ChildItem $dbScriptsFolder | Sort-Object | ForEach-Object { Invoke-SqlCmd -InputFile $_.FullName -ServerInstance "." -Database $dbName }
+    Write-Host "Finished applying scripts for $dbName"
 }
 
 EnsureDatabaseExists
