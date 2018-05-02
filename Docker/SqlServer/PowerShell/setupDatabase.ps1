@@ -8,17 +8,7 @@ Param(
     [string]$dbScriptsFolder
 )
 
-[reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo")
-
-function GetMdfFilePath($dbName)
-{
-    return "$dbFolder\$dbName.mdf"
-}
-
-function GetLdfFilePath($dbName)
-{
-    return "$dbFolder\$($dbName)_log.ldf"
-}
+. "$PSScriptRoot\attachDatabase.ps1"
 
 function CreateNewDatabase () {
     if(!(Test-Path $dbFolder))
@@ -34,7 +24,7 @@ function CreateNewDatabase () {
         $database.DatabaseOptions.AutoShrink = $true
         $primaryFileGroup = New-Object -TypeName Microsoft.SqlServer.Management.Smo.FileGroup -ArgumentList $database, 'PRIMARY'
         $database.FileGroups.Add($primaryFileGroup)
-        $mdfFilePath = GetMdfFilePath $dbName
+        $mdfFilePath = GetMdfFilePath $dbFolder $dbName
         $dataFile = New-Object -TypeName Microsoft.SqlServer.Management.Smo.DataFile -ArgumentList $primaryFileGroup, "$($dbName)_Data", $mdfFilePath
         $primaryFileGroup.Files.Add($dataFile)
         $database.Create()
@@ -46,20 +36,10 @@ function CreateNewDatabase () {
     }
 }
 
-function AttachExistingDatabase () {
-    Write-Host "Attaching database $dbName..."
-    $dataFiles = New-Object System.Collections.Specialized.StringCollection
-    $dataFiles.Add((GetMdfFilePath $dbName))
-    $dataFiles.Add((GetLdfFilePath $dbName))
-    $server = GetLocalSqlServer
-    $server.AttachDatabase($dbName, $dataFiles)
-    Write-Host $server.Databases
-}
-
 function DatabaseFilesExist ()
 {
-    $mdfFilePath = GetMdfFilePath $dbName
-    $ldfFilePath = GetLdfFilePath $dbName
+    $mdfFilePath = GetMdfFilePath $dbFolder $dbName
+    $ldfFilePath = GetLdfFilePath $dbFolder $dbName
     $dbFilesExist = (Test-Path ($mdfFilePath)) -and (Test-Path ($ldfFilePath))
     if($dbFilesExist)
     {
@@ -71,11 +51,6 @@ function DatabaseFilesExist ()
     }
 
     return $dbFilesExist
-}
-
-function GetLocalSqlServer()
-{
-    return new-object Microsoft.SqlServer.Management.Smo.Server -ArgumentList "."
 }
 
 function DatabaseExists()
@@ -90,7 +65,7 @@ function EnsureDatabaseExists()
         Write-Host "$dbName database not found."
         if(DatabaseFilesExist)
         {
-            AttachExistingDatabase
+            AttachExistingDatabase $dbFolder $dbName
         }
         else
         {
