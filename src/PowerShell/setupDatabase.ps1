@@ -82,7 +82,7 @@ function EnsureDatabaseExists()
         Write-Host "$dbName database not found."
         if(DatabaseFilesExist)
         {
-            AttachExistingDatabase
+            AttachExistingDatabase $dbName
         }
         else
         {
