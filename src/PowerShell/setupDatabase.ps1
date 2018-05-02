@@ -12,16 +12,6 @@ Param(
 
 [reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo")
 
-function GetMdfFilePath($dbName)
-{
-    return "$dbFolder\$dbName.mdf"
-}
-
-function GetLdfFilePath($dbName)
-{
-    return "$dbFolder\$($dbName)_log.ldf"
-}
-
 function CreateNewDatabase () {
     if(!(Test-Path $dbFolder))
     {
@@ -63,11 +53,6 @@ function DatabaseFilesExist ()
     }
 
     return $dbFilesExist
-}
-
-function GetLocalSqlServer()
-{
-    return new-object Microsoft.SqlServer.Management.Smo.Server -ArgumentList "."
 }
 
 function DatabaseExists()
