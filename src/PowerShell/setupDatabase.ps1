@@ -8,6 +8,8 @@ Param(
     [string]$dbScriptsFolder
 )
 
+. "$PSScriptRoot\attachDatabase.ps1"
+
 [reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo")
 
 function GetMdfFilePath($dbName)
@@ -44,16 +46,6 @@ function CreateNewDatabase () {
     {
         Write-Host $_.Exception|format-list -force
     }
-}
-
-function AttachExistingDatabase () {
-    Write-Host "Attaching database $dbName..."
-    $dataFiles = New-Object System.Collections.Specialized.StringCollection
-    $dataFiles.Add((GetMdfFilePath $dbName))
-    $dataFiles.Add((GetLdfFilePath $dbName))
-    $server = GetLocalSqlServer
-    $server.AttachDatabase($dbName, $dataFiles)
-    Write-Host $server.Databases
 }
 
 function DatabaseFilesExist ()
