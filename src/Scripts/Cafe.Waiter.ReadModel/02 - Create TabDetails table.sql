@@ -1,11 +1,9 @@
-IF EXISTS(SELECT 1 FROM sys.tables WHERE object_id = OBJECT_ID(N'dbo.TabDetails'))
+IF NOT EXISTS(SELECT 1 FROM sys.tables WHERE object_id = OBJECT_ID(N'dbo.TabDetails'))
 BEGIN
-	DROP TABLE dbo.TabDetails
+	CREATE TABLE dbo.TabDetails
+	(
+		Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
+		[Data] NVARCHAR(MAX) NOT NULL
+	)
 END
 GO
-
-CREATE TABLE dbo.TabDetails
-(
-	Id UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
-	[Data] NVARCHAR(MAX) NOT NULL
-)
