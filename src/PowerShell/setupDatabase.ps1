@@ -10,8 +10,6 @@ Param(
 
 . "$PSScriptRoot\attachDatabase.ps1"
 
-[reflection.assembly]::LoadWithPartialName("Microsoft.SqlServer.Smo")
-
 function CreateNewDatabase () {
     if(!(Test-Path $dbFolder))
     {
@@ -26,7 +24,7 @@ function CreateNewDatabase () {
         $database.DatabaseOptions.AutoShrink = $true
         $primaryFileGroup = New-Object -TypeName Microsoft.SqlServer.Management.Smo.FileGroup -ArgumentList $database, 'PRIMARY'
         $database.FileGroups.Add($primaryFileGroup)
-        $mdfFilePath = GetMdfFilePath $dbName
+        $mdfFilePath = GetMdfFilePath $dbFolder $dbName
         $dataFile = New-Object -TypeName Microsoft.SqlServer.Management.Smo.DataFile -ArgumentList $primaryFileGroup, "$($dbName)_Data", $mdfFilePath
         $primaryFileGroup.Files.Add($dataFile)
         $database.Create()
@@ -40,8 +38,8 @@ function CreateNewDatabase () {
 
 function DatabaseFilesExist ()
 {
-    $mdfFilePath = GetMdfFilePath $dbName
-    $ldfFilePath = GetLdfFilePath $dbName
+    $mdfFilePath = GetMdfFilePath $dbFolder $dbName
+    $ldfFilePath = GetLdfFilePath $dbFolder $dbName
     $dbFilesExist = (Test-Path ($mdfFilePath)) -and (Test-Path ($ldfFilePath))
     if($dbFilesExist)
     {
@@ -67,7 +65,7 @@ function EnsureDatabaseExists()
         Write-Host "$dbName database not found."
         if(DatabaseFilesExist)
         {
-            AttachExistingDatabase $dbName
+            AttachExistingDatabase $dbFolder $dbName
         }
         else
         {
