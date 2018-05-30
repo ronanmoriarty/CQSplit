@@ -10,7 +10,6 @@
     <PackageReference Include="CQRSTutorial.DAL" Version="1.0.0-pre" />
     <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.0-pre" />
     <PackageReference Include="CQRSTutorial.Publish" Version="1.0.0-pre" />
-    <PackageReference Include="Topshelf" Version="4.0.3" />
   </ItemGroup>
 
   <ItemGroup>
