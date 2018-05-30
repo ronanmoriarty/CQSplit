@@ -9,5 +9,6 @@ Get-ChildItem -Path .\src\CQRS\ -Filter *.nuspec -Recurse | ForEach-Object {
     $ns = New-Object System.Xml.XmlNamespaceManager -ArgumentList $xml.NameTable
     $ns.AddNamespace("ns", $xml.DocumentElement.NamespaceURI)
     $versionNode = $xml.SelectSingleNode('//ns:version', $ns)
-    Write-Output "$($_.FullName) has version number $($versionNode.InnerXml)"
+    $versionNode.InnerXml = $VersionNumber
+    $xml.Save($_.FullName)
 }
