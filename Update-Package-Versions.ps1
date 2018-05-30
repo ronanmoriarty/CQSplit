@@ -47,10 +47,13 @@ Write-Host "Minor Version: $MinorVersionNumber"
 Write-Host "Build Number: $BuildNumber"
 Write-Host "Suffix: $Suffix"
 
+$NewVersion = "$MajorVersionNumber.$MinorVersionNumber.$($BuildNumber + 1)$Suffix"
+Write-Host "`$NewVersion: $NewVersion"
+
 Get-ChildItem -Path .\src\CQRS\ -Filter *.nuspec -Recurse | ForEach-Object {
     $xml = New-Object -TypeName System.Xml.XmlDocument
     $xml.Load($_.FullName)
     $versionNode = GetVersionNode $xml
-    $versionNode.InnerXml = $VersionNumber
+    $versionNode.InnerXml = $NewVersion
     $xml.Save($_.FullName)
 }
