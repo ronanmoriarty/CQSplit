@@ -8,7 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Package Description</description>
     <dependencies>
-      <group targetFramework="net461">
+      <group targetFramework="netcoreapp2.0">
         <dependency id="CQRSTutorial.DAL.Common" version="1.0.0-pre" />
         <dependency id="CQRSTutorial.Core" version="1.0.0-pre" />
         <dependency id="EntityFramework" version="6.2.0" />
@@ -17,6 +17,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\netcoreapp2.0\CQRSTutorial.DAL.dll" target="lib\net461" />
+    <file src="bin\Release\netcoreapp2.0\CQRSTutorial.DAL.dll" target="lib\netcoreapp2.0" />
   </files>
 </package>
