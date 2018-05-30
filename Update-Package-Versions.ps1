@@ -37,17 +37,18 @@ function GetSuffix([string] $versionNumber)
     return $textFromHyphenOnwards
 }
 
-$VersionNumber = GetVersion
-$MajorVersionNumber = GetMajorVersion $VersionNumber
-$MinorVersionNumber = GetMinorVersion $VersionNumber
-$BuildNumber = GetBuildNumber $VersionNumber
-$Suffix = GetSuffix $VersionNumber
-Write-Host "Major Version: $MajorVersionNumber"
-Write-Host "Minor Version: $MinorVersionNumber"
-Write-Host "Build Number: $BuildNumber"
-Write-Host "Suffix: $Suffix"
+function GetVersionWithIncrementedBuildNumber([string] $versionNumber)
+{
+    $MajorVersionNumber = GetMajorVersion $VersionNumber
+    $MinorVersionNumber = GetMinorVersion $VersionNumber
+    $BuildNumber = GetBuildNumber $VersionNumber
+    $Suffix = GetSuffix $VersionNumber
 
-$NewVersion = "$MajorVersionNumber.$MinorVersionNumber.$($BuildNumber + 1)$Suffix"
+    return "$MajorVersionNumber.$MinorVersionNumber.$($BuildNumber + 1)$Suffix"
+}
+
+$VersionNumber = GetVersion
+$NewVersion = GetVersionWithIncrementedBuildNumber $VersionNumber
 Write-Host "`$NewVersion: $NewVersion"
 
 Get-ChildItem -Path .\src\CQRS\ -Filter *.nuspec -Recurse | ForEach-Object {
