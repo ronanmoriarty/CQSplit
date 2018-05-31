@@ -109,7 +109,10 @@ Task("Run-CQRS-Unit-Tests")
     .IsDependentOn("Build-CQRS")
     .Does(() =>
 {
-    RunNUnitTests("./src/CQRS/**/bin/" + configuration + "/net461/*.Tests.dll");
+    DotNetCoreTest("./src/CQRS/CQRSTutorial.Core.Tests/CQRSTutorial.Core.Tests.csproj");
+    DotNetCoreTest("./src/CQRS/CQRSTutorial.DAL.Tests/CQRSTutorial.DAL.Tests.csproj");
+    DotNetCoreTest("./src/CQRS/CQRSTutorial.Messaging.Tests/CQRSTutorial.Messaging.Tests.csproj");
+    DotNetCoreTest("./src/CQRS/CQRSTutorial.Publish.Tests/CQRSTutorial.Publish.Tests.csproj");
 });
 
 Task("Create-CQRS-Nuget-Packages")
