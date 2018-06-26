@@ -11,6 +11,7 @@ using Castle.Windsor;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Common;
+using CQRSTutorial.DAL.Sql;
 using CQRSTutorial.Messaging;
 using CQRSTutorial.Messaging.RabbitMq;
 using CQRSTutorial.Publish;

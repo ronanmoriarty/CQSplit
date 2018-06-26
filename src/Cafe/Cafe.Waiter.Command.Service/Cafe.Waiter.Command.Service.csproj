@@ -2,14 +2,15 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="4.1.0" />
-    <PackageReference Include="CQRSTutorial.DAL" Version="1.0.0-pre" />
-    <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.0-pre" />
-    <PackageReference Include="CQRSTutorial.Publish" Version="1.0.0-pre" />
+    <PackageReference Include="CQRSTutorial.DAL" Version="1.0.2-pre" />
+    <PackageReference Include="CQRSTutorial.DAL.Sql" Version="1.0.2-pre" />
+    <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.2-pre" />
+    <PackageReference Include="CQRSTutorial.Publish" Version="1.0.2-pre" />
   </ItemGroup>
 
   <ItemGroup>
