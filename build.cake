@@ -127,6 +127,7 @@ Task("Create-CQRS-Nuget-Packages")
     NuGetPack("./src/CQRS/CQRSTutorial.Messaging.Tests.Common/CQRSTutorial.Messaging.Tests.Common.nuspec", nuGetPackSettings);
     NuGetPack("./src/CQRS/CQRSTutorial.Messaging.RabbitMq/CQRSTutorial.Messaging.RabbitMq.nuspec", nuGetPackSettings);
     NuGetPack("./src/CQRS/CQRSTutorial.DAL/CQRSTutorial.DAL.nuspec", nuGetPackSettings);
+    NuGetPack("./src/CQRS/CQRSTutorial.DAL.Sql/CQRSTutorial.DAL.Sql.nuspec", nuGetPackSettings);
     NuGetPack("./src/CQRS/CQRSTutorial.DAL.Common/CQRSTutorial.DAL.Common.nuspec", nuGetPackSettings);
     NuGetPack("./src/CQRS/CQRSTutorial.DAL.Tests.Common/CQRSTutorial.DAL.Tests.Common.nuspec", nuGetPackSettings);
     NuGetPack("./src/CQRS/CQRSTutorial.Publish/CQRSTutorial.Publish.nuspec", nuGetPackSettings);
