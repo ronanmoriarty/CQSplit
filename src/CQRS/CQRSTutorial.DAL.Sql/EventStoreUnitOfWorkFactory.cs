@@ -1,6 +1,6 @@
 ﻿using CQRSTutorial.DAL.Common;
 
-namespace CQRSTutorial.DAL
+namespace CQRSTutorial.DAL.Sql
 {
     public class EventStoreUnitOfWorkFactory : IUnitOfWorkFactory
     {
