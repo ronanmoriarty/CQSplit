@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Sql;
 using CQRSTutorial.DAL.Tests.Common;
 using log4net;
 using NUnit.Framework;
