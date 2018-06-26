@@ -1,7 +1,7 @@
 ﻿using CQRSTutorial.DAL.Serialized;
 using Microsoft.EntityFrameworkCore;
 
-namespace CQRSTutorial.DAL
+namespace CQRSTutorial.DAL.Sql
 {
     public class EventStoreDbContext : DbContext
     {
