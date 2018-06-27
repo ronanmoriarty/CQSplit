@@ -9,8 +9,8 @@
     <description>Package Description</description>
     <dependencies>
       <group targetFramework="netcoreapp2.0">
-        <dependency id="CQRSTutorial.DAL.Common" version="1.0.0-pre" />
-        <dependency id="CQRSTutorial.Core" version="1.0.0-pre" />
+        <dependency id="CQRSTutorial.DAL.Common" version="1.0.5-pre" />
+        <dependency id="CQRSTutorial.Core" version="1.0.5-pre" />
         <dependency id="Newtonsoft.Json" version="10.0.3" />
       </group>
     </dependencies>

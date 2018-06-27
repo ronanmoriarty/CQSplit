@@ -9,7 +9,7 @@
     <description>Package Description</description>
     <dependencies>
       <group targetFramework=".NETStandard2.0">
-        <dependency id="CQRSTutorial.Messaging" version="1.0.0-pre" />
+        <dependency id="CQRSTutorial.Messaging" version="1.0.5-pre" />
       </group>
     </dependencies>
   </metadata>

@@ -10,7 +10,7 @@
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <dependency id="MassTransit.Log4Net" version="5.1.2" />
-        <dependency id="CQRSTutorial.Core" version="1.0.0-pre" />
+        <dependency id="CQRSTutorial.Core" version="1.0.5-pre" />
       </group>
     </dependencies>
   </metadata>

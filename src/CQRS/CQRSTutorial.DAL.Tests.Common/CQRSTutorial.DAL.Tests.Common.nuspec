@@ -11,7 +11,7 @@
       <group targetFramework=".NETStandard2.0">
         <dependency id="log4net" version="2.0.8" />
         <dependency id="System.Data.SqlClient" version="4.4.0" />
-        <dependency id="CQRSTutorial.DAL.Common" version="1.0.0-pre" />
+        <dependency id="CQRSTutorial.DAL.Common" version="1.0.5-pre" />
       </group>
     </dependencies>
   </metadata>
