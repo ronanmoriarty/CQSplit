@@ -41,7 +41,7 @@ namespace CQRSTutorial.Publish
         {
             foreach (var @event in events)
             {
-                _logger.Debug($"Publishing event [Id:{@event.Id}; Type:{@event.GetType()}]...");
+                _logger.Debug($"Publishing event [Id:{@event.Id}; Type:{@event.GetType()}] to {_busControl.GetType().FullName}...");
                 _busControl.Publish((object) @event);
                 RemoveEventFromEventToPublishQueue(@event.Id);
             }
