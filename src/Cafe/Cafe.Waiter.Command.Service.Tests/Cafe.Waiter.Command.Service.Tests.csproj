@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="appSettings.override.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CQRSTutorial.DAL.Tests.Common" Version="1.0.7-pre" />
     <PackageReference Include="CQRSTutorial.Messaging.Tests.Common" Version="1.0.7-pre" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
