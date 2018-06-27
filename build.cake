@@ -68,6 +68,7 @@ Task("Run-Unit-Tests-Without-Build")
 private void RunCafeUnitTests()
 {
     RunNUnitTests("./src/Cafe/**/bin/" + configuration + "/net461/*.Tests.dll");
+    DotNetCoreTest("./src/Cafe/Cafe.Waiter.Domain.Tests/Cafe.Waiter.Domain.Tests.csproj");
     DotNetCoreTest("./src/Cafe/Cafe.Waiter.Web.Tests/Cafe.Waiter.Web.Tests.csproj");
     KillNUnitAgentProcesses();
 }

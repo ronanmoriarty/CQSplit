@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 using log4net;
 using log4net.Config;
 using NUnit.Framework;
@@ -11,7 +12,7 @@ namespace Cafe.Waiter.Domain.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            var loggerRepository = LogManager.GetRepository();
+            var loggerRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
             XmlConfigurator.Configure(loggerRepository, new FileInfo("log4net.config"));
         }
     }
