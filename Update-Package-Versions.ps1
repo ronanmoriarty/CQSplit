@@ -13,6 +13,13 @@ function GetVersionNode([xml] $xml)
     return $xml.SelectSingleNode('//ns:version', $ns)
 }
 
+function GetCQRSDependencyNodes([xml] $xml)
+{
+    $ns = New-Object System.Xml.XmlNamespaceManager -ArgumentList $xml.NameTable
+    $ns.AddNamespace("ns", $xml.DocumentElement.NamespaceURI)
+    return $xml.SelectNodes("//ns:dependency[starts-with(@id,'CQRSTutorial.')]", $ns)
+}
+
 function GetMajorVersion([string] $versionNumber)
 {
     return [int] $versionNumber.Split('.')[0]
@@ -56,5 +63,9 @@ Get-ChildItem -Path .\src\CQRS\ -Filter *.nuspec -Recurse | ForEach-Object {
     $xml.Load($_.FullName)
     $versionNode = GetVersionNode $xml
     $versionNode.InnerXml = $NewVersion
+    $dependencyNodes = GetCQRSDependencyNodes $xml
+    foreach ($dependencyNode in $dependencyNodes) {
+        $dependencyNode.version = $NewVersion
+    }
     $xml.Save($_.FullName)
 }
