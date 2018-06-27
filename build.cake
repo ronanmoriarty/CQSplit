@@ -134,15 +134,12 @@ Task("Create-CQRS-Nuget-Packages")
     var nuGetPackSettings = new NuGetPackSettings {
         OutputDirectory = "C:\\.nuget.local"
     };
-    NuGetPack("./src/CQRS/CQRSTutorial.Core/CQRSTutorial.Core.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.Messaging/CQRSTutorial.Messaging.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.Messaging.Tests.Common/CQRSTutorial.Messaging.Tests.Common.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.Messaging.RabbitMq/CQRSTutorial.Messaging.RabbitMq.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.DAL/CQRSTutorial.DAL.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.DAL.Sql/CQRSTutorial.DAL.Sql.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.DAL.Common/CQRSTutorial.DAL.Common.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.DAL.Tests.Common/CQRSTutorial.DAL.Tests.Common.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.Publish/CQRSTutorial.Publish.nuspec", nuGetPackSettings);
+
+    var testProjects = GetFiles("./src/CQRS/**/*.nuspec");
+    foreach (var testProject in testProjects)
+    {
+        NuGetPack(testProject.FullPath, nuGetPackSettings);
+    }
 });
 
 void RunNUnitTests(string nunitSearchPattern)
