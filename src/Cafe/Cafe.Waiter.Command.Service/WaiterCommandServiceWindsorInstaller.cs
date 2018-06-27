@@ -58,9 +58,14 @@ namespace Cafe.Waiter.Command.Service
                     .For<IConnectionStringProvider>()
                     .Instance(WriteModelConnectionStringProvider.Instance),
                 Classes
-                    .FromAssemblyContaining<IUnitOfWorkFactory>()
-                    .InSameNamespaceAs<IUnitOfWorkFactory>()
+                    .FromAssemblyContaining<EventToPublishSerializer>()
+                    .InSameNamespaceAs<EventToPublishSerializer>()
                     .Unless(type => type == typeof(CompositeEventStore) || type == typeof(EventHandler))
+                    .WithServiceSelf()
+                    .WithServiceAllInterfaces(),
+                Classes
+                    .FromAssemblyContaining<EventStoreUnitOfWorkFactory>()
+                    .InSameNamespaceAs<EventStoreUnitOfWorkFactory>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
