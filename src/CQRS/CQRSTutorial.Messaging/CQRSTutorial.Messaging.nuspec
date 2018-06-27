@@ -9,8 +9,7 @@
     <description>Package Description</description>
     <dependencies>
       <group targetFramework=".NETStandard2.0">
-        <dependency id="MassTransit" version="3.5.7" />
-        <dependency id="MassTransit.Log4Net" version="3.5.7" />
+        <dependency id="MassTransit.Log4Net" version="5.1.2" />
         <dependency id="CQRSTutorial.Core" version="1.0.0-pre" />
       </group>
     </dependencies>
