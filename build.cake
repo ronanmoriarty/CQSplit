@@ -67,10 +67,17 @@ Task("Run-Unit-Tests-Without-Build")
 
 private void RunCafeUnitTests()
 {
-    DotNetCoreTest("./src/Cafe/Cafe.Waiter.Domain.Tests/Cafe.Waiter.Domain.Tests.csproj");
-    DotNetCoreTest("./src/Cafe/Cafe.Waiter.Command.Service.Tests/Cafe.Waiter.Command.Service.Tests.csproj");
-    DotNetCoreTest("./src/Cafe/Cafe.Waiter.EventProjecting.Service.Tests/Cafe.Waiter.EventProjecting.Service.Tests.csproj");
-    DotNetCoreTest("./src/Cafe/Cafe.Waiter.Web.Tests/Cafe.Waiter.Web.Tests.csproj");
+    RunDotNetCoreUnitTests("./src/Cafe/**/*Tests.csproj");
+}
+
+private void RunDotNetCoreUnitTests(string filePattern)
+{
+    var testProjects = GetFiles(filePattern);
+    foreach (var testProject in testProjects)
+    {
+        DotNetCoreTest(testProject.FullPath);
+    }
+
     KillNUnitAgentProcesses();
 }
 
@@ -111,10 +118,13 @@ Task("Run-CQRS-Unit-Tests")
     .IsDependentOn("Build-CQRS")
     .Does(() =>
 {
-    DotNetCoreTest("./src/CQRS/CQRSTutorial.Core.Tests/CQRSTutorial.Core.Tests.csproj");
-    DotNetCoreTest("./src/CQRS/CQRSTutorial.DAL.Tests/CQRSTutorial.DAL.Tests.csproj");
-    DotNetCoreTest("./src/CQRS/CQRSTutorial.Messaging.Tests/CQRSTutorial.Messaging.Tests.csproj");
-    DotNetCoreTest("./src/CQRS/CQRSTutorial.Publish.Tests/CQRSTutorial.Publish.Tests.csproj");
+    RunDotNetCoreUnitTests("./src/CQRS/**/*Tests.csproj");
+});
+
+Task("Run-CQRS-Unit-Tests-Without-Build")
+    .Does(() =>
+{
+    RunDotNetCoreUnitTests("./src/CQRS/**/*Tests.csproj");
 });
 
 Task("Create-CQRS-Nuget-Packages")
