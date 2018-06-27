@@ -92,7 +92,11 @@ namespace Cafe.Waiter.Command.Service.Tests
 
         private void WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent manualResetEvent)
         {
-            manualResetEvent.WaitOne(TimeSpan.FromSeconds(10));
+            var receivedSignal = manualResetEvent.WaitOne(TimeSpan.FromSeconds(10));
+            if (!receivedSignal)
+            {
+                Console.WriteLine("Timed out waiting for consumer to handle OpenTabCommmand.");
+            }
         }
 
         [TearDown]
