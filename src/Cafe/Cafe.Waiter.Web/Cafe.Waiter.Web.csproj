@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CQRSTutorial.Messaging" Version="1.0.5-pre" />
-    <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.5-pre" />
+    <PackageReference Include="CQRSTutorial.Messaging" Version="1.0.6-pre" />
+    <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.6-pre" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
