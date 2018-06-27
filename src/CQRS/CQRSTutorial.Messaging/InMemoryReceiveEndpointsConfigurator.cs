@@ -1,3 +1,4 @@
+using log4net;
 using MassTransit;
 
 namespace CQRSTutorial.Messaging
@@ -6,6 +7,7 @@ namespace CQRSTutorial.Messaging
     {
         private readonly IConsumerRegistrar _consumerRegistrar;
         private IInMemoryBusFactoryConfigurator _inMemoryBusFactoryConfigurator;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(IInMemoryReceiveEndpointsConfigurator));
 
         public InMemoryReceiveEndpointsConfigurator(IConsumerRegistrar consumerRegistrar)
         {
@@ -20,6 +22,7 @@ namespace CQRSTutorial.Messaging
 
         private void Configure(ReceiveEndpointArgs receiveEndpointArgs)
         {
+            _logger.Info($"Configure in-memory endpoint for {receiveEndpointArgs.QueueName}");
             _inMemoryBusFactoryConfigurator.ReceiveEndpoint(receiveEndpointArgs.QueueName, receiveEndpointArgs.Configure);
         }
     }

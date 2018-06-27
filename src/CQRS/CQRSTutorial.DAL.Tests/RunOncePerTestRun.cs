@@ -1,4 +1,7 @@
-﻿using log4net.Config;
+﻿using System.IO;
+using System.Reflection;
+using log4net;
+using log4net.Config;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
@@ -9,7 +12,8 @@ namespace CQRSTutorial.DAL.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            XmlConfigurator.Configure();
+            var loggerRepository = LogManager.GetRepository(Assembly.GetExecutingAssembly());
+            XmlConfigurator.Configure(loggerRepository, new FileInfo("log4net.config"));
         }
     }
 }

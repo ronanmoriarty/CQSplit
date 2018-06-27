@@ -1,4 +1,5 @@
 using System;
+using log4net;
 using MassTransit;
 
 namespace CQRSTutorial.Messaging
@@ -8,6 +9,7 @@ namespace CQRSTutorial.Messaging
         private readonly IConsumerFactory _consumerFactory;
         private readonly IConsumerTypeProvider _consumerTypeProvider;
         private readonly IReceiveEndpointConfiguration _receiveEndpointConfiguration;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(ConsumerRegistrar));
 
         public ConsumerRegistrar(IConsumerFactory consumerFactory,
             IConsumerTypeProvider consumerTypeProvider,
@@ -35,6 +37,7 @@ namespace CQRSTutorial.Messaging
 
         private void RegisterConsumerType(IReceiveEndpointConfigurator receiveEndpointConfigurator, Type consumerType)
         {
+            _logger.Info($"Register {consumerType.FullName} using {_consumerFactory.GetType().FullName}");
             receiveEndpointConfigurator.Consumer(consumerType, _consumerFactory.Create);
         }
     }

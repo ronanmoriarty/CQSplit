@@ -1,5 +1,6 @@
 ﻿using System;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Sql;
 using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
 

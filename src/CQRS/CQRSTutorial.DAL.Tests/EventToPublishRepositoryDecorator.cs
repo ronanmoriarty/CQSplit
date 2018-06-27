@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Serialized;
+using CQRSTutorial.DAL.Sql;
 
 namespace CQRSTutorial.DAL.Tests
 {

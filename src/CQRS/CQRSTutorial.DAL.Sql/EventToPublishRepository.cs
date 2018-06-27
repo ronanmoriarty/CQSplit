@@ -4,7 +4,7 @@ using System.Linq;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Serialized;
 
-namespace CQRSTutorial.DAL
+namespace CQRSTutorial.DAL.Sql
 {
     public class EventToPublishRepository : IEventToPublishRepository
     {

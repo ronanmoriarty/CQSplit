@@ -1,14 +1,20 @@
-﻿using System.Data.Entity;
-using System.Data.SqlClient;
-using Cafe.Waiter.Queries.DAL.Serialized;
+﻿using Cafe.Waiter.Queries.DAL.Serialized;
+using Microsoft.EntityFrameworkCore;
 
 namespace Cafe.Waiter.EventProjecting.Service.DAL
 {
     public class WaiterDbContext : DbContext
     {
+        private readonly string _connectionString;
+
         public WaiterDbContext(string connectionString)
-            : base(new SqlConnection(connectionString), true)
         {
+            _connectionString = connectionString;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_connectionString);
         }
 
         public DbSet<OpenTab> OpenTabs { get; set; }

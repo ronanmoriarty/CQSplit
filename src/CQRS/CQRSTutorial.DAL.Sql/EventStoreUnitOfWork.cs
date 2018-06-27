@@ -2,7 +2,7 @@
 using CQRSTutorial.DAL.Common;
 using log4net;
 
-namespace CQRSTutorial.DAL
+namespace CQRSTutorial.DAL.Sql
 {
     public class EventStoreUnitOfWork : IUnitOfWork
     {

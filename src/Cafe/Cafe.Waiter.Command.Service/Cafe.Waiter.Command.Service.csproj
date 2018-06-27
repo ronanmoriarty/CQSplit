@@ -2,15 +2,26 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="appSettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appSettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="4.1.0" />
-    <PackageReference Include="CQRSTutorial.DAL" Version="1.0.0-pre" />
-    <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.0-pre" />
-    <PackageReference Include="CQRSTutorial.Publish" Version="1.0.0-pre" />
-    <PackageReference Include="Topshelf" Version="4.0.3" />
+    <PackageReference Include="CQRSTutorial.DAL" Version="1.0.9-pre" />
+    <PackageReference Include="CQRSTutorial.DAL.Sql" Version="1.0.9-pre" />
+    <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.9-pre" />
+    <PackageReference Include="CQRSTutorial.Publish" Version="1.0.9-pre" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>

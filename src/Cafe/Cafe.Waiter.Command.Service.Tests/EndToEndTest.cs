@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +31,7 @@ namespace Cafe.Waiter.Command.Service.Tests
         {
             Container.Reset();
             Bootstrapper.Start();
-            _queueName = ConfigurationManager.AppSettings["QueueName"];
+            _queueName = "commandService.EndToEndTest"; // TODO: get this from config again
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId.ToString()}'");
             CreateBus();
             OverrideIoCRegistrationToUseInMemoryBus();
@@ -93,7 +92,11 @@ namespace Cafe.Waiter.Command.Service.Tests
 
         private void WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent manualResetEvent)
         {
-            manualResetEvent.WaitOne(TimeSpan.FromSeconds(10));
+            var receivedSignal = manualResetEvent.WaitOne(TimeSpan.FromSeconds(10));
+            if (!receivedSignal)
+            {
+                Console.WriteLine("Timed out waiting for consumer to handle OpenTabCommmand.");
+            }
         }
 
         [TearDown]

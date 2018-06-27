@@ -67,8 +67,17 @@ Task("Run-Unit-Tests-Without-Build")
 
 private void RunCafeUnitTests()
 {
-    RunNUnitTests("./src/Cafe/**/bin/" + configuration + "/net461/*.Tests.dll");
-    DotNetCoreTest("./src/Cafe/Cafe.Waiter.Web.Tests/Cafe.Waiter.Web.Tests.csproj");
+    RunDotNetCoreUnitTests("./src/Cafe/**/*Tests.csproj");
+}
+
+private void RunDotNetCoreUnitTests(string filePattern)
+{
+    var testProjects = GetFiles(filePattern);
+    foreach (var testProject in testProjects)
+    {
+        DotNetCoreTest(testProject.FullPath);
+    }
+
     KillNUnitAgentProcesses();
 }
 
@@ -109,7 +118,13 @@ Task("Run-CQRS-Unit-Tests")
     .IsDependentOn("Build-CQRS")
     .Does(() =>
 {
-    RunNUnitTests("./src/CQRS/**/bin/" + configuration + "/net461/*.Tests.dll");
+    RunDotNetCoreUnitTests("./src/CQRS/**/*Tests.csproj");
+});
+
+Task("Run-CQRS-Unit-Tests-Without-Build")
+    .Does(() =>
+{
+    RunDotNetCoreUnitTests("./src/CQRS/**/*Tests.csproj");
 });
 
 Task("Create-CQRS-Nuget-Packages")
@@ -119,14 +134,12 @@ Task("Create-CQRS-Nuget-Packages")
     var nuGetPackSettings = new NuGetPackSettings {
         OutputDirectory = "C:\\.nuget.local"
     };
-    NuGetPack("./src/CQRS/CQRSTutorial.Core/CQRSTutorial.Core.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.Messaging/CQRSTutorial.Messaging.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.Messaging.Tests.Common/CQRSTutorial.Messaging.Tests.Common.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.Messaging.RabbitMq/CQRSTutorial.Messaging.RabbitMq.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.DAL/CQRSTutorial.DAL.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.DAL.Common/CQRSTutorial.DAL.Common.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.DAL.Tests.Common/CQRSTutorial.DAL.Tests.Common.nuspec", nuGetPackSettings);
-    NuGetPack("./src/CQRS/CQRSTutorial.Publish/CQRSTutorial.Publish.nuspec", nuGetPackSettings);
+
+    var testProjects = GetFiles("./src/CQRS/**/*.nuspec");
+    foreach (var testProject in testProjects)
+    {
+        NuGetPack(testProject.FullPath, nuGetPackSettings);
+    }
 });
 
 void RunNUnitTests(string nunitSearchPattern)
