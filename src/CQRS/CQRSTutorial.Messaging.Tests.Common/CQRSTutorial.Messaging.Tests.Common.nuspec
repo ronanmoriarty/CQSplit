@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>CQRSTutorial.Messaging.Tests.Common</id>
-    <version>1.0.4-pre</version>
+    <version>1.0.5-pre</version>
     <authors>Ronan Moriarty</authors>
     <owners>Fundraising Innovations Ltd.</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
