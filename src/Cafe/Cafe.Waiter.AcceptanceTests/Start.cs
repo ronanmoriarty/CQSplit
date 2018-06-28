@@ -17,7 +17,7 @@ namespace Cafe.Waiter.AcceptanceTests
                 var externalProcess = new ExternalProcess(executable.WorkingDirectory, "dotnet", executable.Name);
                 externalProcess.Start();
                 return externalProcess;
-            });
+            }).ToList();
         }
     }
 }

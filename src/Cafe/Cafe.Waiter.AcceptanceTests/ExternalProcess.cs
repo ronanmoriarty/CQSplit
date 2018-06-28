@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Cafe.Waiter.AcceptanceTests
 {
@@ -26,38 +27,76 @@ namespace Cafe.Waiter.AcceptanceTests
                     WorkingDirectory = workingDirectory
                 }
             };
-
-            _process.OutputDataReceived += (sender, args) =>
-            {
-                Console.WriteLine($"Process: {executable} {arguments}: {args.Data}");
-            };
-
-            _process.ErrorDataReceived += (sender, args) =>
-            {
-                Console.WriteLine($"ERROR: Process: {executable} {arguments}: {args.Data}");
-            };
         }
 
         public void Start()
         {
-            Console.WriteLine($"Starting process: {_executable} {_arguments}; Working Directory: {_workingDirectory}");
+            // Following adapted from https://stackoverflow.com/questions/139593/processstartinfo-hanging-on-waitforexit-why
+            using (var outputWaitHandle = new AutoResetEvent(false))
+            {
+                using (var errorWaitHandle = new AutoResetEvent(false))
+                {
+                    _process.OutputDataReceived += (sender, e) =>
+                    {
+                        if (e.Data == null)
+                        {
+                            outputWaitHandle.Set();
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Process: {_executable} {_arguments}: {e.Data}");
+                        }
+                    };
+                    _process.ErrorDataReceived += (sender, e) =>
+                    {
+                        if (e.Data == null)
+                        {
+                            errorWaitHandle.Set();
+                        }
+                        else
+                        {
+                            Log($"ERROR: {e.Data}");
+                        }
+                    };
 
-            try
-            {
-                _process.Start();
+                    try
+                    {
+                        _process.Start();
+                        Log($"Process started with Process Id: {_process.Id}");
+                    }
+                    catch (Exception exception)
+                    {
+                        Log($"Exception starting process: {exception}");
+                        throw;
+                    }
+
+                    _process.BeginOutputReadLine();
+                    _process.BeginErrorReadLine();
+
+                    var timeout = 10000;
+                    if (_process.WaitForExit(timeout) &&
+                        outputWaitHandle.WaitOne(timeout) &&
+                        errorWaitHandle.WaitOne(timeout))
+                    {
+                        Log($"Process Completed. Exit Code: {_process.ExitCode}");
+                    }
+                    else
+                    {
+                        Log("Process timed out.");
+                    }
+                }
             }
-            catch (Exception exception)
-            {
-                Console.WriteLine($"Exception starting process: {exception}");
-                throw;
-            }
+        }
+
+        private void Log(string message)
+        {
+            Console.WriteLine($"Working Directory: {_workingDirectory}; Process: {_executable} {_arguments}; {message}");
         }
 
         public void Dispose()
         {
             Console.WriteLine($"Stopping process: {_executable} {_arguments}");
-            Console.WriteLine($"Errors: {_process.StandardError.ReadToEnd()}");
-            Console.WriteLine($"Process Exit Code: {_process.ExitCode}");
+            _process.Kill();
             _process?.Dispose();
         }
     }
