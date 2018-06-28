@@ -7,7 +7,7 @@ namespace Cafe.Waiter.AcceptanceTests
     {
         private static readonly List<Executable> Executables = new List<Executable>
         {
-            new Executable($".\\src\\Cafe\\Cafe.Waiter.Web\\bin\\{Configuration.Name}\\netcoreapp2.0\\", "Cafe.Waiter.Web.dll")
+            new Executable($".\\src\\Cafe\\Cafe.Waiter.Web\\", $"bin\\{Configuration.Name}\\netcoreapp2.0\\Cafe.Waiter.Web.dll")
         };
 
         public static IEnumerable<ExternalProcess> AllWaiterServices(int timeoutInMilliseconds = 10000)
