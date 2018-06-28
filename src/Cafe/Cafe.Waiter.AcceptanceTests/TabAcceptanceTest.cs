@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.AcceptanceTests
@@ -6,6 +7,7 @@ namespace Cafe.Waiter.AcceptanceTests
     [TestFixture, Category("AcceptanceTestInProgress")]
     public class TabAcceptanceTest
     {
+        private IEnumerable<ExternalProcess> _externalProcesses;
         private const int TableNumber = 345;
         private const string Waiter = "TabAcceptanceTest";
 
@@ -13,7 +15,7 @@ namespace Cafe.Waiter.AcceptanceTests
         public void SetUp()
         {
             OpenTabs.DeleteTabsFor(Waiter);
-            Start.AllWaiterServices();
+            _externalProcesses = Start.AllWaiterServices();
         }
 
         [Test]
@@ -25,6 +27,15 @@ namespace Cafe.Waiter.AcceptanceTests
                 .WaitingAMaximumOf(TimeSpan.FromSeconds(60));
 
             Assert.That(CafeWaiterWebsite.OpenTabs.ContainsSingleTab.WithWaiter(Waiter).WithTableNumber(TableNumber));
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            foreach (var externalProcess in _externalProcesses)
+            {
+                externalProcess.Dispose();
+            }
         }
     }
 }
