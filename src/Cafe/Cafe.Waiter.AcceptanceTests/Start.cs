@@ -10,11 +10,11 @@ namespace Cafe.Waiter.AcceptanceTests
             new Executable($".\\src\\Cafe\\Cafe.Waiter.Web\\bin\\{Configuration.Name}\\netcoreapp2.0\\", "Cafe.Waiter.Web.dll")
         };
 
-        public static IEnumerable<ExternalProcess> AllWaiterServices()
+        public static IEnumerable<ExternalProcess> AllWaiterServices(int timeoutInMilliseconds = 10000)
         {
             return Executables.Select(executable =>
             {
-                var externalProcess = new ExternalProcess(executable.WorkingDirectory, "dotnet", executable.Name);
+                var externalProcess = new ExternalProcess(executable.WorkingDirectory, "dotnet", executable.Name, timeoutInMilliseconds);
                 externalProcess.Start();
                 return externalProcess;
             }).ToList();

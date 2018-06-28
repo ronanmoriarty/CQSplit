@@ -9,13 +9,15 @@ namespace Cafe.Waiter.AcceptanceTests
         private readonly string _workingDirectory;
         private readonly string _executable;
         private readonly string _arguments;
+        private readonly int _timeoutInMilliseconds;
         private readonly Process _process;
 
-        public ExternalProcess(string workingDirectory, string executable, string arguments)
+        public ExternalProcess(string workingDirectory, string executable, string arguments, int timeoutInMilliseconds)
         {
             _workingDirectory = workingDirectory;
             _executable = executable;
             _arguments = arguments;
+            _timeoutInMilliseconds = timeoutInMilliseconds;
             _process = new Process
             {
                 StartInfo = new ProcessStartInfo(executable, arguments)
@@ -73,10 +75,9 @@ namespace Cafe.Waiter.AcceptanceTests
                     _process.BeginOutputReadLine();
                     _process.BeginErrorReadLine();
 
-                    var timeout = 10000;
-                    if (_process.WaitForExit(timeout) &&
-                        outputWaitHandle.WaitOne(timeout) &&
-                        errorWaitHandle.WaitOne(timeout))
+                    if (_process.WaitForExit(_timeoutInMilliseconds) &&
+                        outputWaitHandle.WaitOne(_timeoutInMilliseconds) &&
+                        errorWaitHandle.WaitOne(_timeoutInMilliseconds))
                     {
                         Log($"Process Completed. Exit Code: {_process.ExitCode}");
                     }
