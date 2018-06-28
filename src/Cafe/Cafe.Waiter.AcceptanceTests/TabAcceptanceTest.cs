@@ -2,7 +2,7 @@
 
 namespace Cafe.Waiter.AcceptanceTests
 {
-    [TestFixture]
+    [TestFixture, Category("AcceptanceTestInProgress")]
     public class TabAcceptanceTest
     {
         [Test]
