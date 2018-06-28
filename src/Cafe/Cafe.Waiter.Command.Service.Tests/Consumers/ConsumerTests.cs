@@ -10,7 +10,7 @@ namespace Cafe.Waiter.Command.Service.Tests.Consumers
         where TConsumer : IConsumer<TCommand>
         where TCommand : class, ICommand, new()
     {
-        private ICommandDispatcher _commandDispatcher;
+        private ICommandRouter _commandRouter;
         private TConsumer _consumer;
         private ConsumeContext<TCommand> _consumeContext;
         private TCommand _command;
@@ -18,8 +18,8 @@ namespace Cafe.Waiter.Command.Service.Tests.Consumers
         [SetUp]
         public void SetUp()
         {
-            _commandDispatcher = Substitute.For<ICommandDispatcher>();
-            _consumer = (TConsumer)Activator.CreateInstance(typeof(TConsumer),_commandDispatcher);
+            _commandRouter = Substitute.For<ICommandRouter>();
+            _consumer = (TConsumer)Activator.CreateInstance(typeof(TConsumer),_commandRouter);
             _consumeContext = Substitute.For<ConsumeContext<TCommand>>();
             _command = new TCommand();
             _consumeContext.Message.Returns(_command);
@@ -30,7 +30,7 @@ namespace Cafe.Waiter.Command.Service.Tests.Consumers
         {
             _consumer.Consume(_consumeContext);
 
-            _commandDispatcher.Received(1).Dispatch(Arg.Is(_command));
+            _commandRouter.Received(1).Route(Arg.Is(_command));
         }
     }
 }

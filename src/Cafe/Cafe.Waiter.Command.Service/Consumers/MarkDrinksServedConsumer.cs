@@ -5,8 +5,8 @@ namespace Cafe.Waiter.Command.Service.Consumers
 {
     public class MarkDrinksServedConsumer : Consumer<IMarkDrinksServedCommand>
     {
-        public MarkDrinksServedConsumer(ICommandDispatcher commandDispatcher)
-            : base(commandDispatcher)
+        public MarkDrinksServedConsumer(ICommandRouter commandRouter)
+            : base(commandRouter)
         {
         }
     }

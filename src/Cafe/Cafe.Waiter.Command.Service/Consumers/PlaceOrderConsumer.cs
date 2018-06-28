@@ -5,8 +5,8 @@ namespace Cafe.Waiter.Command.Service.Consumers
 {
     public class PlaceOrderConsumer : Consumer<IPlaceOrderCommand>
     {
-        public PlaceOrderConsumer(ICommandDispatcher commandDispatcher)
-            : base(commandDispatcher)
+        public PlaceOrderConsumer(ICommandRouter commandRouter)
+            : base(commandRouter)
         {
         }
     }

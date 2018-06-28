@@ -5,8 +5,8 @@ namespace Cafe.Waiter.Command.Service.Consumers
 {
     public class OpenTabConsumer : Consumer<IOpenTabCommand>
     {
-        public OpenTabConsumer(ICommandDispatcher commandDispatcher)
-            : base(commandDispatcher)
+        public OpenTabConsumer(ICommandRouter commandRouter)
+            : base(commandRouter)
         {
         }
     }

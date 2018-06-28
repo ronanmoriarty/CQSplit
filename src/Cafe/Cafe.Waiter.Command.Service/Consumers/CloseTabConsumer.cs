@@ -5,8 +5,8 @@ namespace Cafe.Waiter.Command.Service.Consumers
 {
     public class CloseTabConsumer : Consumer<ICloseTabCommand>
     {
-        public CloseTabConsumer(ICommandDispatcher commandDispatcher)
-            : base(commandDispatcher)
+        public CloseTabConsumer(ICommandRouter commandRouter)
+            : base(commandRouter)
         {
         }
     }
