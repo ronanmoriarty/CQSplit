@@ -32,4 +32,10 @@
     <ProjectReference Include="..\Cafe.Waiter.Queries.DAL\Cafe.Waiter.Queries.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
