@@ -25,7 +25,7 @@ namespace CQRSTutorial.Messaging.RabbitMq
 
         private void Configure(ReceiveEndpointArgs receiveEndpointArgs)
         {
-            _logger.Info($"Configure RabbitMq endpoint for {receiveEndpointArgs.QueueName} on {_host.Settings.Host}");
+            _logger.Debug($"Configure RabbitMq endpoint for {receiveEndpointArgs.QueueName} on {_host.Settings.Host}");
             _rabbitMqBusFactoryConfigurator.ReceiveEndpoint(_host, receiveEndpointArgs.QueueName, receiveEndpointArgs.Configure);
         }
     }

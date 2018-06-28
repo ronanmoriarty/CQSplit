@@ -22,7 +22,7 @@ namespace CQRSTutorial.Messaging
 
         private void Configure(ReceiveEndpointArgs receiveEndpointArgs)
         {
-            _logger.Info($"Configure in-memory endpoint for {receiveEndpointArgs.QueueName}");
+            _logger.Debug($"Configure in-memory endpoint for {receiveEndpointArgs.QueueName}");
             _inMemoryBusFactoryConfigurator.ReceiveEndpoint(receiveEndpointArgs.QueueName, receiveEndpointArgs.Configure);
         }
     }

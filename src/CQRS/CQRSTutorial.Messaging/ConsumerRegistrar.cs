@@ -37,7 +37,7 @@ namespace CQRSTutorial.Messaging
 
         private void RegisterConsumerType(IReceiveEndpointConfigurator receiveEndpointConfigurator, Type consumerType)
         {
-            _logger.Info($"Register {consumerType.FullName} using {_consumerFactory.GetType().FullName}");
+            _logger.Debug($"Register {consumerType.FullName} using {_consumerFactory.GetType().FullName}");
             receiveEndpointConfigurator.Consumer(consumerType, _consumerFactory.Create);
         }
     }
