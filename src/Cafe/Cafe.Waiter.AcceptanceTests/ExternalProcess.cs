@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 
 namespace Cafe.Waiter.AcceptanceTests
@@ -14,6 +15,12 @@ namespace Cafe.Waiter.AcceptanceTests
 
         public ExternalProcess(string workingDirectory, string executable, string arguments, int timeoutInMilliseconds)
         {
+            var path = Path.Combine(workingDirectory, arguments);
+            if (!File.Exists(path))
+            {
+                throw new ArgumentException($"Path {path} does not exist.");
+            }
+
             _workingDirectory = workingDirectory;
             _executable = executable;
             _arguments = arguments;
