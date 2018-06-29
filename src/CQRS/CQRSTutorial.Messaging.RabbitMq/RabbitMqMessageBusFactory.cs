@@ -32,7 +32,6 @@ namespace CQRSTutorial.Messaging.RabbitMq
         private IRabbitMqHost CreateHost(IRabbitMqBusFactoryConfigurator rabbitMqBusFactoryConfigurator)
         {
             var hostAddress = new Uri(_rabbitMqHostConfiguration.Uri);
-            _logger.Debug($"RabbitMqMessageBusFactory.CreateHost(): {Environment.StackTrace}");
             _logger.Debug($"Host address is: \"{hostAddress.AbsoluteUri}\"");
             return rabbitMqBusFactoryConfigurator.Host(hostAddress, h =>
             {
