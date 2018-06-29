@@ -7,11 +7,12 @@ namespace Cafe.Waiter.AcceptanceTests
 {
     public class ExternalProcess : IDisposable
     {
-        private readonly string _workingDirectory;
         private readonly string _executable;
         private readonly string _arguments;
         private readonly int _timeoutInMilliseconds;
         private readonly Process _process;
+        private readonly AutoResetEvent _outputWaitHandle;
+        private readonly AutoResetEvent _errorWaitHandle;
 
         public ExternalProcess(string workingDirectory, string executable, string arguments, int timeoutInMilliseconds)
         {
@@ -21,7 +22,6 @@ namespace Cafe.Waiter.AcceptanceTests
                 throw new ArgumentException($"Path {path} does not exist.");
             }
 
-            _workingDirectory = workingDirectory;
             _executable = executable;
             _arguments = arguments;
             _timeoutInMilliseconds = timeoutInMilliseconds;
@@ -36,76 +36,76 @@ namespace Cafe.Waiter.AcceptanceTests
                     WorkingDirectory = workingDirectory
                 }
             };
+            _outputWaitHandle = new AutoResetEvent(false);
+            _errorWaitHandle = new AutoResetEvent(false);
         }
 
         public void Start()
         {
             // Following adapted from https://stackoverflow.com/questions/139593/processstartinfo-hanging-on-waitforexit-why
-            using (var outputWaitHandle = new AutoResetEvent(false))
+            _process.OutputDataReceived += (sender, e) =>
             {
-                using (var errorWaitHandle = new AutoResetEvent(false))
+                if (e.Data == null)
                 {
-                    _process.OutputDataReceived += (sender, e) =>
-                    {
-                        if (e.Data == null)
-                        {
-                            outputWaitHandle.Set();
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Process: {_executable} {_arguments}: {e.Data}");
-                        }
-                    };
-                    _process.ErrorDataReceived += (sender, e) =>
-                    {
-                        if (e.Data == null)
-                        {
-                            errorWaitHandle.Set();
-                        }
-                        else
-                        {
-                            Log($"ERROR: {e.Data}");
-                        }
-                    };
-
-                    try
-                    {
-                        _process.Start();
-                        Log($"Process started with Process Id: {_process.Id}");
-                    }
-                    catch (Exception exception)
-                    {
-                        Log($"Exception starting process: {exception}");
-                        throw;
-                    }
-
-                    _process.BeginOutputReadLine();
-                    _process.BeginErrorReadLine();
-
-                    if (_process.WaitForExit(_timeoutInMilliseconds) &&
-                        outputWaitHandle.WaitOne(_timeoutInMilliseconds) &&
-                        errorWaitHandle.WaitOne(_timeoutInMilliseconds))
-                    {
-                        Log($"Process Completed. Exit Code: {_process.ExitCode}");
-                    }
-                    else
-                    {
-                        Log("Process timed out.");
-                    }
+                    _outputWaitHandle.Set();
                 }
+                else
+                {
+                    Log(e.Data);
+                }
+            };
+            _process.ErrorDataReceived += (sender, e) =>
+            {
+                if (e.Data == null)
+                {
+                    _errorWaitHandle.Set();
+                }
+                else
+                {
+                    Log($"ERROR: {e.Data}");
+                }
+            };
+
+            try
+            {
+                _process.Start();
+                Log($"Process {_executable} {_arguments} started.");
             }
+            catch (Exception exception)
+            {
+                Log($"Exception starting process: {exception}");
+                throw;
+            }
+
+            _process.BeginOutputReadLine();
+            _process.BeginErrorReadLine();
         }
 
         private void Log(string message)
         {
-            Console.WriteLine($"Working Directory: {_workingDirectory}; Process: {_executable} {_arguments}; {message}");
+            Console.WriteLine($"[{_process.Id}] {message}");
         }
 
         public void Dispose()
         {
             Console.WriteLine($"Stopping process: {_executable} {_arguments}");
+            Stop();
             _process.Kill();
             _process?.Dispose();
+        }
+
+        private void Stop()
+        {
+            if (_process.WaitForExit(_timeoutInMilliseconds) &&
+                _outputWaitHandle.WaitOne(_timeoutInMilliseconds) &&
+                _errorWaitHandle.WaitOne(_timeoutInMilliseconds))
+            {
+                Log($"Process Completed. Exit Code: {_process.ExitCode}");
+            }
+            else
+            {
+                Log("Process timed out.");
+            }
         }
     }
 }
