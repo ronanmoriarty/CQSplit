@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using log4net;
 
 namespace Cafe.Waiter.AcceptanceTests
 {
@@ -13,6 +14,7 @@ namespace Cafe.Waiter.AcceptanceTests
         private readonly Process _process;
         private readonly AutoResetEvent _outputWaitHandle;
         private readonly AutoResetEvent _errorWaitHandle;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(ExternalProcess));
 
         public ExternalProcess(string workingDirectory, string executable, string arguments, int timeoutInMilliseconds)
         {
@@ -83,7 +85,7 @@ namespace Cafe.Waiter.AcceptanceTests
 
         private void Log(string message)
         {
-            Console.WriteLine($"[{_process.Id}] {message}");
+            _logger.Debug($"[{_process.Id}] {message}");
         }
 
         public void Dispose()
