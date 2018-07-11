@@ -6,6 +6,7 @@ using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Web.Models;
 using Cafe.Waiter.Web.Repositories;
 using CQRSTutorial.Messaging;
+using log4net;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cafe.Waiter.Web.Controllers
@@ -17,6 +18,7 @@ namespace Cafe.Waiter.Web.Controllers
         private readonly IOpenTabsRepository _openTabsRepository;
         private readonly ICommandSender _commandSender;
         private readonly IPlaceOrderCommandFactory _placeOrderCommandFactory;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(TabController));
 
         public TabController(ITabDetailsRepository tabDetailsRepository,
             IOpenTabsRepository openTabsRepository,
@@ -56,6 +58,7 @@ namespace Cafe.Waiter.Web.Controllers
         public async Task Create([FromBody]CreateTabModel model)
         {
             var openTabCommand = CreateOpenTabCommand(model);
+            _logger.Debug($"Sending {nameof(OpenTabCommand)} command [Id {openTabCommand.Id} for aggregate {openTabCommand.AggregateId}]");
             await _commandSender.Send(openTabCommand);
         }
 
