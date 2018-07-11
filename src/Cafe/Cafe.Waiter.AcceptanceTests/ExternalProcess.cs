@@ -92,7 +92,11 @@ namespace Cafe.Waiter.AcceptanceTests
         {
             Console.WriteLine($"Stopping process: {_executable} {_arguments}");
             Stop();
-            _process.Kill();
+            if (!_process.HasExited)
+            {
+                _process.Kill();
+            }
+
             _process?.Dispose();
         }
 
