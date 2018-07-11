@@ -35,7 +35,7 @@ namespace Cafe.Waiter.AcceptanceTests
         {
             try
             {
-                _chromeDriver.FindElementByXPath($"//td[text() = \"{_waiter}\"]"); // TODO: search at row-level for rows containing BOTH table number and waiter.
+                _chromeDriver.FindElementByXPath($"//tr[td[text() = '{_waiter}'] and td[text() = '{_tableNumber}']]");
                 return true;
             }
             catch (NoSuchElementException)
