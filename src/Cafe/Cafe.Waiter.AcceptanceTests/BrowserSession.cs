@@ -12,6 +12,8 @@ namespace Cafe.Waiter.AcceptanceTests
             _chromeDriver = chromeDriver;
         }
 
+        public OpenTabs OpenTabs => new OpenTabs(_chromeDriver);
+
         public void Dispose()
         {
             _chromeDriver?.Dispose();
