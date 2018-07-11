@@ -12,7 +12,7 @@ namespace Cafe.Waiter.AcceptanceTests
             new Executable($".\\src\\Cafe\\Cafe.Waiter.EventProjecting.Service\\bin\\{Configuration.Name}\\netcoreapp2.0\\", "Cafe.Waiter.EventProjecting.Service.dll"),
         };
 
-        public static IEnumerable<ExternalProcess> AllWaiterServices(int timeoutInMilliseconds = 60000)
+        public static IEnumerable<ExternalProcess> AllWaiterServices(int timeoutInMilliseconds = 10000)
         {
             return Executables.Select(executable =>
             {
