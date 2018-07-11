@@ -8,7 +8,12 @@ namespace Cafe.Waiter.AcceptanceTests
     {
         private int _tableNumber;
         private string _waiter;
-        private TimeSpan _timeSpan;
+        private readonly ChromeDriver _chromeDriver;
+
+        public TabBuilder()
+        {
+            _chromeDriver = new ChromeDriver();
+        }
 
         public TabBuilder WithTableNumber(int tableNumber)
         {
@@ -22,18 +27,35 @@ namespace Cafe.Waiter.AcceptanceTests
             return this;
         }
 
-        public BrowserSession WaitingAMaximumOf(TimeSpan timeSpan)
+        public BrowserSession AndSubmit()
         {
-            _timeSpan = timeSpan;
-            var chromeDriver = new ChromeDriver
-            {
-                Url = "http://localhost:5000/app/index.html#!/tabs"
-            };
-            var tableNumberTextBox = chromeDriver.FindElementById("tableNumber");
+            NavigateToOpenTabs();
+            SetTableNumber();
+            SetWaiter();
+            Submit();
+            return new BrowserSession(_chromeDriver);
+        }
+
+        private void NavigateToOpenTabs()
+        {
+            _chromeDriver.Url = "http://localhost:5000/app/index.html#!/tabs";
+        }
+
+        private void SetTableNumber()
+        {
+            var tableNumberTextBox = _chromeDriver.FindElementById("tableNumber");
             tableNumberTextBox.SendKeys(_tableNumber.ToString());
-            var createTabButton = chromeDriver.FindElement(By.XPath("//input[@type=\"submit\"]"));
+        }
+
+        private void SetWaiter()
+        {
+            //TODO allow waiter to be set on UI.
+        }
+
+        private void Submit()
+        {
+            var createTabButton = _chromeDriver.FindElement(By.XPath("//input[@type=\"submit\"]"));
             createTabButton.Click();
-            return new BrowserSession(chromeDriver);
         }
     }
 }

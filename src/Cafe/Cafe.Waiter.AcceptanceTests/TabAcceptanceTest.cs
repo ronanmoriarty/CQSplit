@@ -25,7 +25,7 @@ namespace Cafe.Waiter.AcceptanceTests
                 .CreateTab
                 .WithTableNumber(TableNumber)
                 .WithWaiter(Waiter)
-                .WaitingAMaximumOf(TimeSpan.FromSeconds(60)))
+                .AndSubmit())
             {
                 Assert.That(browserSession.OpenTabs.ContainsSingleTab.WithWaiter(Waiter).WithTableNumber(TableNumber));
             }
