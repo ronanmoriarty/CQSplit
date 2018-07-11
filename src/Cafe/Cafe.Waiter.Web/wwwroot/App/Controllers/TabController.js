@@ -1,6 +1,4 @@
 ﻿waiterModule.controller("TabController", ["$scope", "$http", "$location", "notificationService", function ($scope, $http, $location, notificationService) {
-    $scope.formData.waiter = "Jim";
-
     $http({
         method: "GET",
         url: getUrlToListTabs()
