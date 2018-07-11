@@ -16,15 +16,15 @@ namespace CQRSTutorial.Messaging.Tests
         private IBusControl _busControl;
         private ConsumerRegistrar _consumerRegistrar;
         private ConsumerRegistrar _faultEventConsumerRegistrar;
-        private Consumer<FakeEvent> _fakeEventConsumer;
-        private Consumer<Fault<FakeEvent>> _fakeEventFaultConsumer;
+        private Common.Consumer<FakeEvent> _fakeEventConsumer;
+        private Common.Consumer<Fault<FakeEvent>> _fakeEventFaultConsumer;
 
         [SetUp]
         public void SetUp()
         {
-            _fakeEventConsumer = new Consumer<FakeEvent>(ManualResetEvent);
+            _fakeEventConsumer = new Common.Consumer<FakeEvent>(ManualResetEvent);
             _consumerRegistrar = ConsumerRegistrarFactory.Create(QueueName, _fakeEventConsumer);
-            _fakeEventFaultConsumer = new Consumer<Fault<FakeEvent>>(ManualResetEvent);
+            _fakeEventFaultConsumer = new Common.Consumer<Fault<FakeEvent>>(ManualResetEvent);
             _faultEventConsumerRegistrar = ConsumerRegistrarFactory.Create(ErrorQueueName, _fakeEventFaultConsumer);
 
             CreateBus();
