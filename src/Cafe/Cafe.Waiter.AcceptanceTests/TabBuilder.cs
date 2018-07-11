@@ -22,7 +22,7 @@ namespace Cafe.Waiter.AcceptanceTests
             return this;
         }
 
-        public void WaitingAMaximumOf(TimeSpan timeSpan)
+        public BrowserSession WaitingAMaximumOf(TimeSpan timeSpan)
         {
             _timeSpan = timeSpan;
             var chromeDriver = new ChromeDriver
@@ -33,8 +33,7 @@ namespace Cafe.Waiter.AcceptanceTests
             tableNumberTextBox.SendKeys(_tableNumber.ToString());
             var createTabButton = chromeDriver.FindElement(By.XPath("//input[@type=\"submit\"]"));
             createTabButton.Click();
-            chromeDriver.FindElementByXPath($"//td[text() = \"{_waiter}\"]");
-            chromeDriver.Close();
+            return new BrowserSession(chromeDriver);
         }
     }
 }

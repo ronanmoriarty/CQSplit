@@ -21,12 +21,13 @@ namespace Cafe.Waiter.AcceptanceTests
         [Test]
         public void Created_tab_is_displayed_on_open_tabs_view()
         {
-            CafeWaiterWebsite.CreateTab
+            using (var browserSession = CafeWaiterWebsite.CreateTab
                 .WithTableNumber(TableNumber)
                 .WithWaiter(Waiter)
-                .WaitingAMaximumOf(TimeSpan.FromSeconds(60));
-
-            Assert.That(CafeWaiterWebsite.OpenTabs.ContainsSingleTab.WithWaiter(Waiter).WithTableNumber(TableNumber));
+                .WaitingAMaximumOf(TimeSpan.FromSeconds(60)))
+            {
+                Assert.That(CafeWaiterWebsite.OpenTabs.ContainsSingleTab.WithWaiter(Waiter).WithTableNumber(TableNumber));
+            }
         }
 
         [TearDown]
