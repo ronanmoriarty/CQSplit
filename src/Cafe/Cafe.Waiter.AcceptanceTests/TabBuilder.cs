@@ -50,13 +50,18 @@ namespace Cafe.Waiter.AcceptanceTests
 
         private void SetTableNumber()
         {
-            var tableNumberTextBox = _chromeDriver.FindElementById("tableNumber");
-            tableNumberTextBox.SendKeys(_tableNumber.ToString());
+            SetText("tableNumber", _tableNumber.ToString());
         }
 
         private void SetWaiter()
         {
-            //TODO allow waiter to be set on UI.
+            SetText("waiter", _waiter); // TODO: remove setting of waiter by textbox - add login screen.
+        }
+
+        private void SetText(string elementId, string text)
+        {
+            var element = _chromeDriver.FindElementById(elementId);
+            element.SendKeys(text);
         }
 
         private void Submit()
