@@ -1,5 +1,4 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 namespace Cafe.Waiter.AcceptanceTests
@@ -29,11 +28,19 @@ namespace Cafe.Waiter.AcceptanceTests
 
         public BrowserSession AndSubmit()
         {
-            NavigateToOpenTabs();
-            SetTableNumber();
-            SetWaiter();
-            Submit();
-            return new BrowserSession(_chromeDriver);
+            try
+            {
+                NavigateToOpenTabs();
+                SetWaiter();
+                SetTableNumber();
+                Submit();
+                return new BrowserSession(_chromeDriver);
+            }
+            catch (NoSuchElementException)
+            {
+                _chromeDriver?.Dispose();
+                throw;
+            }
         }
 
         private void NavigateToOpenTabs()
