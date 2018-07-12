@@ -4,7 +4,7 @@ using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.Command.Service.Consumers
 {
-    public class OpenTabConsumer : Consumer<IOpenTabCommand>
+    public class OpenTabConsumer : CommandConsumer<IOpenTabCommand>
     {
         public OpenTabConsumer(ICommandRouter commandRouter)
             : base(commandRouter)

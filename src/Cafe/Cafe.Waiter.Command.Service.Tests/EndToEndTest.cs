@@ -24,7 +24,7 @@ namespace Cafe.Waiter.Command.Service.Tests
         private const string LoopbackAddress = "loopback://localhost/";
         private static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
         private string _queueName;
-        private CQRSTutorial.Messaging.Tests.Common.Consumer<TabOpened> _tabOpenedTestConsumer;
+        private Consumer<TabOpened> _tabOpenedTestConsumer;
 
         [SetUp]
         public void SetUp()
@@ -41,7 +41,7 @@ namespace Cafe.Waiter.Command.Service.Tests
         private void CreateBus()
         {
             var registerCommandConsumers = new InMemoryReceiveEndpointsConfigurator(Container.Instance.Resolve<IConsumerRegistrar>());
-            _tabOpenedTestConsumer = new CQRSTutorial.Messaging.Tests.Common.Consumer<TabOpened>(ManualResetEvent);
+            _tabOpenedTestConsumer = new Consumer<TabOpened>(ManualResetEvent);
             _busControl = new InMemoryMessageBusFactory(
                 registerCommandConsumers,
                 new InMemoryReceiveEndpointsConfigurator(ConsumerRegistrarFactory.Create(EventConsumingApplicationQueueName, _tabOpenedTestConsumer))

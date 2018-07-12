@@ -36,7 +36,7 @@ namespace Cafe.Waiter.Command.Service.Tests
                 var baseType = type.BaseType;
                 return baseType != null
                        && baseType.IsGenericType
-                       && baseType.GetGenericTypeDefinition() == typeof(Consumer<>);
+                       && baseType.GetGenericTypeDefinition() == typeof(CommandConsumer<>);
             });
         }
     }

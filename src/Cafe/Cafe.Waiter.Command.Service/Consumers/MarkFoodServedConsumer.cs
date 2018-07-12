@@ -4,7 +4,7 @@ using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.Command.Service.Consumers
 {
-    public class MarkFoodServedConsumer : Consumer<IMarkFoodServedCommand>
+    public class MarkFoodServedConsumer : CommandConsumer<IMarkFoodServedCommand>
     {
         public MarkFoodServedConsumer(ICommandRouter commandRouter)
             : base(commandRouter)
