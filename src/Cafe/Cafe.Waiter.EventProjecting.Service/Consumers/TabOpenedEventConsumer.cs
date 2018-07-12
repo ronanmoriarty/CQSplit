@@ -1,5 +1,6 @@
 using Cafe.Waiter.EventProjecting.Service.Projectors;
 using Cafe.Waiter.Events;
+using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.EventProjecting.Service.Consumers
 {

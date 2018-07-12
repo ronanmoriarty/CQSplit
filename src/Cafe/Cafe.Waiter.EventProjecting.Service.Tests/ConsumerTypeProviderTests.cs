@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
+using CQRSTutorial.Messaging;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.EventProjecting.Service.Tests
