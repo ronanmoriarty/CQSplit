@@ -19,9 +19,23 @@ namespace Cafe.Waiter.EventProjecting.Service.Consumers
 
         public async Task Consume(ConsumeContext<TEvent> context)
         {
-            var text = $"Received event: Type: {typeof(TEvent).Name}; Event Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
+            var text = $"Received event: {GetMessageDescription(context)}";
             _logger.Debug(text);
-            _projector.Project(context.Message);
+            try
+            {
+                _projector.Project(context.Message);
+            }
+            catch (System.Exception exception)
+            {
+                _logger.Error($"Error processing {GetMessageDescription(context)}");
+                _logger.Error(exception);
+                throw;
+            }
+        }
+
+        private string GetMessageDescription(ConsumeContext<TEvent> context)
+        {
+            return $"Type: {typeof(TEvent).Name}; Event Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
         }
     }
 }
