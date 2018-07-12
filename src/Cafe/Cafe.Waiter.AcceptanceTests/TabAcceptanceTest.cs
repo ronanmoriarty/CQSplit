@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.AcceptanceTests
@@ -26,8 +27,14 @@ namespace Cafe.Waiter.AcceptanceTests
                 .WithWaiter(Waiter)
                 .AndSubmit())
             {
+                AllowTimeForMessagesToBeConsumed();
                 Assert.That(browserSession.OpenTabs.ContainsSingleTab.WithWaiter(Waiter).WithTableNumber(TableNumber));
             }
+        }
+
+        private void AllowTimeForMessagesToBeConsumed()
+        {
+            Thread.Sleep(60000);
         }
 
         [TearDown]
