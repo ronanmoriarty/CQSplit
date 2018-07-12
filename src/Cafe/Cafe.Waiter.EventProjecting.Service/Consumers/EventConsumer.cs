@@ -6,13 +6,13 @@ using MassTransit;
 
 namespace Cafe.Waiter.EventProjecting.Service.Consumers
 {
-    public abstract class Consumer<TEvent> : IConsumer<TEvent>
+    public abstract class EventConsumer<TEvent> : IConsumer<TEvent>
         where TEvent : class, IEvent
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(Consumer<>));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EventConsumer<>));
         private readonly IProjector<TEvent> _projector;
 
-        protected Consumer(IProjector<TEvent> projector)
+        protected EventConsumer(IProjector<TEvent> projector)
         {
             _projector = projector;
         }

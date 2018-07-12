@@ -3,9 +3,9 @@ using Cafe.Waiter.Events;
 
 namespace Cafe.Waiter.EventProjecting.Service.Consumers
 {
-    public class TabOpenedConsumer : Consumer<TabOpened>
+    public class TabOpenedEventConsumer : EventConsumer<TabOpened>
     {
-        public TabOpenedConsumer(ITabOpenedProjector projector)
+        public TabOpenedEventConsumer(ITabOpenedProjector projector)
             : base(projector)
         {
         }

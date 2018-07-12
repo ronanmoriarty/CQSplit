@@ -12,7 +12,7 @@ namespace Cafe.Waiter.EventProjecting.Service
             var consumerTypes = new List<Type>();
             consumerTypes.AddRange(new[]
             {
-                typeof(TabOpenedConsumer)
+                typeof(TabOpenedEventConsumer)
             });
 
             return consumerTypes;

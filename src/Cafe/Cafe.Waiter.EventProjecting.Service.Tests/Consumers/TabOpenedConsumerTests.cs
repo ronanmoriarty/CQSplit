@@ -17,7 +17,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Consumers
     [TestFixture]
     public class TabOpenedConsumerTests
     {
-        private TabOpenedConsumer _tabOpenedConsumer;
+        private TabOpenedEventConsumer _tabOpenedEventConsumer;
         private readonly Guid _id = new Guid("6E7B25E5-5B4F-4C08-9147-8DAF69E3FCE2");
         private readonly Guid _aggregateId = new Guid("C32030D7-C783-4EF9-88F7-1CEEED79A5E0");
         private readonly int _tableNumber = 654;
@@ -28,7 +28,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Consumers
         public void SetUp()
         {
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
-            _tabOpenedConsumer = Container.Instance.Resolve<TabOpenedConsumer>();
+            _tabOpenedEventConsumer = Container.Instance.Resolve<TabOpenedEventConsumer>();
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Consumers
         {
             var eventMessage = Substitute.For<ConsumeContext<TabOpened>>();
             eventMessage.Message.Returns(CreateTabOpenedEvent());
-            await _tabOpenedConsumer.Consume(eventMessage);
+            await _tabOpenedEventConsumer.Consume(eventMessage);
         }
 
         private TabOpened CreateTabOpenedEvent()
