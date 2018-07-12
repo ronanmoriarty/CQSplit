@@ -18,10 +18,24 @@ namespace CQRSTutorial.Messaging
 
         public async Task Consume(ConsumeContext<TCommand> context)
         {
-            var text = $"Received command: Type: {typeof(TCommand).Name}; Command Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
+            var text = $"Received command: {GetMessageDescription(context)}";
             _logger.Debug(text);
 
-            _commandRouter.Route(context.Message);
+            try
+            {
+                _commandRouter.Route(context.Message);
+            }
+            catch (System.Exception exception)
+            {
+                _logger.Error($"Error processing {GetMessageDescription(context)}");
+                _logger.Error(exception);
+                throw;
+            }
+        }
+
+        private string GetMessageDescription(ConsumeContext<TCommand> context)
+        {
+            return $"Type: {typeof(TCommand).Name}; Command Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
         }
     }
 }
