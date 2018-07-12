@@ -5,13 +5,13 @@ using MassTransit;
 
 namespace CQRSTutorial.Messaging
 {
-    public abstract class Consumer<TCommand> : IConsumer<TCommand>
+    public abstract class CommandConsumer<TCommand> : IConsumer<TCommand>
         where TCommand : class, ICommand
     {
         private readonly ICommandRouter _commandRouter;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(Consumer<>));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(CommandConsumer<>));
 
-        protected Consumer(ICommandRouter commandRouter)
+        protected CommandConsumer(ICommandRouter commandRouter)
         {
             _commandRouter = commandRouter;
         }
