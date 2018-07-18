@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CQRSTutorial.Core" Version="1.0.18-pre" />
+    <PackageReference Include="CQRSTutorial.Core" Version="1.0.19-pre" />
   </ItemGroup>
 
   <ItemGroup>
