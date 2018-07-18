@@ -6,9 +6,9 @@ using NUnit.Framework;
 namespace CQRSTutorial.Core.Tests
 {
     [TestFixture]
-    public class CommandDispatcherTests
+    public class CommandRouterTests
     {
-        private CommandDispatcher _commandDispatcher;
+        private CommandRouter _commandRouter;
         private ICommandHandlerFactory _commandHandlerFactory;
 
         [SetUp]
@@ -20,13 +20,13 @@ namespace CQRSTutorial.Core.Tests
             var commandHandlerProvider = new CommandHandlerProvider(_commandHandlerFactory);
             commandHandlerProvider.RegisterCommandHandler(handler1);
             commandHandlerProvider.RegisterCommandHandler(handler2);
-            _commandDispatcher = new CommandDispatcher(Substitute.For<IEventHandler>(), commandHandlerProvider);
+            _commandRouter = new CommandRouter(Substitute.For<IEventHandler>(), commandHandlerProvider);
         }
 
         [Test]
         public void ExceptionThrownIfMoreThanOneHandlerCanHandleCommand()
         {
-            Assert.That(() => _commandDispatcher.Dispatch(
+            Assert.That(() => _commandRouter.Route(
                 new TestCommand
                 {
                     Id = Guid.NewGuid()
@@ -38,7 +38,7 @@ namespace CQRSTutorial.Core.Tests
         public void ExceptionThrownIfNothingCanHandleCommand()
         {
             _commandHandlerFactory.CreateHandlerFor(Arg.Any<UnhandledTestCommand>()).Returns((ICommandHandler<UnhandledTestCommand>)null);
-            Assert.That(() => _commandDispatcher.Dispatch(
+            Assert.That(() => _commandRouter.Route(
                 new UnhandledTestCommand
                 {
                     Id = Guid.NewGuid()
@@ -49,7 +49,7 @@ namespace CQRSTutorial.Core.Tests
         [Test]
         public void ExceptionThrownIfCommandDoesNotHaveIdSet()
         {
-            Assert.That(() => _commandDispatcher.Dispatch(
+            Assert.That(() => _commandRouter.Route(
                 new TestCommand()),
                 Throws.Exception.InstanceOf<ArgumentException>().With.Message.EqualTo("Command does not have Id set."));
         }

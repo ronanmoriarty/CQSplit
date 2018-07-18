@@ -2,18 +2,18 @@ using System;
 
 namespace CQRSTutorial.Core
 {
-    public class CommandDispatcher : ICommandDispatcher
+    public class CommandRouter : ICommandRouter
     {
         private readonly IEventHandler _eventHandler;
         private readonly ICommandHandlerProvider _commandHandlerProvider;
 
-        public CommandDispatcher(IEventHandler eventHandler, ICommandHandlerProvider commandHandlerProvider)
+        public CommandRouter(IEventHandler eventHandler, ICommandHandlerProvider commandHandlerProvider)
         {
             _eventHandler = eventHandler;
             _commandHandlerProvider = commandHandlerProvider;
         }
 
-        public void Dispatch<TCommand>(TCommand command)
+        public void Route<TCommand>(TCommand command)
             where TCommand : ICommand
         {
             if (command.Id == Guid.Empty)

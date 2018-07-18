@@ -1,4 +1,5 @@
 ﻿using CQRSTutorial.Messaging;
+using log4net;
 using MassTransit;
 
 namespace Cafe.Waiter.EventProjecting.Service
@@ -7,6 +8,7 @@ namespace Cafe.Waiter.EventProjecting.Service
     {
         private readonly IMessageBusFactory _messageBusFactory;
         private IBusControl _busControl;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(EventProjectingService));
 
         public EventProjectingService(IMessageBusFactory messageBusFactory)
         {
@@ -15,12 +17,14 @@ namespace Cafe.Waiter.EventProjecting.Service
 
         public void Start()
         {
+            _logger.Info("Starting service.");
             _busControl = _messageBusFactory.Create();
             _busControl.Start();
         }
 
         public void Stop()
         {
+            _logger.Info("Stopping service.");
             _busControl.Stop();
         }
     }

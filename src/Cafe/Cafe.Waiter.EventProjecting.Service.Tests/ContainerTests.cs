@@ -17,7 +17,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests
         [Test]
         public void Can_resolve_tabOpenedConsumer()
         {
-            var tabOpenedConsumer = Container.Instance.Resolve<TabOpenedConsumer>();
+            var tabOpenedConsumer = Container.Instance.Resolve<TabOpenedEventConsumer>();
 
             Assert.That(tabOpenedConsumer, Is.Not.Null);
         }

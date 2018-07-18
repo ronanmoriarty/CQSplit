@@ -14,7 +14,7 @@ namespace Cafe.Waiter.Command.Service
                 .Assembly
                 .GetTypes()
                 .Where(type => type.BaseType.IsGenericType
-                    && type.BaseType.GetGenericTypeDefinition() == typeof(Consumer<>))
+                    && type.BaseType.GetGenericTypeDefinition() == typeof(CommandConsumer<>))
                 .ToList();
         }
     }

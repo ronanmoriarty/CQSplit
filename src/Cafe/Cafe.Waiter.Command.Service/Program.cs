@@ -1,4 +1,6 @@
-﻿namespace Cafe.Waiter.Command.Service
+﻿using System;
+
+namespace Cafe.Waiter.Command.Service
 {
     class Program
     {
@@ -6,14 +8,13 @@
         {
             Bootstrapper.Start();
             var service = Container.Instance.Resolve<WaiterCommandService>();
-            try
-            {
-                service.Start();
-            }
-            finally
+
+            AppDomain.CurrentDomain.ProcessExit += (sender, eventArgs) =>
             {
                 service.Stop();
-            }
+            };
+
+            service.Start();
         }
     }
 }

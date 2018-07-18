@@ -69,8 +69,8 @@ namespace Cafe.Waiter.Command.Service
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
-                    .For<ICommandDispatcher>()
-                    .ImplementedBy<CommandDispatcher>(),
+                    .For<ICommandRouter>()
+                    .ImplementedBy<CommandRouter>(),
                 Component
                     .For<ICommandHandlerProvider>()
                     .UsingFactoryMethod(kernel =>

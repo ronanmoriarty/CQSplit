@@ -1,11 +1,12 @@
 using Cafe.Waiter.EventProjecting.Service.Projectors;
 using Cafe.Waiter.Events;
+using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.EventProjecting.Service.Consumers
 {
-    public class TabOpenedConsumer : Consumer<TabOpened>
+    public class TabOpenedEventConsumer : EventConsumer<TabOpened>
     {
-        public TabOpenedConsumer(ITabOpenedProjector projector)
+        public TabOpenedEventConsumer(ITabOpenedProjector projector)
             : base(projector)
         {
         }

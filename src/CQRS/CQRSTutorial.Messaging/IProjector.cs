@@ -1,4 +1,4 @@
-﻿namespace Cafe.Waiter.EventProjecting.Service.Projectors
+﻿namespace CQRSTutorial.Messaging
 {
     public interface IProjector<in TEvent>
     {

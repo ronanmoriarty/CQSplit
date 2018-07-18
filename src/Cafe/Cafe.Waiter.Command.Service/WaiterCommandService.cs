@@ -1,31 +1,31 @@
-﻿using CQRSTutorial.Messaging;
-using CQRSTutorial.Publish;
+﻿using CQRSTutorial.Publish;
+using log4net;
 using MassTransit;
 
 namespace Cafe.Waiter.Command.Service
 {
     public class WaiterCommandService
     {
-        private readonly IMessageBusFactory _messageBusFactory;
         private readonly IOutboxToMessageBusPublisher _outboxToMessageBusPublisher;
-        private IBusControl _busControl;
+        private readonly IBusControl _busControl;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(WaiterCommandService));
 
-        public WaiterCommandService(IMessageBusFactory messageBusFactory,
-            IOutboxToMessageBusPublisher outboxToMessageBusPublisher)
+        public WaiterCommandService(IBusControl busControl, IOutboxToMessageBusPublisher outboxToMessageBusPublisher)
         {
-            _messageBusFactory = messageBusFactory;
             _outboxToMessageBusPublisher = outboxToMessageBusPublisher;
+            _busControl = busControl;
         }
 
         public void Start()
         {
-            _busControl = _messageBusFactory.Create();
+            _logger.Info("Starting service.");
             _busControl.Start();
             _outboxToMessageBusPublisher.PublishQueuedMessages();
         }
 
         public void Stop()
         {
+            _logger.Info("Stopping service.");
             _busControl.Stop();
         }
     }

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CQRSTutorial.DAL.Serialized
 {
-    [Table("EventsToPublish")]
     public class EventToPublish
     {
         public virtual Guid Id { get; set; }

@@ -1,6 +1,7 @@
 using System;
 using log4net;
 using MassTransit;
+using MassTransit.Log4NetIntegration;
 using MassTransit.RabbitMqTransport;
 
 namespace CQRSTutorial.Messaging.RabbitMq
@@ -33,6 +34,7 @@ namespace CQRSTutorial.Messaging.RabbitMq
         {
             var hostAddress = new Uri(_rabbitMqHostConfiguration.Uri);
             _logger.Debug($"Host address is: \"{hostAddress.AbsoluteUri}\"");
+            rabbitMqBusFactoryConfigurator.UseLog4Net();
             return rabbitMqBusFactoryConfigurator.Host(hostAddress, h =>
             {
                 h.Username(_rabbitMqHostConfiguration.Username);

@@ -18,19 +18,19 @@ namespace CQRSTutorial.Messaging.Tests
         private IBusControl _busControl;
         private ConsumerRegistrar _consumerRegistrar;
         private ConsumerRegistrar _faultConsumerRegistrar;
-        private Consumer<FakeCommand> _fakeCommandConsumer;
-        private Consumer<FakeCommand2> _fakeCommand2Consumer;
-        private Consumer<Fault<FakeCommand>> _fakeCommandFaultConsumer;
-        private Consumer<Fault<FakeCommand2>> _fakeCommand2FaultConsumer;
+        private Common.Consumer<FakeCommand> _fakeCommandConsumer;
+        private Common.Consumer<FakeCommand2> _fakeCommand2Consumer;
+        private Common.Consumer<Fault<FakeCommand>> _fakeCommandFaultConsumer;
+        private Common.Consumer<Fault<FakeCommand2>> _fakeCommand2FaultConsumer;
 
         [SetUp]
         public void SetUp()
         {
-            _fakeCommandConsumer = new Consumer<FakeCommand>(ManualResetEvent);
-            _fakeCommand2Consumer = new Consumer<FakeCommand2>(ManualResetEvent2);
+            _fakeCommandConsumer = new Common.Consumer<FakeCommand>(ManualResetEvent);
+            _fakeCommand2Consumer = new Common.Consumer<FakeCommand2>(ManualResetEvent2);
             _consumerRegistrar = ConsumerRegistrarFactory.Create(QueueName, _fakeCommandConsumer, _fakeCommand2Consumer);
-            _fakeCommandFaultConsumer = new Consumer<Fault<FakeCommand>>(ManualResetEvent);
-            _fakeCommand2FaultConsumer = new Consumer<Fault<FakeCommand2>>(ManualResetEvent2);
+            _fakeCommandFaultConsumer = new Common.Consumer<Fault<FakeCommand>>(ManualResetEvent);
+            _fakeCommand2FaultConsumer = new Common.Consumer<Fault<FakeCommand2>>(ManualResetEvent2);
             _faultConsumerRegistrar = ConsumerRegistrarFactory.Create(ErrorQueueName, _fakeCommandFaultConsumer, _fakeCommand2FaultConsumer);
 
             CreateBus();

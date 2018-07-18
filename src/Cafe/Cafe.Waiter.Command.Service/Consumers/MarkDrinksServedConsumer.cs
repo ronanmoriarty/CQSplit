@@ -1,12 +1,13 @@
 using Cafe.Waiter.Contracts.Commands;
 using CQRSTutorial.Core;
+using CQRSTutorial.Messaging;
 
 namespace Cafe.Waiter.Command.Service.Consumers
 {
-    public class MarkDrinksServedConsumer : Consumer<IMarkDrinksServedCommand>
+    public class MarkDrinksServedConsumer : CommandConsumer<IMarkDrinksServedCommand>
     {
-        public MarkDrinksServedConsumer(ICommandDispatcher commandDispatcher)
-            : base(commandDispatcher)
+        public MarkDrinksServedConsumer(ICommandRouter commandRouter)
+            : base(commandRouter)
         {
         }
     }

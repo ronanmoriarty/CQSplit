@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cafe.Waiter.Command.Service.Consumers;
+using CQRSTutorial.Messaging;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Command.Service.Tests
@@ -35,7 +36,7 @@ namespace Cafe.Waiter.Command.Service.Tests
                 var baseType = type.BaseType;
                 return baseType != null
                        && baseType.IsGenericType
-                       && baseType.GetGenericTypeDefinition() == typeof(Consumer<>);
+                       && baseType.GetGenericTypeDefinition() == typeof(CommandConsumer<>);
             });
         }
     }

@@ -21,7 +21,7 @@ namespace Cafe.Waiter.Command.Service.Tests
             _messageBusFactory = Substitute.For<IMessageBusFactory>();
             _messageBusFactory.Create().Returns(_busControl);
             _outboxToMessageBusPublisher = Substitute.For<IOutboxToMessageBusPublisher>();
-            _waiterCommandService = new WaiterCommandService(_messageBusFactory, _outboxToMessageBusPublisher);
+            _waiterCommandService = new WaiterCommandService(_busControl, _outboxToMessageBusPublisher);
         }
 
         [Test]

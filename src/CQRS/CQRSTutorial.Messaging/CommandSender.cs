@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using CQRSTutorial.Core;
+using log4net;
 
 namespace CQRSTutorial.Messaging
 {
@@ -7,6 +8,7 @@ namespace CQRSTutorial.Messaging
     {
         private readonly ISendEndpointProvider _sendEndpointProvider;
         private readonly ICommandSendConfiguration _commandSendConfiguration;
+        private readonly ILog _logger = LogManager.GetLogger(typeof(CommandSender));
 
         public CommandSender(ISendEndpointProvider sendEndpointProvider,
             ICommandSendConfiguration commandSendConfiguration)
@@ -20,6 +22,7 @@ namespace CQRSTutorial.Messaging
         {
             // TODO: will write an end-to-end test around this shortly. Used to be Send(ICommand) but that just got sent to ICommand exchange which wasn't bound to anything, and so message was skipped (will undo then redo when writing test).
             var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(_commandSendConfiguration.QueueName);
+            _logger.Debug($"Sending command {command.Id} for aggregate {command.AggregateId} to {_commandSendConfiguration.QueueName}");
             await sendEndpoint.Send(command);
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
+using CQRSTutorial.Messaging;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.EventProjecting.Service.Tests
@@ -30,12 +31,12 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests
 
         private static IEnumerable<Type> GetTypesDerivingFromConsumer()
         {
-            return typeof(TabOpenedConsumer).Assembly.GetTypes().Where(type =>
+            return typeof(TabOpenedEventConsumer).Assembly.GetTypes().Where(type =>
             {
                 var baseType = type.BaseType;
                 return baseType != null
                     && baseType.IsGenericType
-                    && baseType.GetGenericTypeDefinition() == typeof(Consumer<>);
+                    && baseType.GetGenericTypeDefinition() == typeof(EventConsumer<>);
             });
         }
     }

@@ -12,8 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CQRSTutorial.Messaging" Version="1.0.9-pre" />
-    <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.9-pre" />
+    <Content Remove="log4net.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CQRSTutorial.Messaging" Version="1.0.19-pre" />
+    <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.19-pre" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
@@ -28,8 +32,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Cafe.Waiter.Commands\Cafe.Waiter.Commands.csproj" />
     <ProjectReference Include="..\Cafe.Waiter.Queries.DAL\Cafe.Waiter.Queries.DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

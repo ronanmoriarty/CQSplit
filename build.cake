@@ -67,7 +67,7 @@ Task("Run-Unit-Tests-Without-Build")
 
 private void RunCafeUnitTests()
 {
-    RunDotNetCoreUnitTests("./src/Cafe/**/*Tests.csproj");
+    RunDotNetCoreUnitTests("./src/Cafe/**/*.Tests.csproj");
 }
 
 private void RunDotNetCoreUnitTests(string filePattern)

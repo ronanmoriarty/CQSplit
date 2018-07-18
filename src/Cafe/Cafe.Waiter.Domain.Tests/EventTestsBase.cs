@@ -13,7 +13,7 @@ namespace Cafe.Waiter.Domain.Tests
         where TCommand : ICommand
     {
         private IEventHandler _eventHandler;
-        private CommandDispatcher _commandDispatcher;
+        private CommandRouter _commandRouter;
         private EventApplier _eventApplier;
         private TCommand _command;
         private CommandHandlerProvider _commandHandlerProvider;
@@ -46,7 +46,7 @@ namespace Cafe.Waiter.Domain.Tests
             }
 
             _eventHandler = Substitute.For<IEventHandler>();
-            _commandDispatcher = new CommandDispatcher(_eventHandler, _commandHandlerProvider);
+            _commandRouter = new CommandRouter(_eventHandler, _commandHandlerProvider);
             _eventApplier = new EventApplier(new TypeInspector());
         }
 
@@ -113,7 +113,7 @@ namespace Cafe.Waiter.Domain.Tests
 
         private void HandleCommands()
         {
-            _commandDispatcher.Dispatch(_command);
+            _commandRouter.Route(_command);
         }
     }
 }

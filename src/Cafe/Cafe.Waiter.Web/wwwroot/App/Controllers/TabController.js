@@ -1,5 +1,4 @@
 ﻿waiterModule.controller("TabController", ["$scope", "$http", "$location", "notificationService", function ($scope, $http, $location, notificationService) {
-    $scope.waiter = "Jim"; // hard-coded for now. TODO get this from api later
     $http({
         method: "GET",
         url: getUrlToListTabs()
@@ -31,7 +30,7 @@
 
     function getDataToCreateNewTab(){
         return {
-            waiter: $scope.waiter,
+            waiter: $scope.formData.waiter,
             tableNumber: $scope.formData.tableNumber
         };
     }
