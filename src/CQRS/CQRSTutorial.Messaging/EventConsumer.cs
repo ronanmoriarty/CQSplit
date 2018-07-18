@@ -34,7 +34,7 @@ namespace CQRSTutorial.Messaging
 
         private string GetMessageDescription(ConsumeContext<TEvent> context)
         {
-            return $"Type: {typeof(TEvent).Name}; Event Id: {context.Message.Id}; Aggregate Id: {context.Message.AggregateId}";
+            return $"Type: {typeof(TEvent).Name}; Event Id: {context.Message.Id}; Command Id: {context.Message.CommandId}; Aggregate Id: {context.Message.AggregateId}";
         }
     }
 }
