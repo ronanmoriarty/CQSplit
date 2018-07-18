@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Cafe.Waiter.AcceptanceTests
 {
-    [TestFixture, Category("AcceptanceTestInProgress")]
+    [TestFixture, Category("AcceptanceTest")]
     public class TabAcceptanceTest
     {
         private IEnumerable<ExternalProcess> _externalProcesses;
