@@ -35,7 +35,7 @@ namespace Cafe.Waiter.AcceptanceTests
 
         private void AllowTimeForMessagesToBeConsumed()
         {
-            Thread.Sleep(60000);
+            Thread.Sleep(5000);
         }
 
         [TearDown]
