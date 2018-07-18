@@ -33,7 +33,7 @@ namespace Cafe.Waiter.EventProjecting.Service.DAL
             }
             else
             {
-                throw new ArgumentException($"Tab with id {openTab.Id} already exists in dbo.OpenTabs.");
+                _logger.Info($"Tab with id {openTab.Id} already exists in dbo.OpenTabs. Will ignore request to create another tab with same id.");
             }
         }
 
