@@ -27,7 +27,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Consumers
         [SetUp]
         public void SetUp()
         {
-            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
+            _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.OpenTabs WHERE Id = '{_aggregateId}'");
             _tabOpenedEventConsumer = Container.Instance.Resolve<TabOpenedEventConsumer>();
         }
 
