@@ -18,5 +18,10 @@ namespace Cafe.Waiter.AcceptanceTests
         {
             _chromeDriver?.Dispose();
         }
+
+        public void RefreshPage()
+        {
+            _chromeDriver.Navigate().Refresh();
+        }
     }
 }

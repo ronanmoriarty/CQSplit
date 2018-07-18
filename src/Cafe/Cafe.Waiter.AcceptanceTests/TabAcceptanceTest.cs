@@ -28,6 +28,7 @@ namespace Cafe.Waiter.AcceptanceTests
                 .AndSubmit())
             {
                 AllowTimeForMessagesToBeConsumed();
+                browserSession.RefreshPage();
                 Assert.That(browserSession.OpenTabs.ContainsSingleTab.WithWaiter(Waiter).WithTableNumber(TableNumber));
             }
         }
