@@ -1,11 +1,12 @@
 $rabbitMqContainerId = docker container list --filter ancestor=rabbitmq --format "{{.ID}}"
 $rabbitMqServerIpAddress = docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $rabbitMqContainerId
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
+$configuration = "Debug"
 
 $appSettingsFiles = @(
     "..\src\Cafe\Cafe.Waiter.Web\appsettings.override.json",
-    "..\src\Cafe\Cafe.Waiter.Command.Service\appsettings.override.json",
-    "..\src\Cafe\Cafe.Waiter.EventProjecting.Service\appsettings.override.json"
+    "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.0\appsettings.override.json",
+    "..\src\Cafe\Cafe.Waiter.EventProjecting.Service\bin\$configuration\netcoreapp2.0\appsettings.override.json"
 )
 
 $appSettingsFiles | ForEach-Object {
