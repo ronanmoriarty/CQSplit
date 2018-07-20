@@ -2,16 +2,16 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>CQRSTutorial.DAL.Sql</id>
-    <version>1.0.19-pre</version>
+    <version>1.0.20-pre</version>
     <authors>Ronan Moriarty</authors>
     <owners>Fundraising Innovations Ltd.</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Package Description</description>
     <dependencies>
       <group targetFramework="netcoreapp2.0">
-        <dependency id="CQRSTutorial.DAL.Common" version="1.0.19-pre" />
-        <dependency id="CQRSTutorial.DAL" version="1.0.19-pre" />
-        <dependency id="CQRSTutorial.Core" version="1.0.19-pre" />
+        <dependency id="CQRSTutorial.DAL.Common" version="1.0.20-pre" />
+        <dependency id="CQRSTutorial.DAL" version="1.0.20-pre" />
+        <dependency id="CQRSTutorial.Core" version="1.0.20-pre" />
         <dependency id="Microsoft.EntityFrameworkCore.SqlServer" version="2.1.0" />
         <dependency id="Newtonsoft.Json" version="10.0.3" />
       </group>

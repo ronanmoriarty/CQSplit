@@ -9,6 +9,7 @@ using Castle.Windsor;
 using CQRSTutorial.DAL.Common;
 using CQRSTutorial.Messaging;
 using CQRSTutorial.Messaging.RabbitMq;
+using Microsoft.Extensions.Configuration;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
@@ -16,6 +17,11 @@ namespace Cafe.Waiter.EventProjecting.Service
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            var configurationRoot = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.override.json", optional: true)
+                .Build();
+
             container.Register(
                 Classes
                     .FromAssembly(Assembly.GetExecutingAssembly())
@@ -49,7 +55,10 @@ namespace Cafe.Waiter.EventProjecting.Service
                     .Instance(ReadModelConnectionStringProvider.Instance),
                 Component
                     .For<IOpenTabInserter>()
-                    .ImplementedBy<OpenTabInserter>()
+                    .ImplementedBy<OpenTabInserter>(),
+                Component
+                    .For<IConfigurationRoot>()
+                    .Instance(configurationRoot)
                 );
         }
     }
