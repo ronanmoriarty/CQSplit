@@ -9,5 +9,6 @@ $appSettingsFiles = @(
 )
 
 $appSettingsFiles | ForEach-Object {
-    Write-Host $_
+    $path = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $_))
+    Write-Host $path
 }
