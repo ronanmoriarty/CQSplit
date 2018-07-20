@@ -10,5 +10,20 @@ $appSettingsFiles = @(
 
 $appSettingsFiles | ForEach-Object {
     $path = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $_))
-    Write-Host $path
+    if(Test-Path $path) {
+        Remove-Item $path
+    }
+
+    $text = @"
+{
+    "rabbitmq": {
+        "uri": "$rabbitMqServerIpAddress",
+        "username": "guest",
+        "password": "guest"
+    }
+}
+"@
+
+    $text | Out-File -encoding ASCII $path
+    Write-Output "Created $path"
 }
