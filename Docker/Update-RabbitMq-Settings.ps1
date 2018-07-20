@@ -17,7 +17,7 @@ $appSettingsFiles | ForEach-Object {
     $text = @"
 {
     "rabbitmq": {
-        "uri": "$rabbitMqServerIpAddress",
+        "uri": "rabbitmq://$rabbitMqServerIpAddress",
         "username": "guest",
         "password": "guest"
     }
