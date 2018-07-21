@@ -6,6 +6,10 @@ function GetIpAddress($containerId){
     return docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $containerId
 }
 
+function GetFullPath($relativePath){
+    return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $_))
+}
+
 $rabbitMqContainerId = GetContainerRunningWithImageName "rabbitmq"
 $rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
@@ -23,7 +27,7 @@ $appSettingsFiles = @(
 )
 
 $appSettingsFiles | ForEach-Object {
-    $path = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $_))
+    $path = GetFullPath $_
     if(Test-Path $path) {
         Remove-Item $path
     }
