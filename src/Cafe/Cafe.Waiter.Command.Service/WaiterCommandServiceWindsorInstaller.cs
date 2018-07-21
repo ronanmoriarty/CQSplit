@@ -62,7 +62,7 @@ namespace Cafe.Waiter.Command.Service
                     .DependsOn(Dependency.OnComponent("assemblyContainingEvents", "assemblyForEventMapper")),
                 Component
                     .For<IConnectionStringProvider>()
-                    .Instance(WriteModelConnectionStringProvider.Instance),
+                    .Instance(new WriteModelConnectionStringProvider(configurationRoot).GetConnectionStringProvider()),
                 Classes
                     .FromAssemblyContaining<EventToPublishSerializer>()
                     .InSameNamespaceAs<EventToPublishSerializer>()
