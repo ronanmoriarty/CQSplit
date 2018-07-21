@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Cafe.Waiter.Web\Cafe.Waiter.Web.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
