@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>CQRSTutorial.Messaging.RabbitMq</id>
-    <version>1.0.20-pre</version>
+    <version>1.0.21-pre</version>
     <authors>Ronan Moriarty</authors>
     <owners>Fundraising Innovations Ltd.</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -10,7 +10,7 @@
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <dependency id="MassTransit.RabbitMq" version="5.1.2" />
-        <dependency id="CQRSTutorial.Messaging" version="1.0.20-pre" />
+        <dependency id="CQRSTutorial.Messaging" version="1.0.21-pre" />
         <dependency id="Microsoft.Extensions.Configuration" version="2.0.0" />
       </group>
     </dependencies>
