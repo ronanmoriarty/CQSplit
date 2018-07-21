@@ -3,11 +3,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace Cafe.Waiter.Command.Service
 {
-    public class WriteModelConnectionStringProvider
+    public class ConnectionStringProviderFactory
     {
         private readonly IConfigurationRoot _configurationRoot;
 
-        public WriteModelConnectionStringProvider(IConfigurationRoot configurationRoot)
+        public ConnectionStringProviderFactory(IConfigurationRoot configurationRoot)
         {
             _configurationRoot = configurationRoot;
         }
