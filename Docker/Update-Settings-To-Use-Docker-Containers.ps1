@@ -2,11 +2,18 @@ function GetContainerRunningWithImageName($imageName){
     return docker container list --filter ancestor=$imageName --format "{{.ID}}"
 }
 
-$rabbitMqContainerId = GetContainerRunningWithImageName "rabbitmq"
-$writeModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-write-db-server"
+function GetIpAddress($containerId){
+    return docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $containerId
+}
 
-$rabbitMqServerIpAddress = docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $rabbitMqContainerId
+$rabbitMqContainerId = GetContainerRunningWithImageName "rabbitmq"
+$rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
+
+$writeModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-write-db-server"
+$writeModelSqlServerIpAddress = GetIpAddress $writeModelSqlServerContainerId
+Write-Output "`$writeModelSqlServerIpAddress:$writeModelSqlServerIpAddress"
+
 $configuration = "Debug"
 
 $appSettingsFiles = @(
