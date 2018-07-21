@@ -1,6 +1,7 @@
 ﻿using System;
 using Cafe.Waiter.Events;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Common;
 using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
 

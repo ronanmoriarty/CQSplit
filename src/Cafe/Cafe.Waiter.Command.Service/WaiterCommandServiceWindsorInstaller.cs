@@ -17,6 +17,7 @@ using CQRSTutorial.Messaging.RabbitMq;
 using CQRSTutorial.Publish;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
+using ConfigurationRoot = CQRSTutorial.DAL.Common.ConfigurationRoot;
 using EventHandler = CQRSTutorial.DAL.EventHandler;
 
 namespace Cafe.Waiter.Command.Service
