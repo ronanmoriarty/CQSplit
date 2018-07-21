@@ -1,4 +1,9 @@
-$rabbitMqContainerId = docker container list --filter ancestor=rabbitmq --format "{{.ID}}"
+function GetContainerRunningWithImageName($imageName){
+    return docker container list --filter ancestor=$imageName --format "{{.ID}}"
+}
+
+$rabbitMqContainerId = GetContainerRunningWithImageName "rabbitmq"
+
 $rabbitMqServerIpAddress = docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $rabbitMqContainerId
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
 $configuration = "Debug"
