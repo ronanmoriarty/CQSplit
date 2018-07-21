@@ -2,6 +2,7 @@
 using Cafe.Waiter.Events;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Tests.Common;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Command.Service.Tests
@@ -14,7 +15,17 @@ namespace Cafe.Waiter.Command.Service.Tests
         private readonly Guid _commandId = new Guid("C168EA4F-E956-4A46-8571-371CC5639868");
         private readonly int _tableNumber = 123;
         private readonly string _waiter = "Joe";
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProvider.Instance);
+        private readonly SqlExecutor _sqlExecutor = GetSqlExecutor();
+
+        private static SqlExecutor GetSqlExecutor()
+        {
+            var configurationRoot = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.override.json", optional: true)
+                .Build();
+
+            return new SqlExecutor(new WriteModelConnectionStringProvider(configurationRoot).GetConnectionStringProvider());
+        }
 
         [SetUp]
         public void SetUp()
