@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Common;
 using CQRSTutorial.DAL.Sql;
 using CQRSTutorial.DAL.Tests.Common;
 using log4net;
@@ -28,7 +29,8 @@ namespace CQRSTutorial.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            _sqlExecutor = new SqlExecutor(WriteModelConnectionStringProvider.Instance);
+            var connectionStringProvider = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider();
+            _sqlExecutor = new SqlExecutor(connectionStringProvider);
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE ID IN ('{Id1}','{Id2}')");
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE ID IN ('{Id1}','{Id2}')");
             _eventToPublishRepositoryDecorator = CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(
@@ -38,7 +40,7 @@ namespace CQRSTutorial.DAL.Tests
             _eventStore = new EventRepository(new EventSerializer(Assembly.GetExecutingAssembly())
             );
             _eventHandler = new EventHandler(
-                new EventStoreUnitOfWorkFactory(WriteModelConnectionStringProvider.Instance),
+                new EventStoreUnitOfWorkFactory(connectionStringProvider),
                 new CompositeEventStore(
                     new[]
                     {
