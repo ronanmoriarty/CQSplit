@@ -17,6 +17,7 @@ using CQRSTutorial.Messaging.RabbitMq;
 using CQRSTutorial.Publish;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
+using ConfigurationRoot = CQRSTutorial.DAL.Common.ConfigurationRoot;
 using EventHandler = CQRSTutorial.DAL.EventHandler;
 
 namespace Cafe.Waiter.Command.Service
@@ -25,11 +26,6 @@ namespace Cafe.Waiter.Command.Service
     {
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            var configurationRoot = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.override.json", optional: true)
-                .Build();
-
             container.Register(
                 Classes
                     .FromAssembly(Assembly.GetExecutingAssembly())
@@ -62,7 +58,7 @@ namespace Cafe.Waiter.Command.Service
                     .DependsOn(Dependency.OnComponent("assemblyContainingEvents", "assemblyForEventMapper")),
                 Component
                     .For<IConnectionStringProvider>()
-                    .Instance(WriteModelConnectionStringProvider.Instance),
+                    .Instance(new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider()),
                 Classes
                     .FromAssemblyContaining<EventToPublishSerializer>()
                     .InSameNamespaceAs<EventToPublishSerializer>()
@@ -123,7 +119,7 @@ namespace Cafe.Waiter.Command.Service
                     .DependsOn(Dependency.OnComponent("eventHandlers", "eventHandlers")),
                 Component
                     .For<IConfigurationRoot>()
-                    .Instance(configurationRoot)
+                    .Instance(ConfigurationRoot.Instance)
                 );
         }
 

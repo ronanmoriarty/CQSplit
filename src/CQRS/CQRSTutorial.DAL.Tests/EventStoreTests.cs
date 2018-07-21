@@ -1,5 +1,6 @@
 using System;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL.Common;
 using CQRSTutorial.DAL.Sql;
 using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
@@ -17,10 +18,11 @@ namespace CQRSTutorial.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            var sqlExecutor = new SqlExecutor(WriteModelConnectionStringProvider.Instance);
+            var connectionStringProvider = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider();
+            var sqlExecutor = new SqlExecutor(connectionStringProvider);
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId}'"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
             _repository = CreateRepository();
-            _repository.UnitOfWork = new EventStoreUnitOfWork(WriteModelConnectionStringProvider.Instance);
+            _repository.UnitOfWork = new EventStoreUnitOfWork(connectionStringProvider);
         }
 
         [Test]
