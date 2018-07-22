@@ -61,11 +61,11 @@ function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress){
 "@
 }
 
-function GetWaiterAcceptanceTestsSettings($writeModelSqlServerAddress, $username, [SecureString] $secureStringPassword){
+function GetWaiterAcceptanceTestsSettings($readModelSqlServerAddress, $username, [SecureString] $secureStringPassword){
     $password = ConvertToPlainText $secureStringPassword
     return @"
 {
-    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=$username;Password=$password;"
+    "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
 }
 "@
 }
@@ -95,16 +95,17 @@ $waiterEventProjectingService = @{
     Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerIpAddress
 }
 
-$waiterAcceptanceTest = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-    Text = GetWaiterAcceptanceTestsSettings $writeModelSqlServerIpAddress  $username $password
-}
+# Will bring this back in shortly when we dockerise the Read Model db.
+# $waiterAcceptanceTest = @{
+#     FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
+#     Text = GetWaiterAcceptanceTestsSettings $readModelSqlServerIpAddress  $username $password
+# }
 
 $appSettings = @(
     $waiterWebsite,
     $waiterCommandService,
-    $waiterEventProjectingService,
-    $waiterAcceptanceTest
+    $waiterEventProjectingService
+    # $waiterAcceptanceTest
 )
 
 $appSettings | ForEach-Object {
