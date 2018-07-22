@@ -22,14 +22,15 @@ function GetWaiterWebsiteSettings($rabbitMqServerAddress){
 "@
 }
 
-function GetWaiterCommandServiceSettings($rabbitMqServerAddress){
+function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelSqlServerAddress){
     return @"
 {
     "rabbitmq": {
         "uri": "rabbitmq://$rabbitMqServerAddress",
         "username": "guest",
         "password": "guest"
-    }
+    },
+    "connectionString": "Server=$writeModelSqlServerAddress\\SQLEXPRESS;Database=CQRSWriteModel;Trusted_Connection=True;"
 }
 "@
 }
@@ -63,7 +64,7 @@ $waiterWebsite = @{
 
 $waiterCommandService = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress
+    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $writeModelSqlServerIpAddress
 }
 
 $waiterEventProjectingService = @{
