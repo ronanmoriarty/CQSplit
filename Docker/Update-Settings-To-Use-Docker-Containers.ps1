@@ -37,6 +37,15 @@ function GetWaiterWebsiteSettings($rabbitMqServerAddress, $readModelSqlServerAdd
 "@
 }
 
+function GetWaiterWebsiteTestSettings($readModelSqlServerAddress, $username, [SecureString] $secureStringPassword){
+    $password = ConvertToPlainText $secureStringPassword
+    return @"
+{
+    "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
+}
+"@
+}
+
 function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelSqlServerAddress, $username, [SecureString]$secureStringPassword){
     $password = ConvertToPlainText $secureStringPassword
     return @"
@@ -130,6 +139,11 @@ $waiterWebsite = @{
     Text = GetWaiterWebsiteSettings $rabbitMqServerIpAddress $readModelSqlServerIpAddress $username $password
 }
 
+$waiterWebsiteTest = @{
+    FilePath = "..\src\Cafe\Cafe.Waiter.Web.Tests\appSettings.override.json"
+    Text = GetWaiterWebsiteTestSettings $readModelSqlServerIpAddress $username $password
+}
+
 $waiterCommandService = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json";
     Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $writeModelSqlServerIpAddress $username $password
@@ -157,6 +171,7 @@ $waiterAcceptanceTest = @{
 
 $appSettings = @(
     $waiterWebsite,
+    $waiterWebsiteTest,
     $waiterCommandService,
     $waiterCommandServiceTest,
     $waiterEventProjectingService,
