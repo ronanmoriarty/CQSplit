@@ -76,13 +76,22 @@ function WriteToFile($path, $contents){
     $_.Text | Out-File -encoding ASCII $path
 }
 
-$rabbitMqContainerId = GetContainerRunningWithImageName "rabbitmq"
-$rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
-Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
+function GetRabbitMqAddress(){
+    $rabbitMqContainerId = GetContainerRunningWithImageName "rabbitmq"
+    $rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
+    return $rabbitMqServerIpAddress
+}
 
-$writeModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-write-db-server"
-$writeModelSqlServerIpAddress = GetIpAddress $writeModelSqlServerContainerId
-Write-Output "`$writeModelSqlServerIpAddress:$writeModelSqlServerIpAddress"
+function GetWriteModelSqlServerAddress(){
+    $writeModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-write-db-server"
+    $writeModelSqlServerIpAddress = GetIpAddress $writeModelSqlServerContainerId
+    return $writeModelSqlServerIpAddress
+}
+
+$rabbitMqServerIpAddress = GetRabbitMqAddress
+Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
+$writeModelSqlServerIpAddress = GetWriteModelSqlServerAddress
+Write-Output "`$writeModelSqlServerIpAddress: $writeModelSqlServerIpAddress"
 
 $configuration = "Debug"
 
