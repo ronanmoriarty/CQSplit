@@ -58,14 +58,16 @@ function GetWaiterCommandServiceTestSettings($rabbitMqServerAddress, $writeModel
 "@
 }
 
-function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress){
+function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress, $readModelSqlServerAddress, $username, [SecureString]$secureStringPassword){
+    $password = ConvertToPlainText $secureStringPassword
     return @"
 {
     "rabbitmq": {
         "uri": "rabbitmq://$rabbitMqServerAddress",
         "username": "guest",
         "password": "guest"
-    }
+    },
+    "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
 }
 "@
 }
@@ -97,10 +99,18 @@ function GetWriteModelSqlServerAddress(){
     return $writeModelSqlServerIpAddress
 }
 
+function GetReadModelSqlServerAddress(){
+    $readModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-read-db-server"
+    $readModelSqlServerIpAddress = GetIpAddress $readModelSqlServerContainerId
+    return $readModelSqlServerIpAddress
+}
+
 $rabbitMqServerIpAddress = GetRabbitMqAddress
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
 $writeModelSqlServerIpAddress = GetWriteModelSqlServerAddress
 Write-Output "`$writeModelSqlServerIpAddress: $writeModelSqlServerIpAddress"
+$readModelSqlServerIpAddress = GetReadModelSqlServerAddress
+Write-Output "`$readModelSqlServerIpAddress: $readModelSqlServerIpAddress"
 
 $configuration = "Debug"
 
@@ -121,7 +131,7 @@ $waiterCommandServiceTest = @{
 
 $waiterEventProjectingService = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.EventProjecting.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json"
-    Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerIpAddress
+    Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerIpAddress $readModelSqlServerIpAddress $username $password
 }
 
 # Will bring this back in shortly when we dockerise the Read Model db.
