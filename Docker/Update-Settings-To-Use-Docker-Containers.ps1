@@ -47,6 +47,14 @@ function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress){
 "@
 }
 
+function GetWaiterAcceptanceTestsSettings($writeModelSqlServerAddress){
+    return @"
+{
+    "connectionString": "Server=$writeModelSqlServerAddress\\SQLEXPRESS;Database=CQRSWriteModel;Trusted_Connection=True;"
+}
+"@
+}
+
 $rabbitMqContainerId = GetContainerRunningWithImageName "rabbitmq"
 $rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
@@ -72,10 +80,16 @@ $waiterEventProjectingService = @{
     Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerIpAddress
 }
 
+$waiterAcceptanceTest = @{
+    FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
+    Text = GetWaiterAcceptanceTestsSettings $writeModelSqlServerIpAddress
+}
+
 $appSettings = @(
     $waiterWebsite,
     $waiterCommandService,
-    $waiterEventProjectingService
+    $waiterEventProjectingService,
+    $waiterAcceptanceTest
 )
 
 $appSettings | ForEach-Object {
