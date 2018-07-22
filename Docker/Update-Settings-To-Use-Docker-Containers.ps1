@@ -148,11 +148,10 @@ $waiterEventProjectingServiceTest = @{
     Text = GetWaiterEventProjectingServiceTestSettings $readModelSqlServerIpAddress $username $password
 }
 
-# Will bring this back in shortly when we dockerise the Read Model db.
-# $waiterAcceptanceTest = @{
-#     FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-#     Text = GetWaiterAcceptanceTestsSettings $readModelSqlServerIpAddress  $username $password
-# }
+$waiterAcceptanceTest = @{
+    FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
+    Text = GetWaiterAcceptanceTestsSettings $readModelSqlServerIpAddress $username $password
+}
 
 $appSettings = @(
     $waiterWebsite,
@@ -160,7 +159,7 @@ $appSettings = @(
     $waiterCommandServiceTest,
     $waiterEventProjectingService,
     $waiterEventProjectingServiceTest
-    # $waiterAcceptanceTest
+    $waiterAcceptanceTest
 )
 
 $appSettings | ForEach-Object {
