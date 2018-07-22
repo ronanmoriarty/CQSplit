@@ -44,7 +44,7 @@ function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelSqlS
         "username": "guest",
         "password": "guest"
     },
-    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSWriteModel;User ID=$username;Password=$password;"
+    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=$username;Password=$password;"
 }
 "@
 }
@@ -65,7 +65,7 @@ function GetWaiterAcceptanceTestsSettings($writeModelSqlServerAddress, $username
     $password = ConvertToPlainText $secureStringPassword
     return @"
 {
-    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSWriteModel;User ID=$username;Password=$password;"
+    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=$username;Password=$password;"
 }
 "@
 }
