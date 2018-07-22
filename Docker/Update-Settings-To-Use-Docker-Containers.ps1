@@ -7,7 +7,7 @@ function GetIpAddress($containerId){
 }
 
 function GetFullPath($relativePath){
-    return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $_))
+    return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
 }
 
 function GetSettings($rabbitMqServerIpAddress){
@@ -32,19 +32,35 @@ Write-Output "`$writeModelSqlServerIpAddress:$writeModelSqlServerIpAddress"
 
 $configuration = "Debug"
 
-$appSettingsFiles = @(
-    "..\src\Cafe\Cafe.Waiter.Web\appsettings.override.json",
-    "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.0\appsettings.override.json",
-    "..\src\Cafe\Cafe.Waiter.EventProjecting.Service\bin\$configuration\netcoreapp2.0\appsettings.override.json"
+$waiterWebsite = @{
+    FilePath = "..\src\Cafe\Cafe.Waiter.Web\appSettings.override.json"
+    Text = GetSettings $rabbitMqServerIpAddress
+}
+
+$waiterCommandService = @{
+    FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json";
+    Text = GetSettings $rabbitMqServerIpAddress
+}
+
+$waiterEventProjectingService = @{
+    FilePath = "..\src\Cafe\Cafe.Waiter.EventProjecting.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json"
+    Text = GetSettings $rabbitMqServerIpAddress
+}
+
+$appSettings = @(
+    $waiterWebsite,
+    $waiterCommandService,
+    $waiterEventProjectingService
 )
 
-$appSettingsFiles | ForEach-Object {
-    $path = GetFullPath $_
+$appSettings | ForEach-Object {
+    $path = GetFullPath $_.FilePath
     if(Test-Path $path) {
         Remove-Item $path
     }
 
-    $text = GetSettings $rabbitMqServerIpAddress
-    $text | Out-File -encoding ASCII $path
+    Write-Output "Text: $($_.Text)"
+
+    $_.Text | Out-File -encoding ASCII $path
     Write-Output "Created $path"
 }
