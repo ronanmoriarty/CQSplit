@@ -1,7 +1,9 @@
 [CmdletBinding()]
 param (
-    [string] $dbUserName,
-    [SecureString] $dbPassword
+    [Parameter(Mandatory=$True)]
+    [string] $userName,
+    [Parameter(Mandatory=$True)]
+    [SecureString] $password
 )
 
 function GetContainerRunningWithImageName($imageName){
@@ -16,6 +18,11 @@ function GetFullPath($relativePath){
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
 }
 
+function ConvertToPlainText([SecureString]$secureString){
+    $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)
+    return [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+}
+
 function GetWaiterWebsiteSettings($rabbitMqServerAddress){
     return @"
 {
@@ -28,7 +35,8 @@ function GetWaiterWebsiteSettings($rabbitMqServerAddress){
 "@
 }
 
-function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelSqlServerAddress, $userName, [SecureString]$password){
+function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelSqlServerAddress, $username, [SecureString]$secureStringPassword){
+    $password = ConvertToPlainText $secureStringPassword
     return @"
 {
     "rabbitmq": {
@@ -36,7 +44,7 @@ function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelSqlS
         "username": "guest",
         "password": "guest"
     },
-    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSWriteModel;User ID=$userName;Password=$password;"
+    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSWriteModel;User ID=$username;Password=$password;"
 }
 "@
 }
@@ -53,10 +61,11 @@ function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress){
 "@
 }
 
-function GetWaiterAcceptanceTestsSettings($writeModelSqlServerAddress, $userName, [SecureString] $password){
+function GetWaiterAcceptanceTestsSettings($writeModelSqlServerAddress, $username, [SecureString] $secureStringPassword){
+    $password = ConvertToPlainText $secureStringPassword
     return @"
 {
-    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSWriteModel;User ID=$userName;Password=$password;"
+    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSWriteModel;User ID=$username;Password=$password;"
 }
 "@
 }
@@ -78,7 +87,7 @@ $waiterWebsite = @{
 
 $waiterCommandService = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $writeModelSqlServerIpAddress $dbUserName $dbPassword
+    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $writeModelSqlServerIpAddress $username $password
 }
 
 $waiterEventProjectingService = @{
@@ -88,7 +97,7 @@ $waiterEventProjectingService = @{
 
 $waiterAcceptanceTest = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-    Text = GetWaiterAcceptanceTestsSettings $writeModelSqlServerIpAddress $dbUserName $dbPassword
+    Text = GetWaiterAcceptanceTestsSettings $writeModelSqlServerIpAddress  $username $password
 }
 
 $appSettings = @(
