@@ -23,14 +23,16 @@ function ConvertToPlainText([SecureString]$secureString){
     return [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
 }
 
-function GetWaiterWebsiteSettings($rabbitMqServerAddress){
+function GetWaiterWebsiteSettings($rabbitMqServerAddress, $readModelSqlServerAddress, $username, [SecureString] $secureStringPassword){
+    $password = ConvertToPlainText $secureStringPassword
     return @"
 {
     "rabbitmq": {
         "uri": "rabbitmq://$rabbitMqServerAddress",
         "username": "guest",
         "password": "guest"
-    }
+    },
+    "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
 }
 "@
 }
@@ -125,7 +127,7 @@ $configuration = "Debug"
 
 $waiterWebsite = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Web\appSettings.override.json"
-    Text = GetWaiterWebsiteSettings $rabbitMqServerIpAddress
+    Text = GetWaiterWebsiteSettings $rabbitMqServerIpAddress $readModelSqlServerIpAddress $username $password
 }
 
 $waiterCommandService = @{
