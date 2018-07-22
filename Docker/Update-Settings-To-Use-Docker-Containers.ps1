@@ -70,6 +70,12 @@ function GetWaiterAcceptanceTestsSettings($readModelSqlServerAddress, $username,
 "@
 }
 
+function WriteToFile($path, $contents){
+    Write-Output "Writing $path..."
+    Write-Output "Text: $contents"
+    $_.Text | Out-File -encoding ASCII $path
+}
+
 $rabbitMqContainerId = GetContainerRunningWithImageName "rabbitmq"
 $rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
@@ -114,7 +120,5 @@ $appSettings | ForEach-Object {
         Remove-Item $path
     }
 
-    Write-Output "Writing $path..."
-    Write-Output "Text: $($_.Text)"
-    $_.Text | Out-File -encoding ASCII $path
+    WriteToFile $path $_.Text
 }
