@@ -49,7 +49,7 @@ function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelSqlS
 "@
 }
 
-function GetWaiterCommandServiceTestSettings($rabbitMqServerAddress, $writeModelSqlServerAddress, $username, [SecureString]$secureStringPassword){
+function GetWaiterCommandServiceTestSettings($writeModelSqlServerAddress, $username, [SecureString]$secureStringPassword){
     $password = ConvertToPlainText $secureStringPassword
     return @"
 {
@@ -135,7 +135,7 @@ $waiterCommandService = @{
 
 $waiterCommandServiceTest = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-    Text = GetWaiterCommandServiceTestSettings $rabbitMqServerIpAddress $writeModelSqlServerIpAddress $username $password
+    Text = GetWaiterCommandServiceTestSettings $writeModelSqlServerIpAddress $username $password
 }
 
 $waiterEventProjectingService = @{
