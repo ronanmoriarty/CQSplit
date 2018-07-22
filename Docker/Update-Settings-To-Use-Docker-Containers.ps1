@@ -10,6 +10,18 @@ function GetFullPath($relativePath){
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $_))
 }
 
+function GetSettings($rabbitMqServerIpAddress){
+    return @"
+{
+    "rabbitmq": {
+        "uri": "rabbitmq://$rabbitMqServerIpAddress",
+        "username": "guest",
+        "password": "guest"
+    }
+}
+"@
+}
+
 $rabbitMqContainerId = GetContainerRunningWithImageName "rabbitmq"
 $rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
@@ -32,16 +44,7 @@ $appSettingsFiles | ForEach-Object {
         Remove-Item $path
     }
 
-    $text = @"
-{
-    "rabbitmq": {
-        "uri": "rabbitmq://$rabbitMqServerIpAddress",
-        "username": "guest",
-        "password": "guest"
-    }
-}
-"@
-
+    $text = GetSettings $rabbitMqServerIpAddress
     $text | Out-File -encoding ASCII $path
     Write-Output "Created $path"
 }
