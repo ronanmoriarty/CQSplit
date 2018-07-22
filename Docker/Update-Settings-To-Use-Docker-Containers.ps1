@@ -10,11 +10,11 @@ function GetFullPath($relativePath){
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
 }
 
-function GetWaiterWebsiteSettings($rabbitMqServerIpAddress){
+function GetWaiterWebsiteSettings($rabbitMqServerAddress){
     return @"
 {
     "rabbitmq": {
-        "uri": "rabbitmq://$rabbitMqServerIpAddress",
+        "uri": "rabbitmq://$rabbitMqServerAddress",
         "username": "guest",
         "password": "guest"
     }
@@ -22,11 +22,11 @@ function GetWaiterWebsiteSettings($rabbitMqServerIpAddress){
 "@
 }
 
-function GetWaiterCommandServiceSettings($rabbitMqServerIpAddress){
+function GetWaiterCommandServiceSettings($rabbitMqServerAddress){
     return @"
 {
     "rabbitmq": {
-        "uri": "rabbitmq://$rabbitMqServerIpAddress",
+        "uri": "rabbitmq://$rabbitMqServerAddress",
         "username": "guest",
         "password": "guest"
     }
@@ -34,11 +34,11 @@ function GetWaiterCommandServiceSettings($rabbitMqServerIpAddress){
 "@
 }
 
-function GetWaiterEventProjectingServiceSettings($rabbitMqServerIpAddress){
+function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress){
     return @"
 {
     "rabbitmq": {
-        "uri": "rabbitmq://$rabbitMqServerIpAddress",
+        "uri": "rabbitmq://$rabbitMqServerAddress",
         "username": "guest",
         "password": "guest"
     }
