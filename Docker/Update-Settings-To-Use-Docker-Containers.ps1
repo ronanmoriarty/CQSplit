@@ -10,7 +10,31 @@ function GetFullPath($relativePath){
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
 }
 
-function GetSettings($rabbitMqServerIpAddress){
+function GetWaiterWebsiteSettings($rabbitMqServerIpAddress){
+    return @"
+{
+    "rabbitmq": {
+        "uri": "rabbitmq://$rabbitMqServerIpAddress",
+        "username": "guest",
+        "password": "guest"
+    }
+}
+"@
+}
+
+function GetWaiterCommandServiceSettings($rabbitMqServerIpAddress){
+    return @"
+{
+    "rabbitmq": {
+        "uri": "rabbitmq://$rabbitMqServerIpAddress",
+        "username": "guest",
+        "password": "guest"
+    }
+}
+"@
+}
+
+function GetWaiterEventProjectingServiceSettings($rabbitMqServerIpAddress){
     return @"
 {
     "rabbitmq": {
@@ -34,17 +58,17 @@ $configuration = "Debug"
 
 $waiterWebsite = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Web\appSettings.override.json"
-    Text = GetSettings $rabbitMqServerIpAddress
+    Text = GetWaiterWebsiteSettings $rabbitMqServerIpAddress
 }
 
 $waiterCommandService = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-    Text = GetSettings $rabbitMqServerIpAddress
+    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress
 }
 
 $waiterEventProjectingService = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.EventProjecting.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json"
-    Text = GetSettings $rabbitMqServerIpAddress
+    Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerIpAddress
 }
 
 $appSettings = @(
