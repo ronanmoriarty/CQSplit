@@ -114,8 +114,7 @@ $appSettings | ForEach-Object {
         Remove-Item $path
     }
 
+    Write-Output "Writing $path..."
     Write-Output "Text: $($_.Text)"
-
     $_.Text | Out-File -encoding ASCII $path
-    Write-Output "Created $path"
 }
