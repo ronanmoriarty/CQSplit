@@ -1,3 +1,9 @@
+[CmdletBinding()]
+param (
+    [string] $dbUserName,
+    [SecureString] $dbPassword
+)
+
 function GetContainerRunningWithImageName($imageName){
     return docker container list --filter ancestor=$imageName --format "{{.ID}}"
 }
@@ -22,7 +28,7 @@ function GetWaiterWebsiteSettings($rabbitMqServerAddress){
 "@
 }
 
-function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelSqlServerAddress){
+function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelSqlServerAddress, $userName, [SecureString]$password){
     return @"
 {
     "rabbitmq": {
@@ -30,7 +36,7 @@ function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelSqlS
         "username": "guest",
         "password": "guest"
     },
-    "connectionString": "Server=$writeModelSqlServerAddress\\SQLEXPRESS;Database=CQRSWriteModel;Trusted_Connection=True;"
+    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSWriteModel;User ID=$userName;Password=$password;"
 }
 "@
 }
@@ -47,10 +53,10 @@ function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress){
 "@
 }
 
-function GetWaiterAcceptanceTestsSettings($writeModelSqlServerAddress){
+function GetWaiterAcceptanceTestsSettings($writeModelSqlServerAddress, $userName, [SecureString] $password){
     return @"
 {
-    "connectionString": "Server=$writeModelSqlServerAddress\\SQLEXPRESS;Database=CQRSWriteModel;Trusted_Connection=True;"
+    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSWriteModel;User ID=$userName;Password=$password;"
 }
 "@
 }
@@ -72,7 +78,7 @@ $waiterWebsite = @{
 
 $waiterCommandService = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $writeModelSqlServerIpAddress
+    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $writeModelSqlServerIpAddress $dbUserName $dbPassword
 }
 
 $waiterEventProjectingService = @{
@@ -82,7 +88,7 @@ $waiterEventProjectingService = @{
 
 $waiterAcceptanceTest = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-    Text = GetWaiterAcceptanceTestsSettings $writeModelSqlServerIpAddress
+    Text = GetWaiterAcceptanceTestsSettings $writeModelSqlServerIpAddress $dbUserName $dbPassword
 }
 
 $appSettings = @(
