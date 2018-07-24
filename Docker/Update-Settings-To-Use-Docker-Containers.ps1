@@ -23,6 +23,15 @@ function ConvertToPlainText([SecureString]$secureString){
     return [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
 }
 
+function GetCQRSDALSettings($writeModelSqlServerAddress, $username, [SecureString] $secureStringPassword){
+    $password = ConvertToPlainText $secureStringPassword
+    return @"
+{
+    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=$username;Password=$password;"
+}
+"@
+}
+
 function GetWaiterWebsiteSettings($rabbitMqServerAddress, $readModelSqlServerAddress, $username, [SecureString] $secureStringPassword){
     $password = ConvertToPlainText $secureStringPassword
     return @"
@@ -134,6 +143,11 @@ Write-Output "`$readModelSqlServerIpAddress: $readModelSqlServerIpAddress"
 
 $configuration = "Debug"
 
+$cqrsDALTests = @{
+    FilePath = "..\src\CQRS\CQRSTutorial.DAL.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
+    Text = GetCQRSDALSettings $writeModelSqlServerIpAddress $username $password
+}
+
 $waiterWebsite = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Web\appSettings.override.json"
     Text = GetWaiterWebsiteSettings $rabbitMqServerIpAddress $readModelSqlServerIpAddress $username $password
@@ -170,6 +184,7 @@ $waiterAcceptanceTest = @{
 }
 
 $appSettings = @(
+    $cqrsDALTests,
     $waiterWebsite,
     $waiterWebsiteTest,
     $waiterCommandService,
