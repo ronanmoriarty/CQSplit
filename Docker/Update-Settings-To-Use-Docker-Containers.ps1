@@ -140,7 +140,7 @@ $waiterWebsite = @{
 }
 
 $waiterWebsiteTest = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.Web.Tests\appSettings.override.json"
+    FilePath = "..\src\Cafe\Cafe.Waiter.Web.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
     Text = GetWaiterWebsiteTestSettings $readModelSqlServerIpAddress $username $password
 }
 
