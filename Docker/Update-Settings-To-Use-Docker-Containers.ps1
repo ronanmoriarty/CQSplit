@@ -23,17 +23,15 @@ function ConvertToPlainText([SecureString]$secureString){
     return [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
 }
 
-function GetCQRSDALSettings($writeModelSqlServerAddress, $username, [SecureString] $secureStringPassword){
-    $password = ConvertToPlainText $secureStringPassword
+function GetCQRSDALSettings($writeModelConnectionString){
     return @"
 {
-    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=$username;Password=$password;"
+    "connectionString": "$writeModelConnectionString"
 }
 "@
 }
 
-function GetWaiterWebsiteSettings($rabbitMqServerAddress, $readModelSqlServerAddress, $username, [SecureString] $secureStringPassword){
-    $password = ConvertToPlainText $secureStringPassword
+function GetWaiterWebsiteSettings($rabbitMqServerAddress, $readModelConnectionString){
     return @"
 {
     "rabbitmq": {
@@ -41,45 +39,20 @@ function GetWaiterWebsiteSettings($rabbitMqServerAddress, $readModelSqlServerAdd
         "username": "guest",
         "password": "guest"
     },
-    "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
+    "connectionString": "$readModelConnectionString"
 }
 "@
 }
 
-function GetWaiterWebsiteTestSettings($readModelSqlServerAddress, $username, [SecureString] $secureStringPassword){
-    $password = ConvertToPlainText $secureStringPassword
+function GetWaiterWebsiteTestSettings($readModelConnectionString){
     return @"
 {
-    "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
+    "connectionString": "$readModelConnectionString"
 }
 "@
 }
 
-function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelSqlServerAddress, $username, [SecureString]$secureStringPassword){
-    $password = ConvertToPlainText $secureStringPassword
-    return @"
-{
-    "rabbitmq": {
-        "uri": "rabbitmq://$rabbitMqServerAddress",
-        "username": "guest",
-        "password": "guest"
-    },
-    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=$username;Password=$password;"
-}
-"@
-}
-
-function GetWaiterCommandServiceTestSettings($writeModelSqlServerAddress, $username, [SecureString]$secureStringPassword){
-    $password = ConvertToPlainText $secureStringPassword
-    return @"
-{
-    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=$username;Password=$password;"
-}
-"@
-}
-
-function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress, $readModelSqlServerAddress, $username, [SecureString]$secureStringPassword){
-    $password = ConvertToPlainText $secureStringPassword
+function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelConnectionString){
     return @"
 {
     "rabbitmq": {
@@ -87,25 +60,44 @@ function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress, $readMo
         "username": "guest",
         "password": "guest"
     },
-    "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
+    "connectionString": "$writeModelConnectionString"
 }
 "@
 }
 
-function GetWaiterEventProjectingServiceTestSettings($readModelSqlServerAddress, $username, [SecureString]$secureStringPassword){
-    $password = ConvertToPlainText $secureStringPassword
+function GetWaiterCommandServiceTestSettings($writeModelConnectionString){
     return @"
 {
-    "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
+    "connectionString": "$writeModelConnectionString"
 }
 "@
 }
 
-function GetWaiterAcceptanceTestsSettings($readModelSqlServerAddress, $username, [SecureString] $secureStringPassword){
-    $password = ConvertToPlainText $secureStringPassword
+function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress, $readModelConnectionString){
     return @"
 {
-    "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
+    "rabbitmq": {
+        "uri": "rabbitmq://$rabbitMqServerAddress",
+        "username": "guest",
+        "password": "guest"
+    },
+    "connectionString": "$readModelConnectionString"
+}
+"@
+}
+
+function GetWaiterEventProjectingServiceTestSettings($readModelConnectionString){
+    return @"
+{
+    "connectionString": "$readModelConnectionString"
+}
+"@
+}
+
+function GetWaiterAcceptanceTestsSettings($readModelConnectionString){
+    return @"
+{
+    "connectionString": "$readModelConnectionString"
 }
 "@
 }
@@ -134,53 +126,67 @@ function GetReadModelSqlServerAddress(){
     return $readModelSqlServerIpAddress
 }
 
+function GetWriteModelConnectionString($username, [SecureString] $secureStringPassword)
+{
+    $password = ConvertToPlainText $secureStringPassword
+    $writeModelSqlServerAddress = GetWriteModelSqlServerAddress
+    return "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=$username;Password=$password;"
+}
+
+function GetReadModelConnectionString($username, [SecureString] $secureStringPassword)
+{
+    $password = ConvertToPlainText $secureStringPassword
+    $readModelSqlServerAddress = GetReadModelSqlServerAddress
+    return "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
+}
+
 $rabbitMqServerIpAddress = GetRabbitMqAddress
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
-$writeModelSqlServerIpAddress = GetWriteModelSqlServerAddress
-Write-Output "`$writeModelSqlServerIpAddress: $writeModelSqlServerIpAddress"
-$readModelSqlServerIpAddress = GetReadModelSqlServerAddress
-Write-Output "`$readModelSqlServerIpAddress: $readModelSqlServerIpAddress"
+$writeModelConnectionString = GetWriteModelConnectionString $userName $password
+Write-Output "`$writeModelConnectionString: $writeModelConnectionString"
+$readModelConnectionString = GetReadModelConnectionString $userName $password
+Write-Output "`$readModelConnectionString: $readModelConnectionString"
 
 $configuration = "Debug"
 
 $cqrsDALTests = @{
     FilePath = "..\src\CQRS\CQRSTutorial.DAL.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
-    Text = GetCQRSDALSettings $writeModelSqlServerIpAddress $username $password
+    Text = GetCQRSDALSettings $writeModelConnectionString
 }
 
 $waiterWebsite = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Web\appSettings.override.json"
-    Text = GetWaiterWebsiteSettings $rabbitMqServerIpAddress $readModelSqlServerIpAddress $username $password
+    Text = GetWaiterWebsiteSettings $rabbitMqServerIpAddress $readModelConnectionString
 }
 
 $waiterWebsiteTest = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Web.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
-    Text = GetWaiterWebsiteTestSettings $readModelSqlServerIpAddress $username $password
+    Text = GetWaiterWebsiteTestSettings $readModelConnectionString
 }
 
 $waiterCommandService = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $writeModelSqlServerIpAddress $username $password
+    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $writeModelConnectionString
 }
 
 $waiterCommandServiceTest = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-    Text = GetWaiterCommandServiceTestSettings $writeModelSqlServerIpAddress $username $password
+    Text = GetWaiterCommandServiceTestSettings $writeModelConnectionString
 }
 
 $waiterEventProjectingService = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.EventProjecting.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json"
-    Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerIpAddress $readModelSqlServerIpAddress $username $password
+    Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerIpAddress $readModelConnectionString
 }
 
 $waiterEventProjectingServiceTest = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
-    Text = GetWaiterEventProjectingServiceTestSettings $readModelSqlServerIpAddress $username $password
+    Text = GetWaiterEventProjectingServiceTestSettings $readModelConnectionString
 }
 
 $waiterAcceptanceTest = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
-    Text = GetWaiterAcceptanceTestsSettings $readModelSqlServerIpAddress $username $password
+    Text = GetWaiterAcceptanceTestsSettings $readModelConnectionString
 }
 
 $appSettings = @(
