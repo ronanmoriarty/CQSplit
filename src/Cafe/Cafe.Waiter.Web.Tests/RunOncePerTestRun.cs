@@ -36,14 +36,9 @@ namespace Cafe.Waiter.Web.Tests
         {
             return new HostingEnvironment
             {
-                ContentRootPath = GetFolderThatContainsAppSettingsJsonFile(),
+                ContentRootPath = AppDomain.CurrentDomain.BaseDirectory,
                 EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"
             };
-        }
-
-        private string GetFolderThatContainsAppSettingsJsonFile()
-        {
-            return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\Cafe.Waiter.Web");
         }
 
         private void WhenServicesConfigured()
