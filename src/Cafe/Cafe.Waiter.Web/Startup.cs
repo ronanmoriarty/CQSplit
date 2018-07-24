@@ -1,5 +1,4 @@
-﻿using Cafe.Waiter.Queries.DAL;
-using Cafe.Waiter.Web.Controllers;
+﻿using Cafe.Waiter.Web.Controllers;
 using Cafe.Waiter.Web.Repositories;
 using CQRSTutorial.DAL.Common;
 using CQRSTutorial.Messaging;
@@ -34,7 +33,7 @@ namespace Cafe.Waiter.Web
         {
             services.Add(new ServiceDescriptor(typeof(IMenuRepository), typeof(MenuRepository), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), typeof(MenuConfiguration), ServiceLifetime.Transient));
-            services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), ReadModelConnectionStringProvider.Instance));
+            services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), new ConnectionStringProviderFactory(Configuration).GetConnectionStringProvider()));
             services.Add(new ServiceDescriptor(typeof(ITabDetailsRepository), typeof(TabDetailsRepository), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IOpenTabsRepository), typeof(OpenTabsRepository), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IPlaceOrderCommandFactory), typeof(PlaceOrderCommandFactory), ServiceLifetime.Transient));
