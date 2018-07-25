@@ -1,0 +1,16 @@
+version: '3'
+services:
+  rabbitmq:
+    build: .\Docker\RabbitMQ\
+  waiter-read-db-server:
+    build:
+      context: .\Docker\SqlServer\
+      dockerfile: .\ReadModel\Dockerfile
+    environment:
+      - sa_password=${sa_password}
+  waiter-write-db-server:
+    build:
+      context: .\Docker\SqlServer\
+      dockerfile: .\WriteModel\Dockerfile
+    environment:
+      - sa_password=${sa_password}

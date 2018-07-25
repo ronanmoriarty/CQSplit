@@ -243,3 +243,6 @@ ModelManifest.xml
 tools/
 
 **/appsettings.override.json
+
+# Environment file used by docker-compose.yml
+.env

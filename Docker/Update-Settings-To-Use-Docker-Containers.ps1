@@ -109,19 +109,19 @@ function WriteToFile($path, $contents){
 }
 
 function GetRabbitMqAddress(){
-    $rabbitMqContainerId = GetContainerRunningWithImageName "rabbitmq"
+    $rabbitMqContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_rabbitmq"
     $rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
     return $rabbitMqServerIpAddress
 }
 
 function GetWriteModelSqlServerAddress(){
-    $writeModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-write-db-server"
+    $writeModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_waiter-write-db-server"
     $writeModelSqlServerIpAddress = GetIpAddress $writeModelSqlServerContainerId
     return $writeModelSqlServerIpAddress
 }
 
 function GetReadModelSqlServerAddress(){
-    $readModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-read-db-server"
+    $readModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_waiter-read-db-server"
     $readModelSqlServerIpAddress = GetIpAddress $readModelSqlServerContainerId
     return $readModelSqlServerIpAddress
 }
