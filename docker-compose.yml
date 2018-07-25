@@ -2,3 +2,11 @@ version: '3'
 services:
   rabbitmq:
     build: .\Docker\RabbitMQ\
+  waiter-read-db-server:
+    build:
+      context: .\Docker\SqlServer\
+      dockerfile: .\ReadModel\Dockerfile
+  waiter-write-db-server:
+    build:
+      context: .\Docker\SqlServer\
+      dockerfile: .\WriteModel\Dockerfile
