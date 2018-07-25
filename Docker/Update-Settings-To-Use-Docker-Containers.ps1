@@ -109,7 +109,7 @@ function WriteToFile($path, $contents){
 }
 
 function GetRabbitMqAddress(){
-    $rabbitMqContainerId = GetContainerRunningWithImageName "rabbitmq"
+    $rabbitMqContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_rabbitmq"
     $rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
     return $rabbitMqServerIpAddress
 }
