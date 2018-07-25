@@ -13,4 +13,5 @@ RUN dotnet restore .\Cafe.Waiter.Queries.DAL
 RUN dotnet restore .\Cafe.Waiter.EventProjecting.Service
 COPY . .
 RUN dotnet build .\Cafe.Waiter.EventProjecting.Service
+RUN move .\Cafe.Waiter.EventProjecting.Service\appSettings.docker.json .\Cafe.Waiter.EventProjecting.Service\appSettings.override.json
 CMD dotnet run Cafe.Waiter.EventProjecting.Service
