@@ -14,3 +14,7 @@ services:
       dockerfile: .\WriteModel\Dockerfile
     environment:
       - sa_password=${sa_password}
+  cafe-waiter-event-projecting-service:
+    build:
+      context: .\src\Cafe\
+      dockerfile: .\Cafe.Waiter.EventProjecting.Service\Dockerfile
