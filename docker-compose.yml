@@ -18,3 +18,6 @@ services:
     build:
       context: .\src\Cafe\
       dockerfile: .\Cafe.Waiter.EventProjecting.Service\Dockerfile
+    depends_on:
+      - "rabbitmq"
+      - "waiter-read-db-server"
