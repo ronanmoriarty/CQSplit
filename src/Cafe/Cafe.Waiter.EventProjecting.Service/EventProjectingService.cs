@@ -29,6 +29,7 @@ namespace Cafe.Waiter.EventProjecting.Service
             {
                 try
                 {
+                    _logger.Info("Starting bus...");
                     _busControl.Start();
                     started = true;
                 }
