@@ -132,7 +132,7 @@ Task("Create-CQRS-Nuget-Packages")
     .Does(() =>
 {
     var nuGetPackSettings = new NuGetPackSettings {
-        OutputDirectory = "C:\\.nuget.local"
+        OutputDirectory = "./src/Cafe/.nuget.local"
     };
 
     var testProjects = GetFiles("./src/CQRS/**/*.nuspec");
