@@ -1,4 +1,6 @@
-﻿using CQRSTutorial.Messaging;
+﻿using System;
+using System.Threading;
+using CQRSTutorial.Messaging;
 using log4net;
 using MassTransit;
 
@@ -19,7 +21,31 @@ namespace Cafe.Waiter.EventProjecting.Service
         {
             _logger.Info("Starting service.");
             _busControl = _messageBusFactory.Create();
-            _busControl.Start();
+            var retryCount = 0;
+            const int retryLimit = 12;
+            const int delayInSecondsBetweenRetries = 10;
+            var started = false;
+            while (retryCount < retryLimit && !started)
+            {
+                try
+                {
+                    _busControl.Start();
+                    started = true;
+                }
+                catch (MassTransit.RabbitMqTransport.RabbitMqConnectionException)
+                {
+                    _logger.Error($"Failed to connect (attempt {retryCount + 1} of {retryLimit}). Will try again in {delayInSecondsBetweenRetries} seconds.");
+                    Thread.Sleep(delayInSecondsBetweenRetries * 1000);
+                    retryCount++;
+                }
+            }
+
+            if (!started)
+            {
+                var message = "Reached retry limit trying to connect to RabbitMQ. Service stopping.";
+                _logger.Error(message);
+                throw new Exception(message);
+            }
         }
 
         public void Stop()
