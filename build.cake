@@ -65,9 +65,27 @@ Task("Run-Unit-Tests-Without-Build")
     RunCafeUnitTests();
 });
 
+Task("Run-Acceptance-Tests")
+    .IsDependentOn("Run-Unit-Tests")
+    .Does(() =>
+{
+    RunCafeAcceptanceTests();
+});
+
+Task("Run-Acceptance-Tests-Without-Build")
+    .Does(() =>
+{
+    RunCafeAcceptanceTests();
+});
+
 private void RunCafeUnitTests()
 {
     RunDotNetCoreUnitTests("./src/Cafe/**/*.Tests.csproj");
+}
+
+private void RunCafeAcceptanceTests()
+{
+    RunDotNetCoreUnitTests("./src/Cafe/**/*.AcceptanceTests.csproj");
 }
 
 private void RunDotNetCoreUnitTests(string filePattern)
