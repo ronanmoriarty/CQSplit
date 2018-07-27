@@ -1,4 +1,5 @@
 ﻿using System;
+using log4net;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
@@ -7,14 +8,23 @@ namespace Cafe.Waiter.EventProjecting.Service
         static void Main(string[] args)
         {
             Bootstrapper.Start();
-            var service = Container.Instance.Resolve<EventProjectingService>();
-
-            AppDomain.CurrentDomain.ProcessExit += (sender, eventArgs) =>
+            var logger = LogManager.GetLogger(typeof(Program));
+            try
             {
-                service.Stop();
-            };
+                var service = Container.Instance.Resolve<EventProjectingService>();
 
-            service.Start();
+                AppDomain.CurrentDomain.ProcessExit += (sender, eventArgs) =>
+                {
+                    service.Stop();
+                };
+
+                service.Start();
+            }
+            catch (Exception exception)
+            {
+                logger.Error(exception);
+                throw;
+            }
         }
     }
 }
