@@ -38,6 +38,7 @@ namespace Cafe.Waiter.EventProjecting.Service
                     _logger.Error($"Failed to connect (attempt {retryCount + 1} of {retryLimit}). Will try again in {delayInSecondsBetweenRetries} seconds.");
                     Thread.Sleep(delayInSecondsBetweenRetries * 1000);
                     retryCount++;
+                    _busControl = _messageBusFactory.Create(); // calling Start() more than once causes a MassTransitException, so create a new instance for next iteration instead.
                 }
             }
 
