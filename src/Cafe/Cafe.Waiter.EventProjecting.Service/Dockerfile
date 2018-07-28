@@ -16,5 +16,5 @@ COPY .\Cafe.Waiter.Events .\Cafe.Waiter.Events
 COPY .\Cafe.Waiter.Queries.DAL .\Cafe.Waiter.Queries.DAL
 COPY .\Cafe.Waiter.EventProjecting.Service .\Cafe.Waiter.EventProjecting.Service
 RUN dotnet build .\Cafe.Waiter.EventProjecting.Service
-RUN move .\Cafe.Waiter.EventProjecting.Service\appSettings.docker.json .\Cafe.Waiter.EventProjecting.Service\bin\Debug\netcoreapp2.0\appSettings.override.json
-CMD dotnet .\Cafe.Waiter.EventProjecting.Service\bin\Debug\netcoreapp2.0\Cafe.Waiter.EventProjecting.Service.dll
+RUN move .\Cafe.Waiter.EventProjecting.Service\appSettings.docker.json .\Cafe.Waiter.EventProjecting.Service\bin\Debug\netcoreapp2.1\appSettings.override.json
+CMD dotnet .\Cafe.Waiter.EventProjecting.Service\bin\Debug\netcoreapp2.1\Cafe.Waiter.EventProjecting.Service.dll
