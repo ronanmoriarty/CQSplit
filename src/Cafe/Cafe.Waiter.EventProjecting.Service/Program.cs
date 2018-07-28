@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Castle.Windsor.MsDependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -11,7 +12,12 @@ namespace Cafe.Waiter.EventProjecting.Service
             Bootstrapper.Start();
 
             var host = new HostBuilder()
-                .ConfigureServices((hostContext, services) => services.AddHostedService<EventProjectingService>())
+                .ConfigureServices((hostContext, services) =>
+                {
+                    services.AddHostedService<EventProjectingService>();
+                    services.AddSingleton(Container.Instance);
+                })
+                .UseServiceProviderFactory(new WindsorServiceProviderFactory())
                 .UseConsoleLifetime()
                 .Build();
 
