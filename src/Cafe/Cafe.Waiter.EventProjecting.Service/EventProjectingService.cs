@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using CQRSTutorial.Messaging;
 using log4net;
 using MassTransit;
+using Microsoft.Extensions.Hosting;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
-    public class EventProjectingService
+    public class EventProjectingService : IHostedService
     {
         private readonly IMessageBusFactory _messageBusFactory;
         private IBusControl _busControl;
@@ -15,6 +17,11 @@ namespace Cafe.Waiter.EventProjecting.Service
         public EventProjectingService(IMessageBusFactory messageBusFactory)
         {
             _messageBusFactory = messageBusFactory;
+        }
+
+        public async Task StartAsync(CancellationToken cancellationToken)
+        {
+            await Task.Run(() => Start(), cancellationToken);
         }
 
         public void Start()
@@ -48,6 +55,11 @@ namespace Cafe.Waiter.EventProjecting.Service
                 _logger.Error(message);
                 throw new Exception(message);
             }
+        }
+
+        public async Task StopAsync(CancellationToken cancellationToken)
+        {
+            await Task.Run(() => Stop(), cancellationToken);
         }
 
         public void Stop()

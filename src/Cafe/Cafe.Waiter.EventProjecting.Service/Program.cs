@@ -1,6 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using log4net;
+﻿using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Cafe.Waiter.EventProjecting.Service
@@ -10,25 +9,10 @@ namespace Cafe.Waiter.EventProjecting.Service
         static async Task Main(string[] args)
         {
             Bootstrapper.Start();
-            var logger = LogManager.GetLogger(typeof(Program));
-            try
-            {
-                var service = Container.Instance.Resolve<EventProjectingService>();
 
-                AppDomain.CurrentDomain.ProcessExit += (sender, eventArgs) =>
-                {
-                    service.Stop();
-                };
-
-                service.Start();
-            }
-            catch (Exception exception)
-            {
-                logger.Error(exception);
-                throw;
-            }
-
-            var host = new HostBuilder().Build();
+            var host = new HostBuilder()
+                .ConfigureServices((hostContext, services) => services.AddHostedService<EventProjectingService>())
+                .Build();
 
             await host.RunAsync();
         }
