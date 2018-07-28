@@ -9,7 +9,7 @@ namespace Cafe.Waiter.AcceptanceTests
         {
             new Executable($".\\src\\Cafe\\Cafe.Waiter.Web\\", $"bin\\{Configuration.Name}\\netcoreapp2.0\\Cafe.Waiter.Web.dll"),
             new Executable($".\\src\\Cafe\\Cafe.Waiter.Command.Service\\bin\\{Configuration.Name}\\netcoreapp2.0\\", "Cafe.Waiter.Command.Service.dll"),
-            new Executable($".\\src\\Cafe\\Cafe.Waiter.EventProjecting.Service\\bin\\{Configuration.Name}\\netcoreapp2.0\\", "Cafe.Waiter.EventProjecting.Service.dll"),
+            new Executable($".\\src\\Cafe\\Cafe.Waiter.EventProjecting.Service\\bin\\{Configuration.Name}\\netcoreapp2.1\\", "Cafe.Waiter.EventProjecting.Service.dll"),
         };
 
         public static IEnumerable<ExternalProcess> AllWaiterServices(int timeoutInMilliseconds = 10000)
