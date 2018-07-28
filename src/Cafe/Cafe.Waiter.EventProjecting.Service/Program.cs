@@ -12,6 +12,7 @@ namespace Cafe.Waiter.EventProjecting.Service
 
             var host = new HostBuilder()
                 .ConfigureServices((hostContext, services) => services.AddHostedService<EventProjectingService>())
+                .UseConsoleLifetime()
                 .Build();
 
             await host.RunAsync();
