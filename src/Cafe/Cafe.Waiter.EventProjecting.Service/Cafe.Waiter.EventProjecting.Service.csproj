@@ -10,6 +10,7 @@
     <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.22-pre" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
