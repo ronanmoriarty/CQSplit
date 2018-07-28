@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Threading.Tasks;
 using log4net;
+using Microsoft.Extensions.Hosting;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Bootstrapper.Start();
             var logger = LogManager.GetLogger(typeof(Program));
@@ -25,6 +27,10 @@ namespace Cafe.Waiter.EventProjecting.Service
                 logger.Error(exception);
                 throw;
             }
+
+            var host = new HostBuilder().Build();
+
+            await host.RunAsync();
         }
     }
 }
