@@ -1,14 +1,14 @@
 ﻿using Cafe.Waiter.EventProjecting.Service.DAL;
 using Cafe.Waiter.Events;
 using Cafe.Waiter.Queries.DAL.Models;
-using log4net;
+using NLog;
 
 namespace Cafe.Waiter.EventProjecting.Service.Projectors
 {
     public class TabOpenedProjector : ITabOpenedProjector
     {
         private readonly IOpenTabInserter _openTabInserter;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(TabOpenedProjector));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public TabOpenedProjector(IOpenTabInserter openTabInserter)
         {

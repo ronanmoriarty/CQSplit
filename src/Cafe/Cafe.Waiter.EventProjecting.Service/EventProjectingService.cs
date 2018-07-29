@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CQRSTutorial.Messaging;
-using log4net;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
+using NLog;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
@@ -12,7 +12,7 @@ namespace Cafe.Waiter.EventProjecting.Service
     {
         private readonly IMessageBusFactory _messageBusFactory;
         private IBusControl _busControl;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(EventProjectingService));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public EventProjectingService(IMessageBusFactory messageBusFactory)
         {
