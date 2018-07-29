@@ -4,3 +4,4 @@ Dockerfile
 *.dll
 **/.git
 **/.vs
+**/appSettings.override.json
