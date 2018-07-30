@@ -1,0 +1,8 @@
+{
+  "rabbitmq": {
+    "uri": "rabbitmq://cqrs-nu-tutorial_rabbitmq_1",
+    "username": "[set username]",
+    "password": "[set password]"
+  },
+  "connectionString": "Server=waiter-read-db-server;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=[set user name];Password=[set password];"
+}
