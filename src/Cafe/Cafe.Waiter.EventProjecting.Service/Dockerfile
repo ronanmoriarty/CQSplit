@@ -17,7 +17,6 @@ COPY .\Cafe.Waiter.Queries.DAL .\Cafe.Waiter.Queries.DAL
 COPY .\Cafe.Waiter.EventProjecting.Service .\Cafe.Waiter.EventProjecting.Service
 RUN dotnet publish .\Cafe.Waiter.EventProjecting.Service
 RUN move .\Cafe.Waiter.EventProjecting.Service\appSettings.docker.json .\Cafe.Waiter.EventProjecting.Service\bin\Debug\netcoreapp2.1\publish\appSettings.override.json
-RUN type .\Cafe.Waiter.EventProjecting.Service\bin\Debug\netcoreapp2.1\publish\appSettings.override.json
 
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app
