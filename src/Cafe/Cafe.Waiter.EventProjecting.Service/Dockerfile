@@ -18,12 +18,12 @@ COPY .\Cafe.Waiter.Queries.DAL .\Cafe.Waiter.Queries.DAL
 COPY .\Cafe.Waiter.EventProjecting.Service .\Cafe.Waiter.EventProjecting.Service
 RUN dotnet publish .\Cafe.Waiter.EventProjecting.Service
 RUN echo "{`
-  \"rabbitmq\": {`
-    \"uri\": \"rabbitmq://cqrs-nu-tutorial_rabbitmq_1\",`
-    \"username\": \"${rabbitmq_username}\",`
-    \"password\": \"${rabbitmq_password}\"`
+  "rabbitmq": {`
+    "uri": "rabbitmq://cqrs-nu-tutorial_rabbitmq_1",`
+    "username": "%rabbitmq_username%",`
+    "password": "%rabbitmq_password%"`
   },`
-  \"connectionString\": \"Server=waiter-read-db-server;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=${event_projecting_service_user_Id};Password=${event_projecting_service_password};\"`
+  "connectionString": "Server=waiter-read-db-server;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=%event_projecting_service_user_Id%;Password=%event_projecting_service_password%;"`
 }" >> .\Cafe.Waiter.EventProjecting.Service\bin\Debug\netcoreapp2.1\publish\appSettings.override.json
 
 FROM microsoft/dotnet:2.1-runtime
