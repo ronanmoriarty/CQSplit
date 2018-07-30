@@ -1,4 +1,4 @@
-Dockerfile
+**/Dockerfile
 **/[Bb]in/
 **/[Oo]bj/
 *.dll

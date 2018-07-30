@@ -2,15 +2,15 @@
 using System.Linq;
 using Cafe.Waiter.Queries.DAL.Models;
 using CQRSTutorial.DAL.Common;
-using log4net;
 using Newtonsoft.Json;
+using NLog;
 
 namespace Cafe.Waiter.EventProjecting.Service.DAL
 {
     public class OpenTabInserter : IOpenTabInserter
     {
         private readonly IConnectionStringProvider _connectionStringProvider;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(OpenTabInserter));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public OpenTabInserter(IConnectionStringProvider connectionStringProvider)
         {

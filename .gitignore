@@ -246,3 +246,7 @@ tools/
 
 # Environment file used by docker-compose.yml
 .env
+**/appSettings.docker.json
+
+# Local nuget source
+.nuget.local
