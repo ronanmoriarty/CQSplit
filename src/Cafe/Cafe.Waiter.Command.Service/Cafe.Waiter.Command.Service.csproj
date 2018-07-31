@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="4.1.0" />
+    <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.3.1" />
     <PackageReference Include="CQRSTutorial.DAL" Version="1.0.23-pre" />
     <PackageReference Include="CQRSTutorial.DAL.Sql" Version="1.0.23-pre" />
     <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.23-pre" />
