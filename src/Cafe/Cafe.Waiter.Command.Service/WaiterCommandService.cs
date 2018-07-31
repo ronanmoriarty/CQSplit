@@ -1,10 +1,13 @@
-﻿using CQRSTutorial.Publish;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using CQRSTutorial.Publish;
 using log4net;
 using MassTransit;
+using Microsoft.Extensions.Hosting;
 
 namespace Cafe.Waiter.Command.Service
 {
-    public class WaiterCommandService
+    public class WaiterCommandService : IHostedService
     {
         private readonly IOutboxToMessageBusPublisher _outboxToMessageBusPublisher;
         private readonly IBusControl _busControl;
@@ -16,11 +19,21 @@ namespace Cafe.Waiter.Command.Service
             _busControl = busControl;
         }
 
+        public async Task StartAsync(CancellationToken cancellationToken)
+        {
+            await Task.Run(() => Start(), cancellationToken);
+        }
+
         public void Start()
         {
             _logger.Info("Starting service.");
             _busControl.Start();
             _outboxToMessageBusPublisher.PublishQueuedMessages();
+        }
+
+        public async Task StopAsync(CancellationToken cancellationToken)
+        {
+            await Task.Run(() => Stop(), cancellationToken);
         }
 
         public void Stop()
