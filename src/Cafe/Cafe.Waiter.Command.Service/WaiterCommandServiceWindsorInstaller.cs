@@ -146,7 +146,8 @@ namespace Cafe.Waiter.Command.Service
 
         private bool IsMessagingRabbitMqTypeNotRequiredInCommandService(Type type)
         {
-            return type == typeof(NoReceiveEndpointsConfigurator);
+            return type == typeof(NoReceiveEndpointsConfigurator)
+                || type == typeof(MultipleConnectionAttemptMessageBusFactory);
         }
 
         private IEnumerable<IEventStore> GetEventStores(IKernel kernel)
