@@ -126,7 +126,7 @@ namespace Cafe.Waiter.Command.Service
         private IBusControl GetBus(IKernel kernel)
         {
             var messageBusFactory = kernel.Resolve<IMessageBusFactory>();
-            return messageBusFactory.Create();
+            return new MultipleConnectionAttemptMessageBusFactory(messageBusFactory).Create();
         }
 
         private IEnumerable<IEventHandler> GetEventHandlers(IKernel kernel)

@@ -25,14 +25,6 @@ namespace Cafe.Waiter.Command.Service.Tests
         }
 
         [Test]
-        public void Starting_waiter_service_starts_the_bus()
-        {
-            _waiterCommandService.Start();
-
-            _busControl.Received(1).Start();
-        }
-
-        [Test]
         public void Starting_waiter_service_publishes_any_existing_messages_in_outbox()
         {
             _waiterCommandService.Start();

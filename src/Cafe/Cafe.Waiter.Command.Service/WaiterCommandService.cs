@@ -27,7 +27,6 @@ namespace Cafe.Waiter.Command.Service
         public void Start()
         {
             _logger.Info("Starting service.");
-            _busControl.Start();
             _outboxToMessageBusPublisher.PublishQueuedMessages();
         }
 
