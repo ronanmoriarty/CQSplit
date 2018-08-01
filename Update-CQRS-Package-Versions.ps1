@@ -54,21 +54,26 @@ function GetVersionWithIncrementedBuildNumber([string] $versionNumber)
     return "$MajorVersionNumber.$MinorVersionNumber.$($BuildNumber + 1)$Suffix"
 }
 
-$VersionNumber = GetVersion
-$NewVersion = GetVersionWithIncrementedBuildNumber $VersionNumber
-Write-Host "`$NewVersion: $NewVersion"
+function UpdateCQRSPackageVersions()
+{
+    $VersionNumber = GetVersion
+    $NewVersion = GetVersionWithIncrementedBuildNumber $VersionNumber
+    Write-Host "`$NewVersion: $NewVersion"
 
-Get-ChildItem -Path .\src\CQRS\ -Filter *.nuspec -Recurse | ForEach-Object {
-    $xml = New-Object -TypeName System.Xml.XmlDocument
-    $xml.Load($_.FullName)
-    $versionNode = GetVersionNode $xml
-    $versionNode.InnerXml = $NewVersion
-    $dependencyNodes = GetCQRSDependencyNodes $xml
-    foreach ($dependencyNode in $dependencyNodes) {
-        $dependencyNode.version = $NewVersion
+    Get-ChildItem -Path .\src\CQRS\ -Filter *.nuspec -Recurse | ForEach-Object {
+        $xml = New-Object -TypeName System.Xml.XmlDocument
+        $xml.Load($_.FullName)
+        $versionNode = GetVersionNode $xml
+        $versionNode.InnerXml = $NewVersion
+        $dependencyNodes = GetCQRSDependencyNodes $xml
+        foreach ($dependencyNode in $dependencyNodes) {
+            $dependencyNode.version = $NewVersion
+        }
+        $xml.Save($_.FullName)
     }
-    $xml.Save($_.FullName)
+
+    git add *.nuspec
+    git commit -m "Update CQRS package versions to $NewVersion"
 }
 
-git add *.nuspec
-git commit -m "Update CQRS package versions to $NewVersion"
+UpdateCQRSPackageVersions
