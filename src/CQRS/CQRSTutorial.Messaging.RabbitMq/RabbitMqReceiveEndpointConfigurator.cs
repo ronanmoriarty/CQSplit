@@ -1,5 +1,5 @@
-using log4net;
 using MassTransit.RabbitMqTransport;
+using NLog;
 
 namespace CQRSTutorial.Messaging.RabbitMq
 {
@@ -8,7 +8,7 @@ namespace CQRSTutorial.Messaging.RabbitMq
         private readonly IConsumerRegistrar _consumerRegistrar;
         private IRabbitMqHost _host;
         private IRabbitMqBusFactoryConfigurator _rabbitMqBusFactoryConfigurator;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqReceiveEndpointConfigurator));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public RabbitMqReceiveEndpointConfigurator(IConsumerRegistrar consumerRegistrar)
         {

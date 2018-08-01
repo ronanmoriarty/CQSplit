@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using log4net;
 using MassTransit;
+using NLog;
 
 namespace CQRSTutorial.Messaging.RabbitMq
 {
@@ -9,7 +9,7 @@ namespace CQRSTutorial.Messaging.RabbitMq
     {
         private readonly IBusControl _busControl;
         private readonly IRabbitMqHostConfiguration _rabbitMqHostConfiguration;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqSendEndpointProvider));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public RabbitMqSendEndpointProvider(IBusControl busControl, IRabbitMqHostConfiguration rabbitMqHostConfiguration)
         {
