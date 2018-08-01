@@ -160,12 +160,12 @@ $waiterWebsite = @{
 }
 
 $waiterWebsiteTest = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.Web.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
+    FilePath = "..\src\Cafe\Cafe.Waiter.Web.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
     Text = GetWaiterWebsiteTestSettings $readModelConnectionString
 }
 
 $waiterCommandService = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.0\appSettings.override.json";
+    FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.1\appSettings.override.json";
     Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $writeModelConnectionString
 }
 
@@ -185,7 +185,7 @@ $waiterEventProjectingServiceTest = @{
 }
 
 $waiterAcceptanceTest = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
+    FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
     Text = GetWaiterAcceptanceTestsSettings $readModelConnectionString
 }
 
