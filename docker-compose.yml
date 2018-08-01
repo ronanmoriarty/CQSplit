@@ -28,3 +28,10 @@ services:
     depends_on:
       - "rabbitmq"
       - "waiter-write-db-server"
+  cafe-waiter-web:
+    build:
+      context: .\src\Cafe\
+      dockerfile: .\Cafe.Waiter.Web\Dockerfile
+    depends_on:
+      - "rabbitmq"
+      - "waiter-read-db-server"
