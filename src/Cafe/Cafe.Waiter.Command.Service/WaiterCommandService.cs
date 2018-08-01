@@ -15,8 +15,8 @@ namespace Cafe.Waiter.Command.Service
 
         public WaiterCommandService(IBusControl busControl, IOutboxToMessageBusPublisher outboxToMessageBusPublisher)
         {
-            _outboxToMessageBusPublisher = outboxToMessageBusPublisher;
             _busControl = busControl;
+            _outboxToMessageBusPublisher = outboxToMessageBusPublisher;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)

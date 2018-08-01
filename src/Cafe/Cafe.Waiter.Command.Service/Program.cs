@@ -10,6 +10,7 @@ namespace Cafe.Waiter.Command.Service
         static async Task Main(string[] args)
         {
             Bootstrapper.Start();
+
             var host = new HostBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {

@@ -10,10 +10,5 @@ namespace Cafe.Waiter.Command.Service
         }
 
         public static IWindsorContainer Instance { get; private set; }
-
-        public static void Reset()
-        {
-            Instance = new WindsorContainer();
-        }
     }
 }
