@@ -2,14 +2,14 @@
 using System.Data;
 using System.Data.SqlClient;
 using CQRSTutorial.DAL.Common;
-using log4net;
+using NLog;
 
 namespace CQRSTutorial.DAL.Tests.Common
 {
     public class SqlExecutor
     {
         private readonly IConnectionStringProvider _connectionStringProvider;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(SqlExecutor));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public SqlExecutor(IConnectionStringProvider connectionStringProvider)
         {
