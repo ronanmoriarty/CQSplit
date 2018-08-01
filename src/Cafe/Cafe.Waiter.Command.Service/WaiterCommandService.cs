@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using CQRSTutorial.Publish;
-using log4net;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
+using NLog;
 
 namespace Cafe.Waiter.Command.Service
 {
@@ -11,7 +11,7 @@ namespace Cafe.Waiter.Command.Service
     {
         private readonly IOutboxToMessageBusPublisher _outboxToMessageBusPublisher;
         private readonly IBusControl _busControl;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(WaiterCommandService));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public WaiterCommandService(IBusControl busControl, IOutboxToMessageBusPublisher outboxToMessageBusPublisher)
         {
