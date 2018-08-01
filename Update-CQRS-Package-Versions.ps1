@@ -75,5 +75,3 @@ function UpdateCQRSPackageVersions()
     git add *.nuspec
     git commit -m "Update CQRS package versions to $NewVersion"
 }
-
-UpdateCQRSPackageVersions
