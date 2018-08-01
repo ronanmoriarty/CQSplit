@@ -5,7 +5,7 @@ using CQRSTutorial.Core;
 using CQRSTutorial.DAL.Common;
 using CQRSTutorial.DAL.Sql;
 using CQRSTutorial.DAL.Tests.Common;
-using log4net;
+using NLog;
 using NUnit.Framework;
 
 namespace CQRSTutorial.DAL.Tests
@@ -22,7 +22,7 @@ namespace CQRSTutorial.DAL.Tests
         private IEventStore _eventStore;
         private const string EventsToPublishTableName = "dbo.EventsToPublish";
         private const string EventStoreTableName = "dbo.Events";
-        private readonly ILog _logger = LogManager.GetLogger(typeof(EventHandlerTests));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
         private const string Id1 = "B3C9CBC3-E09B-4C9E-A331-FA11BC3185F9";
         private const string Id2 = "259C8A26-5BCC-4986-8C15-6BE305195923";
 
