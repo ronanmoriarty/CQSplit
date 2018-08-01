@@ -94,10 +94,17 @@ function GetWaiterEventProjectingServiceTestSettings($readModelConnectionString)
 "@
 }
 
-function GetWaiterAcceptanceTestsSettings($readModelConnectionString){
+function GetWaiterAcceptanceTestsSettings($readModelConnectionString, $waiterWebsiteUrl){
     return @"
 {
-    "connectionString": "$readModelConnectionString"
+    "connectionString": "$readModelConnectionString",
+    "cafe": {
+      "waiter": {
+        "web": {
+          "url": "$waiterWebsiteUrl"
+        }
+      }
+    }
 }
 "@
 }
@@ -126,6 +133,13 @@ function GetReadModelSqlServerAddress(){
     return $readModelSqlServerIpAddress
 }
 
+function GetWaiterWebsiteUrl()
+{
+    $waiterWebsiteContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_cafe-waiter-web"
+    $waiterWebsiteIpAddress = GetIpAddress $waiterWebsiteContainerId
+    return "http://$waiterWebsiteIpAddress"
+}
+
 function GetWriteModelConnectionString($username, [SecureString] $secureStringPassword)
 {
     $password = ConvertToPlainText $secureStringPassword
@@ -146,6 +160,8 @@ $writeModelConnectionString = GetWriteModelConnectionString $userName $password
 Write-Output "`$writeModelConnectionString: $writeModelConnectionString"
 $readModelConnectionString = GetReadModelConnectionString $userName $password
 Write-Output "`$readModelConnectionString: $readModelConnectionString"
+$waiterWebsiteUrl = GetWaiterWebsiteUrl
+Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
 
 $configuration = "Debug"
 
@@ -186,7 +202,7 @@ $waiterEventProjectingServiceTest = @{
 
 $waiterAcceptanceTest = @{
     FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
-    Text = GetWaiterAcceptanceTestsSettings $readModelConnectionString
+    Text = GetWaiterAcceptanceTestsSettings $readModelConnectionString $waiterWebsiteUrl
 }
 
 $appSettings = @(

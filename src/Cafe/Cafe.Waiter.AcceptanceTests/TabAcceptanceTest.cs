@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.AcceptanceTests
@@ -7,7 +6,6 @@ namespace Cafe.Waiter.AcceptanceTests
     [TestFixture, Category("AcceptanceTest")]
     public class TabAcceptanceTest
     {
-        private IEnumerable<ExternalProcess> _externalProcesses;
         private const int TableNumber = 345;
         private const string Waiter = "TabAcceptanceTest";
 
@@ -15,7 +13,6 @@ namespace Cafe.Waiter.AcceptanceTests
         public void SetUp()
         {
             OpenTabs.DeleteTabsFor(Waiter);
-            _externalProcesses = Start.AllWaiterServices();
         }
 
         [Test]
@@ -36,15 +33,6 @@ namespace Cafe.Waiter.AcceptanceTests
         private void AllowTimeForMessagesToBeConsumed()
         {
             Thread.Sleep(5000);
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            foreach (var externalProcess in _externalProcesses)
-            {
-                externalProcess.Dispose();
-            }
         }
     }
 }
