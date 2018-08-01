@@ -4,7 +4,7 @@ using System.Linq;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Events;
 using CQRSTutorial.Core;
-using log4net;
+using NLog;
 
 namespace Cafe.Waiter.Domain
 {
@@ -21,7 +21,7 @@ namespace Cafe.Waiter.Domain
         private readonly List<OrderedItem> _drinksAwaitingServing = new List<OrderedItem>();
         private readonly List<OrderedItem> _foodAwaitingServing = new List<OrderedItem>();
         private decimal _totalValueOfServedItems;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(Tab));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public IEnumerable<IEvent> Handle(IPlaceOrderCommand command)
         {

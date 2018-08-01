@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Events;
 using CQRSTutorial.Core;
-using log4net;
+using NLog;
 
 namespace Cafe.Waiter.Domain
 {
     public class OpenTabCommandHandler : ICommandHandler<IOpenTabCommand>
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(OpenTabCommandHandler));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public IEnumerable<IEvent> Handle(IOpenTabCommand command)
         {

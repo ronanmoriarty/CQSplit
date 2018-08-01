@@ -126,7 +126,7 @@ namespace Cafe.Waiter.Command.Service
         private IBusControl GetBus(IKernel kernel)
         {
             var messageBusFactory = kernel.Resolve<IMessageBusFactory>();
-            return messageBusFactory.Create();
+            return new MultipleConnectionAttemptMessageBusFactory(messageBusFactory).Create();
         }
 
         private IEnumerable<IEventHandler> GetEventHandlers(IKernel kernel)
@@ -146,7 +146,8 @@ namespace Cafe.Waiter.Command.Service
 
         private bool IsMessagingRabbitMqTypeNotRequiredInCommandService(Type type)
         {
-            return type == typeof(NoReceiveEndpointsConfigurator);
+            return type == typeof(NoReceiveEndpointsConfigurator)
+                || type == typeof(MultipleConnectionAttemptMessageBusFactory);
         }
 
         private IEnumerable<IEventStore> GetEventStores(IKernel kernel)
