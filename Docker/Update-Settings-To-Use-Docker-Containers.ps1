@@ -170,7 +170,7 @@ $waiterCommandService = @{
 }
 
 $waiterCommandServiceTest = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json";
+    FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
     Text = GetWaiterCommandServiceTestSettings $writeModelConnectionString
 }
 
