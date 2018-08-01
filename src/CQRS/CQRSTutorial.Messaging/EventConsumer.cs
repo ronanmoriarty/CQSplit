@@ -1,14 +1,14 @@
 ﻿using System.Threading.Tasks;
 using CQRSTutorial.Core;
-using log4net;
 using MassTransit;
+using NLog;
 
 namespace CQRSTutorial.Messaging
 {
     public abstract class EventConsumer<TEvent> : IConsumer<TEvent>
         where TEvent : class, IEvent
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(EventConsumer<>));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
         private readonly IProjector<TEvent> _projector;
 
         protected EventConsumer(IProjector<TEvent> projector)

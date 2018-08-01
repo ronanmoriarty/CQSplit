@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using CQRSTutorial.Core;
-using log4net;
+using NLog;
 
 namespace CQRSTutorial.Messaging
 {
@@ -8,7 +8,7 @@ namespace CQRSTutorial.Messaging
     {
         private readonly ISendEndpointProvider _sendEndpointProvider;
         private readonly ICommandSendConfiguration _commandSendConfiguration;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(CommandSender));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public CommandSender(ISendEndpointProvider sendEndpointProvider,
             ICommandSendConfiguration commandSendConfiguration)

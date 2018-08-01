@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CQRSTutorial.Core;
-using log4net;
 using MassTransit;
+using NLog;
 
 namespace CQRSTutorial.Messaging
 {
@@ -9,7 +9,7 @@ namespace CQRSTutorial.Messaging
         where TCommand : class, ICommand
     {
         private readonly ICommandRouter _commandRouter;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(CommandConsumer<>));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         protected CommandConsumer(ICommandRouter commandRouter)
         {

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="MassTransit.Log4Net" Version="5.1.2" />
+    <PackageReference Include="MassTransit.NLog" Version="5.1.2" />
   </ItemGroup>
 
   <ItemGroup>

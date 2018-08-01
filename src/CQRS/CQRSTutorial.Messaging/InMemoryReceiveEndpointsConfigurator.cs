@@ -1,5 +1,5 @@
-using log4net;
 using MassTransit;
+using NLog;
 
 namespace CQRSTutorial.Messaging
 {
@@ -7,7 +7,7 @@ namespace CQRSTutorial.Messaging
     {
         private readonly IConsumerRegistrar _consumerRegistrar;
         private IInMemoryBusFactoryConfigurator _inMemoryBusFactoryConfigurator;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(IInMemoryReceiveEndpointsConfigurator));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public InMemoryReceiveEndpointsConfigurator(IConsumerRegistrar consumerRegistrar)
         {
