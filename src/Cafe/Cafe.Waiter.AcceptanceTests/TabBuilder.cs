@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.Extensions.Configuration;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
 namespace Cafe.Waiter.AcceptanceTests
@@ -8,9 +9,15 @@ namespace Cafe.Waiter.AcceptanceTests
         private int _tableNumber;
         private string _waiter;
         private readonly ChromeDriver _chromeDriver;
+        private IConfigurationRoot _configurationRoot;
 
         public TabBuilder()
         {
+            _configurationRoot = new ConfigurationBuilder()
+                .AddJsonFile("appSettings.json")
+                .AddJsonFile("appSettings.override.json", true)
+                .Build();
+
             _chromeDriver = new ChromeDriver();
         }
 
@@ -45,7 +52,8 @@ namespace Cafe.Waiter.AcceptanceTests
 
         private void NavigateToOpenTabs()
         {
-            _chromeDriver.Url = "http://localhost:5000/app/index.html#!/tabs";
+            var root = _configurationRoot["cafe:waiter:web:url"];
+            _chromeDriver.Url = $"{root}/app/index.html#!/tabs";
         }
 
         private void SetTableNumber()
