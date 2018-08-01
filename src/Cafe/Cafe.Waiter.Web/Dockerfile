@@ -23,3 +23,4 @@ WORKDIR /app
 COPY --from=builder ["app\\Cafe.Waiter.Web\\bin\\Debug\\netcoreapp2.1\\publish", ".\\Cafe.Waiter.Web"]
 WORKDIR /app/Cafe.Waiter.Web
 CMD dotnet .\Cafe.Waiter.Web.dll
+EXPOSE 80
