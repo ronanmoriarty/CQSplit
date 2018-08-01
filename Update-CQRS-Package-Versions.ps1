@@ -69,3 +69,6 @@ Get-ChildItem -Path .\src\CQRS\ -Filter *.nuspec -Recurse | ForEach-Object {
     }
     $xml.Save($_.FullName)
 }
+
+git add *.nuspec
+git commit -m "Update CQRS package versions to $NewVersion"
