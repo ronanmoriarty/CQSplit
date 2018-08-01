@@ -1,12 +1,12 @@
 ﻿using System;
 using CQRSTutorial.DAL.Common;
-using log4net;
+using NLog;
 
 namespace CQRSTutorial.DAL.Sql
 {
     public class EventStoreUnitOfWork : IUnitOfWork
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(EventStoreUnitOfWork));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public EventStoreUnitOfWork(IConnectionStringProvider connectionStringProvider)
         {
