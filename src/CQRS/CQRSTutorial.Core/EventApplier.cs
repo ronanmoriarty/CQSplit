@@ -1,13 +1,13 @@
 using System;
 using System.Linq.Expressions;
-using log4net;
+using NLog;
 
 namespace CQRSTutorial.Core
 {
     public class EventApplier : IEventApplier
     {
         private readonly TypeInspector _typeInspector;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(EventApplier));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public EventApplier(TypeInspector typeInspector)
         {

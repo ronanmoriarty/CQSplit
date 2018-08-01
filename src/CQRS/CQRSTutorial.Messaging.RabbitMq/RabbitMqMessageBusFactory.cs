@@ -1,14 +1,14 @@
 using System;
-using log4net;
 using MassTransit;
-using MassTransit.Log4NetIntegration;
+using MassTransit.NLogIntegration;
 using MassTransit.RabbitMqTransport;
+using NLog;
 
 namespace CQRSTutorial.Messaging.RabbitMq
 {
     public class RabbitMqMessageBusFactory : IMessageBusFactory
     {
-        private readonly ILog _logger = LogManager.GetLogger(typeof(RabbitMqMessageBusFactory));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
         private readonly IRabbitMqReceiveEndpointConfigurator _rabbitMqReceiveEndpointConfigurator;
         private readonly IRabbitMqHostConfiguration _rabbitMqHostConfiguration;
         private IRabbitMqHost _host;
@@ -34,7 +34,7 @@ namespace CQRSTutorial.Messaging.RabbitMq
         {
             var hostAddress = new Uri(_rabbitMqHostConfiguration.Uri);
             _logger.Debug($"Host address is: \"{hostAddress.AbsoluteUri}\"");
-            rabbitMqBusFactoryConfigurator.UseLog4Net();
+            rabbitMqBusFactoryConfigurator.UseNLog();
             return rabbitMqBusFactoryConfigurator.Host(hostAddress, h =>
             {
                 h.Username(_rabbitMqHostConfiguration.Username);

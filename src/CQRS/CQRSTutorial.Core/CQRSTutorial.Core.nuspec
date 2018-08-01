@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>CQRSTutorial.Core</id>
-    <version>1.0.24-pre</version>
+    <version>1.0.25-pre</version>
     <authors>Ronan Moriarty</authors>
     <owners>Fundraising Innovations Ltd.</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Package Description</description>
     <dependencies>
       <group targetFramework=".NETStandard2.0">
-        <dependency id="log4net" version="2.0.8" exclude="Build,Analyzers" />
+        <dependency id="NLog.Config" version="4.5.7" />
       </group>
     </dependencies>
   </metadata>

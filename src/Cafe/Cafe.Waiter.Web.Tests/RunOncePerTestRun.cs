@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using Cafe.Waiter.Web.Controllers;
-using log4net;
-using log4net.Config;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,9 +20,6 @@ namespace Cafe.Waiter.Web.Tests
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            var loggerRepository = LogManager.GetRepository(Assembly.GetEntryAssembly());
-            XmlConfigurator.Configure(loggerRepository, new FileInfo("log4net.config"));
-
             _hostingEnvironment = CreateHostingEnvironment();
             _serviceCollection = new ServiceCollection();
             WhenServicesConfigured();

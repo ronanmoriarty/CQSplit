@@ -6,8 +6,8 @@ using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Web.Models;
 using Cafe.Waiter.Web.Repositories;
 using CQRSTutorial.Messaging;
-using log4net;
 using Microsoft.AspNetCore.Mvc;
+using NLog;
 
 namespace Cafe.Waiter.Web.Controllers
 {
@@ -18,7 +18,7 @@ namespace Cafe.Waiter.Web.Controllers
         private readonly IOpenTabsRepository _openTabsRepository;
         private readonly ICommandSender _commandSender;
         private readonly IPlaceOrderCommandFactory _placeOrderCommandFactory;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(TabController));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public TabController(ITabDetailsRepository tabDetailsRepository,
             IOpenTabsRepository openTabsRepository,

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
-using log4net;
 using MassTransit;
+using NLog;
 
 namespace CQRSTutorial.Publish
 {
@@ -14,7 +14,7 @@ namespace CQRSTutorial.Publish
         private readonly IBusControl _busControl;
         private readonly IEventToPublishSerializer _eventToPublishSerializer;
         private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-        private readonly ILog _logger = LogManager.GetLogger(typeof(OutboxToMessageBusPublisher));
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public OutboxToMessageBusPublisher(IEventToPublishRepository eventToPublishRepository,
             IBusControl busControl,
