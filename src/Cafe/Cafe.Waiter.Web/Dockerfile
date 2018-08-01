@@ -21,4 +21,5 @@ RUN move .\Cafe.Waiter.Web\appSettings.docker.json .\Cafe.Waiter.Web\bin\Debug\n
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app
 COPY --from=builder ["app\\Cafe.Waiter.Web\\bin\\Debug\\netcoreapp2.1\\publish", ".\\Cafe.Waiter.Web"]
-CMD dotnet .\Cafe.Waiter.Web\Cafe.Waiter.Web.dll
+WORKDIR /app/Cafe.Waiter.Web
+CMD dotnet .\Cafe.Waiter.Web.dll
