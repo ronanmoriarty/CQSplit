@@ -170,8 +170,8 @@ Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
 
 $configuration = "Debug"
 
-$cqrsDALTests = @{
-    FilePath = ".\src\CQRS\CQRSTutorial.DAL.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
+$cafeDALTests = @{
+    FilePath = ".\src\Cafe\Cafe.DAL.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
     Text = GetCQRSDALSettings $writeModelConnectionString
 }
 
@@ -211,7 +211,7 @@ $waiterAcceptanceTest = @{
 }
 
 $appSettings = @(
-    $cqrsDALTests,
+    $cafeDALTests,
     $waiterWebsite,
     $waiterWebsiteTest,
     $waiterCommandService,

@@ -5,15 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CQRSTutorial.DAL.Sql" Version="1.0.25-pre" />
+    <PackageReference Include="CQRSTutorial.DAL.Tests.Common" Version="1.0.25-pre" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
     <PackageReference Include="NUnit" Version="3.8.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\CQRSTutorial.DAL.Sql\CQRSTutorial.DAL.Sql.csproj" />
-    <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj" />
-    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj" />
   </ItemGroup>
 
   <ItemGroup>

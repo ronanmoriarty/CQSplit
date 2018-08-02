@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Serialized;
 using CQRSTutorial.DAL.Sql;
 
-namespace CQRSTutorial.DAL.Tests
+namespace Cafe.DAL.Tests
 {
     public class EventToPublishRepositoryDecorator : IEventToPublishRepository
     {

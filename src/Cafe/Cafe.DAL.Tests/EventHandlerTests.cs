@@ -2,13 +2,15 @@
 using System.Linq;
 using System.Reflection;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Common;
 using CQRSTutorial.DAL.Sql;
 using CQRSTutorial.DAL.Tests.Common;
 using NLog;
 using NUnit.Framework;
+using EventHandler = CQRSTutorial.DAL.EventHandler;
 
-namespace CQRSTutorial.DAL.Tests
+namespace Cafe.DAL.Tests
 {
     [TestFixture]
     public class EventHandlerTests

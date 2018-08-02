@@ -1,7 +1,7 @@
 ﻿using System;
 using CQRSTutorial.Core;
 
-namespace CQRSTutorial.DAL.Tests
+namespace Cafe.DAL.Tests
 {
     public class TestEvent : IEvent
     {

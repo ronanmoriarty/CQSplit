@@ -1,11 +1,12 @@
 ﻿using System;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Common;
 using CQRSTutorial.DAL.Sql;
 using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
 
-namespace CQRSTutorial.DAL.Tests
+namespace Cafe.DAL.Tests
 {
     [TestFixture, Category(TestConstants.Integration)]
     public class EventToPublishRepositoryTests
