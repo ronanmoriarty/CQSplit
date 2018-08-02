@@ -166,42 +166,42 @@ Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
 $configuration = "Debug"
 
 $cqrsDALTests = @{
-    FilePath = "..\src\CQRS\CQRSTutorial.DAL.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
+    FilePath = ".\src\CQRS\CQRSTutorial.DAL.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
     Text = GetCQRSDALSettings $writeModelConnectionString
 }
 
 $waiterWebsite = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.Web\appSettings.override.json"
+    FilePath = ".\src\Cafe\Cafe.Waiter.Web\appSettings.override.json"
     Text = GetWaiterWebsiteSettings $rabbitMqServerIpAddress $readModelConnectionString
 }
 
 $waiterWebsiteTest = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.Web.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
+    FilePath = ".\src\Cafe\Cafe.Waiter.Web.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
     Text = GetWaiterWebsiteTestSettings $readModelConnectionString
 }
 
 $waiterCommandService = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.1\appSettings.override.json";
+    FilePath = ".\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.1\appSettings.override.json";
     Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $writeModelConnectionString
 }
 
 $waiterCommandServiceTest = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.Command.Service.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
+    FilePath = ".\src\Cafe\Cafe.Waiter.Command.Service.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
     Text = GetWaiterCommandServiceTestSettings $writeModelConnectionString
 }
 
 $waiterEventProjectingService = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.EventProjecting.Service\bin\$configuration\netcoreapp2.1\appSettings.override.json"
+    FilePath = ".\src\Cafe\Cafe.Waiter.EventProjecting.Service\bin\$configuration\netcoreapp2.1\appSettings.override.json"
     Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerIpAddress $readModelConnectionString
 }
 
 $waiterEventProjectingServiceTest = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
+    FilePath = ".\src\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
     Text = GetWaiterEventProjectingServiceTestSettings $readModelConnectionString
 }
 
 $waiterAcceptanceTest = @{
-    FilePath = "..\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
+    FilePath = ".\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
     Text = GetWaiterAcceptanceTestsSettings $readModelConnectionString $waiterWebsiteUrl
 }
 
