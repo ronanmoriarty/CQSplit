@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Cafe.DAL.Tests.Common;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Common;
 using CQRSTutorial.DAL.Sql;
-using CQRSTutorial.DAL.Tests.Common;
 using NLog;
 using NUnit.Framework;
 using EventHandler = CQRSTutorial.DAL.EventHandler;

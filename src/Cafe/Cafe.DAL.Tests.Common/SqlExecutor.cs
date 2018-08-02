@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using CQRSTutorial.DAL.Common;
 using NLog;
 
-namespace CQRSTutorial.DAL.Tests.Common
+namespace Cafe.DAL.Tests.Common
 {
     public class SqlExecutor
     {

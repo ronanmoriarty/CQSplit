@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL.Common", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL", "CQRSTutorial.DAL\CQRSTutorial.DAL.csproj", "{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL.Tests.Common", "CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj", "{08307542-E409-452A-B760-77F81E76D237}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Publish", "CQRSTutorial.Publish\CQRSTutorial.Publish.csproj", "{084806F2-1F0B-4B87-BEE1-B33A4E6905ED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Publish.Tests", "CQRSTutorial.Publish.Tests\CQRSTutorial.Publish.Tests.csproj", "{20B91A87-833F-4E96-85EE-8A2805CD9E82}"
@@ -63,10 +61,6 @@ Global
 		{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08307542-E409-452A-B760-77F81E76D237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08307542-E409-452A-B760-77F81E76D237}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08307542-E409-452A-B760-77F81E76D237}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08307542-E409-452A-B760-77F81E76D237}.Release|Any CPU.Build.0 = Release|Any CPU
 		{084806F2-1F0B-4B87-BEE1-B33A4E6905ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{084806F2-1F0B-4B87-BEE1-B33A4E6905ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{084806F2-1F0B-4B87-BEE1-B33A4E6905ED}.Release|Any CPU.ActiveCfg = Release|Any CPU

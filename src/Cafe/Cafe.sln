@@ -37,6 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cafe.DAL.Tests", "Cafe.DAL.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cafe.DAL.Sql", "Cafe.DAL.Sql\Cafe.DAL.Sql.csproj", "{7734909F-4ED4-47B4-9DFA-6ECB22C83545}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cafe.DAL.Tests.Common", "Cafe.DAL.Tests.Common\Cafe.DAL.Tests.Common.csproj", "{6F166185-B40E-44D2-809B-227B1BC92170}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{7734909F-4ED4-47B4-9DFA-6ECB22C83545}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7734909F-4ED4-47B4-9DFA-6ECB22C83545}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7734909F-4ED4-47B4-9DFA-6ECB22C83545}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F166185-B40E-44D2-809B-227B1BC92170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F166185-B40E-44D2-809B-227B1BC92170}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F166185-B40E-44D2-809B-227B1BC92170}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F166185-B40E-44D2-809B-227B1BC92170}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +129,7 @@ Global
 		{E92AAF73-477A-486A-8530-56292A05F4FE} = {2ED35FA6-D29F-4A7C-8B71-7D1F699A02C3}
 		{83DE4365-5DA9-41CE-A3BF-EFD1DF8159F4} = {1472977E-80F3-4F87-BA4B-93FBB2EEC4CF}
 		{7734909F-4ED4-47B4-9DFA-6ECB22C83545} = {1472977E-80F3-4F87-BA4B-93FBB2EEC4CF}
+		{6F166185-B40E-44D2-809B-227B1BC92170} = {1472977E-80F3-4F87-BA4B-93FBB2EEC4CF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {82CC2E35-6545-4F3F-A883-30477B81350D}

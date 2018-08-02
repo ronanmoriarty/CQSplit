@@ -1,5 +1,5 @@
-﻿using CQRSTutorial.DAL.Common;
-using CQRSTutorial.DAL.Tests.Common;
+﻿using Cafe.DAL.Tests.Common;
+using CQRSTutorial.DAL.Common;
 using OpenQA.Selenium.Chrome;
 
 namespace Cafe.Waiter.AcceptanceTests
