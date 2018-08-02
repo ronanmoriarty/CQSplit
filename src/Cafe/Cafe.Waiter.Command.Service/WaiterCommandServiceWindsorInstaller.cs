@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Cafe.DAL.Sql;
 using Cafe.Waiter.Command.Service.Consumers;
 using Cafe.Waiter.Domain;
 using Cafe.Waiter.Events;
@@ -11,7 +12,6 @@ using Castle.Windsor;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Common;
-using CQRSTutorial.DAL.Sql;
 using CQRSTutorial.Messaging;
 using CQRSTutorial.Messaging.RabbitMq;
 using CQRSTutorial.Publish;

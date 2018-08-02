@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using CQRSTutorial.Core;
+using CQRSTutorial.DAL;
 using CQRSTutorial.DAL.Serialized;
 
-namespace CQRSTutorial.DAL.Sql
+namespace Cafe.DAL.Sql
 {
     public class EventToPublishRepository : IEventToPublishRepository
     {

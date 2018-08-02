@@ -1,4 +1,4 @@
-using CQRSTutorial.DAL.Common;
+using Cafe.DAL.Common;
 
 namespace Cafe.Waiter.Queries.DAL
 {

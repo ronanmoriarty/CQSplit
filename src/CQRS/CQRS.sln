@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Messaging.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Messaging.RabbitMq", "CQRSTutorial.Messaging.RabbitMq\CQRSTutorial.Messaging.RabbitMq.csproj", "{268519B5-FE79-4678-88A8-2883528693A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL.Common", "CQRSTutorial.DAL.Common\CQRSTutorial.DAL.Common.csproj", "{29E96C47-75B2-4324-92C8-2EECEF9447D4}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.DAL", "CQRSTutorial.DAL\CQRSTutorial.DAL.csproj", "{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRSTutorial.Publish", "CQRSTutorial.Publish\CQRSTutorial.Publish.csproj", "{084806F2-1F0B-4B87-BEE1-B33A4E6905ED}"
@@ -53,10 +51,6 @@ Global
 		{268519B5-FE79-4678-88A8-2883528693A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{268519B5-FE79-4678-88A8-2883528693A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{268519B5-FE79-4678-88A8-2883528693A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29E96C47-75B2-4324-92C8-2EECEF9447D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29E96C47-75B2-4324-92C8-2EECEF9447D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29E96C47-75B2-4324-92C8-2EECEF9447D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29E96C47-75B2-4324-92C8-2EECEF9447D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF37162D-10E6-49CB-B6F8-9A6C9F2AF877}.Release|Any CPU.ActiveCfg = Release|Any CPU

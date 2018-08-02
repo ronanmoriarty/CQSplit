@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using CQRSTutorial.DAL.Common;
+using Cafe.DAL.Common;
 using NLog;
 
 namespace Cafe.DAL.Tests.Common

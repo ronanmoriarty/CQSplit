@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CQRSTutorial.Core\CQRSTutorial.Core.csproj" />
-    <ProjectReference Include="..\CQRSTutorial.DAL.Common\CQRSTutorial.DAL.Common.csproj" />
   </ItemGroup>
 
 </Project>

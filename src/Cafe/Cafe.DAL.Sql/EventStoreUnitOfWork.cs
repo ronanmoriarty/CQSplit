@@ -1,8 +1,9 @@
 ﻿using System;
-using CQRSTutorial.DAL.Common;
+using Cafe.DAL.Common;
+using CQRSTutorial.DAL;
 using NLog;
 
-namespace CQRSTutorial.DAL.Sql
+namespace Cafe.DAL.Sql
 {
     public class EventStoreUnitOfWork : IUnitOfWork
     {
