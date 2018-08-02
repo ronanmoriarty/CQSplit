@@ -23,7 +23,6 @@
     <PackageReference Include="Castle.Windsor" Version="4.1.0" />
     <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.3.1" />
     <PackageReference Include="CQRSTutorial.DAL" Version="1.0.25-pre" />
-    <PackageReference Include="CQRSTutorial.DAL.Sql" Version="1.0.25-pre" />
     <PackageReference Include="CQRSTutorial.Messaging.RabbitMq" Version="1.0.25-pre" />
     <PackageReference Include="CQRSTutorial.Publish" Version="1.0.25-pre" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
@@ -32,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cafe.DAL.Sql\Cafe.DAL.Sql.csproj" />
     <ProjectReference Include="..\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj" />
   </ItemGroup>
 
