@@ -28,7 +28,7 @@ function GetFullPath($relativePath){
 function CreateEnvFile([SecureString] $secureStringPassword)
 {
     $password = ConvertToPlainText $secureStringPassword
-    Write-Output "sa_password=$password" > .env
+    Write-Output "sa_password=$password" | Out-File -encoding ASCII .env
     Write-Output "Created $(GetFullPath .env)"
 }
 
