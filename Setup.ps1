@@ -1,11 +1,19 @@
 [CmdletBinding()]
 param (
     [Parameter(Mandatory=$True)]
+    [SecureString] $saPassword,
+    [Parameter(Mandatory=$True)]
     [string] $rabbitMqUserName,
     [Parameter(Mandatory=$True)]
     [SecureString] $rabbitMqPassword,
     [Parameter(Mandatory=$True)]
-    [SecureString] $saPassword
+    [string] $writeModelUserName,
+    [Parameter(Mandatory=$True)]
+    [SecureString] $writeModelPassword,
+    [Parameter(Mandatory=$True)]
+    [string] $readModelUserName,
+    [Parameter(Mandatory=$True)]
+    [SecureString] $readModelPassword
 )
 
 function ConvertToPlainText([SecureString]$secureString){
@@ -25,3 +33,30 @@ function CreateEnvFile([SecureString] $secureStringPassword)
 }
 
 CreateEnvFile $saPassword
+
+function GetExampleFileWithPlaceholdersReplaced($filePath)
+{
+    $temp = (Get-Content $filePath).Replace("`$rabbitMqUserName", "$rabbitMqUserName")
+    $temp = $temp.Replace("`$rabbitMqPassword", "$(ConvertToPlainText $rabbitMqPassword)")
+    $temp = $temp.Replace("`$writeModelUserName", "$writeModelUserName")
+    $temp = $temp.Replace("`$writeModelPassword", "$(ConvertToPlainText $writeModelPassword)")
+    $temp = $temp.Replace("`$readModelUserName", "$readModelUserName")
+    return $temp.Replace("`$readModelPassword", "$(ConvertToPlainText $readModelPassword)")
+}
+
+function SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles()
+{
+    Get-ChildItem -Path .\src\Cafe\ -Filter *.example -Recurse | ForEach-Object {
+        $exampleFile = $_.FullName
+        $dockerJsonPath = $exampleFile.Replace(".example", "")
+        if(Test-Path $dockerJsonPath)
+        {
+            Remove-Item $dockerJsonPath
+        }
+
+        (GetExampleFileWithPlaceholdersReplaced $exampleFile) | Set-Content $dockerJsonPath
+        Write-Output "Created $dockerJsonPath"
+    }
+}
+
+SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles
