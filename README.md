@@ -3,11 +3,20 @@
 This code is just me following along with the [cqrs.nu tutorial](http://cqrs.nu/tutorial) around event sourcing and CQRS.
 
 # Setup
-* Follow RabbitMQ installation instructions at [RabbitMQ installation guide](https://www.rabbitmq.com/install-windows.html) **Do not use the default installation directory of C:\Program Files\ for Erlang and RabbitMQ** - the space in "C:\Program Files" causes various issues with the batch files that try to start up the RabbitMQ service / interact with the service - instead, install on root of C:\ - as per [this stackoverflow question](https://stackoverflow.com/questions/36719960/init-terminating-in-do-boot-windows-8-1-rabbit-mq-fails-to-start)
-* Run setup.ps1
-  * this script sets up some additional environment variables
-
-This sets up a [local management console](http://localhost:15672/) where you can inspect / manipulate RabbitMQ messages and queues etc - you can log in with username and password both set as "guest".
+* Install [Docker](https://docs.docker.com/docker-for-windows/install/)
+* Create a .env file in the repository editing the following line:
+sa_password=some-password-of-your-choice
+* Copy ./src/Cafe/Cafe.Waiter.EventProjecting.Service/appSettings.docker.json.example to ./src/Cafe/Cafe.Waiter.EventProjecting.Service/appSettings.docker.json and edit this new json file to use new usernames and passwords.
+* Repeat the above step for ./src/Cafe/Cafe.Waiter.Command.Service/appSettings.docker.json.example and ./src/Cafe/Cafe.Waiter.Web/appSettings.docker.json.example.
+* Run 'docker-compose up'
+* Run 'Update-Settings-To-Use-Docker-Containers.ps1'
+* Run 'docker container list' to verify that 6 containers are running:
+  - RabbitMQ server
+  - SQL Server to host the CQRSTutorial.Cafe.Waiter.ReadModel database
+  - SQL Server to host the CQRSTutorial.Cafe.Waiter.WriteModel database
+  - .NET Core service Cafe.Waiter.Command.Service
+  - .NET Core service Cafe.Waiter.EventProjecting.Service
+  - ASP.NET Core website Cafe.Waiter.Web
 
 # Database
 
