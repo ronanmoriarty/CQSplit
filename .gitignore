@@ -250,3 +250,5 @@ tools/
 
 # Local nuget source
 .nuget.local
+
+**/*.old
