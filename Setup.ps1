@@ -30,6 +30,8 @@ function CreateEnvFile([SecureString] $secureStringPassword)
     $password = ConvertToPlainText $secureStringPassword
     Write-Output "sa_password=$password" | Out-File -encoding ASCII .env
     Write-Output "Created $(GetFullPath .env)"
+    Write-Output "sa_password=$password" | Out-File -encoding ASCII .\src\CQRS\.env
+    Write-Output "Created $(GetFullPath .\src\CQRS\.env)"
 }
 
 CreateEnvFile $saPassword
