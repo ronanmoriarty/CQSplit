@@ -2,10 +2,10 @@
 param (
     [Parameter(Mandatory=$True)]
     [SecureString] $saPassword,
-    [Parameter(Mandatory=$True)]
-    [string] $rabbitMqUserName,
-    [Parameter(Mandatory=$True)]
-    [SecureString] $rabbitMqPassword,
+    # [Parameter(Mandatory=$True)]
+    # [string] $rabbitMqUserName,
+    # [Parameter(Mandatory=$True)]
+    # [SecureString] $rabbitMqPassword,
     [Parameter(Mandatory=$True)]
     [string] $writeModelUserName,
     [Parameter(Mandatory=$True)]
@@ -38,8 +38,10 @@ CreateEnvFile $saPassword
 
 function GetExampleFileWithPlaceholdersReplaced($filePath)
 {
-    $temp = (Get-Content $filePath).Replace("`$rabbitMqUserName", "$rabbitMqUserName")
-    $temp = $temp.Replace("`$rabbitMqPassword", "$(ConvertToPlainText $rabbitMqPassword)")
+    # $temp = (Get-Content $filePath).Replace("`$rabbitMqUserName", "$rabbitMqUserName")
+    # $temp = $temp.Replace("`$rabbitMqPassword", "$(ConvertToPlainText $rabbitMqPassword)")
+    $temp = (Get-Content $filePath).Replace("`$rabbitMqUserName", "guest")
+    $temp = $temp.Replace("`$rabbitMqPassword", "guest")
     $temp = $temp.Replace("`$writeModelUserName", "$writeModelUserName")
     $temp = $temp.Replace("`$writeModelPassword", "$(ConvertToPlainText $writeModelPassword)")
     $temp = $temp.Replace("`$readModelUserName", "$readModelUserName")
