@@ -10,5 +10,5 @@ Param(
     [string]$DatabaseScriptFolder
 )
 
-& $PSScriptRoot\setupDatabase.ps1 $Database $DatabaseFolder $DatabaseScriptFolder
+& $PSScriptRoot\setupDatabase.ps1 $Database $DatabaseFolder $DatabaseScriptFolder $sa_password
 & C:\start.ps1 -sa_password $sa_password -ACCEPT_EULA Y

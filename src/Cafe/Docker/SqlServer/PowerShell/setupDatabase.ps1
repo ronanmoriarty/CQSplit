@@ -5,7 +5,9 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$dbFolder,
     [Parameter(Mandatory=$true)]
-    [string]$dbScriptsFolder
+    [string]$dbScriptsFolder,
+    [Parameter(Mandatory=$true)]
+    [string] $saPassword
 )
 
 . "$PSScriptRoot\attachDatabase.ps1"
@@ -89,6 +91,7 @@ function ApplyDatabaseMigrations()
             -ServerInstance "." `
             -Database $dbName`
             -Variable $parameters
+            -ConnectionString "Server=.;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=sa;Password=$saPassword;"
     }
     Write-Host "Finished applying scripts for $dbName"
 }
