@@ -65,9 +65,14 @@ function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelConn
 "@
 }
 
-function GetWaiterCommandServiceTestSettings($writeModelConnectionString){
+function GetWaiterCommandServiceTestSettings($rabbitMqServerAddress, $writeModelConnectionString){
     return @"
 {
+    "rabbitmq": {
+        "uri": "rabbitmq://$rabbitMqServerAddress",
+        "username": "guest",
+        "password": "guest"
+    },
     "connectionString": "$writeModelConnectionString"
 }
 "@
@@ -187,7 +192,7 @@ $waiterCommandService = @{
 
 $waiterCommandServiceTest = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.Command.Service.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
-    Text = GetWaiterCommandServiceTestSettings $writeModelConnectionString
+    Text = GetWaiterCommandServiceTestSettings $rabbitMqServerIpAddress $writeModelConnectionString
 }
 
 $waiterEventProjectingService = @{
