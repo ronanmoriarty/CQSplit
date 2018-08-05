@@ -81,7 +81,15 @@ function EnsureDatabaseExists()
 function ApplyDatabaseMigrations()
 {
     Write-Host "Applying scripts from $dbScriptsFolder..."
-    Get-ChildItem $dbScriptsFolder | Sort-Object | ForEach-Object { Invoke-SqlCmd -InputFile $_.FullName -ServerInstance "." -Database $dbName }
+    Get-ChildItem $dbScriptsFolder | Sort-Object | ForEach-Object `
+    {
+        $parameters = "EventProjectingServicePassword='ch@ngeL@t3r'"
+        Invoke-SqlCmd `
+            -InputFile $_.FullName `
+            -ServerInstance "." `
+            -Database $dbName`
+            -Variable $parameters
+    }
     Write-Host "Finished applying scripts for $dbName"
 }
 
