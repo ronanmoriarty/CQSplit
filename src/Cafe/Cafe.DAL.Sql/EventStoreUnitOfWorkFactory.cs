@@ -1,6 +1,7 @@
-﻿using CQRSTutorial.DAL.Common;
+﻿using CQRSTutorial.DAL;
+using Cafe.DAL.Common;
 
-namespace CQRSTutorial.DAL.Sql
+namespace Cafe.DAL.Sql
 {
     public class EventStoreUnitOfWorkFactory : IUnitOfWorkFactory
     {

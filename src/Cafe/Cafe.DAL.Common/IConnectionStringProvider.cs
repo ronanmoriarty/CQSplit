@@ -1,4 +1,4 @@
-﻿namespace CQRSTutorial.DAL.Common
+﻿namespace Cafe.DAL.Common
 {
     public interface IConnectionStringProvider
     {

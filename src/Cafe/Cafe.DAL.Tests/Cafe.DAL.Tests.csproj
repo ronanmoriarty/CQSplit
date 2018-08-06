@@ -11,9 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CQRSTutorial.DAL.Sql\CQRSTutorial.DAL.Sql.csproj" />
-    <ProjectReference Include="..\CQRSTutorial.DAL.Tests.Common\CQRSTutorial.DAL.Tests.Common.csproj" />
-    <ProjectReference Include="..\CQRSTutorial.DAL\CQRSTutorial.DAL.csproj" />
+    <ProjectReference Include="..\Cafe.DAL.Sql\Cafe.DAL.Sql.csproj" />
+    <ProjectReference Include="..\Cafe.DAL.Tests.Common\Cafe.DAL.Tests.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

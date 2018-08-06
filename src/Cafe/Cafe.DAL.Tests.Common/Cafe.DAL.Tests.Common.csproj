@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CQRSTutorial.DAL.Common\CQRSTutorial.DAL.Common.csproj" />
+    <ProjectReference Include="..\Cafe.DAL.Common\Cafe.DAL.Common.csproj" />
   </ItemGroup>
 
 </Project>

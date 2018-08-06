@@ -1,4 +1,5 @@
 using System.Reflection;
+using Cafe.DAL.Common;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.EventProjecting.Service.DAL;
 using Cafe.Waiter.EventProjecting.Service.Projectors;
@@ -6,7 +7,6 @@ using Cafe.Waiter.Queries.DAL;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using CQRSTutorial.DAL.Common;
 using CQRSTutorial.Messaging;
 using CQRSTutorial.Messaging.RabbitMq;
 using Microsoft.Extensions.Configuration;

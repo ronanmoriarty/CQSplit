@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.EventProjecting.Service.DAL;
 using Cafe.Waiter.Events;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
-using CQRSTutorial.DAL.Tests.Common;
 using MassTransit;
 using Newtonsoft.Json;
 using NSubstitute;

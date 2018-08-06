@@ -7,12 +7,15 @@ COPY .\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj .\Cafe.Waiter.Contract
 RUN dotnet restore .\Cafe.Waiter.Contracts
 COPY .\Cafe.Waiter.Events\Cafe.Waiter.Events.csproj .\Cafe.Waiter.Events\
 RUN dotnet restore .\Cafe.Waiter.Events
+COPY .\Cafe.DAL.Common\Cafe.DAL.Common.csproj .\Cafe.DAL.Common\
+RUN dotnet restore .\Cafe.DAL.Common
 COPY .\Cafe.Waiter.Queries.DAL\Cafe.Waiter.Queries.DAL.csproj .\Cafe.Waiter.Queries.DAL\
 RUN dotnet restore .\Cafe.Waiter.Queries.DAL
 COPY .\Cafe.Waiter.EventProjecting.Service\Cafe.Waiter.EventProjecting.Service.csproj .\Cafe.Waiter.EventProjecting.Service\
 RUN dotnet restore .\Cafe.Waiter.EventProjecting.Service
 COPY .\Cafe.Waiter.Contracts .\Cafe.Waiter.Contracts
 COPY .\Cafe.Waiter.Events .\Cafe.Waiter.Events
+COPY .\Cafe.DAL.Common .\Cafe.DAL.Common
 COPY .\Cafe.Waiter.Queries.DAL .\Cafe.Waiter.Queries.DAL
 COPY .\Cafe.Waiter.EventProjecting.Service .\Cafe.Waiter.EventProjecting.Service
 RUN dotnet publish .\Cafe.Waiter.EventProjecting.Service

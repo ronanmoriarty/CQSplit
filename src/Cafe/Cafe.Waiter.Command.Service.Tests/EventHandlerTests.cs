@@ -1,8 +1,8 @@
 ﻿using System;
+using Cafe.DAL.Common;
+using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Events;
 using CQRSTutorial.Core;
-using CQRSTutorial.DAL.Common;
-using CQRSTutorial.DAL.Tests.Common;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Command.Service.Tests

@@ -1,4 +1,4 @@
-namespace CQRSTutorial.DAL.Tests
+namespace Cafe.DAL.Tests
 {
     public class TestConstants
     {

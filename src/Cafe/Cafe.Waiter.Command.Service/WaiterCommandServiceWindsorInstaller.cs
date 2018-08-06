@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Cafe.DAL.Common;
+using Cafe.DAL.Sql;
 using Cafe.Waiter.Command.Service.Consumers;
 using Cafe.Waiter.Domain;
 using Cafe.Waiter.Events;
@@ -10,14 +12,12 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using CQRSTutorial.Core;
 using CQRSTutorial.DAL;
-using CQRSTutorial.DAL.Common;
-using CQRSTutorial.DAL.Sql;
 using CQRSTutorial.Messaging;
 using CQRSTutorial.Messaging.RabbitMq;
 using CQRSTutorial.Publish;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
-using ConfigurationRoot = CQRSTutorial.DAL.Common.ConfigurationRoot;
+using ConfigurationRoot = Cafe.DAL.Common.ConfigurationRoot;
 using EventHandler = CQRSTutorial.DAL.EventHandler;
 
 namespace Cafe.Waiter.Command.Service

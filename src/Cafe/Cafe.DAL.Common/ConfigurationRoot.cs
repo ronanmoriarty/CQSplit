@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace CQRSTutorial.DAL.Common
+namespace Cafe.DAL.Common
 {
     public static class ConfigurationRoot
     {

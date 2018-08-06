@@ -1,11 +1,12 @@
 using System;
+using Cafe.DAL.Common;
+using Cafe.DAL.Sql;
+using Cafe.DAL.Tests.Common;
 using CQRSTutorial.Core;
-using CQRSTutorial.DAL.Common;
-using CQRSTutorial.DAL.Sql;
-using CQRSTutorial.DAL.Tests.Common;
+using CQRSTutorial.DAL;
 using NUnit.Framework;
 
-namespace CQRSTutorial.DAL.Tests
+namespace Cafe.DAL.Tests
 {
     [TestFixture, Category(TestConstants.Integration)]
     public class EventStoreTests
