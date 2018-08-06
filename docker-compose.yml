@@ -6,9 +6,8 @@ services:
     build:
       context: .\src\Cafe\Docker\SqlServer\
       dockerfile: .\ReadModel\Dockerfile
-    environment:
-      - sa_password=${sa_password}
-      - eventProjectingServicePassword=${eventProjectingServicePassword}
+    env_file:
+      - .env
   waiter-write-db-server:
     build:
       context: .\src\Cafe\Docker\SqlServer\
