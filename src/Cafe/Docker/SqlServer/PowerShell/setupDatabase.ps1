@@ -7,7 +7,8 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$dbScriptsFolder,
     [Parameter(Mandatory=$true)]
-    [string] $saPassword
+    [string] $saPassword,
+    [string[]] $parameters
 )
 
 . "$PSScriptRoot\attachDatabase.ps1"
@@ -86,7 +87,6 @@ function ApplyDatabaseMigrations()
     Get-ChildItem $dbScriptsFolder | Sort-Object | ForEach-Object `
     {
         Write-Host "Applying $($_.FullName)..."
-        $parameters = "EventProjectingServicePassword='ch@ngeL@t3r'"
         Invoke-SqlCmd -InputFile $_.FullName -ServerInstance "." -Database $dbName -Variable $parameters
     }
     Write-Host "Finished applying scripts for $dbName"
