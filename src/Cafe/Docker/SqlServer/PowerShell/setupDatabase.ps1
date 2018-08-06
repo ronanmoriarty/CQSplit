@@ -6,8 +6,6 @@ Param(
     [string]$dbFolder,
     [Parameter(Mandatory=$true)]
     [string]$dbScriptsFolder,
-    [Parameter(Mandatory=$true)]
-    [string] $saPassword,
     [string[]] $parameters
 )
 
