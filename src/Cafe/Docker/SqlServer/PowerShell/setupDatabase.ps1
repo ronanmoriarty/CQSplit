@@ -85,13 +85,9 @@ function ApplyDatabaseMigrations()
     Write-Host "Applying scripts from $dbScriptsFolder..."
     Get-ChildItem $dbScriptsFolder | Sort-Object | ForEach-Object `
     {
+        Write-Host "Applying $($_.FullName)..."
         $parameters = "EventProjectingServicePassword='ch@ngeL@t3r'"
-        Invoke-SqlCmd `
-            -InputFile $_.FullName `
-            -ServerInstance "." `
-            -Database $dbName`
-            -Variable $parameters
-            -ConnectionString "Server=.;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=sa;Password=$saPassword;"
+        Invoke-SqlCmd -InputFile $_.FullName -ServerInstance "." -Database $dbName -Variable $parameters
     }
     Write-Host "Finished applying scripts for $dbName"
 }
