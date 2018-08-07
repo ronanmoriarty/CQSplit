@@ -3,6 +3,8 @@ param (
     [Parameter(Mandatory=$True)]
     [SecureString] $saPassword,
     [Parameter(Mandatory=$True)]
+    [SecureString] $waiterWebsitePassword,
+    [Parameter(Mandatory=$True)]
     [SecureString] $commandServicePassword,
     [Parameter(Mandatory=$True)]
     [SecureString] $eventProjectingServicePassword
@@ -17,27 +19,31 @@ function GetFullPath($relativePath){
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
 }
 
-function CreateEnvFile([SecureString] $secureStringSystemAdminPassword, [SecureString] $secureStringWriteModelPassword, [SecureString] $secureStringReadModelPassword)
+function CreateEnvFile()
 {
-    $systemAdminPassword = ConvertToPlainText $secureStringSystemAdminPassword
-    $writePassword = ConvertToPlainText $secureStringWriteModelPassword
-    $readPassword = ConvertToPlainText $secureStringReadModelPassword
-    Write-Output "sa_password=$systemAdminPassword" | Out-File -encoding ASCII .env
-    Write-Output "commandServicePassword='$writePassword'" | Out-File -encoding ASCII -Append .env
-    Write-Output "eventProjectingServicePassword='$readPassword'" | Out-File -encoding ASCII -Append .env
+    Write-Output "sa_password=$saPasswordPlainText" | Out-File -encoding ASCII .env
+    Write-Output "waiterWebsitePassword='$waiterWebsitePasswordPlainText'" | Out-File -encoding ASCII -Append .env
+    Write-Output "commandServicePassword='$commandServicePasswordPlainText'" | Out-File -encoding ASCII -Append .env
+    Write-Output "eventProjectingServicePassword='$eventProjectingServicePasswordPlainText'" | Out-File -encoding ASCII -Append .env
     Write-Output "Created $(GetFullPath .env)"
-    Write-Output "sa_password=$systemAdminPassword" | Out-File -encoding ASCII .\src\CQRS\.env
-    Write-Output "commandServicePassword='$writePassword'" | Out-File -encoding ASCII -Append .\src\CQRS\.env
+    Write-Output "sa_password=$saPasswordPlainText" | Out-File -encoding ASCII .\src\CQRS\.env
+    Write-Output "commandServicePassword='$commandServicePasswordPlainText'" | Out-File -encoding ASCII -Append .\src\CQRS\.env
     Write-Output "Created $(GetFullPath .\src\CQRS\.env)"
 }
 
-CreateEnvFile $saPassword $commandServicePassword $eventProjectingServicePassword
+$saPasswordPlainText = ConvertToPlainText $saPassword
+$waiterWebsitePasswordPlainText = ConvertToPlainText $waiterWebsitePassword
+$commandServicePasswordPlainText = ConvertToPlainText $commandServicePassword
+$eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingServicePassword
+
+CreateEnvFile
 
 function GetExampleFileWithPlaceholdersReplaced($filePath)
 {
     $temp = (Get-Content $filePath).Replace("`$rabbitMqPassword", "guest")
-    $temp = $temp.Replace("`$commandServicePassword", "$(ConvertToPlainText $commandServicePassword)")
-    return $temp.Replace("`$eventProjectingServicePassword", "$(ConvertToPlainText $eventProjectingServicePassword)")
+    $temp = $temp.Replace("`$waiterWebsitePassword", "$waiterWebsitePasswordPlainText")
+    $temp = $temp.Replace("`$commandServicePassword", "$commandServicePasswordPlainText")
+    return $temp.Replace("`$eventProjectingServicePassword", "$eventProjectingServicePasswordPlainText")
 }
 
 function SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles()
