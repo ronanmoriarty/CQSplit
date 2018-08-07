@@ -1,11 +1,3 @@
-[CmdletBinding()]
-param (
-    [Parameter(Mandatory=$True)]
-    [string] $userName,
-    [Parameter(Mandatory=$True)]
-    [SecureString] $password
-)
-
 function GetContainerRunningWithImageName($imageName){
     return docker container list --filter ancestor=$imageName --format "{{.ID}}"
 }
@@ -145,25 +137,38 @@ function GetWaiterWebsiteUrl()
     return "http://$waiterWebsiteIpAddress"
 }
 
-function GetWriteModelConnectionString($username, [SecureString] $secureStringPassword)
+function GetWriteModelConnectionString([SecureString] $secureStringPassword)
 {
     $password = ConvertToPlainText $secureStringPassword
     $writeModelSqlServerAddress = GetWriteModelSqlServerAddress
-    return "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=$username;Password=$password;"
+    return "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=CommandService;Password=$password;"
 }
 
-function GetReadModelConnectionString($username, [SecureString] $secureStringPassword)
+function GetReadModelConnectionString([SecureString] $secureStringPassword)
 {
     $password = ConvertToPlainText $secureStringPassword
     $readModelSqlServerAddress = GetReadModelSqlServerAddress
-    return "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
+    return "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=EventProjectingService;Password=$password;"
 }
+
+function GetCommandServicePassword()
+{
+    return [regex]::Match((Get-Content .env),"commandServicePassword='([^=]*)'").captures.groups[1].value
+}
+
+function GetEventProjectingServicePassword()
+{
+    return [regex]::Match((Get-Content .env),"eventProjectingServicePassword='([^=]*)'").captures.groups[1].value
+}
+
+$commandServicePassword = GetCommandServicePassword
+$eventProjectingServicePassword = GetEventProjectingServicePassword
 
 $rabbitMqServerIpAddress = GetRabbitMqAddress
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
-$writeModelConnectionString = GetWriteModelConnectionString $userName $password
+$writeModelConnectionString = GetWriteModelConnectionString $commandServicePassword
 Write-Output "`$writeModelConnectionString: $writeModelConnectionString"
-$readModelConnectionString = GetReadModelConnectionString $userName $password
+$readModelConnectionString = GetReadModelConnectionString $eventProjectingServicePassword
 Write-Output "`$readModelConnectionString: $readModelConnectionString"
 $waiterWebsiteUrl = GetWaiterWebsiteUrl
 Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
