@@ -1,11 +1,3 @@
-[CmdletBinding()]
-param (
-    [Parameter(Mandatory=$True)]
-    [string] $userName,
-    [Parameter(Mandatory=$True)]
-    [SecureString] $password
-)
-
 function GetContainerRunningWithImageName($imageName){
     return docker container list --filter ancestor=$imageName --format "{{.ID}}"
 }
@@ -31,7 +23,7 @@ function GetCQRSDALSettings($writeModelConnectionString){
 "@
 }
 
-function GetWaiterWebsiteSettings($rabbitMqServerAddress, $readModelConnectionString){
+function GetWaiterWebsiteSettings($rabbitMqServerAddress, $waiterWebsiteConnectionString){
     return @"
 {
     "rabbitmq": {
@@ -39,15 +31,15 @@ function GetWaiterWebsiteSettings($rabbitMqServerAddress, $readModelConnectionSt
         "username": "guest",
         "password": "guest"
     },
-    "connectionString": "$readModelConnectionString"
+    "connectionString": "$waiterWebsiteConnectionString"
 }
 "@
 }
 
-function GetWaiterWebsiteTestSettings($readModelConnectionString){
+function GetWaiterWebsiteTestSettings($waiterWebsiteConnectionString){
     return @"
 {
-    "connectionString": "$readModelConnectionString"
+    "connectionString": "$waiterWebsiteConnectionString"
 }
 "@
 }
@@ -78,7 +70,7 @@ function GetWaiterCommandServiceTestSettings($rabbitMqServerAddress, $writeModel
 "@
 }
 
-function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress, $readModelConnectionString){
+function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress, $eventProjectingServiceConnectionString){
     return @"
 {
     "rabbitmq": {
@@ -86,15 +78,15 @@ function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress, $readMo
         "username": "guest",
         "password": "guest"
     },
-    "connectionString": "$readModelConnectionString"
+    "connectionString": "$eventProjectingServiceConnectionString"
 }
 "@
 }
 
-function GetWaiterEventProjectingServiceTestSettings($readModelConnectionString){
+function GetWaiterEventProjectingServiceTestSettings($eventProjectingServiceConnectionString){
     return @"
 {
-    "connectionString": "$readModelConnectionString"
+    "connectionString": "$eventProjectingServiceConnectionString"
 }
 "@
 }
@@ -117,7 +109,7 @@ function GetWaiterAcceptanceTestsSettings($readModelConnectionString, $waiterWeb
 function WriteToFile($path, $contents){
     Write-Output "Writing $path..."
     Write-Output "Text: $contents"
-    $_.Text | Out-File -encoding ASCII $path
+    $contents | Out-File -encoding ASCII $path
 }
 
 function GetRabbitMqAddress(){
@@ -145,26 +137,50 @@ function GetWaiterWebsiteUrl()
     return "http://$waiterWebsiteIpAddress"
 }
 
-function GetWriteModelConnectionString($username, [SecureString] $secureStringPassword)
+function GetWaiterWebsiteConnectionString([string] $password)
 {
-    $password = ConvertToPlainText $secureStringPassword
-    $writeModelSqlServerAddress = GetWriteModelSqlServerAddress
-    return "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=$username;Password=$password;"
+    $readModelSqlServerAddress = GetReadModelSqlServerAddress
+    return "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=WaiterWebsite;Password=$password;"
 }
 
-function GetReadModelConnectionString($username, [SecureString] $secureStringPassword)
+function GetCommandServiceConnectionString([string] $password)
 {
-    $password = ConvertToPlainText $secureStringPassword
+    $writeModelSqlServerAddress = GetWriteModelSqlServerAddress
+    return "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=CommandService;Password=$password;"
+}
+
+function GetEventProjectingServiceConnectionString([string] $password)
+{
     $readModelSqlServerAddress = GetReadModelSqlServerAddress
-    return "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=$username;Password=$password;"
+    return "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=EventProjectingService;Password=$password;"
+}
+
+function GetWaiterWebsitePassword()
+{
+    return [regex]::Match((Get-Content .env),"waiterWebsitePassword='([^=]*)'").captures.groups[1].value
+}
+
+function GetCommandServicePassword()
+{
+    return [regex]::Match((Get-Content .env),"commandServicePassword='([^=]*)'").captures.groups[1].value
+}
+
+function GetEventProjectingServicePassword()
+{
+    return [regex]::Match((Get-Content .env),"eventProjectingServicePassword='([^=]*)'").captures.groups[1].value
 }
 
 $rabbitMqServerIpAddress = GetRabbitMqAddress
+$waiterWebsitePassword = GetWaiterWebsitePassword
+$commandServicePassword = GetCommandServicePassword
+$eventProjectingServicePassword = GetEventProjectingServicePassword
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
-$writeModelConnectionString = GetWriteModelConnectionString $userName $password
-Write-Output "`$writeModelConnectionString: $writeModelConnectionString"
-$readModelConnectionString = GetReadModelConnectionString $userName $password
-Write-Output "`$readModelConnectionString: $readModelConnectionString"
+$waiterWebsiteConnectionString = GetWaiterWebsiteConnectionString $waiterWebsitePassword
+Write-Output "`$waiterWebsiteConnectionString: $waiterWebsiteConnectionString"
+$commandServiceConnectionString = GetCommandServiceConnectionString $commandServicePassword
+Write-Output "`$commandServiceConnectionString: $commandServiceConnectionString"
+$eventProjectingServiceConnectionString = GetEventProjectingServiceConnectionString $eventProjectingServicePassword
+Write-Output "`$eventProjectingServiceConnectionString: $eventProjectingServiceConnectionString"
 $waiterWebsiteUrl = GetWaiterWebsiteUrl
 Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
 
@@ -172,42 +188,42 @@ $configuration = "Debug"
 
 $cafeDALTests = @{
     FilePath = ".\src\Cafe\Cafe.DAL.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
-    Text = GetCQRSDALSettings $writeModelConnectionString
+    Text = GetCQRSDALSettings $commandServiceConnectionString
 }
 
 $waiterWebsite = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.Web\appSettings.override.json"
-    Text = GetWaiterWebsiteSettings $rabbitMqServerIpAddress $readModelConnectionString
+    Text = GetWaiterWebsiteSettings $rabbitMqServerIpAddress $waiterWebsiteConnectionString
 }
 
 $waiterWebsiteTest = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.Web.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
-    Text = GetWaiterWebsiteTestSettings $readModelConnectionString
+    Text = GetWaiterWebsiteTestSettings $eventProjectingServiceConnectionString
 }
 
 $waiterCommandService = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.1\appSettings.override.json";
-    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $writeModelConnectionString
+    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $commandServiceConnectionString
 }
 
 $waiterCommandServiceTest = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.Command.Service.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
-    Text = GetWaiterCommandServiceTestSettings $rabbitMqServerIpAddress $writeModelConnectionString
+    Text = GetWaiterCommandServiceTestSettings $rabbitMqServerIpAddress $commandServiceConnectionString
 }
 
 $waiterEventProjectingService = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.EventProjecting.Service\bin\$configuration\netcoreapp2.1\appSettings.override.json"
-    Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerIpAddress $readModelConnectionString
+    Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerIpAddress $eventProjectingServiceConnectionString
 }
 
 $waiterEventProjectingServiceTest = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
-    Text = GetWaiterEventProjectingServiceTestSettings $readModelConnectionString
+    Text = GetWaiterEventProjectingServiceTestSettings $eventProjectingServiceConnectionString
 }
 
 $waiterAcceptanceTest = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
-    Text = GetWaiterAcceptanceTestsSettings $readModelConnectionString $waiterWebsiteUrl
+    Text = GetWaiterAcceptanceTestsSettings $eventProjectingServiceConnectionString $waiterWebsiteUrl
 }
 
 $appSettings = @(

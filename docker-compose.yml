@@ -6,14 +6,14 @@ services:
     build:
       context: .\src\Cafe\Docker\SqlServer\
       dockerfile: .\ReadModel\Dockerfile
-    environment:
-      - sa_password=${sa_password}
+    env_file:
+      - .env
   waiter-write-db-server:
     build:
       context: .\src\Cafe\Docker\SqlServer\
       dockerfile: .\WriteModel\Dockerfile
-    environment:
-      - sa_password=${sa_password}
+    env_file:
+      - .env
   cafe-waiter-event-projecting-service:
     build:
       context: .\src\Cafe\

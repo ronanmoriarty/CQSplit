@@ -2,18 +2,12 @@
 param (
     [Parameter(Mandatory=$True)]
     [SecureString] $saPassword,
-    # [Parameter(Mandatory=$True)]
-    # [string] $rabbitMqUserName,
-    # [Parameter(Mandatory=$True)]
-    # [SecureString] $rabbitMqPassword,
     [Parameter(Mandatory=$True)]
-    [string] $writeModelUserName,
+    [SecureString] $waiterWebsitePassword,
     [Parameter(Mandatory=$True)]
-    [SecureString] $writeModelPassword,
+    [SecureString] $commandServicePassword,
     [Parameter(Mandatory=$True)]
-    [string] $readModelUserName,
-    [Parameter(Mandatory=$True)]
-    [SecureString] $readModelPassword
+    [SecureString] $eventProjectingServicePassword
 )
 
 function ConvertToPlainText([SecureString]$secureString){
@@ -25,27 +19,31 @@ function GetFullPath($relativePath){
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
 }
 
-function CreateEnvFile([SecureString] $secureStringPassword)
+function CreateEnvFile()
 {
-    $password = ConvertToPlainText $secureStringPassword
-    Write-Output "sa_password=$password" | Out-File -encoding ASCII .env
+    Write-Output "sa_password=$saPasswordPlainText" | Out-File -encoding ASCII .env
+    Write-Output "waiterWebsitePassword='$waiterWebsitePasswordPlainText'" | Out-File -encoding ASCII -Append .env
+    Write-Output "commandServicePassword='$commandServicePasswordPlainText'" | Out-File -encoding ASCII -Append .env
+    Write-Output "eventProjectingServicePassword='$eventProjectingServicePasswordPlainText'" | Out-File -encoding ASCII -Append .env
     Write-Output "Created $(GetFullPath .env)"
-    Write-Output "sa_password=$password" | Out-File -encoding ASCII .\src\CQRS\.env
+    Write-Output "sa_password=$saPasswordPlainText" | Out-File -encoding ASCII .\src\CQRS\.env
+    Write-Output "commandServicePassword='$commandServicePasswordPlainText'" | Out-File -encoding ASCII -Append .\src\CQRS\.env
     Write-Output "Created $(GetFullPath .\src\CQRS\.env)"
 }
 
-CreateEnvFile $saPassword
+$saPasswordPlainText = ConvertToPlainText $saPassword
+$waiterWebsitePasswordPlainText = ConvertToPlainText $waiterWebsitePassword
+$commandServicePasswordPlainText = ConvertToPlainText $commandServicePassword
+$eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingServicePassword
+
+CreateEnvFile
 
 function GetExampleFileWithPlaceholdersReplaced($filePath)
 {
-    # $temp = (Get-Content $filePath).Replace("`$rabbitMqUserName", "$rabbitMqUserName")
-    # $temp = $temp.Replace("`$rabbitMqPassword", "$(ConvertToPlainText $rabbitMqPassword)")
-    $temp = (Get-Content $filePath).Replace("`$rabbitMqUserName", "guest")
-    $temp = $temp.Replace("`$rabbitMqPassword", "guest")
-    $temp = $temp.Replace("`$writeModelUserName", "$writeModelUserName")
-    $temp = $temp.Replace("`$writeModelPassword", "$(ConvertToPlainText $writeModelPassword)")
-    $temp = $temp.Replace("`$readModelUserName", "$readModelUserName")
-    return $temp.Replace("`$readModelPassword", "$(ConvertToPlainText $readModelPassword)")
+    $temp = (Get-Content $filePath).Replace("`$rabbitMqPassword", "guest")
+    $temp = $temp.Replace("`$waiterWebsitePassword", "$waiterWebsitePasswordPlainText")
+    $temp = $temp.Replace("`$commandServicePassword", "$commandServicePasswordPlainText")
+    return $temp.Replace("`$eventProjectingServicePassword", "$eventProjectingServicePasswordPlainText")
 }
 
 function SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles()

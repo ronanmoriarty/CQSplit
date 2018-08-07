@@ -5,7 +5,8 @@ Param(
     [Parameter(Mandatory=$true)]
     [string]$dbFolder,
     [Parameter(Mandatory=$true)]
-    [string]$dbScriptsFolder
+    [string]$dbScriptsFolder,
+    [string[]] $parameters
 )
 
 . "$PSScriptRoot\attachDatabase.ps1"
@@ -81,7 +82,11 @@ function EnsureDatabaseExists()
 function ApplyDatabaseMigrations()
 {
     Write-Host "Applying scripts from $dbScriptsFolder..."
-    Get-ChildItem $dbScriptsFolder | Sort-Object | ForEach-Object { Invoke-SqlCmd -InputFile $_.FullName -ServerInstance "." -Database $dbName }
+    Get-ChildItem $dbScriptsFolder | Sort-Object | ForEach-Object `
+    {
+        Write-Host "Applying $($_.FullName)..."
+        Invoke-SqlCmd -InputFile $_.FullName -ServerInstance "." -Database $dbName -Variable $parameters
+    }
     Write-Host "Finished applying scripts for $dbName"
 }
 
