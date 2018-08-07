@@ -3,9 +3,9 @@ param (
     [Parameter(Mandatory=$True)]
     [SecureString] $saPassword,
     [Parameter(Mandatory=$True)]
-    [SecureString] $writeModelPassword,
+    [SecureString] $commandServicePassword,
     [Parameter(Mandatory=$True)]
-    [SecureString] $readModelPassword
+    [SecureString] $eventProjectingServicePassword
 )
 
 function ConvertToPlainText([SecureString]$secureString){
@@ -31,13 +31,13 @@ function CreateEnvFile([SecureString] $secureStringSystemAdminPassword, [SecureS
     Write-Output "Created $(GetFullPath .\src\CQRS\.env)"
 }
 
-CreateEnvFile $saPassword $writeModelPassword $readModelPassword
+CreateEnvFile $saPassword $commandServicePassword $eventProjectingServicePassword
 
 function GetExampleFileWithPlaceholdersReplaced($filePath)
 {
     $temp = (Get-Content $filePath).Replace("`$rabbitMqPassword", "guest")
-    $temp = $temp.Replace("`$writeModelPassword", "$(ConvertToPlainText $writeModelPassword)")
-    return $temp.Replace("`$readModelPassword", "$(ConvertToPlainText $readModelPassword)")
+    $temp = $temp.Replace("`$commandServicePassword", "$(ConvertToPlainText $commandServicePassword)")
+    return $temp.Replace("`$eventProjectingServicePassword", "$(ConvertToPlainText $eventProjectingServicePassword)")
 }
 
 function SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles()
