@@ -198,7 +198,7 @@ $waiterWebsite = @{
 
 $waiterWebsiteTest = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.Web.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
-    Text = GetWaiterWebsiteTestSettings $waiterWebsiteConnectionString
+    Text = GetWaiterWebsiteTestSettings $eventProjectingServiceConnectionString
 }
 
 $waiterCommandService = @{
