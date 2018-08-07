@@ -137,16 +137,14 @@ function GetWaiterWebsiteUrl()
     return "http://$waiterWebsiteIpAddress"
 }
 
-function GetWriteModelConnectionString([SecureString] $secureStringPassword)
+function GetWriteModelConnectionString([string] $password)
 {
-    $password = ConvertToPlainText $secureStringPassword
     $writeModelSqlServerAddress = GetWriteModelSqlServerAddress
     return "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=CommandService;Password=$password;"
 }
 
-function GetReadModelConnectionString([SecureString] $secureStringPassword)
+function GetReadModelConnectionString([string] $password)
 {
-    $password = ConvertToPlainText $secureStringPassword
     $readModelSqlServerAddress = GetReadModelSqlServerAddress
     return "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=EventProjectingService;Password=$password;"
 }
@@ -163,7 +161,6 @@ function GetEventProjectingServicePassword()
 
 $commandServicePassword = GetCommandServicePassword
 $eventProjectingServicePassword = GetEventProjectingServicePassword
-
 $rabbitMqServerIpAddress = GetRabbitMqAddress
 Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
 $writeModelConnectionString = GetWriteModelConnectionString $commandServicePassword
