@@ -2,16 +2,8 @@
 param (
     [Parameter(Mandatory=$True)]
     [SecureString] $saPassword,
-    # [Parameter(Mandatory=$True)]
-    # [string] $rabbitMqUserName,
-    # [Parameter(Mandatory=$True)]
-    # [SecureString] $rabbitMqPassword,
-    [Parameter(Mandatory=$True)]
-    [string] $writeModelUserName,
     [Parameter(Mandatory=$True)]
     [SecureString] $writeModelPassword,
-    [Parameter(Mandatory=$True)]
-    [string] $readModelUserName,
     [Parameter(Mandatory=$True)]
     [SecureString] $readModelPassword
 )
@@ -25,26 +17,26 @@ function GetFullPath($relativePath){
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
 }
 
-function CreateEnvFile([SecureString] $secureStringPassword)
+function CreateEnvFile([SecureString] $secureStringSystemAdminPassword, [SecureString] $secureStringWriteModelPassword, [SecureString] $secureStringReadModelPassword)
 {
-    $password = ConvertToPlainText $secureStringPassword
-    Write-Output "sa_password=$password" | Out-File -encoding ASCII .env
+    $systemAdminPassword = ConvertToPlainText $secureStringSystemAdminPassword
+    $writePassword = ConvertToPlainText $secureStringWriteModelPassword
+    $readPassword = ConvertToPlainText $secureStringReadModelPassword
+    Write-Output "sa_password=$systemAdminPassword" | Out-File -encoding ASCII .env
+    Write-Output "commandServicePassword='$writePassword'" | Out-File -encoding ASCII -Append .env
+    Write-Output "eventProjectingServicePassword='$readPassword'" | Out-File -encoding ASCII -Append .env
     Write-Output "Created $(GetFullPath .env)"
-    Write-Output "sa_password=$password" | Out-File -encoding ASCII .\src\CQRS\.env
+    Write-Output "sa_password=$systemAdminPassword" | Out-File -encoding ASCII .\src\CQRS\.env
+    Write-Output "commandServicePassword='$writePassword'" | Out-File -encoding ASCII -Append .\src\CQRS\.env
     Write-Output "Created $(GetFullPath .\src\CQRS\.env)"
 }
 
-CreateEnvFile $saPassword
+CreateEnvFile $saPassword $writeModelPassword $readModelPassword
 
 function GetExampleFileWithPlaceholdersReplaced($filePath)
 {
-    # $temp = (Get-Content $filePath).Replace("`$rabbitMqUserName", "$rabbitMqUserName")
-    # $temp = $temp.Replace("`$rabbitMqPassword", "$(ConvertToPlainText $rabbitMqPassword)")
-    $temp = (Get-Content $filePath).Replace("`$rabbitMqUserName", "guest")
-    $temp = $temp.Replace("`$rabbitMqPassword", "guest")
-    $temp = $temp.Replace("`$writeModelUserName", "$writeModelUserName")
+    $temp = (Get-Content $filePath).Replace("`$rabbitMqPassword", "guest")
     $temp = $temp.Replace("`$writeModelPassword", "$(ConvertToPlainText $writeModelPassword)")
-    $temp = $temp.Replace("`$readModelUserName", "$readModelUserName")
     return $temp.Replace("`$readModelPassword", "$(ConvertToPlainText $readModelPassword)")
 }
 
