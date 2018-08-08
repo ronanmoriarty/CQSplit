@@ -20,9 +20,6 @@ function CreateEnvFile()
     Write-Output "commandServicePassword='$commandServicePasswordPlainText'" | Out-File -encoding ASCII -Append .env
     Write-Output "eventProjectingServicePassword='$eventProjectingServicePasswordPlainText'" | Out-File -encoding ASCII -Append .env
     Write-Output "Created $(GetFullPath .env)"
-    Write-Output "sa_password=$saPasswordPlainText" | Out-File -encoding ASCII .\src\CQRS\.env
-    Write-Output "commandServicePassword='$commandServicePasswordPlainText'" | Out-File -encoding ASCII -Append .\src\CQRS\.env
-    Write-Output "Created $(GetFullPath .\src\CQRS\.env)"
 }
 
 $saPasswordPlainText = ConvertToPlainText $saPassword
