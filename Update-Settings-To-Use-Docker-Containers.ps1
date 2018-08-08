@@ -1,14 +1,6 @@
 . .\src\CQRS\PowerShell\Docker.ps1
 . .\src\CQRS\PowerShell\FileOperations.ps1
 
-function GetWaiterWebsiteTestSettings($waiterWebsiteConnectionString){
-    return @"
-{
-    "connectionString": "$waiterWebsiteConnectionString"
-}
-"@
-}
-
 function GetWaiterCommandServiceSettings($rabbitMqServerAddress, $writeModelConnectionString){
     return @"
 {
@@ -121,6 +113,7 @@ function GetKeyValuePairs()
     $keyValuePairs.Add("`$readModelSqlServerAddress", $readModelSqlServerAddress)
     $keyValuePairs.Add("`$waiterWebsitePassword", $waiterWebsitePassword)
     $keyValuePairs.Add("`$commandServicePassword", $commandServicePassword)
+    $keyValuePairs.Add("`$eventProjectingServicePassword", $eventProjectingServicePassword)
     return $keyValuePairs
 }
 
@@ -131,8 +124,6 @@ $waiterWebsitePassword = GetWaiterWebsitePassword
 $commandServicePassword = GetCommandServicePassword
 $eventProjectingServicePassword = GetEventProjectingServicePassword
 Write-Output "`$rabbitMqServerAddress:$rabbitMqServerAddress"
-$waiterWebsiteConnectionString = GetWaiterWebsiteConnectionString $waiterWebsitePassword
-Write-Output "`$waiterWebsiteConnectionString: $waiterWebsiteConnectionString"
 $commandServiceConnectionString = GetCommandServiceConnectionString $commandServicePassword
 Write-Output "`$commandServiceConnectionString: $commandServiceConnectionString"
 $eventProjectingServiceConnectionString = GetEventProjectingServiceConnectionString $eventProjectingServicePassword
@@ -141,11 +132,6 @@ $waiterWebsiteUrl = GetWaiterWebsiteUrl
 Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
 
 $configuration = "Debug"
-
-$waiterWebsiteTest = @{
-    FilePath = ".\src\Cafe\Cafe.Waiter.Web.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
-    Text = GetWaiterWebsiteTestSettings $eventProjectingServiceConnectionString
-}
 
 $waiterCommandService = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.1\appSettings.override.json";
@@ -173,7 +159,6 @@ $waiterAcceptanceTest = @{
 }
 
 $appSettings = @(
-    $waiterWebsiteTest,
     $waiterCommandService,
     $waiterCommandServiceTest,
     $waiterEventProjectingService,
