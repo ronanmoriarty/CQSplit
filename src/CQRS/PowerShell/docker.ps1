@@ -81,3 +81,4 @@ function GetKeyValuePairs()
 }
 
 $envPath = GetEnvFilePath
+Write-Output "`$envPath: $envPath"
