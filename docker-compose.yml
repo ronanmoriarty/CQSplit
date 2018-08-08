@@ -1,7 +1,7 @@
 version: '3'
 services:
   rabbitmq:
-    build: .\src\CQRS\Docker\RabbitMQ\
+    build: .\src\CQ\Docker\RabbitMQ\
   waiter-read-db-server:
     build:
       context: .\src\Cafe\Docker\SqlServer\
