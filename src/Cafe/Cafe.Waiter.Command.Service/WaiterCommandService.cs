@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using CQRSTutorial.Publish;
+using CQ.Publish;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 using NLog;

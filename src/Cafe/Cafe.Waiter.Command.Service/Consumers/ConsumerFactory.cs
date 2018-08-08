@@ -1,5 +1,5 @@
 ﻿using System;
-using CQRSTutorial.Messaging;
+using CQ.Messaging;
 
 namespace Cafe.Waiter.Command.Service.Consumers
 {

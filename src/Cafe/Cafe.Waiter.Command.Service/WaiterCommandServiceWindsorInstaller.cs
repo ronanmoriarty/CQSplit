@@ -10,15 +10,15 @@ using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using CQRSTutorial.Core;
-using CQRSTutorial.DAL;
-using CQRSTutorial.Messaging;
-using CQRSTutorial.Messaging.RabbitMq;
-using CQRSTutorial.Publish;
+using CQ.Core;
+using CQ.DAL;
+using CQ.Messaging;
+using CQ.Messaging.RabbitMq;
+using CQ.Publish;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using ConfigurationRoot = Cafe.DAL.Common.ConfigurationRoot;
-using EventHandler = CQRSTutorial.DAL.EventHandler;
+using EventHandler = CQ.DAL.EventHandler;
 
 namespace Cafe.Waiter.Command.Service
 {

@@ -4,11 +4,11 @@ using System.Reflection;
 using Cafe.DAL.Common;
 using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
-using CQRSTutorial.Core;
-using CQRSTutorial.DAL;
+using CQ.Core;
+using CQ.DAL;
 using NLog;
 using NUnit.Framework;
-using EventHandler = CQRSTutorial.DAL.EventHandler;
+using EventHandler = CQ.DAL.EventHandler;
 
 namespace Cafe.DAL.Tests
 {

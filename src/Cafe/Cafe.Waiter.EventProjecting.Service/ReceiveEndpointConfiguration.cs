@@ -1,4 +1,4 @@
-﻿using CQRSTutorial.Messaging;
+﻿using CQ.Messaging;
 using Microsoft.Extensions.Configuration;
 
 namespace Cafe.Waiter.EventProjecting.Service

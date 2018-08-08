@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cafe.DAL.Sql;
-using CQRSTutorial.Core;
-using CQRSTutorial.DAL;
-using CQRSTutorial.DAL.Serialized;
+using CQ.Core;
+using CQ.DAL;
+using CQ.DAL.Serialized;
 
 namespace Cafe.DAL.Tests
 {

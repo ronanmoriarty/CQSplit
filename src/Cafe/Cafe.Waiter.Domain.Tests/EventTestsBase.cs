@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CQRSTutorial.Core;
+using CQ.Core;
 using KellermanSoftware.CompareNetObjects;
 using NSubstitute;
 using NUnit.Framework;

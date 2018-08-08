@@ -1,4 +1,4 @@
-﻿using CQRSTutorial.Core;
+﻿using CQ.Core;
 
 namespace Cafe.Waiter.Contracts.Commands
 {

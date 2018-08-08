@@ -1,15 +1,15 @@
 ﻿using Cafe.DAL.Common;
 using Cafe.Waiter.Web.Controllers;
 using Cafe.Waiter.Web.Repositories;
-using CQRSTutorial.Messaging;
-using CQRSTutorial.Messaging.RabbitMq;
+using CQ.Messaging;
+using CQ.Messaging.RabbitMq;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ISendEndpointProvider = CQRSTutorial.Messaging.ISendEndpointProvider;
+using ISendEndpointProvider = CQ.Messaging.ISendEndpointProvider;
 
 namespace Cafe.Waiter.Web
 {

@@ -1,5 +1,5 @@
-﻿using CQRSTutorial.Messaging;
-using CQRSTutorial.Publish;
+﻿using CQ.Messaging;
+using CQ.Publish;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;

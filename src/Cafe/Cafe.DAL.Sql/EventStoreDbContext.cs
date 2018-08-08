@@ -1,4 +1,4 @@
-﻿using CQRSTutorial.DAL.Serialized;
+﻿using CQ.DAL.Serialized;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cafe.DAL.Sql

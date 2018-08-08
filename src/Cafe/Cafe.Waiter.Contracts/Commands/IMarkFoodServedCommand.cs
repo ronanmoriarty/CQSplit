@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using CQRSTutorial.Core;
+using CQ.Core;
 
 namespace Cafe.Waiter.Contracts.Commands
 {
