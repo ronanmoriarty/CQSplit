@@ -10,9 +10,9 @@ function GetFullPath($relativePath){
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
 }
 
-function ConvertToPlainText([SecureString]$secureString){
-    $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureString)
-    return [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)
+function GetEnvironmentVariableFromEnvFile($environmentVariableName)
+{
+    return [regex]::Match((Get-Content .env),"$environmentVariableName='([^=]*)'").captures.groups[1].value
 }
 
 function GetCQRSDALSettings($writeModelConnectionString){
@@ -157,17 +157,17 @@ function GetEventProjectingServiceConnectionString([string] $password)
 
 function GetWaiterWebsitePassword()
 {
-    return [regex]::Match((Get-Content .env),"waiterWebsitePassword='([^=]*)'").captures.groups[1].value
+    return GetEnvironmentVariableFromEnvFile "waiterWebsitePassword"
 }
 
 function GetCommandServicePassword()
 {
-    return [regex]::Match((Get-Content .env),"commandServicePassword='([^=]*)'").captures.groups[1].value
+    return GetEnvironmentVariableFromEnvFile "commandServicePassword"
 }
 
 function GetEventProjectingServicePassword()
 {
-    return [regex]::Match((Get-Content .env),"eventProjectingServicePassword='([^=]*)'").captures.groups[1].value
+    return GetEnvironmentVariableFromEnvFile "eventProjectingServicePassword"
 }
 
 $rabbitMqServerIpAddress = GetRabbitMqAddress
