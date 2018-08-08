@@ -15,11 +15,11 @@ namespace CQRSTutorial.Core.Tests
         public void SetUp()
         {
             _commandHandlerFactory = Substitute.For<ICommandHandlerFactory>();
-            var handler1 = new Handler1();
-            var handler2 = new Handler2();
+            var testCommandHandler1 = new TestCommandHandler();
+            var testCommandHandler2 = new TestCommandHandler();
             var commandHandlerProvider = new CommandHandlerProvider(_commandHandlerFactory);
-            commandHandlerProvider.RegisterCommandHandler(handler1);
-            commandHandlerProvider.RegisterCommandHandler(handler2);
+            commandHandlerProvider.RegisterCommandHandler(testCommandHandler1);
+            commandHandlerProvider.RegisterCommandHandler(testCommandHandler2);
             _commandRouter = new CommandRouter(Substitute.For<IEventHandler>(), commandHandlerProvider);
         }
 
@@ -54,20 +54,7 @@ namespace CQRSTutorial.Core.Tests
                 Throws.Exception.InstanceOf<ArgumentException>().With.Message.EqualTo("Command does not have Id set."));
         }
 
-        internal class Handler1 : ICommandHandler<TestCommand>
-        {
-            public IEnumerable<IEvent> Handle(TestCommand command)
-            {
-                throw new NotImplementedException();
-            }
-
-            public bool CanHandle(ICommand command)
-            {
-                return command.GetType() == typeof(TestCommand);
-            }
-        }
-
-        internal class Handler2 : ICommandHandler<TestCommand>
+        internal class TestCommandHandler : ICommandHandler<TestCommand>
         {
             public IEnumerable<IEvent> Handle(TestCommand command)
             {
