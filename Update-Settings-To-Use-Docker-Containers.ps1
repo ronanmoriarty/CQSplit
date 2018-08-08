@@ -1,10 +1,4 @@
-function GetContainerRunningWithImageName($imageName){
-    return docker container list --filter ancestor=$imageName --format "{{.ID}}"
-}
-
-function GetIpAddress($containerId){
-    return docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $containerId
-}
+. .\src\CQRS\PowerShell\docker.ps1
 
 function GetFullPath($relativePath){
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
