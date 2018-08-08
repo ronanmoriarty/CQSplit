@@ -1,0 +1,3 @@
+{
+    "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=CommandService;Password=$commandServicePassword;"
+}
