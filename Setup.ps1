@@ -38,15 +38,19 @@ $eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingSe
 
 CreateEnvFile
 
-function GetExampleFileWithPlaceholdersReplaced($filePath)
+function GetExampleFileWithPlaceholdersReplaced([string] $filePath, [hashtable] $keyValuePairs)
 {
-    $temp = (Get-Content $filePath).Replace("`$rabbitMqPassword", "guest")
-    $temp = $temp.Replace("`$waiterWebsitePassword", "$waiterWebsitePasswordPlainText")
-    $temp = $temp.Replace("`$commandServicePassword", "$commandServicePasswordPlainText")
-    return $temp.Replace("`$eventProjectingServicePassword", "$eventProjectingServicePasswordPlainText")
+    $temp = (Get-Content $filePath)
+
+    $keyValuePairs.Keys | ForEach-Object {
+        $value = $keyValuePairs[$_]
+        $temp = $temp.Replace($_, $value)
+    }
+
+    return $temp
 }
 
-function SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles([string] $path, [string] $sourceName, [string] $targetName)
+function SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles([string] $path, [string] $sourceName, [string] $targetName, [hashtable] $keyValuePairs)
 {
     Get-ChildItem -Path $path -Filter "$sourceName" -Recurse | ForEach-Object {
         $sourcePath = $_.FullName
@@ -56,10 +60,21 @@ function SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles([string] $path
             Remove-Item $targetJsonPath
         }
 
-        (GetExampleFileWithPlaceholdersReplaced $sourcePath) | Set-Content $targetJsonPath
+        (GetExampleFileWithPlaceholdersReplaced $sourcePath $keyValuePairs) | Set-Content $targetJsonPath
         Write-Output "Created $targetJsonPath"
         Write-Output (Get-Content $targetJsonPath)
     }
 }
 
-SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.docker.json.example appSettings.docker.json
+function GetKeyValuePairs()
+{
+    $keyValuePairs = @{}
+    $keyValuePairs.Add("`$rabbitMqPassword", "guest")
+    $keyValuePairs.Add("`$waiterWebsitePassword", "$waiterWebsitePasswordPlainText")
+    $keyValuePairs.Add("`$commandServicePassword", "$commandServicePasswordPlainText")
+    $keyValuePairs.Add("`$eventProjectingServicePassword", "$eventProjectingServicePasswordPlainText")
+    return $keyValuePairs
+}
+
+$keyValuePairs = GetKeyValuePairs
+SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.docker.json.example appSettings.docker.json $keyValuePairs
