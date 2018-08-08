@@ -1,0 +1,8 @@
+﻿{
+  "rabbitmq": {
+    "uri": "rabbitmq://$rabbitMqServerAddress",
+    "username": "$rabbitMqUsername",
+    "password": "$rabbitMqPassword"
+  },
+  "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=EventProjectingService;Password=$eventProjectingServicePassword;"
+}
