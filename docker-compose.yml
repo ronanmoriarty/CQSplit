@@ -16,22 +16,22 @@ services:
       - .env
   cafe-waiter-event-projecting-service:
     build:
-      context: .\src\Cafe\
-      dockerfile: .\Cafe.Waiter.EventProjecting.Service\Dockerfile
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.EventProjecting.Service\Dockerfile
     depends_on:
       - "rabbitmq"
       - "waiter-read-db-server"
   cafe-waiter-command-service:
     build:
-      context: .\src\Cafe\
-      dockerfile: .\Cafe.Waiter.Command.Service\Dockerfile
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.Command.Service\Dockerfile
     depends_on:
       - "rabbitmq"
       - "waiter-write-db-server"
   cafe-waiter-web:
     build:
-      context: .\src\Cafe\
-      dockerfile: .\Cafe.Waiter.Web\Dockerfile
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.Web\Dockerfile
     depends_on:
       - "rabbitmq"
       - "waiter-read-db-server"
