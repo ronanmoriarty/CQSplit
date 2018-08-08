@@ -20,7 +20,7 @@ namespace CQRSTutorial.Core
             var applyEventMethodName = GetApplyEventMethodName();
             var applyMethodInfo = _typeInspector.FindMethodTakingSingleArgument(eventHandler.GetType(), applyEventMethodName, eventType);
             _logger.Debug($"Invoking {applyEventMethodName}() for {eventType.FullName}...");
-            applyMethodInfo?.Invoke(eventHandler, new object[] {@event});
+            applyMethodInfo?.Invoke(eventHandler, new object[] { @event });
         }
 
         private string GetApplyEventMethodName()

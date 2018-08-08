@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using CQRSTutorial.Core;
 using MassTransit;
 using NLog;
@@ -24,7 +25,7 @@ namespace CQRSTutorial.Messaging
             {
                 _projector.Project(context.Message);
             }
-            catch (System.Exception exception)
+            catch (Exception exception)
             {
                 _logger.Error($"Error processing {GetMessageDescription(context)}");
                 _logger.Error(exception);

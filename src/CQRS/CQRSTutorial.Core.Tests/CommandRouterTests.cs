@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -10,17 +10,33 @@ namespace CQRSTutorial.Core.Tests
     {
         private CommandRouter _commandRouter;
         private ICommandHandlerFactory _commandHandlerFactory;
+        private ICommandHandler<Test2Command> _test2CommandHandler;
+        private Test2Command _test2Command;
+        private IEventHandler _eventHandler;
+        private Test2Event[] _events;
 
         [SetUp]
         public void SetUp()
         {
             _commandHandlerFactory = Substitute.For<ICommandHandlerFactory>();
-            var handler1 = new Handler1();
-            var handler2 = new Handler2();
+            var testCommandHandler1 = Substitute.For<ICommandHandler<TestCommand>>();
+            testCommandHandler1.CanHandle(Arg.Any<TestCommand>()).Returns(true);
+            var testCommandHandler2 = Substitute.For<ICommandHandler<TestCommand>>();
+            testCommandHandler2.CanHandle(Arg.Any<TestCommand>()).Returns(true);
+            _test2CommandHandler = Substitute.For<ICommandHandler<Test2Command>>();
+            _test2CommandHandler.CanHandle(Arg.Any<Test2Command>()).Returns(true);
+            _test2Command = new Test2Command
+            {
+                Id = Guid.NewGuid()
+            };
+            _events = new[] { new Test2Event() };
+            _test2CommandHandler.Handle(_test2Command).Returns(_events);
             var commandHandlerProvider = new CommandHandlerProvider(_commandHandlerFactory);
-            commandHandlerProvider.RegisterCommandHandler(handler1);
-            commandHandlerProvider.RegisterCommandHandler(handler2);
-            _commandRouter = new CommandRouter(Substitute.For<IEventHandler>(), commandHandlerProvider);
+            commandHandlerProvider.RegisterCommandHandler(testCommandHandler1);
+            commandHandlerProvider.RegisterCommandHandler(testCommandHandler2);
+            commandHandlerProvider.RegisterCommandHandler(_test2CommandHandler);
+            _eventHandler = Substitute.For<IEventHandler>();
+            _commandRouter = new CommandRouter(_eventHandler, commandHandlerProvider);
         }
 
         [Test]
@@ -54,38 +70,47 @@ namespace CQRSTutorial.Core.Tests
                 Throws.Exception.InstanceOf<ArgumentException>().With.Message.EqualTo("Command does not have Id set."));
         }
 
-        internal class Handler1 : ICommandHandler<TestCommand>
+        [Test]
+        public void CommandHandledWhenSingleMatchingCommandHandlerFound()
         {
-            public IEnumerable<IEvent> Handle(TestCommand command)
-            {
-                throw new NotImplementedException();
-            }
+            _commandRouter.Route(_test2Command);
 
-            public bool CanHandle(ICommand command)
-            {
-                return command.GetType() == typeof(TestCommand);
-            }
+            _test2CommandHandler.Received(1).Handle(_test2Command);
         }
 
-        internal class Handler2 : ICommandHandler<TestCommand>
+        [Test]
+        public void EventsArePassedToEventHandler()
         {
-            public IEnumerable<IEvent> Handle(TestCommand command)
-            {
-                throw new NotImplementedException();
-            }
+            _commandRouter.Route(_test2Command);
 
-            public bool CanHandle(ICommand command)
-            {
-                return command.GetType() == typeof(TestCommand);
-            }
+            _test2CommandHandler.Received(1).Handle(_test2Command);
+
+            _eventHandler.Received(1).Handle(_events);
         }
 
-        internal class TestCommand : ICommand
+        [ExcludeFromCodeCoverage]
+        public class TestCommand : ICommand
         {
             public Guid Id { get; set; }
             public Guid AggregateId { get; set; }
         }
 
+        [ExcludeFromCodeCoverage]
+        public class Test2Command : ICommand
+        {
+            public Guid Id { get; set; }
+            public Guid AggregateId { get; set; }
+        }
+
+        [ExcludeFromCodeCoverage]
+        public class Test2Event : IEvent
+        {
+            public Guid Id { get; set; }
+            public Guid AggregateId { get; set; }
+            public Guid CommandId { get; set; }
+        }
+
+        [ExcludeFromCodeCoverage]
         public class UnhandledTestCommand : ICommand
         {
             public Guid Id { get; set; }

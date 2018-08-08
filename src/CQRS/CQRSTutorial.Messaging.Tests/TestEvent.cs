@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using CQRSTutorial.Core;
 
-namespace CQRSTutorial.Publish.Tests
+namespace CQRSTutorial.Messaging.Tests
 {
     [ExcludeFromCodeCoverage]
     public class TestEvent : IEvent
@@ -10,7 +10,5 @@ namespace CQRSTutorial.Publish.Tests
         public Guid Id { get; set; }
         public Guid AggregateId { get; set; }
         public Guid CommandId { get; set; }
-        public int IntProperty { get; set; }
-        public string StringProperty { get; set; }
     }
 }
