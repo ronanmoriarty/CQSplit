@@ -28,5 +28,5 @@ $commandServicePasswordPlainText = ConvertToPlainText $commandServicePassword
 $eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingServicePassword
 
 CreateEnvFile
-$keyValuePairs = GetKeyValuePairs
+$keyValuePairs = GetPasswordKeyValuePairs
 SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.docker.json.example appSettings.docker.json $keyValuePairs

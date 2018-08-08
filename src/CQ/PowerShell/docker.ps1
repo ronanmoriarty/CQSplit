@@ -57,25 +57,32 @@ function GetEventProjectingServicePassword()
     return GetEnvironmentVariableFromEnvFile "eventProjectingServicePassword"
 }
 
-function GetKeyValuePairs()
+function GetPasswordKeyValuePairs()
 {
-    $rabbitMqServerAddress = GetRabbitMqAddress
-    $writeModelSqlServerAddress = GetWriteModelSqlServerAddress
-    $readModelSqlServerAddress = GetReadModelSqlServerAddress
     $waiterWebsitePassword = GetWaiterWebsitePassword
     $commandServicePassword = GetCommandServicePassword
     $eventProjectingServicePassword = GetEventProjectingServicePassword
-    $waiterWebsiteUrl = GetWaiterWebsiteUrl
 
     $keyValuePairs = @{}
-    $keyValuePairs.Add("`$rabbitMqServerAddress", $rabbitMqServerAddress)
     $keyValuePairs.Add("`$rabbitMqUsername", "guest")
     $keyValuePairs.Add("`$rabbitMqPassword", "guest")
-    $keyValuePairs.Add("`$writeModelSqlServerAddress", $writeModelSqlServerAddress)
-    $keyValuePairs.Add("`$readModelSqlServerAddress", $readModelSqlServerAddress)
     $keyValuePairs.Add("`$waiterWebsitePassword", $waiterWebsitePassword)
     $keyValuePairs.Add("`$commandServicePassword", $commandServicePassword)
     $keyValuePairs.Add("`$eventProjectingServicePassword", $eventProjectingServicePassword)
+    return $keyValuePairs
+}
+
+function GetKeyValuePairs()
+{
+    $keyValuePairs = GetPasswordKeyValuePairs
+    $rabbitMqServerAddress = GetRabbitMqAddress
+    $writeModelSqlServerAddress = GetWriteModelSqlServerAddress
+    $readModelSqlServerAddress = GetReadModelSqlServerAddress
+    $waiterWebsiteUrl = GetWaiterWebsiteUrl
+
+    $keyValuePairs.Add("`$rabbitMqServerAddress", $rabbitMqServerAddress)
+    $keyValuePairs.Add("`$writeModelSqlServerAddress", $writeModelSqlServerAddress)
+    $keyValuePairs.Add("`$readModelSqlServerAddress", $readModelSqlServerAddress)
     $keyValuePairs.Add("`$waiterWebsiteUrl", $waiterWebsiteUrl)
     return $keyValuePairs
 }
