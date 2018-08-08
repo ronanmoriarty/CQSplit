@@ -1,3 +1,8 @@
+function GetEnvFilePath()
+{
+    return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine((get-item $PSScriptRoot).Parent.Parent.Parent.FullName, '.env'))
+}
+
 function GetContainerRunningWithImageName($imageName){
     return docker container list --filter ancestor=$imageName --format "{{.ID}}"
 }
@@ -8,7 +13,7 @@ function GetIpAddress($containerId){
 
 function GetEnvironmentVariableFromEnvFile($environmentVariableName)
 {
-    return [regex]::Match((Get-Content .env),"$environmentVariableName='([^=]*)'").captures.groups[1].value
+    return [regex]::Match((Get-Content $envPath),"$environmentVariableName='([^=]*)'").captures.groups[1].value
 }
 
 function GetRabbitMqAddress(){
@@ -74,3 +79,5 @@ function GetKeyValuePairs()
     $keyValuePairs.Add("`$waiterWebsiteUrl", $waiterWebsiteUrl)
     return $keyValuePairs
 }
+
+$envPath = GetEnvFilePath
