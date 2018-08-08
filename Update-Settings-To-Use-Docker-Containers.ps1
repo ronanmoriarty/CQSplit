@@ -9,7 +9,7 @@ function GetEnvironmentVariableFromEnvFile($environmentVariableName)
     return [regex]::Match((Get-Content .env),"$environmentVariableName='([^=]*)'").captures.groups[1].value
 }
 
-function GetCQRSDALSettings($writeModelConnectionString){
+function GetCafeDALSettings($writeModelConnectionString){
     return @"
 {
     "connectionString": "$writeModelConnectionString"
@@ -182,7 +182,7 @@ $configuration = "Debug"
 
 $cafeDALTests = @{
     FilePath = ".\src\Cafe\Cafe.DAL.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
-    Text = GetCQRSDALSettings $commandServiceConnectionString
+    Text = GetCafeDALSettings $commandServiceConnectionString
 }
 
 $waiterWebsite = @{
