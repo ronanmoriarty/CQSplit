@@ -25,6 +25,14 @@ function GetEventProjectingServicePassword()
 
 function GetKeyValuePairs()
 {
+    $rabbitMqServerAddress = GetRabbitMqAddress
+    $writeModelSqlServerAddress = GetWriteModelSqlServerAddress
+    $readModelSqlServerAddress = GetReadModelSqlServerAddress
+    $waiterWebsitePassword = GetWaiterWebsitePassword
+    $commandServicePassword = GetCommandServicePassword
+    $eventProjectingServicePassword = GetEventProjectingServicePassword
+    $waiterWebsiteUrl = GetWaiterWebsiteUrl
+
     $keyValuePairs = @{}
     $keyValuePairs.Add("`$rabbitMqServerAddress", $rabbitMqServerAddress)
     $keyValuePairs.Add("`$rabbitMqUsername", "guest")
@@ -37,14 +45,6 @@ function GetKeyValuePairs()
     $keyValuePairs.Add("`$waiterWebsiteUrl", $waiterWebsiteUrl)
     return $keyValuePairs
 }
-
-$rabbitMqServerAddress = GetRabbitMqAddress
-$writeModelSqlServerAddress = GetWriteModelSqlServerAddress
-$readModelSqlServerAddress = GetReadModelSqlServerAddress
-$waiterWebsitePassword = GetWaiterWebsitePassword
-$commandServicePassword = GetCommandServicePassword
-$eventProjectingServicePassword = GetEventProjectingServicePassword
-$waiterWebsiteUrl = GetWaiterWebsiteUrl
 
 $keyValuePairs = GetKeyValuePairs
 
