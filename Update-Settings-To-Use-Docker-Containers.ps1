@@ -35,11 +35,6 @@ function GetKeyValuePairs()
     $keyValuePairs.Add("`$commandServicePassword", $commandServicePassword)
     $keyValuePairs.Add("`$eventProjectingServicePassword", $eventProjectingServicePassword)
     $keyValuePairs.Add("`$waiterWebsiteUrl", $waiterWebsiteUrl)
-
-    $keyValuePairs.Keys | ForEach-Object {
-        Write-Output "$($_):$keyValuePairs[$_]"
-    }
-
     return $keyValuePairs
 }
 
@@ -52,4 +47,9 @@ $eventProjectingServicePassword = GetEventProjectingServicePassword
 $waiterWebsiteUrl = GetWaiterWebsiteUrl
 
 $keyValuePairs = GetKeyValuePairs
+
+$keyValuePairs.Keys | ForEach-Object {
+    Write-Output "$($_): $($keyValuePairs[$_])"
+}
+
 SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.override.json.example appSettings.override.json $keyValuePairs
