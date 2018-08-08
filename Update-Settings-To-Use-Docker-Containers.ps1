@@ -1,4 +1,5 @@
-. .\src\CQRS\PowerShell\docker.ps1
+. .\src\CQRS\PowerShell\Docker.ps1
+. .\src\CQRS\PowerShell\FileOperations.ps1
 
 function GetFullPath($relativePath){
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
@@ -93,12 +94,6 @@ function GetWaiterAcceptanceTestsSettings($readModelConnectionString, $waiterWeb
     }
 }
 "@
-}
-
-function WriteToFile($path, $contents){
-    Write-Output "Writing $path..."
-    Write-Output "Text: $contents"
-    $contents | Out-File -encoding ASCII $path
 }
 
 function GetWaiterWebsiteUrl()
