@@ -1,19 +1,6 @@
 . .\src\CQRS\PowerShell\Docker.ps1
 . .\src\CQRS\PowerShell\FileOperations.ps1
 
-function GetWaiterWebsiteSettings($rabbitMqServerAddress, $waiterWebsiteConnectionString){
-    return @"
-{
-    "rabbitmq": {
-        "uri": "rabbitmq://$rabbitMqServerAddress",
-        "username": "guest",
-        "password": "guest"
-    },
-    "connectionString": "$waiterWebsiteConnectionString"
-}
-"@
-}
-
 function GetWaiterWebsiteTestSettings($waiterWebsiteConnectionString){
     return @"
 {
@@ -127,17 +114,23 @@ function GetEventProjectingServicePassword()
 function GetKeyValuePairs()
 {
     $keyValuePairs = @{}
+    $keyValuePairs.Add("`$rabbitMqServerAddress", $rabbitMqServerAddress)
+    $keyValuePairs.Add("`$rabbitMqUsername", "guest")
+    $keyValuePairs.Add("`$rabbitMqPassword", "guest")
     $keyValuePairs.Add("`$writeModelSqlServerAddress", $writeModelSqlServerAddress)
+    $keyValuePairs.Add("`$readModelSqlServerAddress", $readModelSqlServerAddress)
+    $keyValuePairs.Add("`$waiterWebsitePassword", $waiterWebsitePassword)
     $keyValuePairs.Add("`$commandServicePassword", $commandServicePassword)
     return $keyValuePairs
 }
 
-$rabbitMqServerIpAddress = GetRabbitMqAddress
+$rabbitMqServerAddress = GetRabbitMqAddress
 $writeModelSqlServerAddress = GetWriteModelSqlServerAddress
+$readModelSqlServerAddress = GetReadModelSqlServerAddress
 $waiterWebsitePassword = GetWaiterWebsitePassword
 $commandServicePassword = GetCommandServicePassword
 $eventProjectingServicePassword = GetEventProjectingServicePassword
-Write-Output "`$rabbitMqServerIpAddress:$rabbitMqServerIpAddress"
+Write-Output "`$rabbitMqServerAddress:$rabbitMqServerAddress"
 $waiterWebsiteConnectionString = GetWaiterWebsiteConnectionString $waiterWebsitePassword
 Write-Output "`$waiterWebsiteConnectionString: $waiterWebsiteConnectionString"
 $commandServiceConnectionString = GetCommandServiceConnectionString $commandServicePassword
@@ -149,11 +142,6 @@ Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
 
 $configuration = "Debug"
 
-$waiterWebsite = @{
-    FilePath = ".\src\Cafe\Cafe.Waiter.Web\appSettings.override.json"
-    Text = GetWaiterWebsiteSettings $rabbitMqServerIpAddress $waiterWebsiteConnectionString
-}
-
 $waiterWebsiteTest = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.Web.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
     Text = GetWaiterWebsiteTestSettings $eventProjectingServiceConnectionString
@@ -161,17 +149,17 @@ $waiterWebsiteTest = @{
 
 $waiterCommandService = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.Command.Service\bin\$configuration\netcoreapp2.1\appSettings.override.json";
-    Text = GetWaiterCommandServiceSettings $rabbitMqServerIpAddress $commandServiceConnectionString
+    Text = GetWaiterCommandServiceSettings $rabbitMqServerAddress $commandServiceConnectionString
 }
 
 $waiterCommandServiceTest = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.Command.Service.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
-    Text = GetWaiterCommandServiceTestSettings $rabbitMqServerIpAddress $commandServiceConnectionString
+    Text = GetWaiterCommandServiceTestSettings $rabbitMqServerAddress $commandServiceConnectionString
 }
 
 $waiterEventProjectingService = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.EventProjecting.Service\bin\$configuration\netcoreapp2.1\appSettings.override.json"
-    Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerIpAddress $eventProjectingServiceConnectionString
+    Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerAddress $eventProjectingServiceConnectionString
 }
 
 $waiterEventProjectingServiceTest = @{
@@ -185,7 +173,6 @@ $waiterAcceptanceTest = @{
 }
 
 $appSettings = @(
-    $waiterWebsite,
     $waiterWebsiteTest,
     $waiterCommandService,
     $waiterCommandServiceTest,
