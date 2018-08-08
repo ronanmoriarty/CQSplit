@@ -153,7 +153,7 @@ Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
 $configuration = "Debug"
 
 $cafeDALTests = @{
-    FilePath = ".\src\Cafe\Cafe.DAL.Tests\bin\$configuration\netcoreapp2.0\appSettings.override.json"
+    FilePath = ".\src\Cafe\Cafe.DAL.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
     Text = GetCafeDALSettings $commandServiceConnectionString
 }
 
