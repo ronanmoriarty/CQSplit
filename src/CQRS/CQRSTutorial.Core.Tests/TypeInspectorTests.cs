@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using NUnit.Framework;
 
 namespace CQRSTutorial.Core.Tests
@@ -42,6 +43,7 @@ namespace CQRSTutorial.Core.Tests
             Assert.That(methodInfoTakingSingleStringArgument, Is.Null);
         }
 
+        [ExcludeFromCodeCoverage]
         private class TestType
         {
             public void TakesSingleStringParameter(string a)

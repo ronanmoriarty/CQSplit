@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using CQRSTutorial.Core;
 
 namespace CQRSTutorial.Publish.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class TestEvent : IEvent
     {
         public Guid Id { get; set; }

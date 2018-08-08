@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -29,6 +30,7 @@ namespace CQRSTutorial.Core.Tests
             Assert.That(actual, Is.EqualTo(commandHandler));
         }
 
+        [ExcludeFromCodeCoverage]
         public class TestCommand : ICommand
         {
             public Guid Id { get; set; }

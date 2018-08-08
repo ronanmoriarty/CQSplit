@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using NUnit.Framework;
 
 namespace CQRSTutorial.Core.Tests
@@ -25,16 +26,19 @@ namespace CQRSTutorial.Core.Tests
                 AppliedEvent = @event;
             }
 
+            [ExcludeFromCodeCoverage]
             public void SomeOtherMethodTakingSameSingleTestEventParameter(TestEvent @event)
             {
                 // included to ensure EventApplier can select the right method.
             }
 
+            [ExcludeFromCodeCoverage]
             public void Apply()
             {
                 // included to ensure EventApplier can select the right method.
             }
 
+            [ExcludeFromCodeCoverage]
             public void Apply(int i)
             {
                 // included to ensure EventApplier can select the right method.
@@ -43,6 +47,7 @@ namespace CQRSTutorial.Core.Tests
             public TestEvent AppliedEvent { get; private set; }
         }
 
+        [ExcludeFromCodeCoverage]
         internal class TestEvent : IEvent
         {
             public Guid Id { get; set; }

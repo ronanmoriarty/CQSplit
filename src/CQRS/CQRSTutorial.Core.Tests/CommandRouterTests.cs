@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -87,18 +88,21 @@ namespace CQRSTutorial.Core.Tests
             _eventHandler.Received(1).Handle(_events);
         }
 
+        [ExcludeFromCodeCoverage]
         public class TestCommand : ICommand
         {
             public Guid Id { get; set; }
             public Guid AggregateId { get; set; }
         }
 
+        [ExcludeFromCodeCoverage]
         public class Test2Command : ICommand
         {
             public Guid Id { get; set; }
             public Guid AggregateId { get; set; }
         }
 
+        [ExcludeFromCodeCoverage]
         public class Test2Event : IEvent
         {
             public Guid Id { get; set; }
@@ -106,6 +110,7 @@ namespace CQRSTutorial.Core.Tests
             public Guid CommandId { get; set; }
         }
 
+        [ExcludeFromCodeCoverage]
         public class UnhandledTestCommand : ICommand
         {
             public Guid Id { get; set; }
