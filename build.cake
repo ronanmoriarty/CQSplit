@@ -99,61 +99,61 @@ private void RunDotNetCoreUnitTests(string filePattern)
     KillNUnitAgentProcesses();
 }
 
-Task("Clean-CQRS")
+Task("Clean-CQ")
     .Does(() =>
 {
-    var cleanDirectoriesSearchPattern = "./src/CQRS/**/bin/" + configuration;
+    var cleanDirectoriesSearchPattern = "./src/CQ/**/bin/" + configuration;
     Information("CleanDirectories at: " + cleanDirectoriesSearchPattern);
     CleanDirectories(cleanDirectoriesSearchPattern);
 });
 
-Task("Restore-CQRS-NuGet-Packages")
-    .IsDependentOn("Clean-CQRS")
+Task("Restore-CQ-NuGet-Packages")
+    .IsDependentOn("Clean-CQ")
     .Does(() =>
 {
-    DotNetCoreRestore("./src/CQRS/CQRS.sln");
+    DotNetCoreRestore("./src/CQ/CQ.sln");
 });
 
-Task("Build-CQRS")
-    .IsDependentOn("Restore-CQRS-NuGet-Packages")
+Task("Build-CQ")
+    .IsDependentOn("Restore-CQ-NuGet-Packages")
     .Does(() =>
 {
     if(IsRunningOnWindows())
     {
       // Use MSBuild
-      MSBuild("./src/CQRS/CQRS.sln", settings =>
+      MSBuild("./src/CQ/CQ.sln", settings =>
         settings.SetConfiguration(configuration));
     }
     else
     {
       // Use XBuild
-      XBuild("./src/CQRS/CQRS.sln", settings =>
+      XBuild("./src/CQ/CQ.sln", settings =>
         settings.SetConfiguration(configuration));
     }
 });
 
-Task("Run-CQRS-Unit-Tests")
-    .IsDependentOn("Build-CQRS")
+Task("Run-CQ-Unit-Tests")
+    .IsDependentOn("Build-CQ")
     .Does(() =>
 {
-    RunDotNetCoreUnitTests("./src/CQRS/**/*Tests.csproj");
+    RunDotNetCoreUnitTests("./src/CQ/**/*Tests.csproj");
 });
 
-Task("Run-CQRS-Unit-Tests-Without-Build")
+Task("Run-CQ-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunDotNetCoreUnitTests("./src/CQRS/**/*Tests.csproj");
+    RunDotNetCoreUnitTests("./src/CQ/**/*Tests.csproj");
 });
 
-Task("Create-CQRS-Nuget-Packages")
-    .IsDependentOn("Run-CQRS-Unit-Tests")
+Task("Create-CQ-Nuget-Packages")
+    .IsDependentOn("Run-CQ-Unit-Tests")
     .Does(() =>
 {
     var nuGetPackSettings = new NuGetPackSettings {
         OutputDirectory = "./src/.nuget.local"
     };
 
-    var testProjects = GetFiles("./src/CQRS/**/*.nuspec");
+    var testProjects = GetFiles("./src/CQ/**/*.nuspec");
     foreach (var testProject in testProjects)
     {
         NuGetPack(testProject.FullPath, nuGetPackSettings);
