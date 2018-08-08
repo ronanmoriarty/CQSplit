@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using NSubstitute;
 using NUnit.Framework;
 
@@ -15,8 +14,10 @@ namespace CQRSTutorial.Core.Tests
         public void SetUp()
         {
             _commandHandlerFactory = Substitute.For<ICommandHandlerFactory>();
-            var testCommandHandler1 = new TestCommandHandler();
-            var testCommandHandler2 = new TestCommandHandler();
+            var testCommandHandler1 = Substitute.For<ICommandHandler<TestCommand>>();
+            testCommandHandler1.CanHandle(Arg.Any<TestCommand>()).Returns(true);
+            var testCommandHandler2 = Substitute.For<ICommandHandler<TestCommand>>();
+            testCommandHandler2.CanHandle(Arg.Any<TestCommand>()).Returns(true);
             var commandHandlerProvider = new CommandHandlerProvider(_commandHandlerFactory);
             commandHandlerProvider.RegisterCommandHandler(testCommandHandler1);
             commandHandlerProvider.RegisterCommandHandler(testCommandHandler2);
@@ -54,20 +55,7 @@ namespace CQRSTutorial.Core.Tests
                 Throws.Exception.InstanceOf<ArgumentException>().With.Message.EqualTo("Command does not have Id set."));
         }
 
-        internal class TestCommandHandler : ICommandHandler<TestCommand>
-        {
-            public IEnumerable<IEvent> Handle(TestCommand command)
-            {
-                throw new NotImplementedException();
-            }
-
-            public bool CanHandle(ICommand command)
-            {
-                return command.GetType() == typeof(TestCommand);
-            }
-        }
-
-        internal class TestCommand : ICommand
+        public class TestCommand : ICommand
         {
             public Guid Id { get; set; }
             public Guid AggregateId { get; set; }
