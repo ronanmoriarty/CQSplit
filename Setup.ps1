@@ -46,19 +46,20 @@ function GetExampleFileWithPlaceholdersReplaced($filePath)
     return $temp.Replace("`$eventProjectingServicePassword", "$eventProjectingServicePasswordPlainText")
 }
 
-function SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles()
+function SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles([string] $path, [string] $sourceName, [string] $targetName)
 {
-    Get-ChildItem -Path .\src\Cafe\ -Filter *.example -Recurse | ForEach-Object {
-        $exampleFile = $_.FullName
-        $dockerJsonPath = $exampleFile.Replace(".example", "")
-        if(Test-Path $dockerJsonPath)
+    Get-ChildItem -Path $path -Filter "$sourceName" -Recurse | ForEach-Object {
+        $sourcePath = $_.FullName
+        $targetJsonPath = $sourcePath.Replace($sourceName, $targetName)
+        if(Test-Path $targetJsonPath)
         {
-            Remove-Item $dockerJsonPath
+            Remove-Item $targetJsonPath
         }
 
-        (GetExampleFileWithPlaceholdersReplaced $exampleFile) | Set-Content $dockerJsonPath
-        Write-Output "Created $dockerJsonPath"
+        (GetExampleFileWithPlaceholdersReplaced $sourcePath) | Set-Content $targetJsonPath
+        Write-Output "Created $targetJsonPath"
+        Write-Output (Get-Content $targetJsonPath)
     }
 }
 
-SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles
+SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.docker.json.example appSettings.docker.json
