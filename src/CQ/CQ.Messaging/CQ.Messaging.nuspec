@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
-    <id>CQRSTutorial.Messaging</id>
+    <id>CQ.Messaging</id>
     <version>1.0.26-pre</version>
     <authors>Ronan Moriarty</authors>
     <owners>Fundraising Innovations Ltd.</owners>
@@ -10,11 +10,11 @@
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <dependency id="MassTransit.NLog" version="5.1.2" />
-        <dependency id="CQRSTutorial.Core" version="1.0.26-pre" />
+        <dependency id="CQ.Core" version="1.0.26-pre" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\netstandard2.0\CQRSTutorial.Messaging.dll" target="lib\netstandard2.0" />
+    <file src="bin\Release\netstandard2.0\CQ.Messaging.dll" target="lib\netstandard2.0" />
   </files>
 </package>

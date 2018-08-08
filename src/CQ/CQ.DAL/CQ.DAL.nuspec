@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
-    <id>CQRSTutorial.DAL</id>
+    <id>CQ.DAL</id>
     <version>1.0.26-pre</version>
     <authors>Ronan Moriarty</authors>
     <owners>Fundraising Innovations Ltd.</owners>
@@ -9,12 +9,12 @@
     <description>Package Description</description>
     <dependencies>
       <group targetFramework="netcoreapp2.0">
-        <dependency id="CQRSTutorial.Core" version="1.0.26-pre" />
+        <dependency id="CQ.Core" version="1.0.26-pre" />
         <dependency id="Newtonsoft.Json" version="10.0.3" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\netstandard2.0\CQRSTutorial.DAL.dll" target="lib\netstandard2.0" />
+    <file src="bin\Release\netstandard2.0\CQ.DAL.dll" target="lib\netstandard2.0" />
   </files>
 </package>
