@@ -1,0 +1,8 @@
+﻿{
+  "rabbitmq": {
+    "uri": "rabbitmq://$rabbitMqServerAddress",
+    "username": "$rabbitMqUsername",
+    "password": "$rabbitMqPassword"
+  },
+  "connectionString": "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=CommandService;Password=$commandServicePassword;"
+}
