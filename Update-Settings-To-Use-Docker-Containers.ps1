@@ -4,11 +4,6 @@ function GetFullPath($relativePath){
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
 }
 
-function GetEnvironmentVariableFromEnvFile($environmentVariableName)
-{
-    return [regex]::Match((Get-Content .env),"$environmentVariableName='([^=]*)'").captures.groups[1].value
-}
-
 function GetCafeDALSettings($writeModelConnectionString){
     return @"
 {
@@ -104,24 +99,6 @@ function WriteToFile($path, $contents){
     Write-Output "Writing $path..."
     Write-Output "Text: $contents"
     $contents | Out-File -encoding ASCII $path
-}
-
-function GetRabbitMqAddress(){
-    $rabbitMqContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_rabbitmq"
-    $rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
-    return $rabbitMqServerIpAddress
-}
-
-function GetWriteModelSqlServerAddress(){
-    $writeModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_waiter-write-db-server"
-    $writeModelSqlServerIpAddress = GetIpAddress $writeModelSqlServerContainerId
-    return $writeModelSqlServerIpAddress
-}
-
-function GetReadModelSqlServerAddress(){
-    $readModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_waiter-read-db-server"
-    $readModelSqlServerIpAddress = GetIpAddress $readModelSqlServerContainerId
-    return $readModelSqlServerIpAddress
 }
 
 function GetWaiterWebsiteUrl()
