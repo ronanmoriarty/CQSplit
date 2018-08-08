@@ -24,13 +24,6 @@ function CreateEnvFile()
     Write-Output "Created $(GetFullPath .\src\CQRS\.env)"
 }
 
-$saPasswordPlainText = ConvertToPlainText $saPassword
-$waiterWebsitePasswordPlainText = ConvertToPlainText $waiterWebsitePassword
-$commandServicePasswordPlainText = ConvertToPlainText $commandServicePassword
-$eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingServicePassword
-
-CreateEnvFile
-
 function GetKeyValuePairs()
 {
     $keyValuePairs = @{}
@@ -41,5 +34,11 @@ function GetKeyValuePairs()
     return $keyValuePairs
 }
 
+$saPasswordPlainText = ConvertToPlainText $saPassword
+$waiterWebsitePasswordPlainText = ConvertToPlainText $waiterWebsitePassword
+$commandServicePasswordPlainText = ConvertToPlainText $commandServicePassword
+$eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingServicePassword
+
+CreateEnvFile
 $keyValuePairs = GetKeyValuePairs
 SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.docker.json.example appSettings.docker.json $keyValuePairs
