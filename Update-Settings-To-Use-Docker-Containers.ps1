@@ -8,24 +8,6 @@ function GetWaiterWebsiteUrl()
     return "http://$waiterWebsiteIpAddress"
 }
 
-function GetWaiterWebsiteConnectionString([string] $password)
-{
-    $readModelSqlServerAddress = GetReadModelSqlServerAddress
-    return "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=WaiterWebsite;Password=$password;"
-}
-
-function GetCommandServiceConnectionString([string] $password)
-{
-    $writeModelSqlServerAddress = GetWriteModelSqlServerAddress
-    return "Server=$writeModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.WriteModel;User Id=CommandService;Password=$password;"
-}
-
-function GetEventProjectingServiceConnectionString([string] $password)
-{
-    $readModelSqlServerAddress = GetReadModelSqlServerAddress
-    return "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=EventProjectingService;Password=$password;"
-}
-
 function GetWaiterWebsitePassword()
 {
     return GetEnvironmentVariableFromEnvFile "waiterWebsitePassword"
@@ -53,6 +35,11 @@ function GetKeyValuePairs()
     $keyValuePairs.Add("`$commandServicePassword", $commandServicePassword)
     $keyValuePairs.Add("`$eventProjectingServicePassword", $eventProjectingServicePassword)
     $keyValuePairs.Add("`$waiterWebsiteUrl", $waiterWebsiteUrl)
+
+    $keyValuePairs.Keys | ForEach-Object {
+        Write-Output "$($_):$keyValuePairs[$_]"
+    }
+
     return $keyValuePairs
 }
 
@@ -62,13 +49,7 @@ $readModelSqlServerAddress = GetReadModelSqlServerAddress
 $waiterWebsitePassword = GetWaiterWebsitePassword
 $commandServicePassword = GetCommandServicePassword
 $eventProjectingServicePassword = GetEventProjectingServicePassword
-Write-Output "`$rabbitMqServerAddress:$rabbitMqServerAddress"
-$commandServiceConnectionString = GetCommandServiceConnectionString $commandServicePassword
-Write-Output "`$commandServiceConnectionString: $commandServiceConnectionString"
-$eventProjectingServiceConnectionString = GetEventProjectingServiceConnectionString $eventProjectingServicePassword
-Write-Output "`$eventProjectingServiceConnectionString: $eventProjectingServiceConnectionString"
 $waiterWebsiteUrl = GetWaiterWebsiteUrl
-Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
 
 $keyValuePairs = GetKeyValuePairs
 SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.override.json.example appSettings.override.json $keyValuePairs
