@@ -10,6 +10,7 @@ param (
     [SecureString] $eventProjectingServicePassword
 )
 
+. .\src\CQRS\PowerShell\Docker.ps1
 . .\src\CQRS\PowerShell\FileOperations.ps1
 
 function CreateEnvFile()
@@ -22,16 +23,6 @@ function CreateEnvFile()
     Write-Output "sa_password=$saPasswordPlainText" | Out-File -encoding ASCII .\src\CQRS\.env
     Write-Output "commandServicePassword='$commandServicePasswordPlainText'" | Out-File -encoding ASCII -Append .\src\CQRS\.env
     Write-Output "Created $(GetFullPath .\src\CQRS\.env)"
-}
-
-function GetKeyValuePairs()
-{
-    $keyValuePairs = @{}
-    $keyValuePairs.Add("`$rabbitMqPassword", "guest")
-    $keyValuePairs.Add("`$waiterWebsitePassword", "$waiterWebsitePasswordPlainText")
-    $keyValuePairs.Add("`$commandServicePassword", "$commandServicePasswordPlainText")
-    $keyValuePairs.Add("`$eventProjectingServicePassword", "$eventProjectingServicePasswordPlainText")
-    return $keyValuePairs
 }
 
 $saPasswordPlainText = ConvertToPlainText $saPassword
