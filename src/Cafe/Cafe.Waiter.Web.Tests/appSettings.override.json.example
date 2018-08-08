@@ -1,3 +1,0 @@
-﻿{
-  "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=EventProjectingService;Password=$eventProjectingServicePassword;"
-}
