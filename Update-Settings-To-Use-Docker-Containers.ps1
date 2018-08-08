@@ -1,18 +1,6 @@
 . .\src\CQRS\PowerShell\Docker.ps1
 . .\src\CQRS\PowerShell\FileOperations.ps1
 
-function GetFullPath($relativePath){
-    return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $relativePath))
-}
-
-function GetCafeDALSettings($writeModelConnectionString){
-    return @"
-{
-    "connectionString": "$writeModelConnectionString"
-}
-"@
-}
-
 function GetWaiterWebsiteSettings($rabbitMqServerAddress, $waiterWebsiteConnectionString){
     return @"
 {
@@ -136,7 +124,16 @@ function GetEventProjectingServicePassword()
     return GetEnvironmentVariableFromEnvFile "eventProjectingServicePassword"
 }
 
+function GetKeyValuePairs()
+{
+    $keyValuePairs = @{}
+    $keyValuePairs.Add("`$writeModelSqlServerAddress", $writeModelSqlServerAddress)
+    $keyValuePairs.Add("`$commandServicePassword", $commandServicePassword)
+    return $keyValuePairs
+}
+
 $rabbitMqServerIpAddress = GetRabbitMqAddress
+$writeModelSqlServerAddress = GetWriteModelSqlServerAddress
 $waiterWebsitePassword = GetWaiterWebsitePassword
 $commandServicePassword = GetCommandServicePassword
 $eventProjectingServicePassword = GetEventProjectingServicePassword
@@ -151,11 +148,6 @@ $waiterWebsiteUrl = GetWaiterWebsiteUrl
 Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
 
 $configuration = "Debug"
-
-$cafeDALTests = @{
-    FilePath = ".\src\Cafe\Cafe.DAL.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
-    Text = GetCafeDALSettings $commandServiceConnectionString
-}
 
 $waiterWebsite = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.Web\appSettings.override.json"
@@ -193,7 +185,6 @@ $waiterAcceptanceTest = @{
 }
 
 $appSettings = @(
-    $cafeDALTests,
     $waiterWebsite,
     $waiterWebsiteTest,
     $waiterCommandService,
@@ -211,3 +202,6 @@ $appSettings | ForEach-Object {
 
     WriteToFile $path $_.Text
 }
+
+$keyValuePairs = GetKeyValuePairs
+SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.override.json.example appSettings.override.json $keyValuePairs
