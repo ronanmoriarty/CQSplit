@@ -1,5 +1,5 @@
-. .\src\CQRS\PowerShell\Docker.ps1
-. .\src\CQRS\PowerShell\FileOperations.ps1
+. .\src\CQ\PowerShell\Docker.ps1
+. .\src\CQ\PowerShell\FileOperations.ps1
 
 $keyValuePairs = GetKeyValuePairs
 

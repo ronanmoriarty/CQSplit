@@ -1,7 +1,7 @@
 function GetVersion()
 {
     $xml = New-Object -TypeName System.Xml.XmlDocument
-    $xml.Load('.\src\CQRS\CQRSTutorial.Core\CQRSTutorial.Core.nuspec')
+    $xml.Load('.\src\CQ\CQ.Core\CQ.Core.nuspec')
     $versionNode = GetVersionNode $xml
     return $versionNode.InnerXml
 }
@@ -13,11 +13,11 @@ function GetVersionNode([xml] $xml)
     return $xml.SelectSingleNode('//ns:version', $ns)
 }
 
-function GetCQRSDependencyNodes([xml] $xml)
+function GetCQDependencyNodes([xml] $xml)
 {
     $ns = New-Object System.Xml.XmlNamespaceManager -ArgumentList $xml.NameTable
     $ns.AddNamespace("ns", $xml.DocumentElement.NamespaceURI)
-    return $xml.SelectNodes("//ns:dependency[starts-with(@id,'CQRSTutorial.')]", $ns)
+    return $xml.SelectNodes("//ns:dependency[starts-with(@id,'CQ.')]", $ns)
 }
 
 function GetMajorVersion([string] $versionNumber)
@@ -54,18 +54,18 @@ function GetVersionWithIncrementedBuildNumber([string] $versionNumber)
     return "$MajorVersionNumber.$MinorVersionNumber.$($BuildNumber + 1)$Suffix"
 }
 
-function UpdateCQRSPackageVersions()
+function UpdateCQPackageVersions()
 {
     $VersionNumber = GetVersion
     $NewVersion = GetVersionWithIncrementedBuildNumber $VersionNumber
     Write-Host "`$NewVersion: $NewVersion"
 
-    Get-ChildItem -Path .\src\CQRS\ -Filter *.nuspec -Recurse | ForEach-Object {
+    Get-ChildItem -Path .\src\CQ\ -Filter *.nuspec -Recurse | ForEach-Object {
         $xml = New-Object -TypeName System.Xml.XmlDocument
         $xml.Load($_.FullName)
         $versionNode = GetVersionNode $xml
         $versionNode.InnerXml = $NewVersion
-        $dependencyNodes = GetCQRSDependencyNodes $xml
+        $dependencyNodes = GetCQDependencyNodes $xml
         foreach ($dependencyNode in $dependencyNodes) {
             $dependencyNode.version = $NewVersion
         }
@@ -73,5 +73,5 @@ function UpdateCQRSPackageVersions()
     }
 
     git add *.nuspec
-    git commit -m "Update CQRS package versions to $NewVersion"
+    git commit -m "Update CQ package versions to $NewVersion"
 }
