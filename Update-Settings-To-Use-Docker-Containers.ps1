@@ -1,19 +1,6 @@
 . .\src\CQRS\PowerShell\Docker.ps1
 . .\src\CQRS\PowerShell\FileOperations.ps1
 
-function GetWaiterCommandServiceTestSettings($rabbitMqServerAddress, $writeModelConnectionString){
-    return @"
-{
-    "rabbitmq": {
-        "uri": "rabbitmq://$rabbitMqServerAddress",
-        "username": "guest",
-        "password": "guest"
-    },
-    "connectionString": "$writeModelConnectionString"
-}
-"@
-}
-
 function GetWaiterEventProjectingServiceSettings($rabbitMqServerAddress, $eventProjectingServiceConnectionString){
     return @"
 {
@@ -120,11 +107,6 @@ Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
 
 $configuration = "Debug"
 
-$waiterCommandServiceTest = @{
-    FilePath = ".\src\Cafe\Cafe.Waiter.Command.Service.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
-    Text = GetWaiterCommandServiceTestSettings $rabbitMqServerAddress $commandServiceConnectionString
-}
-
 $waiterEventProjectingService = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.EventProjecting.Service\bin\$configuration\netcoreapp2.1\appSettings.override.json"
     Text = GetWaiterEventProjectingServiceSettings $rabbitMqServerAddress $eventProjectingServiceConnectionString
@@ -141,7 +123,6 @@ $waiterAcceptanceTest = @{
 }
 
 $appSettings = @(
-    $waiterCommandServiceTest,
     $waiterEventProjectingService,
     $waiterEventProjectingServiceTest
     $waiterAcceptanceTest
