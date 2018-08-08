@@ -1,21 +1,6 @@
 . .\src\CQRS\PowerShell\Docker.ps1
 . .\src\CQRS\PowerShell\FileOperations.ps1
 
-function GetWaiterAcceptanceTestsSettings($readModelConnectionString, $waiterWebsiteUrl){
-    return @"
-{
-    "connectionString": "$readModelConnectionString",
-    "cafe": {
-      "waiter": {
-        "web": {
-          "url": "$waiterWebsiteUrl"
-        }
-      }
-    }
-}
-"@
-}
-
 function GetWaiterWebsiteUrl()
 {
     $waiterWebsiteContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_cafe-waiter-web"
@@ -67,6 +52,7 @@ function GetKeyValuePairs()
     $keyValuePairs.Add("`$waiterWebsitePassword", $waiterWebsitePassword)
     $keyValuePairs.Add("`$commandServicePassword", $commandServicePassword)
     $keyValuePairs.Add("`$eventProjectingServicePassword", $eventProjectingServicePassword)
+    $keyValuePairs.Add("`$waiterWebsiteUrl", $waiterWebsiteUrl)
     return $keyValuePairs
 }
 
@@ -83,26 +69,6 @@ $eventProjectingServiceConnectionString = GetEventProjectingServiceConnectionStr
 Write-Output "`$eventProjectingServiceConnectionString: $eventProjectingServiceConnectionString"
 $waiterWebsiteUrl = GetWaiterWebsiteUrl
 Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
-
-$configuration = "Debug"
-
-$waiterAcceptanceTest = @{
-    FilePath = ".\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
-    Text = GetWaiterAcceptanceTestsSettings $eventProjectingServiceConnectionString $waiterWebsiteUrl
-}
-
-$appSettings = @(
-    $waiterAcceptanceTest
-)
-
-$appSettings | ForEach-Object {
-    $path = GetFullPath $_.FilePath
-    if(Test-Path $path) {
-        Remove-Item $path
-    }
-
-    WriteToFile $path $_.Text
-}
 
 $keyValuePairs = GetKeyValuePairs
 SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.override.json.example appSettings.override.json $keyValuePairs
