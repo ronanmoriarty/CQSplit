@@ -1,14 +1,6 @@
 . .\src\CQRS\PowerShell\Docker.ps1
 . .\src\CQRS\PowerShell\FileOperations.ps1
 
-function GetWaiterEventProjectingServiceTestSettings($eventProjectingServiceConnectionString){
-    return @"
-{
-    "connectionString": "$eventProjectingServiceConnectionString"
-}
-"@
-}
-
 function GetWaiterAcceptanceTestsSettings($readModelConnectionString, $waiterWebsiteUrl){
     return @"
 {
@@ -94,18 +86,12 @@ Write-Output "`$waiterWebsiteUrl: $waiterWebsiteUrl"
 
 $configuration = "Debug"
 
-$waiterEventProjectingServiceTest = @{
-    FilePath = ".\src\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\bin\$configuration\netcoreapp2.1\appSettings.override.json"
-    Text = GetWaiterEventProjectingServiceTestSettings $eventProjectingServiceConnectionString
-}
-
 $waiterAcceptanceTest = @{
     FilePath = ".\src\Cafe\Cafe.Waiter.AcceptanceTests\bin\$configuration\netcoreapp2.1\appSettings.override.json";
     Text = GetWaiterAcceptanceTestsSettings $eventProjectingServiceConnectionString $waiterWebsiteUrl
 }
 
 $appSettings = @(
-    $waiterEventProjectingServiceTest
     $waiterAcceptanceTest
 )
 
