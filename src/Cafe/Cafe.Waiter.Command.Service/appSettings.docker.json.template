@@ -4,5 +4,5 @@
     "username": "guest",
     "password": "$rabbitMqPassword"
   },
-  "connectionString": "Server=waiter-write-db-server;Database=Cafe.Waiter.WriteModel;User Id=CommandService;Password=$commandServicePassword;"
+  "connectionString": "Server=cqrs-nu-tutorial_waiter-write-db-server_1;Database=Cafe.Waiter.WriteModel;User Id=CommandService;Password=$commandServicePassword;"
 }
