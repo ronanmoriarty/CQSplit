@@ -45,9 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="appSettings.override.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Update="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
