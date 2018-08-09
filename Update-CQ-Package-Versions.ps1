@@ -1,7 +1,10 @@
+. .\src\CQ\PowerShell\FileOperations.ps1
+
 function GetVersion()
 {
     $xml = New-Object -TypeName System.Xml.XmlDocument
-    $xml.Load('.\src\CQ\CQ.Core\CQ.Core.nuspec')
+    $filePath = GetFullPath '.\src\CQ\CQ.Core\CQ.Core.nuspec'
+    $xml.Load($filePath)
     $versionNode = GetVersionNode $xml
     return $versionNode.InnerXml
 }
