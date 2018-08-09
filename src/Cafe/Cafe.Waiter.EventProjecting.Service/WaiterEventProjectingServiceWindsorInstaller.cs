@@ -7,8 +7,8 @@ using Cafe.Waiter.Queries.DAL;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using CQRSTutorial.Messaging;
-using CQRSTutorial.Messaging.RabbitMq;
+using CQ.Messaging;
+using CQ.Messaging.RabbitMq;
 using Microsoft.Extensions.Configuration;
 
 namespace Cafe.Waiter.EventProjecting.Service

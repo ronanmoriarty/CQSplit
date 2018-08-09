@@ -4,8 +4,8 @@ using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Domain;
 using Cafe.Waiter.Events;
-using CQRSTutorial.Core;
-using CQRSTutorial.DAL;
+using CQ.Core;
+using CQ.DAL;
 using NSubstitute;
 using NUnit.Framework;
 

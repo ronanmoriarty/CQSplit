@@ -2,8 +2,8 @@ using System;
 using Cafe.DAL.Common;
 using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
-using CQRSTutorial.Core;
-using CQRSTutorial.DAL;
+using CQ.Core;
+using CQ.DAL;
 using NUnit.Framework;
 
 namespace Cafe.DAL.Tests

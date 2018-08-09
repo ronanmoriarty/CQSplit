@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using CQRSTutorial.Messaging;
-using CQRSTutorial.Messaging.RabbitMq;
+using CQ.Messaging;
+using CQ.Messaging.RabbitMq;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 using NLog;

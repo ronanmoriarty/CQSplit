@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using CQRSTutorial.Core;
+using CQ.Core;
 
 namespace Cafe.Waiter.Domain
 {

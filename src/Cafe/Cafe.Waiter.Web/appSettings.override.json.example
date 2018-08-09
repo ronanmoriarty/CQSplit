@@ -4,5 +4,5 @@
         "username": "$rabbitMqUsername",
         "password": "$rabbitMqPassword"
     },
-    "connectionString": "Server=$readModelSqlServerAddress;Database=CQRSTutorial.Cafe.Waiter.ReadModel;User Id=WaiterWebsite;Password=$waiterWebsitePassword;"
+    "connectionString": "Server=$readModelSqlServerAddress;Database=Cafe.Waiter.ReadModel;User Id=WaiterWebsite;Password=$waiterWebsitePassword;"
 }

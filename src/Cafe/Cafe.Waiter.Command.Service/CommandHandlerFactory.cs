@@ -1,6 +1,6 @@
 ﻿using Cafe.Waiter.Domain;
-using CQRSTutorial.Core;
-using CQRSTutorial.DAL;
+using CQ.Core;
+using CQ.DAL;
 
 namespace Cafe.Waiter.Command.Service
 {

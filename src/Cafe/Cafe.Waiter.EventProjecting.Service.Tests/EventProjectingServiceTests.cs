@@ -1,4 +1,4 @@
-﻿using CQRSTutorial.Messaging;
+﻿using CQ.Messaging;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;

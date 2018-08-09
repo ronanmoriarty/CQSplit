@@ -5,7 +5,7 @@ using Cafe.Waiter.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Web.Models;
 using Cafe.Waiter.Web.Repositories;
-using CQRSTutorial.Messaging;
+using CQ.Messaging;
 using Microsoft.AspNetCore.Mvc;
 using NLog;
 
