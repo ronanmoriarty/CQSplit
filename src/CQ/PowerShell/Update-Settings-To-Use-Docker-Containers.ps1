@@ -8,4 +8,4 @@ $keyValuePairs.Keys | ForEach-Object {
 }
 
 $path = GetFullPath ..\
-SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles $path appSettings.json.example appSettings.json $keyValuePairs
+SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles $path appSettings.json.template appSettings.json $keyValuePairs
