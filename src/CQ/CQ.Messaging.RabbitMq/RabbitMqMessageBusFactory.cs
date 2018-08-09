@@ -33,8 +33,10 @@ namespace CQ.Messaging.RabbitMq
         private IRabbitMqHost CreateHost(IRabbitMqBusFactoryConfigurator rabbitMqBusFactoryConfigurator)
         {
             var hostAddress = new Uri(_rabbitMqHostConfiguration.Uri);
-            _logger.Debug($"Host address is: \"{hostAddress.AbsoluteUri}\"");
             rabbitMqBusFactoryConfigurator.UseNLog();
+            _logger.Debug($"Host address is: \"{hostAddress.AbsoluteUri}\"");
+            _logger.Debug($"Username is: \"{_rabbitMqHostConfiguration.Username}\"");
+            _logger.Debug($"Password is: \"{_rabbitMqHostConfiguration.Password}\"");
             return rabbitMqBusFactoryConfigurator.Host(hostAddress, h =>
             {
                 h.Username(_rabbitMqHostConfiguration.Username);
