@@ -4,5 +4,6 @@
     "username": "$rabbitMqUsername",
     "password": "$rabbitMqPassword"
   },
+  "MenuId": "68FDB1AF-B652-4B37-B274-D1C7F569FFE7",
   "connectionString": "Server=$readModelSqlServerAddress;Database=Cafe.Waiter.ReadModel;User Id=EventProjectingService;Password=$eventProjectingServicePassword;"
 }

@@ -1,4 +1,5 @@
 {
+  "QueueName": "cafe.waiter.eventprojecting.service",
   "rabbitmq": {
     "uri": "rabbitmq://cqrs-nu-tutorial_rabbitmq_1",
     "username": "guest",
