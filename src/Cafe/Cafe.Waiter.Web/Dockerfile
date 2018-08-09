@@ -18,8 +18,8 @@ COPY .\Cafe\Cafe.Waiter.Commands .\Cafe\Cafe.Waiter.Commands
 COPY .\Cafe\Cafe.DAL.Common .\Cafe\Cafe.DAL.Common
 COPY .\Cafe\Cafe.Waiter.Queries.DAL .\Cafe\Cafe.Waiter.Queries.DAL
 COPY .\Cafe\Cafe.Waiter.Web .\Cafe\Cafe.Waiter.Web
+COPY .\Cafe\Cafe.Waiter.Web\appSettings.docker.json .\Cafe\Cafe.Waiter.Web\appSettings.json
 RUN dotnet publish .\Cafe\Cafe.Waiter.Web
-RUN move .\Cafe\Cafe.Waiter.Web\appSettings.docker.json .\Cafe\Cafe.Waiter.Web\bin\Debug\netcoreapp2.1\publish\appSettings.json
 
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app
