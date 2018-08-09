@@ -250,3 +250,5 @@ tools/
 .nuget.local
 
 **/*.old
+
+**/appSettings.json
