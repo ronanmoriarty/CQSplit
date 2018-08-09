@@ -11,7 +11,6 @@ namespace Cafe.Waiter.Command.Service
         {
             _configuration = new ConfigurationBuilder()
                 .AddJsonFile("appSettings.json")
-                .AddJsonFile("appSettings.override.json", true)
                 .Build();
         }
 
