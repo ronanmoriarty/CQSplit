@@ -1,0 +1,16 @@
+{
+  "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "MenuId": "68FDB1AF-B652-4B37-B274-D1C7F569FFE7",
+  "CommandServiceQueueName": "cafe.waiter.command.service",
+  "rabbitmq": {
+    "uri": "rabbitmq://cqrs-nu-tutorial_rabbitmq_1",
+    "username": "guest",
+    "password": "$rabbitMqPassword"
+  },
+  "connectionString": "Server=cqrs-nu-tutorial_waiter-read-db-server_1;Database=Cafe.Waiter.ReadModel;User Id=WaiterWebsite;Password=$waiterWebsitePassword;"
+}

@@ -242,8 +242,6 @@ ModelManifest.xml
 .fake/
 tools/
 
-**/appsettings.override.json
-
 # Environment file used by docker-compose.yml
 .env
 **/appSettings.docker.json
@@ -252,3 +250,5 @@ tools/
 .nuget.local
 
 **/*.old
+
+**/appSettings.json

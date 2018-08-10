@@ -15,16 +15,16 @@
 
   <ItemGroup>
     <Content Include="appSettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="4.1.0" />
     <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.3.1" />
-    <PackageReference Include="CQ.DAL" Version="0.9.0-pre" />
-    <PackageReference Include="CQ.Messaging.RabbitMq" Version="0.9.0-pre" />
-    <PackageReference Include="CQ.Publish" Version="0.9.0-pre" />
+    <PackageReference Include="CQ.DAL" Version="0.9.1-pre" />
+    <PackageReference Include="CQ.Messaging.RabbitMq" Version="0.9.1-pre" />
+    <PackageReference Include="CQ.Publish" Version="0.9.1-pre" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.1.1" />
     <PackageReference Include="NLog.Config" Version="4.5.7" />
@@ -36,9 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="appSettings.override.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

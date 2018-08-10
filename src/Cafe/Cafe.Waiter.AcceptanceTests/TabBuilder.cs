@@ -15,7 +15,6 @@ namespace Cafe.Waiter.AcceptanceTests
         {
             _configurationRoot = new ConfigurationBuilder()
                 .AddJsonFile("appSettings.json")
-                .AddJsonFile("appSettings.override.json", true)
                 .Build();
 
             _chromeDriver = new ChromeDriver();

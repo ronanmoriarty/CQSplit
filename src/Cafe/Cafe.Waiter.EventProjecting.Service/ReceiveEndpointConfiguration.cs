@@ -12,7 +12,6 @@ namespace Cafe.Waiter.EventProjecting.Service
         {
             _configurationRoot = new ConfigurationBuilder()
                 .AddJsonFile("appSettings.json")
-                .AddJsonFile("appSettings.override.json", Optional)
                 .Build();
         }
 

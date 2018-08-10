@@ -21,8 +21,8 @@ COPY .\Cafe\Cafe.Waiter.Domain .\Cafe\Cafe.Waiter.Domain
 COPY .\Cafe\Cafe.DAL.Common .\Cafe\Cafe.DAL.Common
 COPY .\Cafe\Cafe.DAL.Sql .\Cafe\Cafe.DAL.Sql
 COPY .\Cafe\Cafe.Waiter.Command.Service .\Cafe\Cafe.Waiter.Command.Service
+COPY .\Cafe\Cafe.Waiter.Command.Service\appSettings.docker.json .\Cafe\Cafe.Waiter.Command.Service\appSettings.json
 RUN dotnet publish .\Cafe\Cafe.Waiter.Command.Service
-RUN move .\Cafe\Cafe.Waiter.Command.Service\appSettings.docker.json .\Cafe\Cafe.Waiter.Command.Service\bin\Debug\netcoreapp2.1\publish\appSettings.override.json
 
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app

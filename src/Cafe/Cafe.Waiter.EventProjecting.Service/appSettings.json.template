@@ -1,4 +1,5 @@
 ﻿{
+  "QueueName": "cafe.waiter.eventprojecting.service",
   "rabbitmq": {
     "uri": "rabbitmq://$rabbitMqServerAddress",
     "username": "$rabbitMqUsername",

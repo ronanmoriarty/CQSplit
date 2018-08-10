@@ -7,4 +7,4 @@ $keyValuePairs.Keys | ForEach-Object {
     Write-Output "$($_): $($keyValuePairs[$_])"
 }
 
-SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.override.json.example appSettings.override.json $keyValuePairs
+SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.json.template appSettings.json $keyValuePairs

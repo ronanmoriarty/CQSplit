@@ -1,0 +1,9 @@
+{
+  "QueueName": "cafe.waiter.eventprojecting.service",
+  "rabbitmq": {
+    "uri": "rabbitmq://cqrs-nu-tutorial_rabbitmq_1",
+    "username": "guest",
+    "password": "$rabbitMqPassword"
+  },
+  "connectionString": "Server=cqrs-nu-tutorial_waiter-read-db-server_1;Database=Cafe.Waiter.ReadModel;User Id=EventProjectingService;Password=$eventProjectingServicePassword;"
+}
