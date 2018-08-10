@@ -29,6 +29,6 @@ $eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingSe
 
 CreateEnvFile
 $keyValuePairs = GetKeyValuePairsToUseInsideContainers
-SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.docker.json.template appSettings.docker.json $keyValuePairs
+SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.json.template appSettings.docker.json $keyValuePairs
 
 .\build.ps1 -Target Create-CQ-NuGet-Packages
