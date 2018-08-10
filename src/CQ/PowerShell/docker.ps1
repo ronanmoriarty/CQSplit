@@ -87,5 +87,14 @@ function GetKeyValuePairs()
     return $keyValuePairs
 }
 
+function GetKeyValuePairsToUseInsideContainers()
+{
+    $keyValuePairs = GetPasswordKeyValuePairs
+    $keyValuePairs.Add("`$rabbitMqServerAddress", "cqrs-nu-tutorial_rabbitmq_1")
+    $keyValuePairs.Add("`$writeModelSqlServerAddress", "cqrs-nu-tutorial_waiter-write-db-server_1")
+    $keyValuePairs.Add("`$readModelSqlServerAddress", "cqrs-nu-tutorial_waiter-read-db-server_1")
+    return $keyValuePairs
+}
+
 $envPath = GetEnvFilePath
 Write-Output "`$envPath: $envPath"
