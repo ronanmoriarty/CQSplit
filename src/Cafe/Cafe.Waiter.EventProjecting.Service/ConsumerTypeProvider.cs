@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
-using CQ.Messaging;
+using CQSplit.Messaging;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {

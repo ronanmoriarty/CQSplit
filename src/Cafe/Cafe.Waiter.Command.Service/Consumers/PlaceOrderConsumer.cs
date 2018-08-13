@@ -1,6 +1,6 @@
 using Cafe.Waiter.Contracts.Commands;
-using CQ.Core;
-using CQ.Messaging;
+using CQSplit.Core;
+using CQSplit.Messaging;
 
 namespace Cafe.Waiter.Command.Service.Consumers
 {

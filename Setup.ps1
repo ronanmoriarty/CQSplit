@@ -10,8 +10,8 @@ param (
     [SecureString] $eventProjectingServicePassword
 )
 
-. .\src\CQ\PowerShell\Docker.ps1
-. .\src\CQ\PowerShell\FileOperations.ps1
+. .\src\CQSplit\PowerShell\Docker.ps1
+. .\src\CQSplit\PowerShell\FileOperations.ps1
 
 function GetJsonTemplateFiles()
 {
@@ -41,4 +41,4 @@ $keyValuePairs = GetKeyValuePairsToUseInsideContainers
 $jsonTemplateFiles = GetJsonTemplateFiles
 SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.docker.json $keyValuePairs
 
-.\build.ps1 -Target Create-CQ-NuGet-Packages
+.\build.ps1 -Target Create-CQSplit-NuGet-Packages

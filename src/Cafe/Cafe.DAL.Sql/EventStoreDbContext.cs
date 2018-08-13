@@ -1,4 +1,4 @@
-﻿using CQ.DAL.Serialized;
+﻿using CQSplit.DAL.Serialized;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cafe.DAL.Sql

@@ -5,7 +5,7 @@ using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Web.Repositories;
-using CQ.Messaging;
+using CQSplit.Messaging;
 using NSubstitute;
 using NUnit.Framework;
 

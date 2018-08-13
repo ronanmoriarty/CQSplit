@@ -2,8 +2,8 @@
 using Cafe.DAL.Common;
 using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
-using CQ.Core;
-using CQ.DAL;
+using CQSplit.Core;
+using CQSplit.DAL;
 using NUnit.Framework;
 
 namespace Cafe.DAL.Tests
