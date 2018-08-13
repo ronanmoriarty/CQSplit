@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>CQSplit.Messaging.RabbitMq</id>
+    <version>0.9.1-pre</version>
+    <authors>Ronan Moriarty</authors>
+    <owners>Fundraising Innovations Ltd.</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="MassTransit.RabbitMq" version="5.1.4" />
+        <dependency id="CQSplit.Messaging" version="0.9.1-pre" />
+        <dependency id="Microsoft.Extensions.Configuration" version="2.0.0" />
+        <dependency id="NLog.Config" version="4.5.7" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\netstandard2.0\CQSplit.Messaging.RabbitMq.dll" target="lib\netstandard2.0" />
+  </files>
+</package>

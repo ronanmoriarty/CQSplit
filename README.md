@@ -17,5 +17,5 @@ This code is just me following along with the [cqrs.nu tutorial](http://cqrs.nu/
   - ASP.NET Core website Cafe.Waiter.Web
 
 # Testing Setup Configured Correctly
-* Open CQ.sln and run all tests
+* Open CQSplit.sln and run all tests
 * Run the MessageBusEventPublisherTests (won't run automatically when running all tests as they're marked explicit)

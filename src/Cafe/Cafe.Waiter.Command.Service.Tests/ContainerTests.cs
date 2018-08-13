@@ -1,6 +1,6 @@
 ﻿using System;
 using Cafe.Waiter.Commands;
-using CQ.Core;
+using CQSplit.Core;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Command.Service.Tests

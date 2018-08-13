@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Web.Models;
-using CQ.Messaging;
+using CQSplit.Messaging;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;
-using ISendEndpointProvider = CQ.Messaging.ISendEndpointProvider;
+using ISendEndpointProvider = CQSplit.Messaging.ISendEndpointProvider;
 
 namespace Cafe.Waiter.Web.Tests.Controllers.TabController
 {

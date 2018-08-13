@@ -1,5 +1,5 @@
 ﻿using System;
-using CQ.Core;
+using CQSplit.Core;
 
 namespace Cafe.DAL.Tests
 {

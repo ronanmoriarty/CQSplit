@@ -1,4 +1,4 @@
-﻿using CQ.Messaging;
+﻿using CQSplit.Messaging;
 using Microsoft.Extensions.Configuration;
 
 namespace Cafe.Waiter.EventProjecting.Service

@@ -1,5 +1,5 @@
-﻿using CQ.Messaging;
-using CQ.Publish;
+﻿using CQSplit.Messaging;
+using CQSplit.Publish;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;

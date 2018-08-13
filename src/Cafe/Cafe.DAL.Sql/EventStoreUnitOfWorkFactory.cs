@@ -1,4 +1,4 @@
-﻿using CQ.DAL;
+﻿using CQSplit.DAL;
 using Cafe.DAL.Common;
 
 namespace Cafe.DAL.Sql

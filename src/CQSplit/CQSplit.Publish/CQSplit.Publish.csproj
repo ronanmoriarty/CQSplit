@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NLog.Config" Version="4.5.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CQSplit.DAL\CQSplit.DAL.csproj" />
+    <ProjectReference Include="..\CQSplit.Messaging\CQSplit.Messaging.csproj" />
+  </ItemGroup>
+
+</Project>

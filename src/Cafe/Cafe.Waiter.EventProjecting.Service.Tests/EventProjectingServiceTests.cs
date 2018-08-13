@@ -1,4 +1,4 @@
-﻿using CQ.Messaging;
+﻿using CQSplit.Messaging;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;

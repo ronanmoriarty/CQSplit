@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CQ.Core;
-using CQ.DAL;
-using CQ.DAL.Serialized;
+using CQSplit.Core;
+using CQSplit.DAL;
+using CQSplit.DAL.Serialized;
 
 namespace Cafe.DAL.Sql
 {

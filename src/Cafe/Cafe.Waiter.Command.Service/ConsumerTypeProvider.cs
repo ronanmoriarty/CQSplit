@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cafe.Waiter.Command.Service.Consumers;
-using CQ.Messaging;
+using CQSplit.Messaging;
 
 namespace Cafe.Waiter.Command.Service
 {

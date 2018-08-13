@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using CQ.Messaging;
-using CQ.Messaging.RabbitMq;
+using CQSplit.Messaging;
+using CQSplit.Messaging.RabbitMq;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 using NLog;

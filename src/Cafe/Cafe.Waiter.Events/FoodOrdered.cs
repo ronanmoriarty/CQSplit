@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cafe.Waiter.Contracts.Commands;
-using CQ.Core;
+using CQSplit.Core;
 
 namespace Cafe.Waiter.Events
 {
