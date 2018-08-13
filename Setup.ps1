@@ -13,6 +13,15 @@ param (
 . .\src\CQ\PowerShell\Docker.ps1
 . .\src\CQ\PowerShell\FileOperations.ps1
 
+function GetJsonTemplateFiles()
+{
+    return @(`
+        "$PSScriptRoot\src\Cafe\Cafe.Waiter.Web\appSettings.json.template", `
+        "$PSScriptRoot\src\Cafe\Cafe.Waiter.Command.Service\appSettings.json.template", `
+        "$PSScriptRoot\src\Cafe\Cafe.Waiter.EventProjecting.Service\appSettings.json.template" `
+    )
+}
+
 function CreateEnvFile()
 {
     Write-Output "sa_password=$saPasswordPlainText" | Out-File -encoding ASCII .env
@@ -28,7 +37,8 @@ $commandServicePasswordPlainText = ConvertToPlainText $commandServicePassword
 $eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingServicePassword
 
 CreateEnvFile
-$keyValuePairs = GetPasswordKeyValuePairs
-SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.docker.json.template appSettings.docker.json $keyValuePairs
+$keyValuePairs = GetKeyValuePairsToUseInsideContainers
+$jsonTemplateFiles = GetJsonTemplateFiles
+SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.docker.json $keyValuePairs
 
 .\build.ps1 -Target Create-CQ-NuGet-Packages
