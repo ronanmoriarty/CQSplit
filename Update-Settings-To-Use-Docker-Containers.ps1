@@ -9,4 +9,4 @@ $keyValuePairs.Keys | ForEach-Object {
 
 $paths = (Get-ChildItem -Path .\ -Filter appSettings.json.template -Recurse) | Select-Object -ExpandProperty FullName
 
-SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json.template appSettings.json $keyValuePairs
+SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs

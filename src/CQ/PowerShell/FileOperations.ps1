@@ -25,10 +25,11 @@ function GetExampleFileWithPlaceholdersReplaced([string] $filePath, [hashtable] 
     return $temp
 }
 
-function SwapPlaceholdersToCreateNewJsonFiles([string[]] $paths, [string] $sourceName, [string] $targetName, [hashtable] $keyValuePairs)
+function SwapPlaceholdersToCreateNewJsonFiles([string[]] $paths, [string] $targetName, [hashtable] $keyValuePairs)
 {
     $paths | ForEach-Object {
         $sourcePath = $_
+        $sourceName = [System.IO.Path]::GetFileName($sourcePath)
         Write-Output "Replacing placeholders in '$sourcePath' to create new file called '$targetName' in same directory."
         $targetJsonPath = $sourcePath.Replace($sourceName, $targetName)
         if(Test-Path $targetJsonPath)

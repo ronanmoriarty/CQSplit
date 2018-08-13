@@ -39,6 +39,6 @@ $eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingSe
 CreateEnvFile
 $keyValuePairs = GetKeyValuePairsToUseInsideContainers
 $jsonTemplateFiles = GetJsonTemplateFiles
-SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.json.template appSettings.docker.json $keyValuePairs
+SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.docker.json $keyValuePairs
 
 .\build.ps1 -Target Create-CQ-NuGet-Packages
