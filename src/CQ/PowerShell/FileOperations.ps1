@@ -25,11 +25,11 @@ function GetExampleFileWithPlaceholdersReplaced([string] $filePath, [hashtable] 
     return $temp
 }
 
-function SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles([string] $path, [string] $sourceName, [string] $targetName, [hashtable] $keyValuePairs)
+function SwapPlaceholdersToCreateNewJsonFiles([string[]] $paths, [string] $sourceName, [string] $targetName, [hashtable] $keyValuePairs)
 {
-    Write-Output "Replacing placeholders for all '$sourceName' files under '$path'. New files will be called '$targetName'"
-    Get-ChildItem -Path $path -Filter "$sourceName" -Recurse | ForEach-Object {
-        $sourcePath = $_.FullName
+    $paths | ForEach-Object {
+        $sourcePath = $_
+        Write-Output "Replacing placeholders in '$sourcePath' to create new file called '$targetName' in same directory."
         $targetJsonPath = $sourcePath.Replace($sourceName, $targetName)
         if(Test-Path $targetJsonPath)
         {

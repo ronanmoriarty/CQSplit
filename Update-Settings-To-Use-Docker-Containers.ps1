@@ -7,4 +7,6 @@ $keyValuePairs.Keys | ForEach-Object {
     Write-Output "$($_): $($keyValuePairs[$_])"
 }
 
-SwapPlaceholdersInExampleFilesToCreateNewDockerJsonFiles .\src\Cafe\ appSettings.json.template appSettings.json $keyValuePairs
+$paths = (Get-ChildItem -Path .\ -Filter appSettings.json.template -Recurse) | Select-Object -ExpandProperty FullName
+
+SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json.template appSettings.json $keyValuePairs
