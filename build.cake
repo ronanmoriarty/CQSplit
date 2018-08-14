@@ -142,6 +142,18 @@ Task("Update-CQSplit-Settings")
     StartPowershellScript("./src/CQSplit/PowerShell/Update-Settings-To-Use-Docker-Containers.ps1");
 });
 
+Task("Stop-CQSplit-Docker-Containers")
+    .Does(() =>
+{
+    DockerComposeDown(new DockerComposeDownSettings
+    {
+        Files = new []
+        {
+            "./src/CQSplit/docker-compose.yml"
+        }
+    });
+});
+
 Task("Build-CQSplit")
     .IsDependentOn("Restore-CQSplit-NuGet-Packages")
     .Does(() =>
