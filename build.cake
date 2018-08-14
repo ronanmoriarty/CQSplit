@@ -135,6 +135,13 @@ Task("Start-CQSplit-Docker-Containers")
     });
 });
 
+Task("Update-CQSplit-Settings")
+    .IsDependentOn("Start-CQSplit-Docker-Containers")
+    .Does(() =>
+{
+    StartPowershellScript("./src/CQSplit/PowerShell/Update-Settings-To-Use-Docker-Containers.ps1");
+});
+
 Task("Build-CQSplit")
     .IsDependentOn("Restore-CQSplit-NuGet-Packages")
     .Does(() =>
