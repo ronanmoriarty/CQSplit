@@ -8,4 +8,10 @@
     <ProjectReference Include="..\CQSplit.Messaging.RabbitMq\CQSplit.Messaging.RabbitMq.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
