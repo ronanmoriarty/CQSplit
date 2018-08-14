@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQSplit.Publish", "CQSplit.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQSplit.Publish.Tests", "CQSplit.Publish.Tests\CQSplit.Publish.Tests.csproj", "{20B91A87-833F-4E96-85EE-8A2805CD9E82}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQSplit.Messaging.RabbitMq.IntegrationTests", "CQSplit.Messaging.RabbitMq.IntegrationTests\CQSplit.Messaging.RabbitMq.IntegrationTests.csproj", "{F7862F0E-680D-4488-9B87-BD3C08522E19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{20B91A87-833F-4E96-85EE-8A2805CD9E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20B91A87-833F-4E96-85EE-8A2805CD9E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20B91A87-833F-4E96-85EE-8A2805CD9E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7862F0E-680D-4488-9B87-BD3C08522E19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7862F0E-680D-4488-9B87-BD3C08522E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7862F0E-680D-4488-9B87-BD3C08522E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7862F0E-680D-4488-9B87-BD3C08522E19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
