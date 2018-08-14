@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CQSplit.Messaging.RabbitMq\CQSplit.Messaging.RabbitMq.csproj" />
+    <ProjectReference Include="..\CQSplit.Messaging.Tests.Common\CQSplit.Messaging.Tests.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
