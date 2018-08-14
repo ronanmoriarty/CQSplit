@@ -183,6 +183,14 @@ Task("Run-CQSplit-Unit-Tests")
     .Does(() =>
 {
     RunDotNetCoreUnitTests("./src/CQSplit/**/*.Tests.csproj");
+});
+
+Task("Run-CQSplit-Tests")
+    .IsDependentOn("Run-CQSplit-Unit-Tests")
+    .Does(() =>
+{
+    RunDotNetCoreUnitTests("./src/CQSplit/**/*.IntegrationTests.csproj");
+    RunDotNetCoreUnitTests("./src/CQSplit/**/*.AcceptanceTests.csproj");
 })
 .Finally(() => {
     StopDockerContainers();
