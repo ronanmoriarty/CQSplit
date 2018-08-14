@@ -160,7 +160,6 @@ private void StopDockerContainers()
 }
 
 Task("Build-CQSplit")
-    .IsDependentOn("Update-CQSplit-Settings")
     .IsDependentOn("Restore-CQSplit-NuGet-Packages")
     .Does(() =>
 {
@@ -186,6 +185,8 @@ Task("Run-CQSplit-Unit-Tests")
 });
 
 Task("Run-CQSplit-Tests")
+    .IsDependentOn("Update-CQSplit-Settings")
+    .IsDependentOn("Build-CQSplit")
     .IsDependentOn("Run-CQSplit-Unit-Tests")
     .Does(() =>
 {
