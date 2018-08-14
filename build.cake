@@ -1,5 +1,6 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
 #addin "Cake.Powershell"
+#addin "Cake.Docker"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -114,7 +115,52 @@ Task("Restore-CQSplit-NuGet-Packages")
     DotNetCoreRestore("./src/CQSplit/CQSplit.sln");
 });
 
+Task("Build-CQSplit-Docker-Images")
+    .Does(() =>
+{
+    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{"./src/CQSplit/docker-compose.yml"}});
+});
+
+Task("Start-CQSplit-Docker-Containers")
+    .IsDependentOn("Build-CQSplit-Docker-Images")
+    .Does(() =>
+{
+    DockerComposeUp(new DockerComposeUpSettings
+    {
+        Files = new []
+        {
+            "./src/CQSplit/docker-compose.yml"
+        },
+        DetachedMode = true
+    });
+});
+
+Task("Update-CQSplit-Settings")
+    .IsDependentOn("Start-CQSplit-Docker-Containers")
+    .Does(() =>
+{
+    StartPowershellScript("./src/CQSplit/PowerShell/Update-Settings-To-Use-Docker-Containers.ps1");
+});
+
+Task("Stop-CQSplit-Docker-Containers")
+    .Does(() =>
+{
+    StopDockerContainers();
+});
+
+private void StopDockerContainers()
+{
+    DockerComposeDown(new DockerComposeDownSettings
+    {
+        Files = new []
+        {
+            "./src/CQSplit/docker-compose.yml"
+        }
+    });
+}
+
 Task("Build-CQSplit")
+    .IsDependentOn("Update-CQSplit-Settings")
     .IsDependentOn("Restore-CQSplit-NuGet-Packages")
     .Does(() =>
 {
@@ -137,6 +183,9 @@ Task("Run-CQSplit-Unit-Tests")
     .Does(() =>
 {
     RunDotNetCoreUnitTests("./src/CQSplit/**/*Tests.csproj");
+})
+.Finally(() => {
+    StopDockerContainers();
 });
 
 Task("Run-CQSplit-Unit-Tests-Without-Build")

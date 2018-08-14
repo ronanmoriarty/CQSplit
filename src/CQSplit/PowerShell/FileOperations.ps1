@@ -27,6 +27,12 @@ function GetExampleFileWithPlaceholdersReplaced([string] $filePath, [hashtable] 
 
 function SwapPlaceholdersToCreateNewJsonFiles([string[]] $paths, [string] $targetName, [hashtable] $keyValuePairs)
 {
+    if($paths.Length -eq 0)
+    {
+        Write-Output "No template files supplied."
+        return
+    }
+
     $paths | ForEach-Object {
         $sourcePath = $_
         $sourceName = [System.IO.Path]::GetFileName($sourcePath)
