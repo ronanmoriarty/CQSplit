@@ -1,5 +1,5 @@
-. .\Docker.ps1
-. .\FileOperations.ps1
+. "$PSScriptRoot\Docker.ps1"
+. "$PSScriptRoot\FileOperations.ps1"
 
 $keyValuePairs = GetKeyValuePairs
 
