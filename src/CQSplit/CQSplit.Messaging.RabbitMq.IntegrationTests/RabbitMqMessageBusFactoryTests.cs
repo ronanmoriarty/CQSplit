@@ -13,7 +13,6 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
     [Category("Integration")]
     public class RabbitMqMessageBusFactoryTests
     {
-        private RabbitMqMessageBusFactory _rabbitMqMessageBusFactory;
         private RabbitMqSendEndpointProvider _rabbitMqSendEndpointProvider;
         private IBusControl _busControl;
         private ManualResetEvent _manualResetEvent;
@@ -31,7 +30,7 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            _rabbitMqMessageBusFactory = new RabbitMqMessageBusFactory(
+            var rabbitMqMessageBusFactory = new RabbitMqMessageBusFactory(
                 new RabbitMqHostConfiguration(configurationRoot),
                 new RabbitMqReceiveEndpointConfigurator(
                     new ConsumerRegistrar(
@@ -42,7 +41,7 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
                 )
             );
 
-            _busControl = _rabbitMqMessageBusFactory.Create();
+            _busControl = new MultipleConnectionAttemptMessageBusFactory(rabbitMqMessageBusFactory).Create();
             _rabbitMqSendEndpointProvider = new RabbitMqSendEndpointProvider(_busControl, new RabbitMqHostConfiguration(configurationRoot));
         }
 
