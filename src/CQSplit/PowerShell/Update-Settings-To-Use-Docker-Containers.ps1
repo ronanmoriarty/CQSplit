@@ -1,3 +1,4 @@
+
 . "$PSScriptRoot\Docker.ps1"
 . "$PSScriptRoot\FileOperations.ps1"
 
@@ -11,7 +12,8 @@ function GetCQSplitKeyValuePairs()
 
 function GetAppSettingsTemplateFiles()
 {
-    return @() # no appSettings.json.template files just yet that need IP addresses injected - this will change shortly.
+    $cqRoot = GetFullPath "$PSScriptRoot\..\"
+    return (Get-ChildItem -Path $cqRoot -Filter appSettings.json.template -Recurse) | Select-Object -ExpandProperty FullName
 }
 
 $keyValuePairs = GetCQSplitKeyValuePairs
