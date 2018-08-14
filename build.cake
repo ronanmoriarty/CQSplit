@@ -183,6 +183,9 @@ Task("Run-CQSplit-Unit-Tests")
     .Does(() =>
 {
     RunDotNetCoreUnitTests("./src/CQSplit/**/*Tests.csproj");
+})
+.Finally(() => {
+    StopDockerContainers();
 });
 
 Task("Run-CQSplit-Unit-Tests-Without-Build")
