@@ -26,12 +26,10 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
             _consumer = new Consumer<TestMessage>(_manualResetEvent);
             IConsumer[] consumers = { _consumer };
 
-            var configurationRoot = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .Build();
+            var rabbitMqHostConfiguration = CreateRabbitMqHostConfiguration();
 
             var rabbitMqMessageBusFactory = new RabbitMqMessageBusFactory(
-                new RabbitMqHostConfiguration(configurationRoot),
+                rabbitMqHostConfiguration,
                 new RabbitMqReceiveEndpointConfigurator(
                     new ConsumerRegistrar(
                         new PreviouslyConstructedConsumerFactory(consumers),
@@ -42,7 +40,7 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
             );
 
             _busControl = new MultipleConnectionAttemptMessageBusFactory(rabbitMqMessageBusFactory).Create();
-            _rabbitMqSendEndpointProvider = new RabbitMqSendEndpointProvider(_busControl, new RabbitMqHostConfiguration(configurationRoot));
+            _rabbitMqSendEndpointProvider = new RabbitMqSendEndpointProvider(_busControl, rabbitMqHostConfiguration);
         }
 
         [Test]
@@ -63,6 +61,15 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
         {
             public Guid Id { get; set; }
         }
-    }
 
+        private static RabbitMqHostConfiguration CreateRabbitMqHostConfiguration()
+        {
+            var configurationRoot = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            var rabbitMqHostConfiguration = new RabbitMqHostConfiguration(configurationRoot);
+            return rabbitMqHostConfiguration;
+        }
+    }
 }
