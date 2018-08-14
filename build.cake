@@ -121,6 +121,20 @@ Task("Build-CQSplit-Docker-Images")
     DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{"./src/CQSplit/docker-compose.yml"}});
 });
 
+Task("Start-CQSplit-Docker-Containers")
+    .IsDependentOn("Build-CQSplit-Docker-Images")
+    .Does(() =>
+{
+    DockerComposeUp(new DockerComposeUpSettings
+    {
+        Files = new []
+        {
+            "./src/CQSplit/docker-compose.yml"
+        },
+        DetachedMode = true
+    });
+});
+
 Task("Build-CQSplit")
     .IsDependentOn("Restore-CQSplit-NuGet-Packages")
     .Does(() =>
