@@ -1,5 +1,6 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
 #addin "Cake.Powershell"
+#addin "Cake.Docker"
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -112,6 +113,12 @@ Task("Restore-CQSplit-NuGet-Packages")
     .Does(() =>
 {
     DotNetCoreRestore("./src/CQSplit/CQSplit.sln");
+});
+
+Task("Build-CQSplit-Docker-Images")
+    .Does(() =>
+{
+    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{"./src/CQSplit/docker-compose.yml"}});
 });
 
 Task("Build-CQSplit")
