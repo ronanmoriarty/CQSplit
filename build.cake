@@ -145,6 +145,11 @@ Task("Update-CQSplit-Settings")
 Task("Stop-CQSplit-Docker-Containers")
     .Does(() =>
 {
+    StopDockerContainers();
+});
+
+private void StopDockerContainers()
+{
     DockerComposeDown(new DockerComposeDownSettings
     {
         Files = new []
@@ -152,7 +157,7 @@ Task("Stop-CQSplit-Docker-Containers")
             "./src/CQSplit/docker-compose.yml"
         }
     });
-});
+}
 
 Task("Build-CQSplit")
     .IsDependentOn("Restore-CQSplit-NuGet-Packages")
