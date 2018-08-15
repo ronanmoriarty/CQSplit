@@ -51,7 +51,11 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
             var id = Guid.NewGuid();
             await sendEndpoint.Send(new TestMessage { Id = id });
 
-            _manualResetEvent.WaitOne(TimeSpan.FromSeconds(5));
+            var timedOut = !_manualResetEvent.WaitOne(TimeSpan.FromSeconds(5));
+            if (timedOut)
+            {
+                Assert.Fail("Timed out");
+            }
 
             Assert.That(_consumer.ReceivedMessage);
             Assert.That(_consumer.ReceivedMessages.Single(message => message.Id == id), Is.Not.Null);
