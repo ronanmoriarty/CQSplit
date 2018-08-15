@@ -8,13 +8,13 @@ namespace CQSplit.Messaging.Tests.Common
     public class Consumer<TMessage>
         : IConsumer<TMessage> where TMessage : class
     {
-        private readonly ManualResetEvent _manualResetEvent;
+        private readonly Semaphore _semaphore;
         public bool ReceivedMessage;
         public IList<TMessage> ReceivedMessages { get; }
 
-        public Consumer(ManualResetEvent manualResetEvent)
+        public Consumer(Semaphore semaphore)
         {
-            _manualResetEvent = manualResetEvent;
+            _semaphore = semaphore;
             ReceivedMessages = new List<TMessage>();
         }
 
@@ -27,7 +27,7 @@ namespace CQSplit.Messaging.Tests.Common
 
         private void AllowTestThreadToContinueToAssertions()
         {
-            _manualResetEvent.Set();
+            _semaphore.Release();
         }
     }
 }

@@ -160,7 +160,6 @@ private void StopDockerContainers()
 }
 
 Task("Build-CQSplit")
-    .IsDependentOn("Update-CQSplit-Settings")
     .IsDependentOn("Restore-CQSplit-NuGet-Packages")
     .Does(() =>
 {
@@ -182,7 +181,17 @@ Task("Run-CQSplit-Unit-Tests")
     .IsDependentOn("Build-CQSplit")
     .Does(() =>
 {
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*Tests.csproj");
+    RunDotNetCoreUnitTests("./src/CQSplit/**/*.Tests.csproj");
+});
+
+Task("Run-CQSplit-Tests")
+    .IsDependentOn("Update-CQSplit-Settings")
+    .IsDependentOn("Build-CQSplit")
+    .IsDependentOn("Run-CQSplit-Unit-Tests")
+    .Does(() =>
+{
+    RunDotNetCoreUnitTests("./src/CQSplit/**/*.IntegrationTests.csproj");
+    RunDotNetCoreUnitTests("./src/CQSplit/**/*.AcceptanceTests.csproj");
 })
 .Finally(() => {
     StopDockerContainers();

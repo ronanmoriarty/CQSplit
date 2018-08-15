@@ -12,19 +12,19 @@ namespace CQSplit.Messaging.Tests
     {
         private const string QueueName = "myQueue";
         private const string ErrorQueueName = "myQueue_error";
-        public static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
+        public static readonly Semaphore Semaphore = new Semaphore(0, 1);
         private IBusControl _busControl;
         private ConsumerRegistrar _consumerRegistrar;
         private ConsumerRegistrar _faultEventConsumerRegistrar;
-        private Common.Consumer<FakeEvent> _fakeEventConsumer;
-        private Common.Consumer<Fault<FakeEvent>> _fakeEventFaultConsumer;
+        private Consumer<FakeEvent> _fakeEventConsumer;
+        private Consumer<Fault<FakeEvent>> _fakeEventFaultConsumer;
 
         [SetUp]
         public void SetUp()
         {
-            _fakeEventConsumer = new Common.Consumer<FakeEvent>(ManualResetEvent);
+            _fakeEventConsumer = new Consumer<FakeEvent>(Semaphore);
             _consumerRegistrar = ConsumerRegistrarFactory.Create(QueueName, _fakeEventConsumer);
-            _fakeEventFaultConsumer = new Common.Consumer<Fault<FakeEvent>>(ManualResetEvent);
+            _fakeEventFaultConsumer = new Consumer<Fault<FakeEvent>>(Semaphore);
             _faultEventConsumerRegistrar = ConsumerRegistrarFactory.Create(ErrorQueueName, _fakeEventFaultConsumer);
 
             CreateBus();
@@ -61,7 +61,7 @@ namespace CQSplit.Messaging.Tests
 
         private void WaitUntilBusHasProcessedMessageOrTimedOut()
         {
-            ManualResetEvent.WaitOne(TimeSpan.FromSeconds(5));
+            Semaphore.WaitOne(TimeSpan.FromSeconds(5));
         }
 
         private class FakeEvent

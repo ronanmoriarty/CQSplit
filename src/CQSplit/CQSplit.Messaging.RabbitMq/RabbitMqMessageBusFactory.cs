@@ -36,7 +36,6 @@ namespace CQSplit.Messaging.RabbitMq
             rabbitMqBusFactoryConfigurator.UseNLog();
             _logger.Debug($"Host address is: \"{hostAddress.AbsoluteUri}\"");
             _logger.Debug($"Username is: \"{_rabbitMqHostConfiguration.Username}\"");
-            _logger.Debug($"Password is: \"{_rabbitMqHostConfiguration.Password}\"");
             return rabbitMqBusFactoryConfigurator.Host(hostAddress, h =>
             {
                 h.Username(_rabbitMqHostConfiguration.Username);
