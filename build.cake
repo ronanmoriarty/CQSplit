@@ -178,11 +178,26 @@ Task("Build-CQSplit")
     }
 });
 
+void RunCQSplitUnitTests()
+{
+    RunDotNetCoreUnitTests("./src/CQSplit/**/*.Tests.csproj");
+}
+
+void RunCQSplitIntegrationTests()
+{
+    RunDotNetCoreUnitTests("./src/CQSplit/**/*.IntegrationTests.csproj");
+}
+
+void RunCQSplitAcceptanceTests()
+{
+    RunDotNetCoreUnitTests("./src/CQSplit/**/*.AcceptanceTests.csproj");
+}
+
 Task("Run-CQSplit-Unit-Tests")
     .IsDependentOn("Build-CQSplit")
     .Does(() =>
 {
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*.Tests.csproj");
+    RunCQSplitUnitTests();
 });
 
 Task("Run-CQSplit-Tests")
@@ -191,8 +206,8 @@ Task("Run-CQSplit-Tests")
     .IsDependentOn("Run-CQSplit-Unit-Tests")
     .Does(() =>
 {
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*.IntegrationTests.csproj");
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*.AcceptanceTests.csproj");
+    RunCQSplitIntegrationTests();
+    RunCQSplitAcceptanceTests();
 })
 .Finally(() => {
     StopDockerContainers();
@@ -201,7 +216,7 @@ Task("Run-CQSplit-Tests")
 Task("Run-CQSplit-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*Tests.csproj");
+    RunCQSplitUnitTests();
 });
 
 Task("Create-CQSplit-Nuget-Packages")
