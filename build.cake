@@ -219,7 +219,7 @@ Task("Run-CQSplit-Unit-Tests-Without-Build")
 });
 
 Task("Create-CQSplit-Nuget-Packages")
-    .IsDependentOn("Run-CQSplit-Unit-Tests")
+    .IsDependentOn("Run-CQSplit-Tests")
     .Does(() =>
 {
     var nuGetPackSettings = new NuGetPackSettings {
