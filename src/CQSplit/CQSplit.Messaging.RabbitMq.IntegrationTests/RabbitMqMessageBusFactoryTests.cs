@@ -15,15 +15,15 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
     {
         private RabbitMqSendEndpointProvider _rabbitMqSendEndpointProvider;
         private IBusControl _busControl;
-        private ManualResetEvent _manualResetEvent;
-        private Consumer<TestMessage> _consumer;
+        private SemaphoreConsumer<TestMessage> _consumer;
+        private Semaphore _semaphore;
         private const string QueueName = "RabbitMqMessageBusFactoryTests_Queue";
 
         [SetUp]
         public void SetUp()
         {
-            _manualResetEvent = new ManualResetEvent(true);
-            _consumer = new Consumer<TestMessage>(_manualResetEvent);
+            _semaphore = new Semaphore(0, 1);
+            _consumer = new SemaphoreConsumer<TestMessage>(_semaphore);
             IConsumer[] consumers = { _consumer };
 
             var rabbitMqHostConfiguration = CreateRabbitMqHostConfiguration();
@@ -33,7 +33,7 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
                 new RabbitMqReceiveEndpointConfigurator(
                     new ConsumerRegistrar(
                         new PreviouslyConstructedConsumerFactory(consumers),
-                        new ConsumerTypeProvider(typeof(Consumer<TestMessage>)),
+                        new ConsumerTypeProvider(typeof(SemaphoreConsumer<TestMessage>)),
                         new ReceiveEndpointConfiguration(QueueName)
                     )
                 )
@@ -51,7 +51,7 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
             var id = Guid.NewGuid();
             await sendEndpoint.Send(new TestMessage { Id = id });
 
-            var timedOut = !_manualResetEvent.WaitOne(TimeSpan.FromSeconds(5));
+            var timedOut = !_semaphore.WaitOne(TimeSpan.FromSeconds(5));
             if (timedOut)
             {
                 Assert.Fail("Timed out");
