@@ -1,6 +1,8 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
 #addin "Cake.Powershell"
 #addin "Cake.Docker"
+#addin nuget:?package=Cake.Json
+#addin nuget:?package=Newtonsoft.Json&version=9.0.1
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -147,6 +149,31 @@ private void RunDotNetTests(string filePattern)
     }
 
     KillNUnitAgentProcesses();
+}
+
+Task("Run-Sample-Application")
+    .IsDependentOn("Update-Sample-Application-Settings")
+    .Does(() =>
+{
+    RunSampleApplication();
+});
+
+private void RunSampleApplication()
+{
+    var waiterWebsiteEntryPointUrl = GetWaiterWebsiteEntryPointUrl();
+    Information($"The sample application is now running at {waiterWebsiteEntryPointUrl}");
+}
+
+private string GetWaiterWebsiteEntryPointUrl()
+{
+    return $"{GetWaiterWebsiteAddress()}/app/index.html#!/tabs";
+}
+
+private string GetWaiterWebsiteAddress()
+{
+    var settings = ParseJsonFromFile("./src/Cafe/Cafe.Waiter.AcceptanceTests/appSettings.json");
+    var host = settings["cafe"]["waiter"]["web"]["url"];
+    return host.ToString();
 }
 
 Task("Clean-CQSplit")
