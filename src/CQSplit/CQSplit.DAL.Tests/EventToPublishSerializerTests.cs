@@ -13,6 +13,7 @@ namespace CQSplit.DAL.Tests
         private readonly Guid _id = new Guid("6DB1103B-673F-4F1C-B7A4-6A5E697DFBB8");
         private readonly Guid _commandId = new Guid("F0428D89-7DC0-44EB-A0A7-C2029ABD181C");
         private readonly Guid _aggregateId = new Guid("91F6CE8F-7432-4C39-8F65-3D3A7B6F9FBC");
+        private string StringPropertyValue = "some string value";
 
         [SetUp]
         public void SetUp()
@@ -27,7 +28,8 @@ namespace CQSplit.DAL.Tests
             {
                 Id = _id,
                 AggregateId = _aggregateId,
-                CommandId = _commandId
+                CommandId = _commandId,
+                StringProperty = StringPropertyValue
             };
 
             var eventToPublish = _eventToPublishSerializer.Serialize(testEvent);
@@ -42,7 +44,7 @@ namespace CQSplit.DAL.Tests
         public void Event_to_publish_gets_deserialized_using_id_from_serialized_event()
         {
             var otherId = Guid.NewGuid();
-            var json = $"{{\"Id\":\"{otherId}\",\"AggregateId\":\"{_aggregateId.ToString()}\",\"CommandId\":\"{_commandId.ToString()}\"}}";
+            var json = $"{{\"Id\":\"{otherId}\",\"AggregateId\":\"{_aggregateId.ToString()}\",\"CommandId\":\"{_commandId.ToString()}\",\"StringProperty\":\"{StringPropertyValue}\"}}";
 
             var eventToPublish = new EventToPublish
             {
@@ -58,6 +60,7 @@ namespace CQSplit.DAL.Tests
             Assert.That(@event.AggregateId, Is.EqualTo(_aggregateId));
             Assert.That(@event.CommandId, Is.EqualTo(_commandId));
             Assert.That(@event.GetType(), Is.EqualTo(typeof(TestEvent)));
+            Assert.That(((TestEvent)@event).StringProperty, Is.EqualTo(StringPropertyValue));
         }
     }
 }
