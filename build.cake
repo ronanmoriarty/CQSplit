@@ -95,35 +95,35 @@ Task("Run-Sample-Application-Unit-Tests")
     .IsDependentOn("Build-Sample-Application")
     .Does(() =>
 {
-    RunCafeUnitTests();
+    RunSampleApplicationUnitTests();
 });
 
 Task("Run-Sample-Application-Tests")
     .IsDependentOn("Run-Sample-Application-Unit-Tests")
     .Does(() =>
 {
-    RunCafeAcceptanceTests();
+    RunSampleApplicationAcceptanceTests();
 });
 
 Task("Run-Sample-Application-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunCafeUnitTests();
+    RunSampleApplicationUnitTests();
 });
 
 Task("Run-Sample-Application-Tests-Without-Build")
     .IsDependentOn("Run-Sample-Application-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunCafeAcceptanceTests();
+    RunSampleApplicationAcceptanceTests();
 });
 
-private void RunCafeUnitTests()
+private void RunSampleApplicationUnitTests()
 {
     RunDotNetCoreUnitTests("./src/Cafe/**/*.Tests.csproj");
 }
 
-private void RunCafeAcceptanceTests()
+private void RunSampleApplicationAcceptanceTests()
 {
     RunDotNetCoreUnitTests("./src/Cafe/**/*.AcceptanceTests.csproj");
 }
