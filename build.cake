@@ -20,6 +20,12 @@ var configuration = Argument("configuration", "Release");
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
+Task("Build-Sample-Application-Docker-Images")
+    .Does(() =>
+{
+    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{"./docker-compose.yml"}});
+});
+
 Task("Clean-Sample-Application")
     .Does(() =>
 {
