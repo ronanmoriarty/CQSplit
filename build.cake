@@ -202,7 +202,6 @@ Task("Run-CQSplit-Unit-Tests")
 
 Task("Run-CQSplit-Tests")
     .IsDependentOn("Update-CQSplit-Settings")
-    .IsDependentOn("Build-CQSplit")
     .IsDependentOn("Run-CQSplit-Unit-Tests")
     .Does(() =>
 {
