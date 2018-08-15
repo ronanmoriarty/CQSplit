@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cafe.Waiter.Web.Tests
+namespace Cafe.Waiter.Web.IntegrationTests
 {
     public static class BuildServiceProvider
     {

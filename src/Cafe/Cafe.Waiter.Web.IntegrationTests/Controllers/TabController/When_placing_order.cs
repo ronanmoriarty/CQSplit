@@ -9,7 +9,7 @@ using CQSplit.Messaging;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Web.Tests.Controllers.TabController
+namespace Cafe.Waiter.Web.IntegrationTests.Controllers.TabController
 {
     [TestFixture]
     public class When_placing_order

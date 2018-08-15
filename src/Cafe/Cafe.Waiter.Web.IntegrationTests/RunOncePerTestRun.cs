@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Web.Tests
+namespace Cafe.Waiter.Web.IntegrationTests
 {
     [SetUpFixture]
     public class RunOncePerTestRun

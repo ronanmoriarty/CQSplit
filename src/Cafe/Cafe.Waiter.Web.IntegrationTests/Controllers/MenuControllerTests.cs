@@ -3,7 +3,7 @@ using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Web.Controllers;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Web.Tests.Controllers
+namespace Cafe.Waiter.Web.IntegrationTests.Controllers
 {
     [TestFixture]
     public class MenuControllerTests

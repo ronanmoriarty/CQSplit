@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Web.Tests.Repositories
+namespace Cafe.Waiter.Web.IntegrationTests.Repositories
 {
     [TestFixture]
     public class MenuRepositoryTests

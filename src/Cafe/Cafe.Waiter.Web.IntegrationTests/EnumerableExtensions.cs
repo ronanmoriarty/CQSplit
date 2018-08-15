@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Cafe.Waiter.Web.Tests
+namespace Cafe.Waiter.Web.IntegrationTests
 {
     public static class EnumerableExtensions
     {

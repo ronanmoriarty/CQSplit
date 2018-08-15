@@ -7,7 +7,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Web.Tests
+namespace Cafe.Waiter.Web.IntegrationTests
 {
     [TestFixture]
     public class StartupTests
