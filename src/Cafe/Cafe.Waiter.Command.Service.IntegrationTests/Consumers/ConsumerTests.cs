@@ -4,7 +4,7 @@ using MassTransit;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Command.Service.Tests.Consumers
+namespace Cafe.Waiter.Command.Service.IntegrationTests.Consumers
 {
     public abstract class ConsumerTests<TConsumer, TCommand>
         where TConsumer : IConsumer<TCommand>

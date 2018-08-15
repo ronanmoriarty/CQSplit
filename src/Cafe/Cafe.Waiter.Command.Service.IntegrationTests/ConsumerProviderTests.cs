@@ -5,7 +5,7 @@ using Cafe.Waiter.Command.Service.Consumers;
 using CQSplit.Messaging;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Command.Service.Tests
+namespace Cafe.Waiter.Command.Service.IntegrationTests
 {
     [TestFixture]
     public class ConsumerProviderTests

@@ -3,7 +3,7 @@ using Cafe.Waiter.Commands;
 using CQSplit.Core;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Command.Service.Tests
+namespace Cafe.Waiter.Command.Service.IntegrationTests
 {
     [TestFixture]
     public class ContainerTests

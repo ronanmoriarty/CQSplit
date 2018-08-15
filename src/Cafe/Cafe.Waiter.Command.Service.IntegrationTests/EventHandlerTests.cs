@@ -5,7 +5,7 @@ using Cafe.Waiter.Events;
 using CQSplit.Core;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Command.Service.Tests
+namespace Cafe.Waiter.Command.Service.IntegrationTests
 {
     [TestFixture]
     public class EventHandlerTests
