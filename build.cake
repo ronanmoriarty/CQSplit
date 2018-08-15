@@ -26,6 +26,20 @@ Task("Build-Sample-Application-Docker-Images")
     DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{"./docker-compose.yml"}});
 });
 
+Task("Start-Sample-Application-Docker-Containers")
+    .IsDependentOn("Build-Sample-Application-Docker-Images")
+    .Does(() =>
+{
+    DockerComposeUp(new DockerComposeUpSettings
+    {
+        Files = new []
+        {
+            "./docker-compose.yml"
+        },
+        DetachedMode = true
+    });
+});
+
 Task("Clean-Sample-Application")
     .Does(() =>
 {
