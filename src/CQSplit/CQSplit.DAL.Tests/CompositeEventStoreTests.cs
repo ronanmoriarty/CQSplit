@@ -43,5 +43,13 @@ namespace CQSplit.DAL.Tests
             Assert.That(_eventStore1.UnitOfWork, Is.EqualTo(_unitOfWork));
             Assert.That(_eventStore2.UnitOfWork, Is.EqualTo(_unitOfWork));
         }
+
+        [Test]
+        public void Unit_of_work_is_unit_of_work_for_first_underlying_event_store()
+        {
+            _eventStore1.UnitOfWork = _unitOfWork;
+
+            Assert.That(_compositeEventStore.UnitOfWork, Is.EqualTo(_unitOfWork));
+        }
     }
 }
