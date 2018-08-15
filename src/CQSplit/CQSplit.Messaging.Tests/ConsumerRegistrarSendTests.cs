@@ -13,24 +13,24 @@ namespace CQSplit.Messaging.Tests
         private const string QueueName = "myQueue";
         private const string ErrorQueueName = "myQueue_error";
         private const string LoopbackAddress = "loopback://localhost/";
-        public static readonly ManualResetEvent ManualResetEvent = new ManualResetEvent(false);
-        public static readonly ManualResetEvent ManualResetEvent2 = new ManualResetEvent(false);
+        public static readonly Semaphore Semaphore = new Semaphore(0, 1);
+        public static readonly Semaphore Semaphore2 = new Semaphore(0, 1);
         private IBusControl _busControl;
         private ConsumerRegistrar _consumerRegistrar;
         private ConsumerRegistrar _faultConsumerRegistrar;
-        private Common.Consumer<FakeCommand> _fakeCommandConsumer;
-        private Common.Consumer<FakeCommand2> _fakeCommand2Consumer;
-        private Common.Consumer<Fault<FakeCommand>> _fakeCommandFaultConsumer;
-        private Common.Consumer<Fault<FakeCommand2>> _fakeCommand2FaultConsumer;
+        private SemaphoreConsumer<FakeCommand> _fakeCommandConsumer;
+        private SemaphoreConsumer<FakeCommand2> _fakeCommand2Consumer;
+        private SemaphoreConsumer<Fault<FakeCommand>> _fakeCommandFaultConsumer;
+        private SemaphoreConsumer<Fault<FakeCommand2>> _fakeCommand2FaultConsumer;
 
         [SetUp]
         public void SetUp()
         {
-            _fakeCommandConsumer = new Common.Consumer<FakeCommand>(ManualResetEvent);
-            _fakeCommand2Consumer = new Common.Consumer<FakeCommand2>(ManualResetEvent2);
+            _fakeCommandConsumer = new SemaphoreConsumer<FakeCommand>(Semaphore);
+            _fakeCommand2Consumer = new SemaphoreConsumer<FakeCommand2>(Semaphore2);
             _consumerRegistrar = ConsumerRegistrarFactory.Create(QueueName, _fakeCommandConsumer, _fakeCommand2Consumer);
-            _fakeCommandFaultConsumer = new Common.Consumer<Fault<FakeCommand>>(ManualResetEvent);
-            _fakeCommand2FaultConsumer = new Common.Consumer<Fault<FakeCommand2>>(ManualResetEvent2);
+            _fakeCommandFaultConsumer = new SemaphoreConsumer<Fault<FakeCommand>>(Semaphore);
+            _fakeCommand2FaultConsumer = new SemaphoreConsumer<Fault<FakeCommand2>>(Semaphore2);
             _faultConsumerRegistrar = ConsumerRegistrarFactory.Create(ErrorQueueName, _fakeCommandFaultConsumer, _fakeCommand2FaultConsumer);
 
             CreateBus();
@@ -54,7 +54,7 @@ namespace CQSplit.Messaging.Tests
         public async Task Registers_all_consumers_listed_in_consumerTypeProvider_with_the_queue_from_the_receiveEndpointConfiguration()
         {
             await SendFakeCommand();
-            WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent);
+            WaitUntilBusHasProcessedMessageOrTimedOut(Semaphore);
 
             Assert.That(_fakeCommandConsumer.ReceivedMessage, Is.True);
             Assert.That(_fakeCommandFaultConsumer.ReceivedMessage, Is.False);
@@ -70,7 +70,7 @@ namespace CQSplit.Messaging.Tests
         public async Task Can_register_two_consumers_against_the_same_receive_endpoint()
         {
             await SendFakeCommand2();
-            WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent2);
+            WaitUntilBusHasProcessedMessageOrTimedOut(Semaphore2);
 
             Assert.That(_fakeCommand2Consumer.ReceivedMessage, Is.True);
             Assert.That(_fakeCommand2FaultConsumer.ReceivedMessage, Is.False);
@@ -87,7 +87,7 @@ namespace CQSplit.Messaging.Tests
             return await _busControl.GetSendEndpoint(new Uri($"{LoopbackAddress}{QueueName}"));
         }
 
-        private void WaitUntilBusHasProcessedMessageOrTimedOut(ManualResetEvent manualResetEvent)
+        private void WaitUntilBusHasProcessedMessageOrTimedOut(Semaphore manualResetEvent)
         {
             manualResetEvent.WaitOne(TimeSpan.FromSeconds(5));
         }
