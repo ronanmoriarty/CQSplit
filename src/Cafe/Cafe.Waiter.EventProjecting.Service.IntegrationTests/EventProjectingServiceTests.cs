@@ -3,7 +3,7 @@ using MassTransit;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.EventProjecting.Service.Tests
+namespace Cafe.Waiter.EventProjecting.Service.IntegrationTests
 {
     [TestFixture]
     public class EventProjectingServiceTests

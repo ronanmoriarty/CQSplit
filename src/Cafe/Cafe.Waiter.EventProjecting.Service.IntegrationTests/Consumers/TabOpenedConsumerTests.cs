@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.EventProjecting.Service.Tests.Consumers
+namespace Cafe.Waiter.EventProjecting.Service.IntegrationTests.Consumers
 {
     [TestFixture]
     public class TabOpenedConsumerTests

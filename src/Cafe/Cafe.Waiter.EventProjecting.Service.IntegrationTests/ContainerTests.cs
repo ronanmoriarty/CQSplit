@@ -1,7 +1,7 @@
 ﻿using Cafe.Waiter.EventProjecting.Service.Consumers;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.EventProjecting.Service.Tests
+namespace Cafe.Waiter.EventProjecting.Service.IntegrationTests
 {
     [TestFixture]
     public class ContainerTests
