@@ -1,4 +1,10 @@
-$repositoryName = "cqrs-nu-tutorial"
+function GetRepositoryName()
+{
+    return (Get-Item $PSScriptRoot).Parent.Parent.Parent
+}
+
+$repositoryName = GetRepositoryName
+Write-Output "`$repositoryName: $repositoryName"
 
 function GetEnvFilePath()
 {
