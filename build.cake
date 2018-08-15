@@ -102,6 +102,7 @@ Task("Run-Sample-Application-Tests")
     .IsDependentOn("Run-Sample-Application-Unit-Tests")
     .Does(() =>
 {
+    RunSampleApplicationIntegrationTests();
     RunSampleApplicationAcceptanceTests();
 });
 
@@ -121,6 +122,11 @@ Task("Run-Sample-Application-Tests-Without-Build")
 private void RunSampleApplicationUnitTests()
 {
     RunDotNetCoreUnitTests("./src/Cafe/**/*.Tests.csproj");
+}
+
+private void RunSampleApplicationIntegrationTests()
+{
+    RunDotNetCoreUnitTests("./src/Cafe/**/*.IntegrationTests.csproj");
 }
 
 private void RunSampleApplicationAcceptanceTests()
