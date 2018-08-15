@@ -122,6 +122,7 @@ Task("Run-Sample-Application-Tests-Without-Build")
     .IsDependentOn("Run-Sample-Application-Unit-Tests-Without-Build")
     .Does(() =>
 {
+    RunSampleApplicationIntegrationTests();
     RunSampleApplicationAcceptanceTests();
 });
 
