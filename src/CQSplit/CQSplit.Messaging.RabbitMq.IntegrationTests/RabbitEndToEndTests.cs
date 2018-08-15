@@ -15,7 +15,7 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
     {
         private RabbitMqSendEndpointProvider _rabbitMqSendEndpointProvider;
         private IBusControl _busControl;
-        private SemaphoreConsumer<TestMessage> _consumer;
+        private Consumer<TestMessage> _consumer;
         private Semaphore _semaphore;
         private readonly Guid _id = Guid.NewGuid();
         private const string QueueName = "RabbitMqMessageBusFactoryTests_Queue";
@@ -24,7 +24,7 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
         public void SetUp()
         {
             _semaphore = new Semaphore(0, 1);
-            _consumer = new SemaphoreConsumer<TestMessage>(_semaphore);
+            _consumer = new Consumer<TestMessage>(_semaphore);
             IConsumer[] consumers = { _consumer };
 
             var rabbitMqHostConfiguration = CreateRabbitMqHostConfiguration();
@@ -34,7 +34,7 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
                 new RabbitMqReceiveEndpointConfigurator(
                     new ConsumerRegistrar(
                         new PreviouslyConstructedConsumerFactory(consumers),
-                        new ConsumerTypeProvider(typeof(SemaphoreConsumer<TestMessage>)),
+                        new ConsumerTypeProvider(typeof(Consumer<TestMessage>)),
                         new ReceiveEndpointConfiguration(QueueName)
                     )
                 )

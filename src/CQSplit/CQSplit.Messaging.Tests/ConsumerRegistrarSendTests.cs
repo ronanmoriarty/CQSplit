@@ -18,19 +18,19 @@ namespace CQSplit.Messaging.Tests
         private IBusControl _busControl;
         private ConsumerRegistrar _consumerRegistrar;
         private ConsumerRegistrar _faultConsumerRegistrar;
-        private SemaphoreConsumer<FakeCommand> _fakeCommandConsumer;
-        private SemaphoreConsumer<FakeCommand2> _fakeCommand2Consumer;
-        private SemaphoreConsumer<Fault<FakeCommand>> _fakeCommandFaultConsumer;
-        private SemaphoreConsumer<Fault<FakeCommand2>> _fakeCommand2FaultConsumer;
+        private Consumer<FakeCommand> _fakeCommandConsumer;
+        private Consumer<FakeCommand2> _fakeCommand2Consumer;
+        private Consumer<Fault<FakeCommand>> _fakeCommandFaultConsumer;
+        private Consumer<Fault<FakeCommand2>> _fakeCommand2FaultConsumer;
 
         [SetUp]
         public void SetUp()
         {
-            _fakeCommandConsumer = new SemaphoreConsumer<FakeCommand>(Semaphore);
-            _fakeCommand2Consumer = new SemaphoreConsumer<FakeCommand2>(Semaphore2);
+            _fakeCommandConsumer = new Consumer<FakeCommand>(Semaphore);
+            _fakeCommand2Consumer = new Consumer<FakeCommand2>(Semaphore2);
             _consumerRegistrar = ConsumerRegistrarFactory.Create(QueueName, _fakeCommandConsumer, _fakeCommand2Consumer);
-            _fakeCommandFaultConsumer = new SemaphoreConsumer<Fault<FakeCommand>>(Semaphore);
-            _fakeCommand2FaultConsumer = new SemaphoreConsumer<Fault<FakeCommand2>>(Semaphore2);
+            _fakeCommandFaultConsumer = new Consumer<Fault<FakeCommand>>(Semaphore);
+            _fakeCommand2FaultConsumer = new Consumer<Fault<FakeCommand2>>(Semaphore2);
             _faultConsumerRegistrar = ConsumerRegistrarFactory.Create(ErrorQueueName, _fakeCommandFaultConsumer, _fakeCommand2FaultConsumer);
 
             CreateBus();

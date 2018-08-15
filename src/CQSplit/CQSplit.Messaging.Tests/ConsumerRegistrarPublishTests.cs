@@ -16,15 +16,15 @@ namespace CQSplit.Messaging.Tests
         private IBusControl _busControl;
         private ConsumerRegistrar _consumerRegistrar;
         private ConsumerRegistrar _faultEventConsumerRegistrar;
-        private SemaphoreConsumer<FakeEvent> _fakeEventConsumer;
-        private SemaphoreConsumer<Fault<FakeEvent>> _fakeEventFaultConsumer;
+        private Consumer<FakeEvent> _fakeEventConsumer;
+        private Consumer<Fault<FakeEvent>> _fakeEventFaultConsumer;
 
         [SetUp]
         public void SetUp()
         {
-            _fakeEventConsumer = new SemaphoreConsumer<FakeEvent>(Semaphore);
+            _fakeEventConsumer = new Consumer<FakeEvent>(Semaphore);
             _consumerRegistrar = ConsumerRegistrarFactory.Create(QueueName, _fakeEventConsumer);
-            _fakeEventFaultConsumer = new SemaphoreConsumer<Fault<FakeEvent>>(Semaphore);
+            _fakeEventFaultConsumer = new Consumer<Fault<FakeEvent>>(Semaphore);
             _faultEventConsumerRegistrar = ConsumerRegistrarFactory.Create(ErrorQueueName, _fakeEventFaultConsumer);
 
             CreateBus();

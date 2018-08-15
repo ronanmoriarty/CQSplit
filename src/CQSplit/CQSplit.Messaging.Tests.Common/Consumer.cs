@@ -5,14 +5,14 @@ using MassTransit;
 
 namespace CQSplit.Messaging.Tests.Common
 {
-    public class SemaphoreConsumer<TMessage>
+    public class Consumer<TMessage>
         : IConsumer<TMessage> where TMessage : class
     {
         private readonly Semaphore _semaphore;
         public bool ReceivedMessage;
         public IList<TMessage> ReceivedMessages { get; }
 
-        public SemaphoreConsumer(Semaphore semaphore)
+        public Consumer(Semaphore semaphore)
         {
             _semaphore = semaphore;
             ReceivedMessages = new List<TMessage>();
