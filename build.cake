@@ -60,12 +60,6 @@ Task("Run-Sample-Application-Unit-Tests")
     RunCafeUnitTests();
 });
 
-Task("Run-Sample-Application-Unit-Tests-Without-Build")
-    .Does(() =>
-{
-    RunCafeUnitTests();
-});
-
 Task("Run-Sample-Application-Tests")
     .IsDependentOn("Run-Sample-Application-Unit-Tests")
     .Does(() =>
@@ -73,7 +67,14 @@ Task("Run-Sample-Application-Tests")
     RunCafeAcceptanceTests();
 });
 
+Task("Run-Sample-Application-Unit-Tests-Without-Build")
+    .Does(() =>
+{
+    RunCafeUnitTests();
+});
+
 Task("Run-Sample-Application-Tests-Without-Build")
+    .IsDependentOn("Run-Sample-Application-Unit-Tests-Without-Build")
     .Does(() =>
 {
     RunCafeAcceptanceTests();
