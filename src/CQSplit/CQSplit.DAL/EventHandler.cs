@@ -18,13 +18,13 @@ namespace CQSplit.DAL
         {
             using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventStore))
             {
-                unitOfWork.ExecuteInTransaction(() =>
-                {
-                    foreach (var @event in events)
-                    {
-                        _eventStore.Add(@event);
-                    }
-                });
+                //    unitOfWork.ExecuteInTransaction(() =>
+                //    {
+                //        foreach (var @event in events)
+                //        {
+                //            _eventStore.Add(@event);
+                //        }
+                //    });
             }
         }
     }
