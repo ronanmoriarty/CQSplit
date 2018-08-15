@@ -11,7 +11,7 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
 {
     [TestFixture]
     [Category("Integration")]
-    public class RabbitMqMessageBusFactoryTests
+    public class RabbitEndToEndTests
     {
         private RabbitMqSendEndpointProvider _rabbitMqSendEndpointProvider;
         private IBusControl _busControl;
