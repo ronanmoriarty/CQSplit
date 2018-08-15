@@ -10,7 +10,7 @@ using NLog;
 using NUnit.Framework;
 using EventHandler = CQSplit.DAL.EventHandler;
 
-namespace Cafe.DAL.Tests
+namespace Cafe.DAL.IntegrationTests
 {
     [TestFixture]
     public class EventHandlerTests

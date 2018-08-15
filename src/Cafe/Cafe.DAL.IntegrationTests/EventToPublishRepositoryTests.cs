@@ -6,7 +6,7 @@ using CQSplit.Core;
 using CQSplit.DAL;
 using NUnit.Framework;
 
-namespace Cafe.DAL.Tests
+namespace Cafe.DAL.IntegrationTests
 {
     [TestFixture, Category(TestConstants.Integration)]
     public class EventToPublishRepositoryTests
