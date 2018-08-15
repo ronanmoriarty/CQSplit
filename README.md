@@ -15,5 +15,5 @@ This repository contains two parts:
 
 * Install [Docker](https://docs.docker.com/docker-for-windows/install/)
 * Open PowerShell and run .\Setup.ps1 once, choosing passwords for the different components at the selected prompts
-* [TODO] The setup can be verified by running .\build.ps1 -Target Run-Sample-Application-Tests
+* The setup can be verified by running .\build.ps1 -Target Run-Sample-Application-Tests
 * [TODO] Run. \build.ps1 -Target Run-Sample-Application
