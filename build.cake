@@ -173,16 +173,21 @@ Task("Update-CQSplit-Settings")
 Task("Stop-CQSplit-Docker-Containers")
     .Does(() =>
 {
-    StopDockerContainers();
+    StopCQSplitDockerContainers();
 });
 
-private void StopDockerContainers()
+private void StopCQSplitDockerContainers()
+{
+    StopDockerContainers("./src/CQSplit/docker-compose.yml");
+}
+
+private void StopDockerContainers(string dockerComposePath)
 {
     DockerComposeDown(new DockerComposeDownSettings
     {
         Files = new []
         {
-            "./src/CQSplit/docker-compose.yml"
+            dockerComposePath
         }
     });
 }
@@ -236,7 +241,7 @@ Task("Run-CQSplit-Tests")
     RunCQSplitAcceptanceTests();
 })
 .Finally(() => {
-    StopDockerContainers();
+    StopCQSplitDockerContainers();
 });
 
 Task("Run-CQSplit-Unit-Tests-Without-Build")
