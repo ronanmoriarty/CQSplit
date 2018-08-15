@@ -125,20 +125,20 @@ Task("Run-Sample-Application-Tests-Without-Build")
 
 private void RunSampleApplicationUnitTests()
 {
-    RunDotNetCoreUnitTests("./src/Cafe/**/*.Tests.csproj");
+    RunDotNetTests("./src/Cafe/**/*.Tests.csproj");
 }
 
 private void RunSampleApplicationIntegrationTests()
 {
-    RunDotNetCoreUnitTests("./src/Cafe/**/*.IntegrationTests.csproj");
+    RunDotNetTests("./src/Cafe/**/*.IntegrationTests.csproj");
 }
 
 private void RunSampleApplicationAcceptanceTests()
 {
-    RunDotNetCoreUnitTests("./src/Cafe/**/*.AcceptanceTests.csproj");
+    RunDotNetTests("./src/Cafe/**/*.AcceptanceTests.csproj");
 }
 
-private void RunDotNetCoreUnitTests(string filePattern)
+private void RunDotNetTests(string filePattern)
 {
     var testProjects = GetFiles(filePattern);
     foreach (var testProject in testProjects)
@@ -233,17 +233,17 @@ Task("Build-CQSplit")
 
 void RunCQSplitUnitTests()
 {
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*.Tests.csproj");
+    RunDotNetTests("./src/CQSplit/**/*.Tests.csproj");
 }
 
 void RunCQSplitIntegrationTests()
 {
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*.IntegrationTests.csproj");
+    RunDotNetTests("./src/CQSplit/**/*.IntegrationTests.csproj");
 }
 
 void RunCQSplitAcceptanceTests()
 {
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*.AcceptanceTests.csproj");
+    RunDotNetTests("./src/CQSplit/**/*.AcceptanceTests.csproj");
 }
 
 Task("Run-CQSplit-Unit-Tests")
