@@ -17,6 +17,7 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
         private IBusControl _busControl;
         private SemaphoreConsumer<TestMessage> _consumer;
         private Semaphore _semaphore;
+        private readonly Guid _id = Guid.NewGuid();
         private const string QueueName = "RabbitMqMessageBusFactoryTests_Queue";
 
         [SetUp]
@@ -48,17 +49,11 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
         {
             var sendEndpoint = await _rabbitMqSendEndpointProvider.GetSendEndpoint(QueueName);
 
-            var id = Guid.NewGuid();
-            await sendEndpoint.Send(new TestMessage { Id = id });
-
-            var timedOut = !_semaphore.WaitOne(TimeSpan.FromSeconds(5));
-            if (timedOut)
-            {
-                Assert.Fail("Timed out");
-            }
+            await sendEndpoint.Send(new TestMessage { Id = _id });
+            WaitUntilMessageHasBeenConsumed();
 
             Assert.That(_consumer.ReceivedMessage);
-            Assert.That(_consumer.ReceivedMessages.Single(message => message.Id == id), Is.Not.Null);
+            Assert.That(_consumer.ReceivedMessages.Single(message => message.Id == _id), Is.Not.Null);
         }
 
         public class TestMessage
@@ -74,6 +69,15 @@ namespace CQSplit.Messaging.RabbitMq.IntegrationTests
 
             var rabbitMqHostConfiguration = new RabbitMqHostConfiguration(configurationRoot);
             return rabbitMqHostConfiguration;
+        }
+
+        private void WaitUntilMessageHasBeenConsumed()
+        {
+            var timedOut = !_semaphore.WaitOne(TimeSpan.FromSeconds(5));
+            if (timedOut)
+            {
+                Assert.Fail("Timed out");
+            }
         }
     }
 }
