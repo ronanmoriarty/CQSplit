@@ -20,7 +20,7 @@ var configuration = Argument("configuration", "Release");
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
-Task("Clean")
+Task("Clean-Sample-Application")
     .Does(() =>
 {
     var cleanDirectoriesSearchPattern = "./src/Cafe/**/bin/" + configuration;
@@ -28,15 +28,15 @@ Task("Clean")
     CleanDirectories(cleanDirectoriesSearchPattern);
 });
 
-Task("Restore-NuGet-Packages")
-    .IsDependentOn("Clean")
+Task("Restore-Sample-Application-NuGet-Packages")
+    .IsDependentOn("Clean-Sample-Application")
     .Does(() =>
 {
     DotNetCoreRestore("./src/Cafe/Cafe.sln");
 });
 
-Task("Build")
-    .IsDependentOn("Restore-NuGet-Packages")
+Task("Build-Sample-Application")
+    .IsDependentOn("Restore-Sample-Application-NuGet-Packages")
     .Does(() =>
 {
     if(IsRunningOnWindows())
@@ -53,27 +53,27 @@ Task("Build")
     }
 });
 
-Task("Run-Unit-Tests")
-    .IsDependentOn("Build")
+Task("Run-Sample-Application-Unit-Tests")
+    .IsDependentOn("Build-Sample-Application")
     .Does(() =>
 {
     RunCafeUnitTests();
 });
 
-Task("Run-Unit-Tests-Without-Build")
+Task("Run-Sample-Application-Unit-Tests-Without-Build")
     .Does(() =>
 {
     RunCafeUnitTests();
 });
 
-Task("Run-Acceptance-Tests")
-    .IsDependentOn("Run-Unit-Tests")
+Task("Run-Sample-Application-Acceptance-Tests")
+    .IsDependentOn("Run-Sample-Application-Unit-Tests")
     .Does(() =>
 {
     RunCafeAcceptanceTests();
 });
 
-Task("Run-Acceptance-Tests-Without-Build")
+Task("Run-Sample-Application-Acceptance-Tests-Without-Build")
     .Does(() =>
 {
     RunCafeAcceptanceTests();
@@ -237,7 +237,7 @@ void KillNUnitAgentProcesses()
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("Run-Unit-Tests");
+    .IsDependentOn("Run-Sample-Application-Unit-Tests");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
