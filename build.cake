@@ -47,6 +47,17 @@ Task("Update-Sample-Application-Settings")
     StartPowershellScript("./Update-Settings-To-Use-Docker-Containers.ps1");
 });
 
+Task("Stop-Sample-Application-Docker-Containers")
+    .Does(() =>
+{
+    StopSampleApplicationDockerContainers();
+});
+
+private void StopSampleApplicationDockerContainers()
+{
+    StopDockerContainers("./docker-compose.yml");
+}
+
 Task("Clean-Sample-Application")
     .Does(() =>
 {
