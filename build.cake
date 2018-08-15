@@ -40,6 +40,13 @@ Task("Start-Sample-Application-Docker-Containers")
     });
 });
 
+Task("Update-Sample-Application-Settings")
+    .IsDependentOn("Start-Sample-Application-Docker-Containers")
+    .Does(() =>
+{
+    StartPowershellScript("./Update-Settings-To-Use-Docker-Containers.ps1");
+});
+
 Task("Clean-Sample-Application")
     .Does(() =>
 {
