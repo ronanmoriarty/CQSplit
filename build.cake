@@ -66,14 +66,14 @@ Task("Run-Sample-Application-Unit-Tests-Without-Build")
     RunCafeUnitTests();
 });
 
-Task("Run-Sample-Application-Acceptance-Tests")
+Task("Run-Sample-Application-Tests")
     .IsDependentOn("Run-Sample-Application-Unit-Tests")
     .Does(() =>
 {
     RunCafeAcceptanceTests();
 });
 
-Task("Run-Sample-Application-Acceptance-Tests-Without-Build")
+Task("Run-Sample-Application-Tests-Without-Build")
     .Does(() =>
 {
     RunCafeAcceptanceTests();
