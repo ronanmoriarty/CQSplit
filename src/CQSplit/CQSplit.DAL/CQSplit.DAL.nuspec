@@ -8,6 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Contains serialization logic.</description>
     <projectUrl>https://github.com/ronanmoriarty/CQSplit</projectUrl>
+    <licenseUrl>https://github.com/ronanmoriarty/CQSplit/blob/master/LICENSE.md</licenseUrl>
     <dependencies>
       <group targetFramework="netcoreapp2.0">
         <dependency id="CQSplit.Core" version="0.9.1-pre" />

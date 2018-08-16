@@ -8,6 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Contains components for sending and receiving commands and events, as well as registering consumers.</description>
     <projectUrl>https://github.com/ronanmoriarty/CQSplit</projectUrl>
+    <licenseUrl>https://github.com/ronanmoriarty/CQSplit/blob/master/LICENSE.md</licenseUrl>
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <dependency id="MassTransit.NLog" version="5.1.2" />

@@ -8,6 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Handles integration with RabbitMQ.</description>
     <projectUrl>https://github.com/ronanmoriarty/CQSplit</projectUrl>
+    <licenseUrl>https://github.com/ronanmoriarty/CQSplit/blob/master/LICENSE.md</licenseUrl>
     <dependencies>
       <group targetFramework=".NETStandard2.0">
         <dependency id="MassTransit.RabbitMq" version="5.1.4" />

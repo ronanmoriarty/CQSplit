@@ -8,6 +8,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Implements Outbox pattern, storing serialized events in local store before publishing to bus.</description>
     <projectUrl>https://github.com/ronanmoriarty/CQSplit</projectUrl>
+    <licenseUrl>https://github.com/ronanmoriarty/CQSplit/blob/master/LICENSE.md</licenseUrl>
     <dependencies>
       <group targetFramework="netcoreapp2.0">
         <dependency id="CQSplit.DAL" version="0.9.1-pre" />
