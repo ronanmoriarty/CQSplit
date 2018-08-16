@@ -1,6 +1,6 @@
 function GetRepositoryName()
 {
-    return (Get-Item $PSScriptRoot).Parent.Parent.Parent
+    return (Get-Item $PSScriptRoot).Parent.Parent.Parent.ToString().ToLower()
 }
 
 $repositoryName = GetRepositoryName
@@ -12,6 +12,7 @@ function GetEnvFilePath()
 }
 
 function GetContainerRunningWithImageName($imageName){
+    Write-Host "Finding container based on image named '$imageName'..."
     return docker container list --filter ancestor=$imageName --format "{{.ID}}"
 }
 
