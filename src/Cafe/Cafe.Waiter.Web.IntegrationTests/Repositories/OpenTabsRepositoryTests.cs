@@ -3,13 +3,14 @@ using System.Linq;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
+using Cafe.Waiter.Web.IntegrationTests.Controllers;
 using Cafe.Waiter.Web.Repositories;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Web.IntegrationTests.Repositories
 {
-    [TestFixture]
+    [TestFixture, Category(TestConstants.Integration)]
     public class OpenTabsRepositoryTests
     {
         private readonly Guid _id = new Guid("82EBC82F-72EE-42D8-9565-49B0E1844C86");

@@ -4,6 +4,7 @@ using System.Linq;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
+using Cafe.Waiter.Web.IntegrationTests.Controllers;
 using Cafe.Waiter.Web.Repositories;
 using Newtonsoft.Json;
 using NSubstitute;
@@ -11,7 +12,7 @@ using NUnit.Framework;
 
 namespace Cafe.Waiter.Web.IntegrationTests.Repositories
 {
-    [TestFixture]
+    [TestFixture, Category(TestConstants.Integration)]
     public class MenuRepositoryTests
     {
         private Menu _menu;
