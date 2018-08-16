@@ -1,6 +1,8 @@
 ﻿using System;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Web.Controllers;
+using Cafe.Waiter.Web.Repositories;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Web.IntegrationTests.Controllers
@@ -9,26 +11,24 @@ namespace Cafe.Waiter.Web.IntegrationTests.Controllers
     public class MenuControllerTests
     {
         private MenuController _menuController;
-        private readonly Guid _id = new Guid("68FDB1AF-B652-4B37-B274-D1C7F569FFE7");
-        private Menu _menu;
+        private Menu _menuFromRepository;
+        private IMenuRepository _menuRepository;
 
         [SetUp]
         public void SetUp()
         {
-            _menuController = (MenuController)BuildServiceProvider.Instance.GetService(typeof(MenuController));
-
-            WhenGettingMenu();
+            _menuRepository = Substitute.For<IMenuRepository>();
+            _menuFromRepository = new Menu();
+            _menuRepository.GetMenu().Returns(_menuFromRepository);
+            _menuController = new MenuController(_menuRepository);
         }
 
         [Test]
-        public void Gets_menu_using_id_from_config()
+        public void Gets_menu_from_repository()
         {
-            Assert.That(_menu.Id, Is.EqualTo(_id));
-        }
+            var menu = _menuController.Get();
 
-        private void WhenGettingMenu()
-        {
-            _menu = _menuController.Get();
+            Assert.That(menu, Is.EqualTo(_menuFromRepository));
         }
     }
 }
