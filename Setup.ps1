@@ -42,4 +42,3 @@ $jsonTemplateFiles = GetJsonTemplateFiles
 SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.docker.json $keyValuePairs
 
 mkdir .\src\.nuget.local\
-.\build.ps1 -Target Create-CQSplit-NuGet-Packages
