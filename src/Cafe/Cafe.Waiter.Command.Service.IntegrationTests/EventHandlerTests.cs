@@ -17,6 +17,12 @@ namespace Cafe.Waiter.Command.Service.IntegrationTests
         private readonly string _waiter = "Joe";
         private readonly SqlExecutor _sqlExecutor = GetSqlExecutor();
 
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            Bootstrapper.Start();
+        }
+
         private static SqlExecutor GetSqlExecutor()
         {
             return new SqlExecutor(new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider());

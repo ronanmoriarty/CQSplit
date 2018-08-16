@@ -11,6 +11,12 @@ namespace Cafe.Waiter.Command.Service.IntegrationTests
         private readonly Guid _commandId = new Guid("7CBBB931-EA8D-414E-9A7C-801FABFB7D5C");
         private readonly Guid _aggregateId = new Guid("F51210BC-4D80-4F6A-990F-D55E891DA251");
 
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            Bootstrapper.Start();
+        }
+
         [Test]
         public void Can_resolve_WaiterCommandService()
         {

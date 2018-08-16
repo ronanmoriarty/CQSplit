@@ -10,6 +10,12 @@ namespace Cafe.Waiter.Command.Service.IntegrationTests
     [TestFixture, Category(TestConstants.Integration)]
     public class ConsumerFactoryTests
     {
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            Bootstrapper.Start();
+        }
+
         [Test]
         public void Can_resolve_all_consumers()
         {
