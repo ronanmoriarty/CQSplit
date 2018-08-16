@@ -128,25 +128,35 @@ Task("Run-Sample-Application-Tests-Without-Build")
 
 private void RunSampleApplicationUnitTests()
 {
-    RunDotNetTests("./src/Cafe/**/*.Tests.csproj");
+    RunDotNetTests("./src/Cafe/**/*.Tests.csproj", new DotNetCoreTestSettings());
 }
 
 private void RunSampleApplicationIntegrationTests()
 {
-    RunDotNetTests("./src/Cafe/**/*.IntegrationTests.csproj");
+    var dotNetCoreTestSettings = new DotNetCoreTestSettings
+    {
+        ArgumentCustomization = args => args.Append("--filter TestCategory=\"Integration\"")
+    };
+
+    RunDotNetTests("./src/Cafe/**/*.Tests.csproj", dotNetCoreTestSettings);
 }
 
 private void RunSampleApplicationAcceptanceTests()
 {
-    RunDotNetTests("./src/Cafe/**/*.AcceptanceTests.csproj");
+    var dotNetCoreTestSettings = new DotNetCoreTestSettings
+    {
+        ArgumentCustomization = args => args.Append("--filter TestCategory=\"AcceptanceTests\"")
+    };
+
+    RunDotNetTests("./src/Cafe/**/*.Tests.csproj", dotNetCoreTestSettings);
 }
 
-private void RunDotNetTests(string filePattern)
+private void RunDotNetTests(string filePattern, DotNetCoreTestSettings dotNetCoreTestSettings)
 {
     var testProjects = GetFiles(filePattern);
     foreach (var testProject in testProjects)
     {
-        DotNetCoreTest(testProject.FullPath);
+        DotNetCoreTest(testProject.FullPath, dotNetCoreTestSettings);
     }
 
     KillNUnitAgentProcesses();
@@ -261,17 +271,17 @@ Task("Build-CQSplit")
 
 void RunCQSplitUnitTests()
 {
-    RunDotNetTests("./src/CQSplit/**/*.Tests.csproj");
+    RunDotNetTests("./src/CQSplit/**/*.Tests.csproj", new DotNetCoreTestSettings());
 }
 
 void RunCQSplitIntegrationTests()
 {
-    RunDotNetTests("./src/CQSplit/**/*.IntegrationTests.csproj");
+    RunDotNetTests("./src/CQSplit/**/*.IntegrationTests.csproj", new DotNetCoreTestSettings());
 }
 
 void RunCQSplitAcceptanceTests()
 {
-    RunDotNetTests("./src/CQSplit/**/*.AcceptanceTests.csproj");
+    RunDotNetTests("./src/CQSplit/**/*.AcceptanceTests.csproj", new DotNetCoreTestSettings());
 }
 
 Task("Run-CQSplit-Unit-Tests")
