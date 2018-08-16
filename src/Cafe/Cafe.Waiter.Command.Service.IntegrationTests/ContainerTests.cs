@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Cafe.Waiter.Command.Service.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, Category(TestConstants.Integration)]
     public class ContainerTests
     {
         private readonly Guid _commandId = new Guid("7CBBB931-EA8D-414E-9A7C-801FABFB7D5C");

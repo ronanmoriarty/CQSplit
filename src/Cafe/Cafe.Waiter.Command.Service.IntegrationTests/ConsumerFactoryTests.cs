@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Cafe.Waiter.Command.Service.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, Category(TestConstants.Integration)]
     public class ConsumerFactoryTests
     {
         [Test]

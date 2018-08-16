@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace Cafe.Waiter.Command.Service.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, Category(TestConstants.Integration)]
     public class EventHandlerTests
     {
         private readonly Guid _id = new Guid("6565A114-E911-4153-A15E-38361FB52C00");

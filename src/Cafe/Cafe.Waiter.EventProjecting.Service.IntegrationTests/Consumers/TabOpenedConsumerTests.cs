@@ -14,7 +14,7 @@ using NUnit.Framework;
 
 namespace Cafe.Waiter.EventProjecting.Service.IntegrationTests.Consumers
 {
-    [TestFixture]
+    [TestFixture, Category(TestConstants.Integration)]
     public class TabOpenedConsumerTests
     {
         private TabOpenedEventConsumer _tabOpenedEventConsumer;
