@@ -6,7 +6,7 @@
     <authors>Ronan Moriarty</authors>
     <owners>Ronan Moriarty</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Package Description</description>
+    <description>Contains command routing and components to handle commands and events.</description>
     <projectUrl>https://github.com/ronanmoriarty/CQSplit</projectUrl>
     <dependencies>
       <group targetFramework=".NETStandard2.0">

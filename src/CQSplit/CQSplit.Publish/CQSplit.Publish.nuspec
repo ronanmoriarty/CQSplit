@@ -6,7 +6,7 @@
     <authors>Ronan Moriarty</authors>
     <owners>Ronan Moriarty</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Package Description</description>
+    <description>Implements Outbox pattern, storing serialized events in local store before publishing to bus.</description>
     <projectUrl>https://github.com/ronanmoriarty/CQSplit</projectUrl>
     <dependencies>
       <group targetFramework="netcoreapp2.0">
