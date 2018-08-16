@@ -1,6 +1,8 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
 #addin "Cake.Powershell"
 #addin "Cake.Docker"
+#addin nuget:?package=Cake.Json
+#addin nuget:?package=Newtonsoft.Json&version=9.0.1
 
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -20,7 +22,45 @@ var configuration = Argument("configuration", "Release");
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
-Task("Clean")
+Task("Build-Sample-Application-Docker-Images")
+    .Does(() =>
+{
+    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{"./docker-compose.yml"}});
+});
+
+Task("Start-Sample-Application-Docker-Containers")
+    .IsDependentOn("Build-Sample-Application-Docker-Images")
+    .Does(() =>
+{
+    DockerComposeUp(new DockerComposeUpSettings
+    {
+        Files = new []
+        {
+            "./docker-compose.yml"
+        },
+        DetachedMode = true
+    });
+});
+
+Task("Update-Sample-Application-Settings")
+    .IsDependentOn("Start-Sample-Application-Docker-Containers")
+    .Does(() =>
+{
+    StartPowershellScript("./Update-Settings-To-Use-Docker-Containers.ps1");
+});
+
+Task("Stop-Sample-Application-Docker-Containers")
+    .Does(() =>
+{
+    StopSampleApplicationDockerContainers();
+});
+
+private void StopSampleApplicationDockerContainers()
+{
+    StopDockerContainers("./docker-compose.yml");
+}
+
+Task("Clean-Sample-Application")
     .Does(() =>
 {
     var cleanDirectoriesSearchPattern = "./src/Cafe/**/bin/" + configuration;
@@ -28,15 +68,15 @@ Task("Clean")
     CleanDirectories(cleanDirectoriesSearchPattern);
 });
 
-Task("Restore-NuGet-Packages")
-    .IsDependentOn("Clean")
+Task("Restore-Sample-Application-NuGet-Packages")
+    .IsDependentOn("Clean-Sample-Application")
     .Does(() =>
 {
     DotNetCoreRestore("./src/Cafe/Cafe.sln");
 });
 
-Task("Build")
-    .IsDependentOn("Restore-NuGet-Packages")
+Task("Build-Sample-Application")
+    .IsDependentOn("Restore-Sample-Application-NuGet-Packages")
     .Does(() =>
 {
     if(IsRunningOnWindows())
@@ -53,43 +93,55 @@ Task("Build")
     }
 });
 
-Task("Run-Unit-Tests")
-    .IsDependentOn("Build")
+Task("Run-Sample-Application-Unit-Tests")
+    .IsDependentOn("Build-Sample-Application")
     .Does(() =>
 {
-    RunCafeUnitTests();
+    RunSampleApplicationUnitTests();
 });
 
-Task("Run-Unit-Tests-Without-Build")
+Task("Run-Sample-Application-Tests")
+    .IsDependentOn("Update-Sample-Application-Settings")
+    .IsDependentOn("Run-Sample-Application-Unit-Tests")
     .Does(() =>
 {
-    RunCafeUnitTests();
+    RunSampleApplicationIntegrationTests();
+    RunSampleApplicationAcceptanceTests();
+})
+.Finally(() => {
+    StopSampleApplicationDockerContainers();
 });
 
-Task("Run-Acceptance-Tests")
-    .IsDependentOn("Run-Unit-Tests")
+Task("Run-Sample-Application-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunCafeAcceptanceTests();
+    RunSampleApplicationUnitTests();
 });
 
-Task("Run-Acceptance-Tests-Without-Build")
+Task("Run-Sample-Application-Tests-Without-Build")
+    .IsDependentOn("Run-Sample-Application-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunCafeAcceptanceTests();
+    RunSampleApplicationIntegrationTests();
+    RunSampleApplicationAcceptanceTests();
 });
 
-private void RunCafeUnitTests()
+private void RunSampleApplicationUnitTests()
 {
-    RunDotNetCoreUnitTests("./src/Cafe/**/*.Tests.csproj");
+    RunDotNetTests("./src/Cafe/**/*.Tests.csproj");
 }
 
-private void RunCafeAcceptanceTests()
+private void RunSampleApplicationIntegrationTests()
 {
-    RunDotNetCoreUnitTests("./src/Cafe/**/*.AcceptanceTests.csproj");
+    RunDotNetTests("./src/Cafe/**/*.IntegrationTests.csproj");
 }
 
-private void RunDotNetCoreUnitTests(string filePattern)
+private void RunSampleApplicationAcceptanceTests()
+{
+    RunDotNetTests("./src/Cafe/**/*.AcceptanceTests.csproj");
+}
+
+private void RunDotNetTests(string filePattern)
 {
     var testProjects = GetFiles(filePattern);
     foreach (var testProject in testProjects)
@@ -98,6 +150,31 @@ private void RunDotNetCoreUnitTests(string filePattern)
     }
 
     KillNUnitAgentProcesses();
+}
+
+Task("Run-Sample-Application")
+    .IsDependentOn("Update-Sample-Application-Settings")
+    .Does(() =>
+{
+    RunSampleApplication();
+});
+
+private void RunSampleApplication()
+{
+    var waiterWebsiteEntryPointUrl = GetWaiterWebsiteEntryPointUrl();
+    Information($"The sample application is now running at {waiterWebsiteEntryPointUrl}");
+}
+
+private string GetWaiterWebsiteEntryPointUrl()
+{
+    return $"{GetWaiterWebsiteAddress()}/app/index.html#!/tabs";
+}
+
+private string GetWaiterWebsiteAddress()
+{
+    var settings = ParseJsonFromFile("./src/Cafe/Cafe.Waiter.AcceptanceTests/appSettings.json");
+    var host = settings["cafe"]["waiter"]["web"]["url"];
+    return host.ToString();
 }
 
 Task("Clean-CQSplit")
@@ -145,16 +222,21 @@ Task("Update-CQSplit-Settings")
 Task("Stop-CQSplit-Docker-Containers")
     .Does(() =>
 {
-    StopDockerContainers();
+    StopCQSplitDockerContainers();
 });
 
-private void StopDockerContainers()
+private void StopCQSplitDockerContainers()
+{
+    StopDockerContainers("./src/CQSplit/docker-compose.yml");
+}
+
+private void StopDockerContainers(string dockerComposePath)
 {
     DockerComposeDown(new DockerComposeDownSettings
     {
         Files = new []
         {
-            "./src/CQSplit/docker-compose.yml"
+            dockerComposePath
         }
     });
 }
@@ -177,34 +259,48 @@ Task("Build-CQSplit")
     }
 });
 
+void RunCQSplitUnitTests()
+{
+    RunDotNetTests("./src/CQSplit/**/*.Tests.csproj");
+}
+
+void RunCQSplitIntegrationTests()
+{
+    RunDotNetTests("./src/CQSplit/**/*.IntegrationTests.csproj");
+}
+
+void RunCQSplitAcceptanceTests()
+{
+    RunDotNetTests("./src/CQSplit/**/*.AcceptanceTests.csproj");
+}
+
 Task("Run-CQSplit-Unit-Tests")
     .IsDependentOn("Build-CQSplit")
     .Does(() =>
 {
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*.Tests.csproj");
+    RunCQSplitUnitTests();
 });
 
 Task("Run-CQSplit-Tests")
     .IsDependentOn("Update-CQSplit-Settings")
-    .IsDependentOn("Build-CQSplit")
     .IsDependentOn("Run-CQSplit-Unit-Tests")
     .Does(() =>
 {
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*.IntegrationTests.csproj");
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*.AcceptanceTests.csproj");
+    RunCQSplitIntegrationTests();
+    RunCQSplitAcceptanceTests();
 })
 .Finally(() => {
-    StopDockerContainers();
+    StopCQSplitDockerContainers();
 });
 
 Task("Run-CQSplit-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunDotNetCoreUnitTests("./src/CQSplit/**/*Tests.csproj");
+    RunCQSplitUnitTests();
 });
 
 Task("Create-CQSplit-Nuget-Packages")
-    .IsDependentOn("Run-CQSplit-Unit-Tests")
+    .IsDependentOn("Run-CQSplit-Tests")
     .Does(() =>
 {
     var nuGetPackSettings = new NuGetPackSettings {
@@ -237,7 +333,7 @@ void KillNUnitAgentProcesses()
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("Run-Unit-Tests");
+    .IsDependentOn("Run-Sample-Application-Unit-Tests");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

@@ -1,3 +1,11 @@
+function GetRepositoryName()
+{
+    return (Get-Item $PSScriptRoot).Parent.Parent.Parent
+}
+
+$repositoryName = GetRepositoryName
+Write-Output "`$repositoryName: $repositoryName"
+
 function GetEnvFilePath()
 {
     return [System.IO.Path]::GetFullPath([System.IO.Path]::Combine((get-item $PSScriptRoot).Parent.Parent.Parent.FullName, '.env'))
@@ -17,19 +25,19 @@ function GetEnvironmentVariableFromEnvFile($environmentVariableName)
 }
 
 function GetRabbitMqAddress(){
-    $rabbitMqContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_rabbitmq"
+    $rabbitMqContainerId = GetContainerRunningWithImageName "$($repositoryName)_rabbitmq"
     $rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
     return $rabbitMqServerIpAddress
 }
 
 function GetWriteModelSqlServerAddress(){
-    $writeModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_waiter-write-db-server"
+    $writeModelSqlServerContainerId = GetContainerRunningWithImageName "$($repositoryName)_waiter-write-db-server"
     $writeModelSqlServerIpAddress = GetIpAddress $writeModelSqlServerContainerId
     return $writeModelSqlServerIpAddress
 }
 
 function GetReadModelSqlServerAddress(){
-    $readModelSqlServerContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_waiter-read-db-server"
+    $readModelSqlServerContainerId = GetContainerRunningWithImageName "$($repositoryName)_waiter-read-db-server"
     $readModelSqlServerIpAddress = GetIpAddress $readModelSqlServerContainerId
     return $readModelSqlServerIpAddress
 }
@@ -37,7 +45,7 @@ function GetReadModelSqlServerAddress(){
 
 function GetWaiterWebsiteUrl()
 {
-    $waiterWebsiteContainerId = GetContainerRunningWithImageName "cqrs-nu-tutorial_cafe-waiter-web"
+    $waiterWebsiteContainerId = GetContainerRunningWithImageName "$($repositoryName)_cafe-waiter-web"
     $waiterWebsiteIpAddress = GetIpAddress $waiterWebsiteContainerId
     return "http://$waiterWebsiteIpAddress"
 }
@@ -90,9 +98,9 @@ function GetKeyValuePairs()
 function GetKeyValuePairsToUseInsideContainers()
 {
     $keyValuePairs = GetPasswordKeyValuePairs
-    $keyValuePairs.Add("`$rabbitMqServerAddress", "cqrs-nu-tutorial_rabbitmq_1")
-    $keyValuePairs.Add("`$writeModelSqlServerAddress", "cqrs-nu-tutorial_waiter-write-db-server_1")
-    $keyValuePairs.Add("`$readModelSqlServerAddress", "cqrs-nu-tutorial_waiter-read-db-server_1")
+    $keyValuePairs.Add("`$rabbitMqServerAddress", "$($repositoryName)_rabbitmq_1")
+    $keyValuePairs.Add("`$writeModelSqlServerAddress", "$($repositoryName)_waiter-write-db-server_1")
+    $keyValuePairs.Add("`$readModelSqlServerAddress", "$($repositoryName)_waiter-read-db-server_1")
     return $keyValuePairs
 }
 

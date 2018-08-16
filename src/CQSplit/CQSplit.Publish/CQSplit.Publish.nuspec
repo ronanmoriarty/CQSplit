@@ -4,7 +4,7 @@
     <id>CQSplit.Publish</id>
     <version>0.9.1-pre</version>
     <authors>Ronan Moriarty</authors>
-    <owners>Fundraising Innovations Ltd.</owners>
+    <owners>Ronan Moriarty</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Package Description</description>
     <dependencies>
