@@ -12,7 +12,7 @@ using EventHandler = CQSplit.DAL.EventHandler;
 
 namespace Cafe.DAL.IntegrationTests
 {
-    [TestFixture]
+    [TestFixture, Category(TestConstants.Integration)]
     public class EventHandlerTests
     {
         private readonly Guid _aggregateId = new Guid("8E3337B6-7378-445B-BD43-61D56624C10E");
