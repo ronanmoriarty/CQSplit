@@ -1,7 +1,7 @@
 version: '3'
 services:
   rabbitmq:
-    build: .\src\CQSplit\Docker\RabbitMQ\
+    image: ronanmoriarty/rabbitmq-windowsservercore
   waiter-read-db-server:
     build:
       context: .\src\Cafe\Docker\SqlServer\
