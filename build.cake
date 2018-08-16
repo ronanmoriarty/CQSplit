@@ -314,6 +314,17 @@ Task("Create-CQSplit-Nuget-Packages")
     }
 });
 
+Task("Publish-CQSplit-Nuget-Packages")
+    .Does(() =>
+{
+    var apiKey = Argument("NugetApiKey", string.Empty);
+    StartPowershellScript("./src/CQSplit/PowerShell/Publish-CQSplit-Packages.ps1",
+        processArgumentBuilder => {
+            processArgumentBuilder.Append("apiKey", apiKey);
+        }
+    );
+});
+
 void RunNUnitTests(string nunitSearchPattern)
 {
     Information("NUnit Search Pattern:" + nunitSearchPattern);
