@@ -7,6 +7,7 @@
     <owners>Ronan Moriarty</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Package Description</description>
+    <projectUrl>https://github.com/ronanmoriarty/CQSplit</projectUrl>
     <dependencies>
       <group targetFramework="netcoreapp2.0">
         <dependency id="CQSplit.DAL" version="0.9.1-pre" />
