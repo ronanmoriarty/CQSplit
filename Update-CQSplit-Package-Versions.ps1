@@ -57,7 +57,7 @@ function GetVersionWithIncrementedBuildNumber([string] $versionNumber)
     return "$MajorVersionNumber.$MinorVersionNumber.$($BuildNumber + 1)$Suffix"
 }
 
-function UpdateCQPackageVersions()
+function UpdateCQSplitPackageVersions()
 {
     $VersionNumber = GetVersion
     $NewVersion = GetVersionWithIncrementedBuildNumber $VersionNumber
