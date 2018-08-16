@@ -26,7 +26,7 @@ function GetEnvironmentVariableFromEnvFile($environmentVariableName)
 }
 
 function GetRabbitMqAddress(){
-    $rabbitMqContainerId = GetContainerRunningWithImageName "$($repositoryName)_rabbitmq"
+    $rabbitMqContainerId = GetContainerRunningWithImageName "ronanmoriarty/rabbitmq-windowsservercore"
     $rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
     return $rabbitMqServerIpAddress
 }
