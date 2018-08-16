@@ -6,7 +6,7 @@ using Cafe.Waiter.Web.Repositories;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Web.IntegrationTests.Controllers.TabController
+namespace Cafe.Waiter.Web.Tests.Controllers.TabController
 {
     [TestFixture]
     public class When_viewing_open_tabs

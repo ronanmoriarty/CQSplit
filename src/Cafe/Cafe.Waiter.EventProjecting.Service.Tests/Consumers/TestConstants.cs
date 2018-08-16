@@ -1,4 +1,4 @@
-﻿namespace Cafe.Waiter.EventProjecting.Service.IntegrationTests.Consumers
+﻿namespace Cafe.Waiter.EventProjecting.Service.Tests.Consumers
 {
     public class TestConstants
     {

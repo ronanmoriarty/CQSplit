@@ -1,11 +1,10 @@
-﻿using System;
-using Cafe.Waiter.Queries.DAL.Models;
+﻿using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Web.Controllers;
 using Cafe.Waiter.Web.Repositories;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Web.IntegrationTests.Controllers
+namespace Cafe.Waiter.Web.Tests.Controllers
 {
     [TestFixture]
     public class MenuControllerTests

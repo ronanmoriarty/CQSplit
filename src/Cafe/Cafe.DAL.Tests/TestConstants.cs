@@ -1,4 +1,4 @@
-namespace Cafe.DAL.IntegrationTests
+namespace Cafe.DAL.Tests
 {
     public class TestConstants
     {

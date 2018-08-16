@@ -1,4 +1,4 @@
-﻿namespace Cafe.Waiter.Web.IntegrationTests.Controllers
+﻿namespace Cafe.Waiter.Web.Tests.Controllers
 {
     public class TestConstants
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using CQSplit.Core;
 
-namespace Cafe.DAL.IntegrationTests
+namespace Cafe.DAL.Tests
 {
     public class TestEvent : IEvent
     {

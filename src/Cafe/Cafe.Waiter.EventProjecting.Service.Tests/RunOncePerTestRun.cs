@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace Cafe.Waiter.EventProjecting.Service.IntegrationTests
+namespace Cafe.Waiter.EventProjecting.Service.Tests
 {
     [SetUpFixture]
     public class RunOncePerTestRun

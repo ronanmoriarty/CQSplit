@@ -1,4 +1,4 @@
-﻿namespace Cafe.Waiter.Command.Service.IntegrationTests
+﻿namespace Cafe.Waiter.Command.Service.Tests
 {
     public class TestConstants
     {

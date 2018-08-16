@@ -5,7 +5,7 @@ using CQSplit.Core;
 using CQSplit.DAL;
 using CQSplit.DAL.Serialized;
 
-namespace Cafe.DAL.IntegrationTests
+namespace Cafe.DAL.Tests
 {
     public class EventToPublishRepositoryDecorator : IEventToPublishRepository
     {

@@ -9,7 +9,7 @@ using CQSplit.DAL;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.Command.Service.IntegrationTests
+namespace Cafe.Waiter.Command.Service.Tests
 {
     [TestFixture]
     public class CommandHandlerFactoryTests
