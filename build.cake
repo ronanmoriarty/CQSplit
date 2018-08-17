@@ -17,6 +17,25 @@ var configuration = Argument("configuration", "Release");
 
 // Define directories.
 // var buildDir = Directory("./**/bin") + Directory(configuration);
+private const string AllSampleApplicationTestProjects = "./src/Cafe/**/*.Tests.csproj";
+private const string AllCQSplitTestProjects = "./src/CQSplit/**/*.Tests.csproj";
+private const string CafeSolutionPath = "./src/Cafe/Cafe.sln";
+private const string CQSplitSolutionPath = "./src/CQSplit/CQSplit.sln";
+
+private DotNetCoreTestSettings OnlyUnitTests = new DotNetCoreTestSettings
+    {
+        ArgumentCustomization = args => args.Append("--filter TestCategory!=\"Integration\"&TestCategory!=\"Acceptance\"")
+    };
+
+private DotNetCoreTestSettings OnlyIntegrationTests = new DotNetCoreTestSettings
+    {
+        ArgumentCustomization = args => args.Append("--filter TestCategory=\"Integration\"")
+    };
+
+private DotNetCoreTestSettings OnlyAcceptanceTests = new DotNetCoreTestSettings
+    {
+        ArgumentCustomization = args => args.Append("--filter TestCategory=\"Acceptance\"")
+    };
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -72,7 +91,7 @@ Task("Restore-Sample-Application-NuGet-Packages")
     .IsDependentOn("Clean-Sample-Application")
     .Does(() =>
 {
-    DotNetCoreRestore("./src/Cafe/Cafe.sln");
+    DotNetCoreRestore(CafeSolutionPath);
 });
 
 Task("Build-Sample-Application")
@@ -82,13 +101,13 @@ Task("Build-Sample-Application")
     if(IsRunningOnWindows())
     {
       // Use MSBuild
-      MSBuild("./src/Cafe/Cafe.sln", settings =>
+      MSBuild(CafeSolutionPath, settings =>
         settings.SetConfiguration(configuration));
     }
     else
     {
       // Use XBuild
-      XBuild("./src/Cafe/Cafe.sln", settings =>
+      XBuild(CafeSolutionPath, settings =>
         settings.SetConfiguration(configuration));
     }
 });
@@ -128,32 +147,17 @@ Task("Run-Sample-Application-Tests-Without-Build")
 
 private void RunSampleApplicationUnitTests()
 {
-    var dotNetCoreTestSettings = new DotNetCoreTestSettings
-    {
-        ArgumentCustomization = args => args.Append("--filter TestCategory!=\"Integration\"&TestCategory!=\"Acceptance\"")
-    };
-
-    RunDotNetTests("./src/Cafe/**/*.Tests.csproj", dotNetCoreTestSettings);
+    RunDotNetTests(AllSampleApplicationTestProjects, OnlyUnitTests);
 }
 
 private void RunSampleApplicationIntegrationTests()
 {
-    var dotNetCoreTestSettings = new DotNetCoreTestSettings
-    {
-        ArgumentCustomization = args => args.Append("--filter TestCategory=\"Integration\"")
-    };
-
-    RunDotNetTests("./src/Cafe/**/*.Tests.csproj", dotNetCoreTestSettings);
+    RunDotNetTests(AllSampleApplicationTestProjects, OnlyIntegrationTests);
 }
 
 private void RunSampleApplicationAcceptanceTests()
 {
-    var dotNetCoreTestSettings = new DotNetCoreTestSettings
-    {
-        ArgumentCustomization = args => args.Append("--filter TestCategory=\"Acceptance\"")
-    };
-
-    RunDotNetTests("./src/Cafe/**/*.Tests.csproj", dotNetCoreTestSettings);
+    RunDotNetTests(AllSampleApplicationTestProjects, OnlyAcceptanceTests);
 }
 
 private void RunDotNetTests(string filePattern, DotNetCoreTestSettings dotNetCoreTestSettings)
@@ -204,7 +208,7 @@ Task("Restore-CQSplit-NuGet-Packages")
     .IsDependentOn("Clean-CQSplit")
     .Does(() =>
 {
-    DotNetCoreRestore("./src/CQSplit/CQSplit.sln");
+    DotNetCoreRestore(CQSplitSolutionPath);
 });
 
 Task("Build-CQSplit-Docker-Images")
@@ -263,40 +267,30 @@ Task("Build-CQSplit")
     if(IsRunningOnWindows())
     {
       // Use MSBuild
-      MSBuild("./src/CQSplit/CQSplit.sln", settings =>
+      MSBuild(CQSplitSolutionPath, settings =>
         settings.SetConfiguration(configuration));
     }
     else
     {
       // Use XBuild
-      XBuild("./src/CQSplit/CQSplit.sln", settings =>
+      XBuild(CQSplitSolutionPath, settings =>
         settings.SetConfiguration(configuration));
     }
 });
 
 void RunCQSplitUnitTests()
 {
-    var dotNetCoreTestSettings = new DotNetCoreTestSettings
-    {
-        ArgumentCustomization = args => args.Append("--filter TestCategory!=\"Integration\"&TestCategory!=\"Acceptance\"")
-    };
-
-    RunDotNetTests("./src/CQSplit/**/*.Tests.csproj", dotNetCoreTestSettings);
+    RunDotNetTests(AllCQSplitTestProjects, OnlyUnitTests);
 }
 
 void RunCQSplitIntegrationTests()
 {
-    var dotNetCoreTestSettings = new DotNetCoreTestSettings
-    {
-        ArgumentCustomization = args => args.Append("--filter TestCategory=\"Integration\"")
-    };
-
-    RunDotNetTests("./src/CQSplit/**/*.Tests.csproj", dotNetCoreTestSettings);
+    RunDotNetTests(AllCQSplitTestProjects, OnlyIntegrationTests);
 }
 
 void RunCQSplitAcceptanceTests()
 {
-    RunDotNetTests("./src/CQSplit/**/*.Tests.csproj", new DotNetCoreTestSettings());
+    RunDotNetTests(AllCQSplitTestProjects, OnlyAcceptanceTests);
 }
 
 Task("Run-CQSplit-Unit-Tests")
