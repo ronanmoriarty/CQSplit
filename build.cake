@@ -276,7 +276,12 @@ void RunCQSplitUnitTests()
 
 void RunCQSplitIntegrationTests()
 {
-    RunDotNetTests("./src/CQSplit/**/*.IntegrationTests.csproj", new DotNetCoreTestSettings());
+    var dotNetCoreTestSettings = new DotNetCoreTestSettings
+    {
+        ArgumentCustomization = args => args.Append("--filter TestCategory=\"Integration\"")
+    };
+
+    RunDotNetTests("./src/CQSplit/**/*.Tests.csproj", dotNetCoreTestSettings);
 }
 
 void RunCQSplitAcceptanceTests()
