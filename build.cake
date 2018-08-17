@@ -128,7 +128,12 @@ Task("Run-Sample-Application-Tests-Without-Build")
 
 private void RunSampleApplicationUnitTests()
 {
-    RunDotNetTests("./src/Cafe/**/*.Tests.csproj", new DotNetCoreTestSettings());
+    var dotNetCoreTestSettings = new DotNetCoreTestSettings
+    {
+        ArgumentCustomization = args => args.Append("--filter TestCategory!=\"Integration\"&TestCategory!=\"AcceptanceTest\"")
+    };
+
+    RunDotNetTests("./src/Cafe/**/*.Tests.csproj", dotNetCoreTestSettings);
 }
 
 private void RunSampleApplicationIntegrationTests()
@@ -271,7 +276,12 @@ Task("Build-CQSplit")
 
 void RunCQSplitUnitTests()
 {
-    RunDotNetTests("./src/CQSplit/**/*.Tests.csproj", new DotNetCoreTestSettings());
+    var dotNetCoreTestSettings = new DotNetCoreTestSettings
+    {
+        ArgumentCustomization = args => args.Append("--filter TestCategory!=\"Integration\"&TestCategory!=\"AcceptanceTest\"")
+    };
+
+    RunDotNetTests("./src/CQSplit/**/*.Tests.csproj", dotNetCoreTestSettings);
 }
 
 void RunCQSplitIntegrationTests()
