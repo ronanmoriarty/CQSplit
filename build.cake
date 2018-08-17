@@ -130,7 +130,7 @@ private void RunSampleApplicationUnitTests()
 {
     var dotNetCoreTestSettings = new DotNetCoreTestSettings
     {
-        ArgumentCustomization = args => args.Append("--filter TestCategory!=\"Integration\"&TestCategory!=\"AcceptanceTest\"")
+        ArgumentCustomization = args => args.Append("--filter TestCategory!=\"Integration\"&TestCategory!=\"Acceptance\"")
     };
 
     RunDotNetTests("./src/Cafe/**/*.Tests.csproj", dotNetCoreTestSettings);
@@ -150,7 +150,7 @@ private void RunSampleApplicationAcceptanceTests()
 {
     var dotNetCoreTestSettings = new DotNetCoreTestSettings
     {
-        ArgumentCustomization = args => args.Append("--filter TestCategory=\"AcceptanceTests\"")
+        ArgumentCustomization = args => args.Append("--filter TestCategory=\"Acceptance\"")
     };
 
     RunDotNetTests("./src/Cafe/**/*.Tests.csproj", dotNetCoreTestSettings);
@@ -278,7 +278,7 @@ void RunCQSplitUnitTests()
 {
     var dotNetCoreTestSettings = new DotNetCoreTestSettings
     {
-        ArgumentCustomization = args => args.Append("--filter TestCategory!=\"Integration\"&TestCategory!=\"AcceptanceTest\"")
+        ArgumentCustomization = args => args.Append("--filter TestCategory!=\"Integration\"&TestCategory!=\"Acceptance\"")
     };
 
     RunDotNetTests("./src/CQSplit/**/*.Tests.csproj", dotNetCoreTestSettings);

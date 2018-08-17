@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace Cafe.Waiter.Acceptance.Tests
 {
-    [TestFixture, Category("AcceptanceTest")]
+    [TestFixture, Category(TestConstants.Acceptance)]
     public class TabAcceptanceTest
     {
         private const int TableNumber = 345;

@@ -9,6 +9,6 @@ namespace Cafe.Waiter.Command.Service
             Instance = new WindsorContainer();
         }
 
-        public static IWindsorContainer Instance { get; private set; }
+        public static IWindsorContainer Instance { get; }
     }
 }
