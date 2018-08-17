@@ -105,5 +105,17 @@ function GetKeyValuePairsToUseInsideContainers()
     return $keyValuePairs
 }
 
+function GetKeyValuePairsForUnitTests()
+{
+    # There are some unit tests that check the IoC has been configured correctly, and that various components can be resolved.
+    # Some of the dependencies created access appSettings.json files, and the configuration builders check that the appSettings.json files exist.
+    # TODO: delay creation of the IConfigurationRoots until the properties are actually accessed - then we can delete this method.
+    $keyValuePairs = GetPasswordKeyValuePairs
+    $keyValuePairs.Add("`$rabbitMqServerAddress", "dummy.url.for.unit.tests")
+    $keyValuePairs.Add("`$writeModelSqlServerAddress", "dummy.url.for.unit.tests")
+    $keyValuePairs.Add("`$readModelSqlServerAddress", "dummy.url.for.unit.tests")
+    return $keyValuePairs
+}
+
 $envPath = GetEnvFilePath
 Write-Output "`$envPath: $envPath"

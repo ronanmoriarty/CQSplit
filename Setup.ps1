@@ -37,9 +37,10 @@ $commandServicePasswordPlainText = ConvertToPlainText $commandServicePassword
 $eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingServicePassword
 
 CreateEnvFile
-$keyValuePairs = GetKeyValuePairsToUseInsideContainers
+$dockerKeyValuePairs = GetKeyValuePairsToUseInsideContainers
+$unitTestKeyValuePairs = GetKeyValuePairsForUnitTests
 $jsonTemplateFiles = GetJsonTemplateFiles
-SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.docker.json $keyValuePairs
+SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.docker.json $dockerKeyValuePairs
+SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.json $unitTestKeyValuePairs
 
 mkdir .\src\.nuget.local\
-.\build.ps1 -Target Create-CQSplit-NuGet-Packages
