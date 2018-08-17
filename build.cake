@@ -138,11 +138,15 @@ Task("Run-Sample-Application-Unit-Tests-Without-Build")
 });
 
 Task("Run-Sample-Application-Tests-Without-Build")
+    .IsDependentOn("Update-Sample-Application-Settings")
     .IsDependentOn("Run-Sample-Application-Unit-Tests-Without-Build")
     .Does(() =>
 {
     RunSampleApplicationIntegrationTests();
     RunSampleApplicationAcceptanceTests();
+})
+.Finally(() => {
+    StopSampleApplicationDockerContainers();
 });
 
 private void RunSampleApplicationUnitTests()
