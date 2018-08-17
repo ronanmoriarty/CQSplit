@@ -187,7 +187,7 @@ private string GetWaiterWebsiteEntryPointUrl()
 
 private string GetWaiterWebsiteAddress()
 {
-    var settings = ParseJsonFromFile("./src/Cafe/Cafe.Waiter.AcceptanceTests/appSettings.json");
+    var settings = ParseJsonFromFile("./src/Cafe/Cafe.Waiter.Acceptance.Tests/appSettings.json");
     var host = settings["cafe"]["waiter"]["web"]["url"];
     return host.ToString();
 }
@@ -296,7 +296,7 @@ void RunCQSplitIntegrationTests()
 
 void RunCQSplitAcceptanceTests()
 {
-    RunDotNetTests("./src/CQSplit/**/*.AcceptanceTests.csproj", new DotNetCoreTestSettings());
+    RunDotNetTests("./src/CQSplit/**/*.Tests.csproj", new DotNetCoreTestSettings());
 }
 
 Task("Run-CQSplit-Unit-Tests")
