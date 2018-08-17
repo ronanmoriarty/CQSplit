@@ -7,7 +7,7 @@ using MassTransit;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 
-namespace CQSplit.Messaging.RabbitMq.IntegrationTests
+namespace CQSplit.Messaging.RabbitMq.Tests
 {
     [TestFixture]
     [Category("Integration")]
