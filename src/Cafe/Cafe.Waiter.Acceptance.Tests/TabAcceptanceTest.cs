@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using NUnit.Framework;
 
-namespace Cafe.Waiter.AcceptanceTests
+namespace Cafe.Waiter.Acceptance.Tests
 {
     [TestFixture, Category("AcceptanceTest")]
     public class TabAcceptanceTest

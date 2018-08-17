@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using NLog;
 
-namespace Cafe.Waiter.AcceptanceTests
+namespace Cafe.Waiter.Acceptance.Tests
 {
     public class ExternalProcess : IDisposable
     {
