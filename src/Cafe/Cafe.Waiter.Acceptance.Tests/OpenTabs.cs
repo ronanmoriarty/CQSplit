@@ -2,7 +2,7 @@
 using Cafe.DAL.Tests.Common;
 using OpenQA.Selenium.Chrome;
 
-namespace Cafe.Waiter.AcceptanceTests
+namespace Cafe.Waiter.Acceptance.Tests
 {
     public class OpenTabs
     {

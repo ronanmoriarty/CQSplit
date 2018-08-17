@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
-namespace Cafe.Waiter.AcceptanceTests
+namespace Cafe.Waiter.Acceptance.Tests
 {
     public class ContainsSingleTabConstraintBuilder
     {
