@@ -35,12 +35,17 @@ namespace Cafe.DAL.Tests
             _sqlExecutor = new SqlExecutor(connectionStringProvider);
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE ID IN ('{Id1}','{Id2}')");
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE ID IN ('{Id1}','{Id2}')");
+            var eventStoreUnitOfWork = new EventStoreUnitOfWork(connectionStringProvider);
             _eventToPublishRepositoryDecorator = CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(
                 new EventToPublishRepository(new EventToPublishSerializer(Assembly.GetExecutingAssembly())
                 )
             );
-            _eventStore = new EventRepository(new EventSerializer(Assembly.GetExecutingAssembly())
-            );
+            _eventToPublishRepositoryDecorator.UnitOfWork = eventStoreUnitOfWork;
+            _eventStore = new EventRepository(new EventSerializer(Assembly.GetExecutingAssembly()))
+            {
+                UnitOfWork = eventStoreUnitOfWork
+            };
+
             _eventHandler = new EventHandler(
                 new CompositeEventStore(
                     new[]
