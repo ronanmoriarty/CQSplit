@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
     <id>CQSplit.DAL</id>
-    <version>0.9.3-pre</version>
+    <version>0.9.4-pre</version>
     <authors>Ronan Moriarty</authors>
     <owners>Ronan Moriarty</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,7 +11,7 @@
     <licenseUrl>https://github.com/ronanmoriarty/CQSplit/blob/master/LICENSE.md</licenseUrl>
     <dependencies>
       <group targetFramework="netcoreapp2.0">
-        <dependency id="CQSplit.Core" version="0.9.3-pre" />
+        <dependency id="CQSplit.Core" version="0.9.4-pre" />
         <dependency id="Newtonsoft.Json" version="10.0.3" />
       </group>
     </dependencies>
