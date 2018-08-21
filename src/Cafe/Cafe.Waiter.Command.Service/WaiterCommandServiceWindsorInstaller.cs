@@ -66,8 +66,8 @@ namespace Cafe.Waiter.Command.Service
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Classes
-                    .FromAssemblyContaining<EventStoreUnitOfWorkFactory>()
-                    .InSameNamespaceAs<EventStoreUnitOfWorkFactory>()
+                    .FromAssemblyContaining<EventRepository>()
+                    .InSameNamespaceAs<EventRepository>()
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component

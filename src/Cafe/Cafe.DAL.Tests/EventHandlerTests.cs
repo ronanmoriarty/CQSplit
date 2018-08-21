@@ -42,7 +42,6 @@ namespace Cafe.DAL.Tests
             _eventStore = new EventRepository(new EventSerializer(Assembly.GetExecutingAssembly())
             );
             _eventHandler = new EventHandler(
-                new EventStoreUnitOfWorkFactory(connectionStringProvider),
                 new CompositeEventStore(
                     new[]
                     {
