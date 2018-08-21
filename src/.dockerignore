@@ -1,1 +1,10 @@
-**/.vs/
+Dockerfile
+**/[Bb]in/
+**/[Oo]bj/
+*.dll
+**/.git
+**/.vs
+
+# Dockerfiles only require the appSettings.docker.json files.
+**/appSettings.json.template
+**/appSettings.json
