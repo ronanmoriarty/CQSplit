@@ -4,4 +4,4 @@ Dockerfile
 *.dll
 **/.git
 **/.vs
-**/appSettings.docker.json.example
+**/appSettings.docker.json.template

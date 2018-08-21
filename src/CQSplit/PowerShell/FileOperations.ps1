@@ -13,7 +13,7 @@ function WriteToFile($path, $contents){
     $contents | Out-File -encoding ASCII $path
 }
 
-function GetExampleFileWithPlaceholdersReplaced([string] $filePath, [hashtable] $keyValuePairs)
+function GetTemplateFileWithPlaceholdersReplaced([string] $filePath, [hashtable] $keyValuePairs)
 {
     $temp = (Get-Content $filePath)
 
@@ -25,15 +25,15 @@ function GetExampleFileWithPlaceholdersReplaced([string] $filePath, [hashtable] 
     return $temp
 }
 
-function SwapPlaceholdersToCreateNewJsonFiles([string[]] $paths, [string] $targetName, [hashtable] $keyValuePairs)
+function SwapPlaceholdersToCreateNewJsonFiles([string[]] $jsonTemplatePaths, [string] $targetName, [hashtable] $keyValuePairs)
 {
-    if($paths.Length -eq 0)
+    if($jsonTemplatePaths.Length -eq 0)
     {
         Write-Output "No template files supplied."
         return
     }
 
-    $paths | ForEach-Object {
+    $jsonTemplatePaths | ForEach-Object {
         $sourcePath = $_
         $sourceName = [System.IO.Path]::GetFileName($sourcePath)
         Write-Output "Replacing placeholders in '$sourcePath' to create new file called '$targetName' in same directory."
@@ -43,7 +43,7 @@ function SwapPlaceholdersToCreateNewJsonFiles([string[]] $paths, [string] $targe
             Remove-Item $targetJsonPath
         }
 
-        (GetExampleFileWithPlaceholdersReplaced $sourcePath $keyValuePairs) | Set-Content $targetJsonPath
+        (GetTemplateFileWithPlaceholdersReplaced $sourcePath $keyValuePairs) | Set-Content $targetJsonPath
         Write-Output "Created $targetJsonPath"
         Write-Output (Get-Content $targetJsonPath)
     }
