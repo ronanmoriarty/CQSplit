@@ -19,4 +19,4 @@ This repository contains two parts:
 ## To Run Sample Application
 
 * The setup can be verified by running .\build.ps1 -Target Run-Sample-Application-Tests
-* [TODO] Run. \build.ps1 -Target Run-Sample-Application
+* Run. \build.ps1 -Target Run-Sample-Application
