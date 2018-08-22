@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CQSplit.DAL\CQSplit.DAL.csproj" />
+    <ProjectReference Include="..\CQSplit.Serialization\CQSplit.Serialization.csproj" />
   </ItemGroup>
 
 </Project>

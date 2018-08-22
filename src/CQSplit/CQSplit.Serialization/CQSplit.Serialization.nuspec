@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
-    <id>CQSplit.DAL</id>
+    <id>CQSplit.Serialization</id>
     <version>0.9.4-pre</version>
     <authors>Ronan Moriarty</authors>
     <owners>Ronan Moriarty</owners>
@@ -17,6 +17,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\netstandard2.0\CQSplit.DAL.dll" target="lib\netstandard2.0" />
+    <file src="bin\Release\netstandard2.0\CQSplit.Serialization.dll" target="lib\netstandard2.0" />
   </files>
 </package>
