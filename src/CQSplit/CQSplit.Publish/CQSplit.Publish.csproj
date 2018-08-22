@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CQSplit.DAL\CQSplit.DAL.csproj" />
     <ProjectReference Include="..\CQSplit.Messaging\CQSplit.Messaging.csproj" />
   </ItemGroup>
 

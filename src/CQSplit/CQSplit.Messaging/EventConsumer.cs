@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CQSplit.Core;
 using MassTransit;
 using NLog;
 

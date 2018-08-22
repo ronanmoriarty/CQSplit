@@ -1,4 +1,4 @@
-using CQSplit.Core;
+using CQSplit;
 
 namespace Cafe.Waiter.Contracts.Commands
 {

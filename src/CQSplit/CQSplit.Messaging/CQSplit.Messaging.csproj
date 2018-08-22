@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CQSplit.Core\CQSplit.Core.csproj" />
+    <ProjectReference Include="..\CQSplit\CQSplit.csproj" />
   </ItemGroup>
 
 </Project>

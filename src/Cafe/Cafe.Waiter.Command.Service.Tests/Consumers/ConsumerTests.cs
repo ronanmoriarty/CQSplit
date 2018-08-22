@@ -1,5 +1,5 @@
 ﻿using System;
-using CQSplit.Core;
+using CQSplit;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;

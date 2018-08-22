@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cafe.Waiter.Command.Service.Sql;
-using CQSplit.Core;
-using CQSplit.DAL;
-using CQSplit.DAL.Serialized;
+using CQSplit;
+using CQSplit.Serialization;
 
 namespace Cafe.Waiter.Command.Service.Tests.Sql
 {

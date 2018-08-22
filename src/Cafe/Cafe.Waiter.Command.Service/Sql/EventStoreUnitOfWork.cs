@@ -1,6 +1,6 @@
 ﻿using System;
 using Cafe.DAL.Sql;
-using CQSplit.DAL;
+using CQSplit.Serialization;
 using NLog;
 
 namespace Cafe.Waiter.Command.Service.Sql

@@ -1,7 +1,7 @@
 ﻿using System;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Events;
-using CQSplit.Core;
+using CQSplit;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Command.Service.Tests

@@ -4,8 +4,8 @@ using Cafe.Waiter.Commands;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Domain;
 using Cafe.Waiter.Events;
-using CQSplit.Core;
-using CQSplit.DAL;
+using CQSplit;
+using CQSplit.Serialization;
 using NSubstitute;
 using NUnit.Framework;
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using CQSplit.Core;
 
 namespace CQSplit.Publish.Tests
 {

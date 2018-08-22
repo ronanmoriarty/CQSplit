@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Cafe.Waiter.Contracts.Commands;
 using Cafe.Waiter.Events;
-using CQSplit.Core;
+using CQSplit;
 using NLog;
 
 namespace Cafe.Waiter.Domain

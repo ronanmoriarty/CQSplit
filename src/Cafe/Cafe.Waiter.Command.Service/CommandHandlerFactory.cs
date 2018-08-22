@@ -1,6 +1,6 @@
 ﻿using Cafe.Waiter.Domain;
-using CQSplit.Core;
-using CQSplit.DAL;
+using CQSplit;
+using CQSplit.Serialization;
 
 namespace Cafe.Waiter.Command.Service
 {

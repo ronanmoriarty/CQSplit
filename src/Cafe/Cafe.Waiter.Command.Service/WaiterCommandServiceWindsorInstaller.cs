@@ -10,15 +10,15 @@ using Castle.MicroKernel;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using CQSplit.Core;
-using CQSplit.DAL;
+using CQSplit;
+using CQSplit.Serialization;
 using CQSplit.Messaging;
 using CQSplit.Messaging.RabbitMq;
 using CQSplit.Publish;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
-using EventHandler = CQSplit.DAL.EventHandler;
+using EventHandler = CQSplit.Serialization.EventHandler;
 
 namespace Cafe.Waiter.Command.Service
 {
