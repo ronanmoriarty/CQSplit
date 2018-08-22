@@ -15,5 +15,10 @@ namespace Cafe.DAL.Common
         {
             return new ConnectionStringOverride(_configurationRoot["connectionString"]);
         }
+
+        public string GetConnectionString()
+        {
+            return new ConnectionStringOverride(_configurationRoot["connectionString"]).GetConnectionString();
+        }
     }
 }

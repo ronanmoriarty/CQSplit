@@ -72,9 +72,7 @@ namespace Cafe.Waiter.Command.Service
                     .For<IUnitOfWork>()
                     .UsingFactoryMethod(kernel =>
                     {
-                        var connectionString = new ConnectionStringProviderFactory(ConfigurationRoot.Instance)
-                            .GetConnectionStringProvider()
-                            .GetConnectionString();
+                        var connectionString = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionString();
                         return new EventStoreUnitOfWork(connectionString);
                     })
                     .LifestyleSingleton(),

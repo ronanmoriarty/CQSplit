@@ -32,8 +32,7 @@ namespace Cafe.Waiter.Web
         {
             var menuConfiguration = new MenuConfiguration(Configuration);
             services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), menuConfiguration));
-            var connectionStringProvider = new ConnectionStringProviderFactory(Configuration).GetConnectionStringProvider();
-            var connectionString = connectionStringProvider.GetConnectionString();
+            var connectionString = new ConnectionStringProviderFactory(Configuration).GetConnectionString();
             services.Add(new ServiceDescriptor(typeof(IMenuRepository), new MenuRepository(menuConfiguration, connectionString)));
             services.Add(new ServiceDescriptor(typeof(ITabDetailsRepository), new TabDetailsRepository(connectionString)));
             services.Add(new ServiceDescriptor(typeof(IOpenTabsRepository), new OpenTabsRepository(connectionString)));

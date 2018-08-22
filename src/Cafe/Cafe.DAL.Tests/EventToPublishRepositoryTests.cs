@@ -24,7 +24,7 @@ namespace Cafe.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            _connectionString = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider().GetConnectionString();
+            _connectionString = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionString();
             CleanUp();
             _eventToPublishSerializer = new EventToPublishSerializer(typeof(TestEvent).Assembly);
             _eventToPublishRepository = CreateRepository();

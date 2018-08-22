@@ -31,11 +31,11 @@ namespace Cafe.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            var connectionStringProvider = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider();
-            _sqlExecutor = new SqlExecutor(connectionStringProvider.GetConnectionString());
+            var connectionString = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionString();
+            _sqlExecutor = new SqlExecutor(connectionString);
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE ID IN ('{Id1}','{Id2}')");
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE ID IN ('{Id1}','{Id2}')");
-            var eventStoreUnitOfWork = new EventStoreUnitOfWork(connectionStringProvider.GetConnectionString());
+            var eventStoreUnitOfWork = new EventStoreUnitOfWork(connectionString);
             _eventToPublishRepositoryDecorator = CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(
                 new EventToPublishRepository(new EventToPublishSerializer(Assembly.GetExecutingAssembly())
                 )
