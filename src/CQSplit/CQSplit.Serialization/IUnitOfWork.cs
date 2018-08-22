@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CQSplit.DAL
+namespace CQSplit.Serialization
 {
     public interface IUnitOfWork : IDisposable
     {

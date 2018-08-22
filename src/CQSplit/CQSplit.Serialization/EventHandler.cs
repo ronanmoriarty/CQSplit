@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CQSplit.DAL
+namespace CQSplit.Serialization
 {
     public class EventHandler : IEventHandler
     {

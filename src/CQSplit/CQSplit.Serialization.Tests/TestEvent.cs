@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CQSplit.DAL.Tests
+namespace CQSplit.Serialization.Tests
 {
     public class TestEvent : IEvent
     {

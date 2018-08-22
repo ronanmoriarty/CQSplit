@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using CQSplit.DAL.Serialized;
+using CQSplit.Serialization.Serialized;
 using Newtonsoft.Json;
 
-namespace CQSplit.DAL
+namespace CQSplit.Serialization
 {
     public class EventSerializer
     {

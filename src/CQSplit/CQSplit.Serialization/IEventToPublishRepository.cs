@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using CQSplit.DAL.Serialized;
+using CQSplit.Serialization.Serialized;
 
-namespace CQSplit.DAL
+namespace CQSplit.Serialization
 {
     public interface IEventToPublishRepository : IEventStore
     {

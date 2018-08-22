@@ -1,10 +1,10 @@
 using System;
 using System.Reflection;
-using CQSplit.DAL.Serialized;
+using CQSplit.Serialization.Serialized;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace CQSplit.DAL.Tests
+namespace CQSplit.Serialization.Tests
 {
     [TestFixture]
     public class EventToPublishSerializerTests

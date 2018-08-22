@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using CQSplit.DAL;
-using CQSplit.DAL.Serialized;
+using CQSplit.Serialization;
+using CQSplit.Serialization.Serialized;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;

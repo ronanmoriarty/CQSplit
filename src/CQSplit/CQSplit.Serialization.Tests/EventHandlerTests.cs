@@ -4,7 +4,7 @@ using NSubstitute;
 using NSubstitute.Core;
 using NUnit.Framework;
 
-namespace CQSplit.DAL.Tests
+namespace CQSplit.Serialization.Tests
 {
     [TestFixture]
     public class EventHandlerTests

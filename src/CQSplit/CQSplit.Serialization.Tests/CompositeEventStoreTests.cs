@@ -2,7 +2,7 @@
 using NSubstitute;
 using NUnit.Framework;
 
-namespace CQSplit.DAL.Tests
+namespace CQSplit.Serialization.Tests
 {
     [TestFixture]
     public class CompositeEventStoreTests

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CQSplit.DAL
+namespace CQSplit.Serialization
 {
     public class CompositeEventStore : IEventStore
     {

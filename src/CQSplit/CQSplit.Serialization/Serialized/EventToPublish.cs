@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CQSplit.DAL.Serialized
+namespace CQSplit.Serialization.Serialized
 {
     public class EventToPublish
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CQSplit.DAL
+namespace CQSplit.Serialization
 {
     public interface IEventRepository : IEventStore
     {

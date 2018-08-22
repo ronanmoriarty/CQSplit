@@ -1,4 +1,4 @@
-namespace CQSplit.DAL
+namespace CQSplit.Serialization
 {
     public interface IEventStore : IHaveUnitOfWork
     {

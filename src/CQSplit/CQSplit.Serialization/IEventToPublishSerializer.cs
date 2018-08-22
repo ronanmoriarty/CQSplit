@@ -1,6 +1,6 @@
-﻿using CQSplit.DAL.Serialized;
+﻿using CQSplit.Serialization.Serialized;
 
-namespace CQSplit.DAL
+namespace CQSplit.Serialization
 {
     public interface IEventToPublishSerializer
     {
