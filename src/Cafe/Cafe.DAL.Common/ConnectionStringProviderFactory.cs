@@ -11,11 +11,6 @@ namespace Cafe.DAL.Common
             _configurationRoot = configurationRoot;
         }
 
-        public IConnectionStringProvider GetConnectionStringProvider()
-        {
-            return new ConnectionStringOverride(_configurationRoot["connectionString"]);
-        }
-
         public string GetConnectionString()
         {
             return new ConnectionStringOverride(_configurationRoot["connectionString"]).GetConnectionString();
