@@ -35,7 +35,7 @@ namespace Cafe.DAL.Sql
                     }
                     catch (SqlException)
                     {
-                        if (numberOfAttempts <= maximum)
+                        if (numberOfAttempts < maximum)
                         {
                             Logger.Debug($"[Attempt {numberOfAttempts} of {maximum}]: Could not establish connection to database. Will try again in {delayInMilliseconds} ms.");
                             Thread.Sleep(delayInMilliseconds);
