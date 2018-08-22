@@ -50,15 +50,8 @@ namespace Cafe.Waiter.EventProjecting.Service
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
                 Component
-                    .For<IConnectionStringProvider>()
-                    .Instance(ReadModelConnectionStringProvider.Instance),
-                Component
                     .For<IOpenTabInserter>()
-                    .UsingFactoryMethod(kernel =>
-                    {
-                        var connectionString = kernel.Resolve<IConnectionStringProvider>().GetConnectionString();
-                        return new OpenTabInserter(connectionString);
-                    }),
+                    .UsingFactoryMethod(kernel => new OpenTabInserter(ReadModelConnectionStringProvider.Instance.GetConnectionString())),
                 Component
                     .For<IConfigurationRoot>()
                     .Instance(configurationRoot)
