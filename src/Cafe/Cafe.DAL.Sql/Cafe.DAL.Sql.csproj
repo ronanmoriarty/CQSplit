@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CQSplit" Version="0.9.5-pre" />
+    <PackageReference Include="CQSplit" Version="0.9.6-pre" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
