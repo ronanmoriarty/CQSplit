@@ -1,16 +1,14 @@
 using System.Reflection;
-using Cafe.DAL.Common;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.EventProjecting.Service.DAL;
 using Cafe.Waiter.EventProjecting.Service.Projectors;
-using Cafe.Waiter.Queries.DAL;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using CQSplit.Messaging;
 using CQSplit.Messaging.RabbitMq;
 using Microsoft.Extensions.Configuration;
-using ConfigurationRoot = Cafe.DAL.Common.ConfigurationRoot;
+using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {

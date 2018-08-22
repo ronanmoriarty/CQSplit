@@ -1,4 +1,4 @@
-﻿using Cafe.DAL.Common;
+﻿using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
 using OpenQA.Selenium.Chrome;
 

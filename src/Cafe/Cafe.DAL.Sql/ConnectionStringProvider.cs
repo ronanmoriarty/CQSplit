@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Threading;
-using Cafe.DAL.Common;
 using NLog;
 
 namespace Cafe.DAL.Sql

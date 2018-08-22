@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Cafe.DAL.Common;
+using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.EventProjecting.Service.DAL;

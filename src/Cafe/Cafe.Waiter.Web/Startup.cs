@@ -1,5 +1,4 @@
-﻿using Cafe.DAL.Common;
-using Cafe.Waiter.Web.Controllers;
+﻿using Cafe.Waiter.Web.Controllers;
 using Cafe.Waiter.Web.Repositories;
 using CQSplit.Messaging;
 using CQSplit.Messaging.RabbitMq;

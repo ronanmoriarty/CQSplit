@@ -17,7 +17,7 @@ using CQSplit.Messaging.RabbitMq;
 using CQSplit.Publish;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
-using ConfigurationRoot = Cafe.DAL.Common.ConfigurationRoot;
+using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
 using EventHandler = CQSplit.DAL.EventHandler;
 
 namespace Cafe.Waiter.Command.Service

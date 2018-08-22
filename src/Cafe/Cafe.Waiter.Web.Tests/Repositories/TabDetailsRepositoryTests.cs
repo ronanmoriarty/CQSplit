@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cafe.DAL.Common;
+using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Web.Repositories;

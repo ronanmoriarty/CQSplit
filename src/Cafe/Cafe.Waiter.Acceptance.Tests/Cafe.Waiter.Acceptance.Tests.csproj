@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cafe.DAL.Sql\Cafe.DAL.Sql.csproj" />
     <ProjectReference Include="..\Cafe.DAL.Tests.Common\Cafe.DAL.Tests.Common.csproj" />
   </ItemGroup>
 
