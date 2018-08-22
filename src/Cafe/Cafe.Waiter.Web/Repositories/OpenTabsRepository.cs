@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cafe.DAL.Common;
 using Cafe.Waiter.Queries.DAL.Models;
 using Newtonsoft.Json;
 
@@ -9,11 +8,11 @@ namespace Cafe.Waiter.Web.Repositories
 {
     public class OpenTabsRepository : IOpenTabsRepository
     {
-        private readonly IConnectionStringProvider _connectionStringProvider;
+        private readonly string _connectionString;
 
-        public OpenTabsRepository(IConnectionStringProvider connectionStringProvider)
+        public OpenTabsRepository(string connectionString)
         {
-            _connectionStringProvider = connectionStringProvider;
+            _connectionString = connectionString;
         }
 
         public IEnumerable<OpenTab> GetOpenTabs()
@@ -33,7 +32,7 @@ namespace Cafe.Waiter.Web.Repositories
 
         private WaiterDbContext GetWaiterDbContext()
         {
-            return new WaiterDbContext(_connectionStringProvider.GetConnectionString());
+            return new WaiterDbContext(_connectionString);
         }
 
         private OpenTab Map(Queries.DAL.Serialized.OpenTab openTab)

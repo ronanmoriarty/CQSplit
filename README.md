@@ -20,3 +20,7 @@ This repository contains two parts:
 
 * The setup can be verified by running .\build.ps1 -Target Run-Sample-Application-Tests
 * Run. \build.ps1 -Target Run-Sample-Application
+
+## To Create the CQSplit Nuget Packages
+
+* Open PowerShell and run .\build.ps1 -Target Create-CQSplit-Nuget-Packages

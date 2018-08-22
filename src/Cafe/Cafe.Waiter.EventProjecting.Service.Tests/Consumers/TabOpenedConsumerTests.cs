@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.EventProjecting.Service.DAL;
 using Cafe.Waiter.Events;
-using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
 using MassTransit;
 using Newtonsoft.Json;
@@ -22,7 +22,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Consumers
         private readonly Guid _aggregateId = new Guid("C32030D7-C783-4EF9-88F7-1CEEED79A5E0");
         private readonly int _tableNumber = 654;
         private readonly string _waiter = "Jim";
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.Instance);
+        private readonly SqlExecutor _sqlExecutor = new SqlExecutor();
 
         [SetUp]
         public void SetUp()
@@ -68,7 +68,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Consumers
 
         private void AssertThatOpenTabInsertedWithStatusInitiallySetToSeated()
         {
-            var serializedOpenTab = new WaiterDbContext(ReadModelConnectionStringProvider.Instance.GetConnectionString()).OpenTabs.Single(x => x.Id == _aggregateId);
+            var serializedOpenTab = new WaiterDbContext(ConnectionStringProvider.ConnectionString).OpenTabs.Single(x => x.Id == _aggregateId);
             var retrievedOpenTab = JsonConvert.DeserializeObject<OpenTab>(serializedOpenTab.Data);
             Assert.That(retrievedOpenTab.Id, Is.EqualTo(_aggregateId));
             Assert.That(retrievedOpenTab.TableNumber, Is.EqualTo(_tableNumber));

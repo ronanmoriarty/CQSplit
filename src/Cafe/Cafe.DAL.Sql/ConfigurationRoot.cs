@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Cafe.DAL.Common
+namespace Cafe.DAL.Sql
 {
     public static class ConfigurationRoot
     {

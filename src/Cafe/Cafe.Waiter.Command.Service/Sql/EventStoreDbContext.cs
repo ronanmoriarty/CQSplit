@@ -1,7 +1,7 @@
 ﻿using CQSplit.DAL.Serialized;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cafe.DAL.Sql
+namespace Cafe.Waiter.Command.Service.Sql
 {
     public class EventStoreDbContext : DbContext
     {

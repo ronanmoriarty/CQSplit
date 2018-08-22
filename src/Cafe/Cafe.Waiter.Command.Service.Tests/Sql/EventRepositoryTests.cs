@@ -1,15 +1,15 @@
 using System;
-using Cafe.DAL.Common;
 using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
+using Cafe.Waiter.Command.Service.Sql;
 using CQSplit.Core;
 using CQSplit.DAL;
 using NUnit.Framework;
 
-namespace Cafe.DAL.Tests
+namespace Cafe.Waiter.Command.Service.Tests.Sql
 {
     [TestFixture, Category(TestConstants.Integration)]
-    public class EventStoreTests
+    public class EventRepositoryTests
     {
         private IEvent _retrievedEvent;
         private readonly Guid _aggregateId = new Guid("0227C779-D2FC-4A26-B549-DA82FB00C87C");
@@ -19,11 +19,11 @@ namespace Cafe.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            var connectionStringProvider = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider();
-            var sqlExecutor = new SqlExecutor(connectionStringProvider);
+            var connectionString = ConnectionStringProvider.ConnectionString;
+            var sqlExecutor = new SqlExecutor();
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId}'"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
             _repository = CreateRepository();
-            _repository.UnitOfWork = new EventStoreUnitOfWork(connectionStringProvider);
+            _repository.UnitOfWork = new EventStoreUnitOfWork(connectionString);
         }
 
         [Test]

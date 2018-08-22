@@ -9,8 +9,4 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Cafe.DAL.Common\Cafe.DAL.Common.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -1,17 +1,17 @@
 ﻿using System;
-using Cafe.DAL.Common;
+using Cafe.DAL.Sql;
 using CQSplit.DAL;
 using NLog;
 
-namespace Cafe.DAL.Sql
+namespace Cafe.Waiter.Command.Service.Sql
 {
     public class EventStoreUnitOfWork : IUnitOfWork
     {
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public EventStoreUnitOfWork(IConnectionStringProvider connectionStringProvider)
+        public EventStoreUnitOfWork(string connectionString)
         {
-            EventStoreDbContext = new EventStoreDbContext(connectionStringProvider.GetConnectionString());
+            EventStoreDbContext = new EventStoreDbContext(connectionString);
             LogDbContextHashCodeForMultithreadingDiagnosticPurposes();
         }
 

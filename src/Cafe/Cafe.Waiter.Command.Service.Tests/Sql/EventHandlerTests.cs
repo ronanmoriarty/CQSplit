@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Cafe.DAL.Common;
 using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
+using Cafe.Waiter.Command.Service.Sql;
 using CQSplit.Core;
 using CQSplit.DAL;
 using NLog;
 using NUnit.Framework;
 using EventHandler = CQSplit.DAL.EventHandler;
 
-namespace Cafe.DAL.Tests
+namespace Cafe.Waiter.Command.Service.Tests.Sql
 {
     [TestFixture, Category(TestConstants.Integration)]
     public class EventHandlerTests
@@ -31,11 +31,11 @@ namespace Cafe.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            var connectionStringProvider = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider();
-            _sqlExecutor = new SqlExecutor(connectionStringProvider);
+            var connectionString = ConnectionStringProvider.ConnectionString;
+            _sqlExecutor = new SqlExecutor();
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE ID IN ('{Id1}','{Id2}')");
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE ID IN ('{Id1}','{Id2}')");
-            var eventStoreUnitOfWork = new EventStoreUnitOfWork(connectionStringProvider);
+            var eventStoreUnitOfWork = new EventStoreUnitOfWork(connectionString);
             _eventToPublishRepositoryDecorator = CreateEventToPublishRepositoryThatCanSimulateSqlExceptions(
                 new EventToPublishRepository(new EventToPublishSerializer(Assembly.GetExecutingAssembly())
                 )

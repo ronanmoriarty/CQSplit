@@ -1,5 +1,4 @@
-﻿using Cafe.DAL.Common;
-using Cafe.DAL.Tests.Common;
+﻿using Cafe.DAL.Tests.Common;
 using OpenQA.Selenium.Chrome;
 
 namespace Cafe.Waiter.Acceptance.Tests
@@ -15,8 +14,7 @@ namespace Cafe.Waiter.Acceptance.Tests
 
         public static void DeleteTabsFor(string waiter)
         {
-            var connectionStringProvider = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider();
-            var sqlExecutor = new SqlExecutor(connectionStringProvider);
+            var sqlExecutor = new SqlExecutor();
             var commandText = $"DELETE FROM dbo.OpenTabs WHERE [Data] LIKE '%\"Waiter\":\"{waiter}\"%'";
             sqlExecutor.ExecuteNonQuery(commandText);
         }

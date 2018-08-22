@@ -1,3 +1,0 @@
-{
-    "connectionString": "Server=$writeModelSqlServerAddress;Database=Cafe.Waiter.WriteModel;User Id=CommandService;Password=$commandServicePassword;"
-}

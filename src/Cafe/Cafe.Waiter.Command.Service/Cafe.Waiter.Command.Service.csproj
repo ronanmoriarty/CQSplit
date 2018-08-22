@@ -25,6 +25,8 @@
     <PackageReference Include="CQSplit.DAL" Version="0.9.4-pre" />
     <PackageReference Include="CQSplit.Messaging.RabbitMq" Version="0.9.4-pre" />
     <PackageReference Include="CQSplit.Publish" Version="0.9.4-pre" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.1.1" />
     <PackageReference Include="NLog.Config" Version="4.5.7" />

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cafe.DAL.Sql;
+using Cafe.Waiter.Command.Service.Sql;
 using CQSplit.Core;
 using CQSplit.DAL;
 using CQSplit.DAL.Serialized;
 
-namespace Cafe.DAL.Tests
+namespace Cafe.Waiter.Command.Service.Tests.Sql
 {
     public class EventToPublishRepositoryDecorator : IEventToPublishRepository
     {

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Cafe.DAL.Common;
 using Cafe.DAL.Sql;
 using Cafe.Waiter.Command.Service.Consumers;
+using Cafe.Waiter.Command.Service.Sql;
 using Cafe.Waiter.Domain;
 using Cafe.Waiter.Events;
 using Castle.MicroKernel;
@@ -17,7 +17,7 @@ using CQSplit.Messaging.RabbitMq;
 using CQSplit.Publish;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
-using ConfigurationRoot = Cafe.DAL.Common.ConfigurationRoot;
+using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
 using EventHandler = CQSplit.DAL.EventHandler;
 
 namespace Cafe.Waiter.Command.Service
@@ -56,9 +56,6 @@ namespace Cafe.Waiter.Command.Service
                 Component
                     .For<EventSerializer>()
                     .DependsOn(Dependency.OnComponent("assemblyContainingEvents", "assemblyForEventMapper")),
-                Component
-                    .For<IConnectionStringProvider>()
-                    .Instance(new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider()),
                 Classes
                     .FromAssemblyContaining<EventToPublishSerializer>()
                     .InSameNamespaceAs<EventToPublishSerializer>()
@@ -68,8 +65,13 @@ namespace Cafe.Waiter.Command.Service
                 Classes
                     .FromAssemblyContaining<EventRepository>()
                     .InSameNamespaceAs<EventRepository>()
+                    .Unless(type => type == typeof(EventStoreUnitOfWork))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
+                Component
+                    .For<IUnitOfWork>()
+                    .UsingFactoryMethod(kernel => new EventStoreUnitOfWork(ConnectionStringProvider.ConnectionString))
+                    .LifestyleSingleton(),
                 Component
                     .For<ICommandRouter>()
                     .ImplementedBy<CommandRouter>(),
@@ -152,10 +154,15 @@ namespace Cafe.Waiter.Command.Service
 
         private IEnumerable<IEventStore> GetEventStores(IKernel kernel)
         {
+            var unitOfWork = kernel.Resolve<IUnitOfWork>();
+            var eventRepository = kernel.Resolve<EventRepository>();
+            eventRepository.UnitOfWork = unitOfWork;
+            var eventToPublishRepository = kernel.Resolve<EventToPublishRepository>();
+            eventToPublishRepository.UnitOfWork = unitOfWork;
             return new List<IEventStore>
             {
-                kernel.Resolve<EventRepository>(),
-                kernel.Resolve<EventToPublishRepository>()
+                eventRepository,
+                eventToPublishRepository
             };
         }
     }
