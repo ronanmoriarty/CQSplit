@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cafe.DAL.Common;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
@@ -16,7 +17,8 @@ namespace Cafe.Waiter.Web.Tests.Repositories
     public class MenuRepositoryTests
     {
         private Menu _menu;
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.ConnectionString);
+        private static readonly string ConnectionString = ConfigurationRoot.Instance["connectionString"];
+        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ConnectionString);
         private MenuRepository _menuRepository;
         private readonly Guid _id = new Guid("35E02AF9-F608-47EE-A620-09E955C5ECB3");
         private int _menuItemId1 = 123;
@@ -38,7 +40,7 @@ namespace Cafe.Waiter.Web.Tests.Repositories
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.Menu(Id,Data) VALUES ('{_id}','{menuJson}')");
             _menuConfiguration = Substitute.For<IMenuConfiguration>();
             _menuConfiguration.Id.Returns(_id);
-            _menuRepository = new MenuRepository(_menuConfiguration, ReadModelConnectionStringProvider.ConnectionString);
+            _menuRepository = new MenuRepository(_menuConfiguration, ConnectionString);
         }
 
         [Test]

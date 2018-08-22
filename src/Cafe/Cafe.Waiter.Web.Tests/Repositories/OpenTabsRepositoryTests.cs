@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Cafe.DAL.Common;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
@@ -14,7 +15,8 @@ namespace Cafe.Waiter.Web.Tests.Repositories
     public class OpenTabsRepositoryTests
     {
         private readonly Guid _id = new Guid("82EBC82F-72EE-42D8-9565-49B0E1844C86");
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.ConnectionString);
+        private static readonly string ConnectionString = ConfigurationRoot.Instance["connectionString"];
+        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ConnectionString);
         private readonly string _waiter = "Louise";
         private readonly int _tableNumber = 654;
         private readonly TabStatus _tabStatus = TabStatus.OrderPlaced;
@@ -26,7 +28,7 @@ namespace Cafe.Waiter.Web.Tests.Repositories
             var openTabJson = GetOpenTabJson();
             _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.OpenTabs(Id,Data) VALUES ('{_id}','{openTabJson}')");
-            _openTabsRepository = new OpenTabsRepository(ReadModelConnectionStringProvider.ConnectionString);
+            _openTabsRepository = new OpenTabsRepository(ConnectionString);
         }
 
         [Test]

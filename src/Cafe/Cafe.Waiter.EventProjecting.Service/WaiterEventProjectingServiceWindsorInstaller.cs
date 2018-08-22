@@ -10,6 +10,7 @@ using Castle.Windsor;
 using CQSplit.Messaging;
 using CQSplit.Messaging.RabbitMq;
 using Microsoft.Extensions.Configuration;
+using ConfigurationRoot = Cafe.DAL.Common.ConfigurationRoot;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
@@ -51,7 +52,7 @@ namespace Cafe.Waiter.EventProjecting.Service
                     .WithServiceAllInterfaces(),
                 Component
                     .For<IOpenTabInserter>()
-                    .UsingFactoryMethod(kernel => new OpenTabInserter(ReadModelConnectionStringProvider.ConnectionString)),
+                    .UsingFactoryMethod(kernel => new OpenTabInserter(ConfigurationRoot.Instance["connectionString"])),
                 Component
                     .For<IConfigurationRoot>()
                     .Instance(configurationRoot)

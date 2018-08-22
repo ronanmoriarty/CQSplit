@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cafe.DAL.Common;
 using Cafe.DAL.Tests.Common;
-using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Web.Repositories;
 using Cafe.Waiter.Web.Tests.Controllers;
@@ -14,7 +14,8 @@ namespace Cafe.Waiter.Web.Tests.Repositories
     public class TabDetailsRepositoryTests
     {
         private readonly Guid _id = new Guid("82EBC82F-72EE-42D8-9565-49B0E1844C86");
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.ConnectionString);
+        private static readonly string ConnectionString = ConfigurationRoot.Instance["connectionString"];
+        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ConnectionString);
         private TabDetailsRepository _tabDetailsRepository;
         private TabDetails _tabDetails;
 
@@ -25,7 +26,7 @@ namespace Cafe.Waiter.Web.Tests.Repositories
             var tabDetailsJson = JsonConvert.SerializeObject(_tabDetails);
             _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.TabDetails WHERE Id = '{_id}'");
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.TabDetails(Id,Data) VALUES ('{_id}','{tabDetailsJson}')");
-            _tabDetailsRepository = new TabDetailsRepository(ReadModelConnectionStringProvider.ConnectionString);
+            _tabDetailsRepository = new TabDetailsRepository(ConnectionString);
         }
 
         [Test]
