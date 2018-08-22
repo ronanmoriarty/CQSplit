@@ -22,7 +22,7 @@ function GetCQDependencyNodes([xml] $xml)
 {
     $ns = New-Object System.Xml.XmlNamespaceManager -ArgumentList $xml.NameTable
     $ns.AddNamespace("ns", $xml.DocumentElement.NamespaceURI)
-    return $xml.SelectNodes("//ns:dependency[starts-with(@id,'CQSplit.')]", $ns)
+    return $xml.SelectNodes("//ns:dependency[starts-with(@id,'CQSplit')]", $ns)
 }
 
 function GetMajorVersion([string] $versionNumber)
