@@ -47,7 +47,7 @@ namespace CQSplit.Serialization.Tests
             var otherId = Guid.NewGuid();
             var json = $"{{\"Id\":\"{otherId}\",\"AggregateId\":\"{_aggregateId.ToString()}\",\"CommandId\":\"{_commandId.ToString()}\",\"StringProperty\":\"{StringPropertyValue}\"}}";
 
-            var serializedEvent = new Serialized.Event
+            var serializedEvent = new Event
             {
                 Id = _id,
                 Data = json,

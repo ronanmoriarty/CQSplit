@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using CQSplit.Serialization.Serialized;
 using Newtonsoft.Json;
 
 namespace CQSplit.Serialization

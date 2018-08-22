@@ -1,6 +1,4 @@
-﻿using CQSplit.Serialization.Serialized;
-
-namespace CQSplit.Serialization
+﻿namespace CQSplit.Serialization
 {
     public interface IEventToPublishSerializer
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CQSplit.Serialization.Serialized
+namespace CQSplit.Serialization
 {
     public class Event
     {

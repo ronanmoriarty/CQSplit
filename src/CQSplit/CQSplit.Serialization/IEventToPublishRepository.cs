@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using CQSplit.Serialization.Serialized;
 
 namespace CQSplit.Serialization
 {
