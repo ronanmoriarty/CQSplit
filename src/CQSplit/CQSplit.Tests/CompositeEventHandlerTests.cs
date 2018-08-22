@@ -2,7 +2,7 @@
 using NSubstitute;
 using NUnit.Framework;
 
-namespace CQSplit.Core.Tests
+namespace CQSplit.Tests
 {
     [TestFixture]
     public class CompositeEventHandlerTests

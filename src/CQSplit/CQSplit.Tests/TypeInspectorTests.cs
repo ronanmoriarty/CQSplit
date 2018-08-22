@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 
-namespace CQSplit.Core.Tests
+namespace CQSplit.Tests
 {
     [TestFixture]
     public class TypeInspectorTests

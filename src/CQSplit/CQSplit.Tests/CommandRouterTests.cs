@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace CQSplit.Core.Tests
+namespace CQSplit.Tests
 {
     [TestFixture]
     public class CommandRouterTests
