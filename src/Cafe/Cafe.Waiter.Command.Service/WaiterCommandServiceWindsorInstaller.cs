@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Cafe.DAL.Common;
 using Cafe.DAL.Sql;
 using Cafe.Waiter.Command.Service.Consumers;
 using Cafe.Waiter.Domain;
@@ -70,11 +69,7 @@ namespace Cafe.Waiter.Command.Service
                     .WithServiceAllInterfaces(),
                 Component
                     .For<IUnitOfWork>()
-                    .UsingFactoryMethod(kernel =>
-                    {
-                        var connectionString = ConfigurationRoot.Instance["connectionString"];
-                        return new EventStoreUnitOfWork(connectionString);
-                    })
+                    .UsingFactoryMethod(kernel => new EventStoreUnitOfWork(ConnectionStringProvider.ConnectionString))
                     .LifestyleSingleton(),
                 Component
                     .For<ICommandRouter>()
