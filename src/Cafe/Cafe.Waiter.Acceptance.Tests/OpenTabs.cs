@@ -15,7 +15,7 @@ namespace Cafe.Waiter.Acceptance.Tests
 
         public static void DeleteTabsFor(string waiter)
         {
-            var connectionString = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionString();
+            var connectionString = ConfigurationRoot.Instance["connectionString"];
             var sqlExecutor = new SqlExecutor(connectionString);
             var commandText = $"DELETE FROM dbo.OpenTabs WHERE [Data] LIKE '%\"Waiter\":\"{waiter}\"%'";
             sqlExecutor.ExecuteNonQuery(commandText);

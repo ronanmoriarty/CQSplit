@@ -25,7 +25,7 @@ namespace Cafe.Waiter.Command.Service.Tests
 
         private static SqlExecutor GetSqlExecutor()
         {
-            var connectionString = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionString();
+            var connectionString = ConfigurationRoot.Instance["connectionString"];
             return new SqlExecutor(connectionString);
         }
 

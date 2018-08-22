@@ -4,6 +4,6 @@ namespace Cafe.Waiter.Queries.DAL
 {
     public class ReadModelConnectionStringProvider
     {
-        public static string ConnectionString = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionString();
+        public static string ConnectionString = ConfigurationRoot.Instance["connectionString"];
     }
 }

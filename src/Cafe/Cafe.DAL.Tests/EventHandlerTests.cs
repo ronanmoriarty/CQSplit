@@ -31,7 +31,7 @@ namespace Cafe.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            var connectionString = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionString();
+            var connectionString = ConfigurationRoot.Instance["connectionString"];
             _sqlExecutor = new SqlExecutor(connectionString);
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE ID IN ('{Id1}','{Id2}')");
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE ID IN ('{Id1}','{Id2}')");
