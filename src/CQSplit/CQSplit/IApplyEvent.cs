@@ -1,4 +1,4 @@
-﻿namespace CQSplit.Core
+﻿namespace CQSplit
 {
     public interface IApplyEvent<in TEvent>
         where TEvent : IEvent

@@ -2,7 +2,7 @@ using System;
 using System.Linq.Expressions;
 using NLog;
 
-namespace CQSplit.Core
+namespace CQSplit
 {
     public class EventApplier : IEventApplier
     {

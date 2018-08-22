@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using CQSplit.Core;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;

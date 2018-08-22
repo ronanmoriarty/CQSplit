@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CQSplit.Core;
 using NSubstitute;
 using NSubstitute.Core;
 using NUnit.Framework;

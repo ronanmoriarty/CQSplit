@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CQSplit.Core
+namespace CQSplit
 {
     public interface IEventHandler
     {

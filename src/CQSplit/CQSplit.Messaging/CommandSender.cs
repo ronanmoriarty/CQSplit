@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using CQSplit.Core;
 using NLog;
 
 namespace CQSplit.Messaging

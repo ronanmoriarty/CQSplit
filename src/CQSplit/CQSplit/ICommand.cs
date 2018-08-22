@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CQSplit.Core
+namespace CQSplit
 {
     public interface ICommand
     {

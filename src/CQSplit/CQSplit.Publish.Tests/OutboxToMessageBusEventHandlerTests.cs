@@ -1,5 +1,4 @@
-﻿using CQSplit.Core;
-using NSubstitute;
+﻿using NSubstitute;
 using NUnit.Framework;
 
 namespace CQSplit.Publish.Tests

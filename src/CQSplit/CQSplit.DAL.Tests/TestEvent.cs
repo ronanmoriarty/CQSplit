@@ -1,5 +1,4 @@
 ﻿using System;
-using CQSplit.Core;
 
 namespace CQSplit.DAL.Tests
 {

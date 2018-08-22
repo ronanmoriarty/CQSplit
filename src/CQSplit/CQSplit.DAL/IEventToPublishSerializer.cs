@@ -1,5 +1,4 @@
-﻿using CQSplit.Core;
-using CQSplit.DAL.Serialized;
+﻿using CQSplit.DAL.Serialized;
 
 namespace CQSplit.DAL
 {

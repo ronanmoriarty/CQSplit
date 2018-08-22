@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using CQSplit.Core;
 
 namespace CQSplit.Messaging
 {

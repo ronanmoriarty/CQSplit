@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CQSplit.Core
+namespace CQSplit
 {
     public class CommandHandlerProvider : ICommandHandlerProvider
     {
