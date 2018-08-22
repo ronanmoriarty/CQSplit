@@ -9,6 +9,7 @@ using CQSplit.Core;
 using CQSplit.DAL;
 using NLog;
 using NUnit.Framework;
+using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
 using EventHandler = CQSplit.DAL.EventHandler;
 
 namespace Cafe.DAL.Tests
