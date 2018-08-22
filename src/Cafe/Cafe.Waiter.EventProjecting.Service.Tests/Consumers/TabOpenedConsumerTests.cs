@@ -6,7 +6,6 @@ using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.EventProjecting.Service.DAL;
 using Cafe.Waiter.Events;
-using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
 using MassTransit;
 using Newtonsoft.Json;

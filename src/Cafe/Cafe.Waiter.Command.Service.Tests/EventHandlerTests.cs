@@ -1,5 +1,5 @@
 ﻿using System;
-using Cafe.DAL.Common;
+using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Events;
 using CQSplit.Core;
@@ -25,8 +25,7 @@ namespace Cafe.Waiter.Command.Service.Tests
 
         private static SqlExecutor GetSqlExecutor()
         {
-            var connectionString = ConfigurationRoot.Instance["connectionString"];
-            return new SqlExecutor(connectionString);
+            return new SqlExecutor(ConnectionStringProvider.ConnectionString);
         }
 
         [SetUp]

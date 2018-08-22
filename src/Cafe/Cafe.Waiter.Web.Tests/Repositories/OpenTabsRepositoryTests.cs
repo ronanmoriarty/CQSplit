@@ -2,7 +2,6 @@
 using System.Linq;
 using Cafe.DAL.Common;
 using Cafe.DAL.Tests.Common;
-using Cafe.Waiter.Queries.DAL;
 using Cafe.Waiter.Queries.DAL.Models;
 using Cafe.Waiter.Web.Repositories;
 using Cafe.Waiter.Web.Tests.Controllers;
