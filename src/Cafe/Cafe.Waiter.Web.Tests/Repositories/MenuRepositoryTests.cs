@@ -16,7 +16,6 @@ namespace Cafe.Waiter.Web.Tests.Repositories
     public class MenuRepositoryTests
     {
         private Menu _menu;
-        private static readonly string ConnectionString = ConfigurationRoot.Instance["connectionString"];
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor();
         private MenuRepository _menuRepository;
         private readonly Guid _id = new Guid("35E02AF9-F608-47EE-A620-09E955C5ECB3");
@@ -39,7 +38,7 @@ namespace Cafe.Waiter.Web.Tests.Repositories
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.Menu(Id,Data) VALUES ('{_id}','{menuJson}')");
             _menuConfiguration = Substitute.For<IMenuConfiguration>();
             _menuConfiguration.Id.Returns(_id);
-            _menuRepository = new MenuRepository(_menuConfiguration, ConnectionString);
+            _menuRepository = new MenuRepository(_menuConfiguration, ConnectionStringProvider.ConnectionString);
         }
 
         [Test]

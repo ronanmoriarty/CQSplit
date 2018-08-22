@@ -1,10 +1,10 @@
 ﻿using System;
+using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Command.Service.Sql;
 using CQSplit.Core;
 using CQSplit.DAL;
 using NUnit.Framework;
-using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
 
 namespace Cafe.Waiter.Command.Service.Tests.Sql
 {
@@ -24,7 +24,7 @@ namespace Cafe.Waiter.Command.Service.Tests.Sql
         [SetUp]
         public void SetUp()
         {
-            _connectionString = ConfigurationRoot.Instance["connectionString"];
+            _connectionString = ConnectionStringProvider.ConnectionString;
             CleanUp();
             _eventToPublishSerializer = new EventToPublishSerializer(typeof(TestEvent).Assembly);
             _eventToPublishRepository = CreateRepository();

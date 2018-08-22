@@ -1,10 +1,10 @@
 using System;
+using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Command.Service.Sql;
 using CQSplit.Core;
 using CQSplit.DAL;
 using NUnit.Framework;
-using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
 
 namespace Cafe.Waiter.Command.Service.Tests.Sql
 {
@@ -19,7 +19,7 @@ namespace Cafe.Waiter.Command.Service.Tests.Sql
         [SetUp]
         public void SetUp()
         {
-            var connectionString = ConfigurationRoot.Instance["connectionString"];
+            var connectionString = ConnectionStringProvider.ConnectionString;
             var sqlExecutor = new SqlExecutor();
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId}'"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
             _repository = CreateRepository();

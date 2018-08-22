@@ -1,4 +1,5 @@
 using System.Reflection;
+using Cafe.DAL.Sql;
 using Cafe.Waiter.EventProjecting.Service.Consumers;
 using Cafe.Waiter.EventProjecting.Service.DAL;
 using Cafe.Waiter.EventProjecting.Service.Projectors;
@@ -8,7 +9,6 @@ using Castle.Windsor;
 using CQSplit.Messaging;
 using CQSplit.Messaging.RabbitMq;
 using Microsoft.Extensions.Configuration;
-using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
 
 namespace Cafe.Waiter.EventProjecting.Service
 {
@@ -50,7 +50,7 @@ namespace Cafe.Waiter.EventProjecting.Service
                     .WithServiceAllInterfaces(),
                 Component
                     .For<IOpenTabInserter>()
-                    .UsingFactoryMethod(kernel => new OpenTabInserter(ConfigurationRoot.Instance["connectionString"])),
+                    .UsingFactoryMethod(kernel => new OpenTabInserter(ConnectionStringProvider.ConnectionString)),
                 Component
                     .For<IConfigurationRoot>()
                     .Instance(configurationRoot)

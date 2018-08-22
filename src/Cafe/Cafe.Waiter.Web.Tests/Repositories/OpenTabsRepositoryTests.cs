@@ -14,7 +14,6 @@ namespace Cafe.Waiter.Web.Tests.Repositories
     public class OpenTabsRepositoryTests
     {
         private readonly Guid _id = new Guid("82EBC82F-72EE-42D8-9565-49B0E1844C86");
-        private static readonly string ConnectionString = ConfigurationRoot.Instance["connectionString"];
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor();
         private readonly string _waiter = "Louise";
         private readonly int _tableNumber = 654;
@@ -27,7 +26,7 @@ namespace Cafe.Waiter.Web.Tests.Repositories
             var openTabJson = GetOpenTabJson();
             _sqlExecutor.ExecuteNonQuery($@"DELETE FROM dbo.OpenTabs WHERE Id = '{_id}'");
             _sqlExecutor.ExecuteNonQuery($@"INSERT INTO dbo.OpenTabs(Id,Data) VALUES ('{_id}','{openTabJson}')");
-            _openTabsRepository = new OpenTabsRepository(ConnectionString);
+            _openTabsRepository = new OpenTabsRepository(ConnectionStringProvider.ConnectionString);
         }
 
         [Test]

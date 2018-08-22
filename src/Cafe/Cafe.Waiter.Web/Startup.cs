@@ -1,4 +1,5 @@
-﻿using Cafe.Waiter.Web.Controllers;
+﻿using Cafe.DAL.Sql;
+using Cafe.Waiter.Web.Controllers;
 using Cafe.Waiter.Web.Repositories;
 using CQSplit.Messaging;
 using CQSplit.Messaging.RabbitMq;
@@ -31,7 +32,7 @@ namespace Cafe.Waiter.Web
         {
             var menuConfiguration = new MenuConfiguration(Configuration);
             services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), menuConfiguration));
-            var connectionString = Configuration["connectionString"];
+            var connectionString = ConnectionStringProvider.ConnectionString;
             services.Add(new ServiceDescriptor(typeof(IMenuRepository), new MenuRepository(menuConfiguration, connectionString)));
             services.Add(new ServiceDescriptor(typeof(ITabDetailsRepository), new TabDetailsRepository(connectionString)));
             services.Add(new ServiceDescriptor(typeof(IOpenTabsRepository), new OpenTabsRepository(connectionString)));

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Command.Service.Sql;
 using CQSplit.Core;
 using CQSplit.DAL;
 using NLog;
 using NUnit.Framework;
-using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
 using EventHandler = CQSplit.DAL.EventHandler;
 
 namespace Cafe.Waiter.Command.Service.Tests.Sql
@@ -31,7 +31,7 @@ namespace Cafe.Waiter.Command.Service.Tests.Sql
         [SetUp]
         public void SetUp()
         {
-            var connectionString = ConfigurationRoot.Instance["connectionString"];
+            var connectionString = ConnectionStringProvider.ConnectionString;
             _sqlExecutor = new SqlExecutor();
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE ID IN ('{Id1}','{Id2}')");
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE ID IN ('{Id1}','{Id2}')");

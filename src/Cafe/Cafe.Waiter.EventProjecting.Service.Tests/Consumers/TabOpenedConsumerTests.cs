@@ -68,7 +68,7 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Consumers
 
         private void AssertThatOpenTabInsertedWithStatusInitiallySetToSeated()
         {
-            var serializedOpenTab = new WaiterDbContext(ConfigurationRoot.Instance["connectionString"]).OpenTabs.Single(x => x.Id == _aggregateId);
+            var serializedOpenTab = new WaiterDbContext(ConnectionStringProvider.ConnectionString).OpenTabs.Single(x => x.Id == _aggregateId);
             var retrievedOpenTab = JsonConvert.DeserializeObject<OpenTab>(serializedOpenTab.Data);
             Assert.That(retrievedOpenTab.Id, Is.EqualTo(_aggregateId));
             Assert.That(retrievedOpenTab.TableNumber, Is.EqualTo(_tableNumber));
