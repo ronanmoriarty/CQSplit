@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
@@ -9,7 +10,8 @@ namespace Cafe.Waiter.Acceptance.Tests
         private int _tableNumber;
         private string _waiter;
         private readonly ChromeDriver _chromeDriver;
-        private IConfigurationRoot _configurationRoot;
+        private readonly IConfigurationRoot _configurationRoot;
+        private ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public TabBuilder()
         {
@@ -52,7 +54,9 @@ namespace Cafe.Waiter.Acceptance.Tests
         private void NavigateToOpenTabs()
         {
             var root = _configurationRoot["cafe:waiter:web:url"];
-            _chromeDriver.Url = $"{root}/app/index.html#!/tabs";
+            var url = $"{root}/app/index.html#!/tabs";
+            _logger.Debug($"Navigating to: {url}");
+            _chromeDriver.Url = url;
         }
 
         private void SetTableNumber()
