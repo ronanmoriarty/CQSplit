@@ -82,7 +82,7 @@ namespace Cafe.Waiter.Command.Service.Tests.Sql
 
         private void CleanUp()
         {
-            _sqlExecutor = new SqlExecutor(_connectionString);
+            _sqlExecutor = new SqlExecutor();
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')");
             _eventToPublishRepository?.UnitOfWork?.Dispose();
         }

@@ -32,7 +32,7 @@ namespace Cafe.Waiter.Command.Service.Tests.Sql
         public void SetUp()
         {
             var connectionString = ConfigurationRoot.Instance["connectionString"];
-            _sqlExecutor = new SqlExecutor(connectionString);
+            _sqlExecutor = new SqlExecutor();
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE ID IN ('{Id1}','{Id2}')");
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE ID IN ('{Id1}','{Id2}')");
             var eventStoreUnitOfWork = new EventStoreUnitOfWork(connectionString);

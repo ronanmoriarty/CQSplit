@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using Cafe.DAL.Sql;
 using NLog;
 
 namespace Cafe.DAL.Tests.Common
@@ -10,9 +11,9 @@ namespace Cafe.DAL.Tests.Common
         private readonly string _connectionString;
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public SqlExecutor(string connectionString)
+        public SqlExecutor()
         {
-            _connectionString = connectionString;
+            _connectionString = ConnectionStringProvider.ConnectionString;
         }
 
         public T ExecuteScalar<T>(string commandText)

@@ -20,7 +20,7 @@ namespace Cafe.Waiter.Command.Service.Tests.Sql
         public void SetUp()
         {
             var connectionString = ConfigurationRoot.Instance["connectionString"];
-            var sqlExecutor = new SqlExecutor(connectionString);
+            var sqlExecutor = new SqlExecutor();
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId}'"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
             _repository = CreateRepository();
             _repository.UnitOfWork = new EventStoreUnitOfWork(connectionString);
