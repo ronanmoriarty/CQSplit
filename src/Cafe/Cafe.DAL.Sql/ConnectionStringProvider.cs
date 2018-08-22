@@ -42,7 +42,7 @@ namespace Cafe.DAL.Sql
                         }
                         else
                         {
-                            throw new Exception("Could not establish connection to database after {numberOfAttempts} attempts.");
+                            throw new Exception($"Could not establish connection to database after {numberOfAttempts} attempts.");
                         }
                     }
                     numberOfAttempts++;
