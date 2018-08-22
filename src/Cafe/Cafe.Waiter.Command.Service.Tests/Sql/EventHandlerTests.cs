@@ -10,7 +10,7 @@ using NUnit.Framework;
 using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
 using EventHandler = CQSplit.DAL.EventHandler;
 
-namespace Cafe.DAL.Tests
+namespace Cafe.Waiter.Command.Service.Tests.Sql
 {
     [TestFixture, Category(TestConstants.Integration)]
     public class EventHandlerTests

@@ -6,7 +6,7 @@ using CQSplit.DAL;
 using NUnit.Framework;
 using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
 
-namespace Cafe.DAL.Tests
+namespace Cafe.Waiter.Command.Service.Tests.Sql
 {
     [TestFixture, Category(TestConstants.Integration)]
     public class EventRepositoryTests
