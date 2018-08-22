@@ -19,16 +19,16 @@ namespace Cafe.DAL.Tests
         private readonly Guid _id2 = new Guid("DB0CBB04-4773-425F-A6B2-17A939568433");
         private readonly Guid _id3 = new Guid("3A0A042A-D107-4876-B43C-347C0A7C0DAD");
         private EventToPublishSerializer _eventToPublishSerializer;
-        private IConnectionStringProvider _connectionStringProvider;
+        private string _connectionString;
 
         [SetUp]
         public void SetUp()
         {
-            _connectionStringProvider = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider();
+            _connectionString = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider().GetConnectionString();
             CleanUp();
             _eventToPublishSerializer = new EventToPublishSerializer(typeof(TestEvent).Assembly);
             _eventToPublishRepository = CreateRepository();
-            _eventToPublishRepository.UnitOfWork = new EventStoreUnitOfWork(_connectionStringProvider.GetConnectionString());
+            _eventToPublishRepository.UnitOfWork = new EventStoreUnitOfWork(_connectionString);
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace Cafe.DAL.Tests
 
         private void CleanUp()
         {
-            _sqlExecutor = new SqlExecutor(_connectionStringProvider.GetConnectionString());
+            _sqlExecutor = new SqlExecutor(_connectionString);
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')");
             _eventToPublishRepository?.UnitOfWork?.Dispose();
         }
