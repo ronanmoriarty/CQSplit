@@ -7,15 +7,15 @@ COPY .\Cafe\Cafe.Waiter.Contracts\Cafe.Waiter.Contracts.csproj .\Cafe\Cafe.Waite
 RUN dotnet restore .\Cafe\Cafe.Waiter.Contracts
 COPY .\Cafe\Cafe.Waiter.Commands\Cafe.Waiter.Commands.csproj .\Cafe\Cafe.Waiter.Commands\
 RUN dotnet restore .\Cafe\Cafe.Waiter.Commands
-COPY .\Cafe\Cafe.DAL.Common\Cafe.DAL.Common.csproj .\Cafe\Cafe.DAL.Common\
-RUN dotnet restore .\Cafe\Cafe.DAL.Common
+COPY .\Cafe\Cafe.DAL.Sql\Cafe.DAL.Sql.csproj .\Cafe\Cafe.DAL.Sql\
+RUN dotnet restore .\Cafe\Cafe.DAL.Sql
 COPY .\Cafe\Cafe.Waiter.Queries.DAL\Cafe.Waiter.Queries.DAL.csproj .\Cafe\Cafe.Waiter.Queries.DAL\
 RUN dotnet restore .\Cafe\Cafe.Waiter.Queries.DAL
 COPY .\Cafe\Cafe.Waiter.Web\Cafe.Waiter.Web.csproj .\Cafe\Cafe.Waiter.Web\
 RUN dotnet restore .\Cafe\Cafe.Waiter.Web
 COPY .\Cafe\Cafe.Waiter.Contracts .\Cafe\Cafe.Waiter.Contracts
 COPY .\Cafe\Cafe.Waiter.Commands .\Cafe\Cafe.Waiter.Commands
-COPY .\Cafe\Cafe.DAL.Common .\Cafe\Cafe.DAL.Common
+COPY .\Cafe\Cafe.DAL.Sql .\Cafe\Cafe.DAL.Sql
 COPY .\Cafe\Cafe.Waiter.Queries.DAL .\Cafe\Cafe.Waiter.Queries.DAL
 COPY .\Cafe\Cafe.Waiter.Web .\Cafe\Cafe.Waiter.Web
 COPY .\Cafe\Cafe.Waiter.Web\appSettings.docker.json .\Cafe\Cafe.Waiter.Web\appSettings.json

@@ -9,8 +9,8 @@ COPY .\Cafe\Cafe.Waiter.Events\Cafe.Waiter.Events.csproj .\Cafe\Cafe.Waiter.Even
 RUN dotnet restore .\Cafe\Cafe.Waiter.Events
 COPY .\Cafe\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj .\Cafe\Cafe.Waiter.Domain\
 RUN dotnet restore .\Cafe\Cafe.Waiter.Domain
-COPY .\Cafe\Cafe.DAL.Common\Cafe.DAL.Common.csproj .\Cafe\Cafe.DAL.Common\
-RUN dotnet restore .\Cafe\Cafe.DAL.Common
+COPY .\Cafe\Cafe.DAL.Sql\Cafe.DAL.Sql.csproj .\Cafe\Cafe.DAL.Sql\
+RUN dotnet restore .\Cafe\Cafe.DAL.Sql
 COPY .\Cafe\Cafe.DAL.Sql\Cafe.DAL.Sql.csproj .\Cafe\Cafe.DAL.Sql\
 RUN dotnet restore .\Cafe\Cafe.DAL.Sql
 COPY .\Cafe\Cafe.Waiter.Command.Service\Cafe.Waiter.Command.Service.csproj .\Cafe\Cafe.Waiter.Command.Service\
@@ -18,7 +18,7 @@ RUN dotnet restore .\Cafe\Cafe.Waiter.Command.Service
 COPY .\Cafe\Cafe.Waiter.Contracts .\Cafe\Cafe.Waiter.Contracts
 COPY .\Cafe\Cafe.Waiter.Events .\Cafe\Cafe.Waiter.Events
 COPY .\Cafe\Cafe.Waiter.Domain .\Cafe\Cafe.Waiter.Domain
-COPY .\Cafe\Cafe.DAL.Common .\Cafe\Cafe.DAL.Common
+COPY .\Cafe\Cafe.DAL.Sql .\Cafe\Cafe.DAL.Sql
 COPY .\Cafe\Cafe.DAL.Sql .\Cafe\Cafe.DAL.Sql
 COPY .\Cafe\Cafe.Waiter.Command.Service .\Cafe\Cafe.Waiter.Command.Service
 COPY .\Cafe\Cafe.Waiter.Command.Service\appSettings.docker.json .\Cafe\Cafe.Waiter.Command.Service\appSettings.json
