@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Cafe.DAL.Common;
 using Cafe.Waiter.Queries.DAL.Models;
 using Newtonsoft.Json;
 using NLog;
@@ -9,12 +8,12 @@ namespace Cafe.Waiter.EventProjecting.Service.DAL
 {
     public class OpenTabInserter : IOpenTabInserter
     {
-        private readonly IConnectionStringProvider _connectionStringProvider;
+        private readonly string _connectionString;
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public OpenTabInserter(IConnectionStringProvider connectionStringProvider)
+        public OpenTabInserter(string connectionString)
         {
-            _connectionStringProvider = connectionStringProvider;
+            _connectionString = connectionString;
         }
 
         public void Insert(OpenTab openTab)
@@ -44,7 +43,7 @@ namespace Cafe.Waiter.EventProjecting.Service.DAL
 
         private WaiterDbContext GetWaiterDbContext()
         {
-            return new WaiterDbContext(_connectionStringProvider.GetConnectionString());
+            return new WaiterDbContext(_connectionString);
         }
     }
 }
