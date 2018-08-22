@@ -12,9 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CQSplit\CQSplit.csproj" />
     <ProjectReference Include="..\CQSplit.Messaging.Tests.Common\CQSplit.Messaging.Tests.Common.csproj" />
-    <ProjectReference Include="..\CQSplit.Messaging\CQSplit.Messaging.csproj" />
   </ItemGroup>
 
   <ItemGroup>

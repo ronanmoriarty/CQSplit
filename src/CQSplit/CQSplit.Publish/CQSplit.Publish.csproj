@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CQSplit.Messaging\CQSplit.Messaging.csproj" />
-    <ProjectReference Include="..\CQSplit\CQSplit.csproj" />
   </ItemGroup>
 
 </Project>

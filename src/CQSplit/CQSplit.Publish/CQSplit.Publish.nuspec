@@ -11,7 +11,6 @@
     <licenseUrl>https://github.com/ronanmoriarty/CQSplit/blob/master/LICENSE.md</licenseUrl>
     <dependencies>
       <group targetFramework="netcoreapp2.0">
-        <dependency id="CQSplit" version="0.9.5-pre" />
         <dependency id="CQSplit.Messaging" version="0.9.5-pre" />
         <dependency id="NLog.Config" version="4.5.7" />
       </group>
