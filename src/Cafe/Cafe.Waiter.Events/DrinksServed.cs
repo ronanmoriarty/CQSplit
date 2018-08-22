@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using CQSplit.Core;
+using CQSplit;
 
 namespace Cafe.Waiter.Events
 {

@@ -4,11 +4,11 @@ using System.Reflection;
 using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Command.Service.Sql;
-using CQSplit.Core;
-using CQSplit.DAL;
+using CQSplit;
+using CQSplit.Serialization;
 using NLog;
 using NUnit.Framework;
-using EventHandler = CQSplit.DAL.EventHandler;
+using EventHandler = CQSplit.Serialization.EventHandler;
 
 namespace Cafe.Waiter.Command.Service.Tests.Sql
 {

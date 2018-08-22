@@ -1,5 +1,5 @@
 ﻿using System;
-using CQSplit.Core;
+using CQSplit;
 
 namespace Cafe.Waiter.Events
 {

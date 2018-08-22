@@ -2,8 +2,8 @@ using System;
 using Cafe.DAL.Sql;
 using Cafe.DAL.Tests.Common;
 using Cafe.Waiter.Command.Service.Sql;
-using CQSplit.Core;
-using CQSplit.DAL;
+using CQSplit;
+using CQSplit.Serialization;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.Command.Service.Tests.Sql

@@ -1,4 +1,4 @@
-﻿using CQSplit.DAL.Serialized;
+﻿using CQSplit.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cafe.Waiter.Command.Service.Sql
