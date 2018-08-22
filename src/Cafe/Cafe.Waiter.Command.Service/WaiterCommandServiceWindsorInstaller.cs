@@ -65,11 +65,6 @@ namespace Cafe.Waiter.Command.Service
                 Classes
                     .FromAssemblyContaining<EventRepository>()
                     .InSameNamespaceAs<EventRepository>()
-                    .WithServiceSelf()
-                    .WithServiceAllInterfaces(),
-                Classes
-                    .FromAssemblyContaining<EventToPublishRepository>()
-                    .InSameNamespaceAs<EventToPublishRepository>()
                     .Unless(type => type == typeof(EventStoreUnitOfWork))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),

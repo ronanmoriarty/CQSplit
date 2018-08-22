@@ -1,8 +1,9 @@
 ﻿using System;
+using Cafe.DAL.Sql;
 using CQSplit.DAL;
 using NLog;
 
-namespace Cafe.DAL.Sql
+namespace Cafe.Waiter.Command.Service.Sql
 {
     public class EventStoreUnitOfWork : IUnitOfWork
     {
