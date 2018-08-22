@@ -1,5 +1,7 @@
 . .\src\CQSplit\PowerShell\FileOperations.ps1
 
+$ErrorActionPreference = "Stop"
+
 function GetVersion()
 {
     $xml = New-Object -TypeName System.Xml.XmlDocument
