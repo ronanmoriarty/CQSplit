@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cafe.DAL.Sql;
+using Cafe.Waiter.Command.Service.Sql;
 using CQSplit.Core;
 using CQSplit.DAL;
 using CQSplit.DAL.Serialized;
