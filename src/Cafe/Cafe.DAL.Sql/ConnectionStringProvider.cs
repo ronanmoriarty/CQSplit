@@ -19,7 +19,7 @@ namespace Cafe.DAL.Sql
             {
                 var connectionString = ConfigurationRoot.Instance["connectionString"];
                 var numberOfAttempts = 1;
-                const int maximum = 12;
+                const int maximum = 24;
                 const int delayInMilliseconds = 5000;
 
                 while (true)
