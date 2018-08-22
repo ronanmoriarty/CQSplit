@@ -32,9 +32,11 @@ namespace Cafe.Waiter.Web
         {
             services.Add(new ServiceDescriptor(typeof(IMenuRepository), typeof(MenuRepository), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), typeof(MenuConfiguration), ServiceLifetime.Transient));
-            services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), new ConnectionStringProviderFactory(Configuration).GetConnectionStringProvider()));
+            var connectionStringProvider = new ConnectionStringProviderFactory(Configuration).GetConnectionStringProvider();
+            var connectionString = connectionStringProvider.GetConnectionString();
+            services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), connectionStringProvider));
             services.Add(new ServiceDescriptor(typeof(ITabDetailsRepository), typeof(TabDetailsRepository), ServiceLifetime.Transient));
-            services.Add(new ServiceDescriptor(typeof(IOpenTabsRepository), typeof(OpenTabsRepository), ServiceLifetime.Transient));
+            services.Add(new ServiceDescriptor(typeof(IOpenTabsRepository), new OpenTabsRepository(connectionString)));
             services.Add(new ServiceDescriptor(typeof(IPlaceOrderCommandFactory), typeof(PlaceOrderCommandFactory), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(ICommandSender), typeof(CommandSender), ServiceLifetime.Transient));
             services.Add(new ServiceDescriptor(typeof(ISendEndpointProvider), typeof(RabbitMqSendEndpointProvider), ServiceLifetime.Transient));
