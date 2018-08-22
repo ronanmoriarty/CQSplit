@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Cafe.DAL.Sql;
 using Cafe.Waiter.Command.Service.Consumers;
+using Cafe.Waiter.Command.Service.Sql;
 using Cafe.Waiter.Domain;
 using Cafe.Waiter.Events;
 using Castle.MicroKernel;
@@ -64,6 +65,11 @@ namespace Cafe.Waiter.Command.Service
                 Classes
                     .FromAssemblyContaining<EventRepository>()
                     .InSameNamespaceAs<EventRepository>()
+                    .WithServiceSelf()
+                    .WithServiceAllInterfaces(),
+                Classes
+                    .FromAssemblyContaining<EventToPublishRepository>()
+                    .InSameNamespaceAs<EventToPublishRepository>()
                     .Unless(type => type == typeof(EventStoreUnitOfWork))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
