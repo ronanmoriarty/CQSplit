@@ -56,9 +56,6 @@ namespace Cafe.Waiter.Command.Service
                 Component
                     .For<EventSerializer>()
                     .DependsOn(Dependency.OnComponent("assemblyContainingEvents", "assemblyForEventMapper")),
-                Component
-                    .For<IConnectionStringProvider>()
-                    .Instance(new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider()),
                 Classes
                     .FromAssemblyContaining<EventToPublishSerializer>()
                     .InSameNamespaceAs<EventToPublishSerializer>()
@@ -75,8 +72,10 @@ namespace Cafe.Waiter.Command.Service
                     .For<IUnitOfWork>()
                     .UsingFactoryMethod(kernel =>
                     {
-                        var connectionStringProvider = kernel.Resolve<IConnectionStringProvider>();
-                        return new EventStoreUnitOfWork(connectionStringProvider.GetConnectionString());
+                        var connectionString = new ConnectionStringProviderFactory(ConfigurationRoot.Instance)
+                            .GetConnectionStringProvider()
+                            .GetConnectionString();
+                        return new EventStoreUnitOfWork(connectionString);
                     })
                     .LifestyleSingleton(),
                 Component
