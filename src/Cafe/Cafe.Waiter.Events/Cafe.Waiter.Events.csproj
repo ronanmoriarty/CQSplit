@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CQSplit.Core" Version="0.9.5-pre" />
+    <PackageReference Include="CQSplit" Version="0.9.5-pre" />
   </ItemGroup>
 
   <ItemGroup>

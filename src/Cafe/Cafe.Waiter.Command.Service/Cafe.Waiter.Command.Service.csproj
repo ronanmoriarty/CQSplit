@@ -22,7 +22,7 @@
   <ItemGroup>
     <PackageReference Include="Castle.Windsor" Version="4.1.0" />
     <PackageReference Include="Castle.Windsor.MsDependencyInjection" Version="3.3.1" />
-    <PackageReference Include="CQSplit.DAL" Version="0.9.5-pre" />
+    <PackageReference Include="CQSplit" Version="0.9.5-pre" />
     <PackageReference Include="CQSplit.Messaging.RabbitMq" Version="0.9.5-pre" />
     <PackageReference Include="CQSplit.Publish" Version="0.9.5-pre" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.2" />
