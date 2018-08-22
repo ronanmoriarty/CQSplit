@@ -11,7 +11,6 @@ namespace CQSplit.DAL.Tests
     public class EventHandlerTests
     {
         private EventHandler _eventHandler;
-        private IUnitOfWorkFactory _unitOfWorkFactory;
         private IEventStore _eventStore;
         private IUnitOfWork _unitOfWork;
         private IEnumerable<IEvent> _events;
@@ -23,25 +22,15 @@ namespace CQSplit.DAL.Tests
         [SetUp]
         public void SetUp()
         {
-            _unitOfWorkFactory = Substitute.For<IUnitOfWorkFactory>();
             _eventStore = Substitute.For<IEventStore>();
             _unitOfWork = Substitute.For<IUnitOfWork>();
-            _eventHandler = new EventHandler(_unitOfWorkFactory, _eventStore);
+            _eventStore.UnitOfWork.Returns(_unitOfWork);
+            _eventHandler = new EventHandler(_eventStore);
             _event1 = Substitute.For<IEvent>();
             _event2 = Substitute.For<IEvent>();
             _events = new[] { _event1, _event2 };
-            _unitOfWorkFactory.Create().Returns(_unitOfWork);
             _eventsAddedWithinTransaction = new List<IEvent>();
             _executingInTransaction = false;
-            _unitOfWork.Enrolling(Arg.Is(_eventStore)).Returns(_unitOfWork);
-        }
-
-        [Test]
-        public void Enrolls_event_store_in_unit_of_work()
-        {
-            _eventHandler.Handle(_events);
-
-            _unitOfWork.Received(1).Enrolling(Arg.Is(_eventStore));
         }
 
         [Test]

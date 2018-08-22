@@ -47,25 +47,6 @@ namespace Cafe.DAL.Sql
             EventStoreDbContext.SaveChanges();
         }
 
-        private void Rollback()
-        {
-            Dispose();
-        }
-
-        public IUnitOfWork Enrolling(params IHaveUnitOfWork[] haveUnitOfWorks)
-        {
-            Enroll(haveUnitOfWorks);
-            return this;
-        }
-
-        private void Enroll(params IHaveUnitOfWork[] haveUnitOfWorks)
-        {
-            foreach (var haveUnitOfWork in haveUnitOfWorks)
-            {
-                haveUnitOfWork.UnitOfWork = this;
-            }
-        }
-
         public void ExecuteInTransaction(Action action)
         {
             try
@@ -78,6 +59,11 @@ namespace Cafe.DAL.Sql
                 _logger.Error(exception);
                 Rollback();
             }
+        }
+
+        private void Rollback()
+        {
+            Dispose();
         }
     }
 }

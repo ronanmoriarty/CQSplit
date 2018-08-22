@@ -13,18 +13,15 @@ namespace CQSplit.Publish
         private readonly IEventToPublishRepository _eventToPublishRepository;
         private readonly IBusControl _busControl;
         private readonly IEventToPublishSerializer _eventToPublishSerializer;
-        private readonly IUnitOfWorkFactory _unitOfWorkFactory;
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public OutboxToMessageBusPublisher(IEventToPublishRepository eventToPublishRepository,
             IBusControl busControl,
-            IEventToPublishSerializer eventToPublishSerializer,
-            IUnitOfWorkFactory unitOfWorkFactory)
+            IEventToPublishSerializer eventToPublishSerializer)
         {
             _eventToPublishRepository = eventToPublishRepository;
             _busControl = busControl;
             _eventToPublishSerializer = eventToPublishSerializer;
-            _unitOfWorkFactory = unitOfWorkFactory;
         }
 
         public void PublishQueuedMessages()
@@ -49,15 +46,12 @@ namespace CQSplit.Publish
 
         private void RemoveEventFromEventToPublishQueue(Guid eventId)
         {
-            using (var unitOfWork = _unitOfWorkFactory.Create().Enrolling(_eventToPublishRepository))
+            _eventToPublishRepository.UnitOfWork.ExecuteInTransaction(() =>
             {
-                unitOfWork.ExecuteInTransaction(() =>
-                {
-                    var retrievedEventToPublish = _eventToPublishRepository.Read(eventId);
-                    _eventToPublishRepository.Delete(retrievedEventToPublish);
-                    _logger.Debug($"Removed event [Id: {eventId}] from dbo.EventsToPublish because it has been published to message bus.");
-                });
-            }
+                var retrievedEventToPublish = _eventToPublishRepository.Read(eventId);
+                _eventToPublishRepository.Delete(retrievedEventToPublish);
+                _logger.Debug($"Removed event [Id: {eventId}] from dbo.EventsToPublish because it has been published to message bus.");
+            });
         }
     }
 }

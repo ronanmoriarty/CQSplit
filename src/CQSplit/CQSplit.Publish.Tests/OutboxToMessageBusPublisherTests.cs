@@ -18,7 +18,6 @@ namespace CQSplit.Publish.Tests
         private IBusControl _busControl;
         private OutboxToMessageBusPublisher _outboxToMessageBusPublisher;
         private EventToPublish _eventToPublish;
-        private IUnitOfWorkFactory _unitOfWorkFactory;
         private IUnitOfWork _unitOfWork;
         private bool _invokingActionInTransaction;
         private bool _eventToPublishDeletedInTransaction;
@@ -36,12 +35,11 @@ namespace CQSplit.Publish.Tests
             NoteWhenEventToPublishBeingDeletedAsPartOfTransaction();
             _busControl = Substitute.For<IBusControl>();
             SetUpUnitOfWork();
-            SetUpUnitOfWorkFactory();
+            _eventToPublishRepository.UnitOfWork.Returns(_unitOfWork);
             _outboxToMessageBusPublisher = new OutboxToMessageBusPublisher(
                 _eventToPublishRepository,
                 _busControl,
-                _eventToPublishSerializer,
-                _unitOfWorkFactory);
+                _eventToPublishSerializer);
 
             _outboxToMessageBusPublisher.PublishQueuedMessages();
         }
@@ -75,7 +73,6 @@ namespace CQSplit.Publish.Tests
         private void SetUpUnitOfWork()
         {
             _unitOfWork = Substitute.For<IUnitOfWork>();
-            _unitOfWork.Enrolling(Arg.Is(_eventToPublishRepository)).Returns(_unitOfWork);
             _unitOfWork.When(x => x.ExecuteInTransaction(Arg.Any<Action>())).Do(callInfo =>
             {
                 _invokingActionInTransaction = true;
@@ -83,12 +80,6 @@ namespace CQSplit.Publish.Tests
                 actionToInvokeInTransaction.Invoke();
                 _invokingActionInTransaction = false;
             });
-        }
-
-        private void SetUpUnitOfWorkFactory()
-        {
-            _unitOfWorkFactory = Substitute.For<IUnitOfWorkFactory>();
-            _unitOfWorkFactory.Create().Returns(_unitOfWork);
         }
 
         [Test]

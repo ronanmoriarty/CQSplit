@@ -1,6 +1,0 @@
-**/Dockerfile
-**/[Bb]in/
-**/[Oo]bj/
-*.dll
-**/.git
-**/.vs
