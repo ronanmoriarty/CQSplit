@@ -9,8 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CQSplit.Serialization\CQSplit.Serialization.csproj" />
     <ProjectReference Include="..\CQSplit.Messaging\CQSplit.Messaging.csproj" />
+    <ProjectReference Include="..\CQSplit\CQSplit.csproj" />
   </ItemGroup>
 
 </Project>
