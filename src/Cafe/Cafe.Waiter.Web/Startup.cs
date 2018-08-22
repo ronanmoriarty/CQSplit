@@ -30,10 +30,11 @@ namespace Cafe.Waiter.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Add(new ServiceDescriptor(typeof(IMenuRepository), typeof(MenuRepository), ServiceLifetime.Transient));
-            services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), typeof(MenuConfiguration), ServiceLifetime.Transient));
+            var menuConfiguration = new MenuConfiguration(Configuration);
+            services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), menuConfiguration));
             var connectionStringProvider = new ConnectionStringProviderFactory(Configuration).GetConnectionStringProvider();
             var connectionString = connectionStringProvider.GetConnectionString();
+            services.Add(new ServiceDescriptor(typeof(IMenuRepository), new MenuRepository(menuConfiguration, connectionString)));
             services.Add(new ServiceDescriptor(typeof(IConnectionStringProvider), connectionStringProvider));
             services.Add(new ServiceDescriptor(typeof(ITabDetailsRepository), new TabDetailsRepository(connectionString)));
             services.Add(new ServiceDescriptor(typeof(IOpenTabsRepository), new OpenTabsRepository(connectionString)));
