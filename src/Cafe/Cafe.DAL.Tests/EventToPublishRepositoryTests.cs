@@ -82,7 +82,7 @@ namespace Cafe.DAL.Tests
 
         private void CleanUp()
         {
-            _sqlExecutor = new SqlExecutor(_connectionStringProvider);
+            _sqlExecutor = new SqlExecutor(_connectionStringProvider.GetConnectionString());
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE Id IN ('{_id}','{_id1}','{_id2}','{_id3}')");
             _eventToPublishRepository?.UnitOfWork?.Dispose();
         }

@@ -32,7 +32,7 @@ namespace Cafe.DAL.Tests
         public void SetUp()
         {
             var connectionStringProvider = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider();
-            _sqlExecutor = new SqlExecutor(connectionStringProvider);
+            _sqlExecutor = new SqlExecutor(connectionStringProvider.GetConnectionString());
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE ID IN ('{Id1}','{Id2}')");
             _sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.EventsToPublish WHERE ID IN ('{Id1}','{Id2}')");
             var eventStoreUnitOfWork = new EventStoreUnitOfWork(connectionStringProvider.GetConnectionString());

@@ -16,7 +16,7 @@ namespace Cafe.Waiter.Web.Tests.Repositories
     public class MenuRepositoryTests
     {
         private Menu _menu;
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.Instance);
+        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.Instance.GetConnectionString());
         private MenuRepository _menuRepository;
         private readonly Guid _id = new Guid("35E02AF9-F608-47EE-A620-09E955C5ECB3");
         private int _menuItemId1 = 123;

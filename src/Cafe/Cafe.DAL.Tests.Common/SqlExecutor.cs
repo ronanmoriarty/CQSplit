@@ -1,24 +1,23 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using Cafe.DAL.Common;
 using NLog;
 
 namespace Cafe.DAL.Tests.Common
 {
     public class SqlExecutor
     {
-        private readonly IConnectionStringProvider _connectionStringProvider;
+        private readonly string _connectionString;
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public SqlExecutor(IConnectionStringProvider connectionStringProvider)
+        public SqlExecutor(string connectionString)
         {
-            _connectionStringProvider = connectionStringProvider;
+            _connectionString = connectionString;
         }
 
         public T ExecuteScalar<T>(string commandText)
         {
-            using (var sqlConnection = new SqlConnection(GetConnectionString()))
+            using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 sqlConnection.Open();
                 using (var command = sqlConnection.CreateCommand())
@@ -34,7 +33,7 @@ namespace Cafe.DAL.Tests.Common
         public void ExecuteNonQuery(string commandText)
         {
             _logger.Debug(commandText);
-            using (var sqlConnection = new SqlConnection(GetConnectionString()))
+            using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 sqlConnection.Open();
                 using (var command = sqlConnection.CreateCommand())
@@ -48,7 +47,7 @@ namespace Cafe.DAL.Tests.Common
         public void ExecuteReader(string commandText, Action<IDataReader> readerAction)
         {
             _logger.Debug(commandText);
-            using (var sqlConnection = new SqlConnection(GetConnectionString()))
+            using (var sqlConnection = new SqlConnection(_connectionString))
             {
                 sqlConnection.Open();
                 using (var command = sqlConnection.CreateCommand())
@@ -63,11 +62,6 @@ namespace Cafe.DAL.Tests.Common
                     }
                 }
             }
-        }
-
-        private string GetConnectionString()
-        {
-            return _connectionStringProvider?.GetConnectionString();
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Cafe.DAL.Tests
         public void SetUp()
         {
             var connectionStringProvider = new ConnectionStringProviderFactory(ConfigurationRoot.Instance).GetConnectionStringProvider();
-            var sqlExecutor = new SqlExecutor(connectionStringProvider);
+            var sqlExecutor = new SqlExecutor(connectionStringProvider.GetConnectionString());
             sqlExecutor.ExecuteNonQuery($"DELETE FROM dbo.Events WHERE AggregateId = '{_aggregateId}'"); // Do clean-up at start of tests instead of end, so that if a test fails, we can investigate with data still present.
             _repository = CreateRepository();
             _repository.UnitOfWork = new EventStoreUnitOfWork(connectionStringProvider.GetConnectionString());

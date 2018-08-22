@@ -14,7 +14,7 @@ namespace Cafe.Waiter.Web.Tests.Repositories
     public class OpenTabsRepositoryTests
     {
         private readonly Guid _id = new Guid("82EBC82F-72EE-42D8-9565-49B0E1844C86");
-        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.Instance);
+        private readonly SqlExecutor _sqlExecutor = new SqlExecutor(ReadModelConnectionStringProvider.Instance.GetConnectionString());
         private readonly string _waiter = "Louise";
         private readonly int _tableNumber = 654;
         private readonly TabStatus _tabStatus = TabStatus.OrderPlaced;
