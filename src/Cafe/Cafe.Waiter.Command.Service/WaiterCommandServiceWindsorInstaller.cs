@@ -68,8 +68,17 @@ namespace Cafe.Waiter.Command.Service
                 Classes
                     .FromAssemblyContaining<EventRepository>()
                     .InSameNamespaceAs<EventRepository>()
+                    .Unless(type => type == typeof(EventStoreUnitOfWork))
                     .WithServiceSelf()
                     .WithServiceAllInterfaces(),
+                Component
+                    .For<IUnitOfWork>()
+                    .UsingFactoryMethod(kernel =>
+                    {
+                        var connectionStringProvider = kernel.Resolve<IConnectionStringProvider>();
+                        return new EventStoreUnitOfWork(connectionStringProvider.GetConnectionString());
+                    })
+                    .LifestyleSingleton(),
                 Component
                     .For<ICommandRouter>()
                     .ImplementedBy<CommandRouter>(),
@@ -152,10 +161,15 @@ namespace Cafe.Waiter.Command.Service
 
         private IEnumerable<IEventStore> GetEventStores(IKernel kernel)
         {
+            var unitOfWork = kernel.Resolve<IUnitOfWork>();
+            var eventRepository = kernel.Resolve<EventRepository>();
+            eventRepository.UnitOfWork = unitOfWork;
+            var eventToPublishRepository = kernel.Resolve<EventToPublishRepository>();
+            eventToPublishRepository.UnitOfWork = unitOfWork;
             return new List<IEventStore>
             {
-                kernel.Resolve<EventRepository>(),
-                kernel.Resolve<EventToPublishRepository>()
+                eventRepository,
+                eventToPublishRepository
             };
         }
     }

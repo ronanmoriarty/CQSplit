@@ -1,5 +1,4 @@
 ﻿using System;
-using Cafe.DAL.Common;
 using CQSplit.DAL;
 using NLog;
 
@@ -9,9 +8,9 @@ namespace Cafe.DAL.Sql
     {
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public EventStoreUnitOfWork(IConnectionStringProvider connectionStringProvider)
+        public EventStoreUnitOfWork(string connectionString)
         {
-            EventStoreDbContext = new EventStoreDbContext(connectionStringProvider.GetConnectionString());
+            EventStoreDbContext = new EventStoreDbContext(connectionString);
             LogDbContextHashCodeForMultithreadingDiagnosticPurposes();
         }
 

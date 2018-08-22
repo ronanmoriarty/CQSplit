@@ -28,7 +28,7 @@ namespace Cafe.DAL.Tests
             CleanUp();
             _eventToPublishSerializer = new EventToPublishSerializer(typeof(TestEvent).Assembly);
             _eventToPublishRepository = CreateRepository();
-            _eventToPublishRepository.UnitOfWork = new EventStoreUnitOfWork(_connectionStringProvider);
+            _eventToPublishRepository.UnitOfWork = new EventStoreUnitOfWork(_connectionStringProvider.GetConnectionString());
         }
 
         [Test]
