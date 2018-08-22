@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CQSplit.Publish
+namespace CQSplit.Messaging.Outbox
 {
     public class OutboxToMessageBusEventHandler : IEventHandler
     {

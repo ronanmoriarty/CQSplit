@@ -5,7 +5,7 @@ using CQSplit.Serialization;
 using MassTransit;
 using NLog;
 
-namespace CQSplit.Publish
+namespace CQSplit.Messaging.Outbox
 {
     public class OutboxToMessageBusPublisher : IOutboxToMessageBusPublisher
     {

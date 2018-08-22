@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using CQSplit.Messaging.Outbox;
 using CQSplit.Serialization;
 using MassTransit;
 using NSubstitute;
 using NUnit.Framework;
 
-namespace CQSplit.Publish.Tests
+namespace CQSplit.Messaging.Tests.Outbox
 {
     [TestFixture]
     public class OutboxToMessageBusPublisherTests

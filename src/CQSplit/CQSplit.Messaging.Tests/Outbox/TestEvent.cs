@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace CQSplit.Publish.Tests
+namespace CQSplit.Messaging.Tests.Outbox
 {
     [ExcludeFromCodeCoverage]
     public class TestEvent : IEvent
