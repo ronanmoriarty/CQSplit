@@ -5,7 +5,7 @@ $ErrorActionPreference = "Stop"
 function GetVersion()
 {
     $xml = New-Object -TypeName System.Xml.XmlDocument
-    $filePath = GetFullPath '.\src\CQSplit\CQSplit.Core\CQSplit.Core.nuspec'
+    $filePath = GetFullPath '.\src\CQSplit\CQSplit\CQSplit.nuspec'
     $xml.Load($filePath)
     $versionNode = GetVersionNode $xml
     return $versionNode.InnerXml
