@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Cafe.DAL.Common;
 using Cafe.Waiter.Queries.DAL.Models;
 using Newtonsoft.Json;
 
@@ -8,16 +7,16 @@ namespace Cafe.Waiter.Web.Repositories
 {
     public class TabDetailsRepository: ITabDetailsRepository
     {
-        private readonly IConnectionStringProvider _connectionStringProvider;
+        private readonly string _connectionString;
 
-        public TabDetailsRepository(IConnectionStringProvider connectionStringProvider)
+        public TabDetailsRepository(string connectionString)
         {
-            _connectionStringProvider = connectionStringProvider;
+            _connectionString = connectionString;
         }
 
         public TabDetails GetTabDetails(Guid id)
         {
-            using (var waiterDbContext = new WaiterDbContext(_connectionStringProvider.GetConnectionString()))
+            using (var waiterDbContext = new WaiterDbContext(_connectionString))
             {
                 var serializedTabDetails = waiterDbContext.TabDetails.SingleOrDefault(x => x.Id == id);
                 if (serializedTabDetails == null)
