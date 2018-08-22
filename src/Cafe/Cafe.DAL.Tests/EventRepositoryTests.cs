@@ -9,7 +9,7 @@ using ConfigurationRoot = Cafe.DAL.Sql.ConfigurationRoot;
 namespace Cafe.DAL.Tests
 {
     [TestFixture, Category(TestConstants.Integration)]
-    public class EventStoreTests
+    public class EventRepositoryTests
     {
         private IEvent _retrievedEvent;
         private readonly Guid _aggregateId = new Guid("0227C779-D2FC-4A26-B549-DA82FB00C87C");
