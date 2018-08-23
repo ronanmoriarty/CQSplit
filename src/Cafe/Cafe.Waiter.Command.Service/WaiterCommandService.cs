@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using CQSplit.Publish;
+using CQSplit.Messaging.Outbox;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 using NLog;

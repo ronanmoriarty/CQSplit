@@ -1,7 +1,8 @@
-﻿using NSubstitute;
+﻿using CQSplit.Messaging.Outbox;
+using NSubstitute;
 using NUnit.Framework;
 
-namespace CQSplit.Publish.Tests
+namespace CQSplit.Messaging.Tests.Outbox
 {
     [TestFixture]
     public class OutboxToMessageBusEventHandlerTests

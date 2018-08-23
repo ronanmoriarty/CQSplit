@@ -19,7 +19,7 @@ namespace Cafe.DAL.Sql
             {
                 var connectionString = ConfigurationRoot.Instance["connectionString"];
                 var numberOfAttempts = 1;
-                const int maximum = 12;
+                const int maximum = 24;
                 const int delayInMilliseconds = 5000;
 
                 while (true)
@@ -35,14 +35,14 @@ namespace Cafe.DAL.Sql
                     }
                     catch (SqlException)
                     {
-                        if (numberOfAttempts <= maximum)
+                        if (numberOfAttempts < maximum)
                         {
                             Logger.Debug($"[Attempt {numberOfAttempts} of {maximum}]: Could not establish connection to database. Will try again in {delayInMilliseconds} ms.");
                             Thread.Sleep(delayInMilliseconds);
                         }
                         else
                         {
-                            throw new Exception("Could not establish connection to database after {numberOfAttempts} attempts.");
+                            throw new Exception($"Could not establish connection to database after {numberOfAttempts} attempts.");
                         }
                     }
                     numberOfAttempts++;
