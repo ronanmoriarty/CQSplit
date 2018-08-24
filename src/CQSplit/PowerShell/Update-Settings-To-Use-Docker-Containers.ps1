@@ -1,3 +1,7 @@
+[CmdletBinding()]
+param (
+    [switch]$IsCiBuild
+)
 
 . "$PSScriptRoot\Docker.ps1"
 . "$PSScriptRoot\FileOperations.ps1"
@@ -26,4 +30,4 @@ $path = GetFullPath "$PSScriptRoot\..\"
 Write-Output "`$path: $path"
 $paths = GetAppSettingsTemplateFiles
 
-SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs $false
+SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs $IsCiBuild

@@ -1,3 +1,8 @@
+[CmdletBinding()]
+param (
+    [switch]$IsCiBuild
+)
+
 . .\src\CQSplit\PowerShell\Docker.ps1
 . .\src\CQSplit\PowerShell\FileOperations.ps1
 
@@ -9,4 +14,4 @@ $keyValuePairs.Keys | ForEach-Object {
 
 $paths = (Get-ChildItem -Path .\ -Filter appSettings.json.template -Recurse) | Select-Object -ExpandProperty FullName
 
-SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs $false
+SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs $IsCiBuild
