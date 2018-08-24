@@ -1,0 +1,25 @@
+version: 1.0.{build}
+branches:
+  only:
+  - master
+image: Visual Studio 2017
+build_script:
+- ps: >-
+    $saPassWordSecureString = ConvertTo-SecureString $env:saPassword -AsPlainText -Force
+
+
+    $waiterWebsitePasswordSecureString = ConvertTo-SecureString $env:waiterWebsitePassword -AsPlainText -Force
+
+
+    $commandServicePasswordSecureString = ConvertTo-SecureString $env:commandServicePassword -AsPlainText -Force
+
+
+    $eventProjectingServicePasswordSecureString = ConvertTo-SecureString $env:eventProjectingServicePassword -AsPlainText -Force
+
+
+    .\setup.ps1 -saPassword $saPassWordSecureString -waiterWebsitePassword $waiterWebsitePasswordSecureString -commandServicePassword $commandServicePasswordSecureString -eventProjectingServicePassword $eventProjectingServicePasswordSecureString
+
+
+    .\build.ps1 -Target Build-Sample-Application
+test_script:
+- ps: .\build.ps1 -Target Run-Sample-Application-Unit-Tests-Without-Build
