@@ -29,8 +29,6 @@ if(-not $IsCiBuild)
     }
 }
 
-$path = GetFullPath "$PSScriptRoot\..\"
-Write-Output "`$path: $path"
 $paths = GetAppSettingsTemplateFiles
 
 SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs $IsCiBuild
