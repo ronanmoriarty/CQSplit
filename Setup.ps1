@@ -44,4 +44,7 @@ $jsonTemplateFiles = GetJsonTemplateFiles
 SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.docker.json $dockerKeyValuePairs $IsCiBuild
 SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.json $unitTestKeyValuePairs $IsCiBuild
 
-mkdir .\src\.nuget.local\
+if(-not (Test-Path .\src\.nuget.local\))
+{
+    mkdir .\src\.nuget.local\
+}
