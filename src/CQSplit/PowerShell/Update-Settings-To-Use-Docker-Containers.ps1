@@ -26,4 +26,4 @@ $path = GetFullPath "$PSScriptRoot\..\"
 Write-Output "`$path: $path"
 $paths = GetAppSettingsTemplateFiles
 
-SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs
+SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs $false

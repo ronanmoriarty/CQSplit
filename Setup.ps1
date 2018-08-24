@@ -7,7 +7,8 @@ param (
     [Parameter(Mandatory=$True)]
     [SecureString] $commandServicePassword,
     [Parameter(Mandatory=$True)]
-    [SecureString] $eventProjectingServicePassword
+    [SecureString] $eventProjectingServicePassword,
+    [switch]$IsCiBuild
 )
 
 . .\src\CQSplit\PowerShell\Docker.ps1
@@ -40,7 +41,7 @@ CreateEnvFile
 $dockerKeyValuePairs = GetKeyValuePairsToUseInsideContainers
 $unitTestKeyValuePairs = GetKeyValuePairsForUnitTests
 $jsonTemplateFiles = GetJsonTemplateFiles
-SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.docker.json $dockerKeyValuePairs
-SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.json $unitTestKeyValuePairs
+SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.docker.json $dockerKeyValuePairs $IsCiBuild
+SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.json $unitTestKeyValuePairs $IsCiBuild
 
 mkdir .\src\.nuget.local\
