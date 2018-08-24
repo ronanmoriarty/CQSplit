@@ -24,6 +24,12 @@ namespace Cafe.Waiter.EventProjecting.Service.Tests.Consumers
         private readonly string _waiter = "Jim";
         private readonly SqlExecutor _sqlExecutor = new SqlExecutor();
 
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            Bootstrapper.Start();
+        }
+
         [SetUp]
         public void SetUp()
         {

@@ -37,7 +37,7 @@ namespace Cafe.Waiter.Web.Tests
 
         private void WhenServicesConfigured()
         {
-            new Startup(_hostingEnvironment).ConfigureServices(_serviceCollection);
+            new Startup(_hostingEnvironment).RunningInTestContext().ConfigureServices(_serviceCollection);
             RegisterControllersButNotTheControllersDependencies();
         }
 
