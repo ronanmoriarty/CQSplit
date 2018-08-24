@@ -10,6 +10,7 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+var isCiBuild = Argument<bool>("isCiBuild", false);
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -239,7 +240,13 @@ Task("Update-CQSplit-Settings")
     .IsDependentOn("Start-CQSplit-Docker-Containers")
     .Does(() =>
 {
-    StartPowershellScript("./src/CQSplit/PowerShell/Update-Settings-To-Use-Docker-Containers.ps1");
+    var command = "./src/CQSplit/PowerShell/Update-Settings-To-Use-Docker-Containers.ps1";
+    if(isCiBuild)
+    {
+        command += " -isCiBuild";
+    }
+
+    StartPowershellScript(command);
 });
 
 Task("Stop-CQSplit-Docker-Containers")

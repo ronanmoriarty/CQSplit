@@ -22,8 +22,11 @@ function GetAppSettingsTemplateFiles()
 
 $keyValuePairs = GetCQSplitKeyValuePairs
 
-$keyValuePairs.Keys | ForEach-Object {
-    Write-Output "$($_): $($keyValuePairs[$_])"
+if(-not $IsCiBuild)
+{
+    $keyValuePairs.Keys | ForEach-Object {
+        Write-Output "$($_): $($keyValuePairs[$_])"
+    }
 }
 
 $path = GetFullPath "$PSScriptRoot\..\"
