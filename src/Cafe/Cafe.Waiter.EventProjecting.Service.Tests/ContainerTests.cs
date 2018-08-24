@@ -1,11 +1,18 @@
 ﻿using Cafe.Waiter.EventProjecting.Service.Consumers;
+using Cafe.Waiter.EventProjecting.Service.Tests.Consumers;
 using NUnit.Framework;
 
 namespace Cafe.Waiter.EventProjecting.Service.Tests
 {
-    [TestFixture]
+    [TestFixture, Category(TestConstants.Integration)]
     public class ContainerTests
     {
+        [OneTimeSetUp]
+        public void OneTimeSetUp()
+        {
+            Bootstrapper.Start();
+        }
+
         [Test]
         public void Can_resolve_EventProjectingService()
         {
