@@ -15,6 +15,8 @@ namespace Cafe.Waiter.Web
 {
     public class Startup
     {
+        private bool _runningInTestContext;
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -32,7 +34,7 @@ namespace Cafe.Waiter.Web
         {
             var menuConfiguration = new MenuConfiguration(Configuration);
             services.Add(new ServiceDescriptor(typeof(IMenuConfiguration), menuConfiguration));
-            var connectionString = ConnectionStringProvider.ConnectionString;
+            var connectionString = GetConnectionString();
             services.Add(new ServiceDescriptor(typeof(IMenuRepository), new MenuRepository(menuConfiguration, connectionString)));
             services.Add(new ServiceDescriptor(typeof(ITabDetailsRepository), new TabDetailsRepository(connectionString)));
             services.Add(new ServiceDescriptor(typeof(IOpenTabsRepository), new OpenTabsRepository(connectionString)));
@@ -47,6 +49,11 @@ namespace Cafe.Waiter.Web
 
             // Add framework services.
             services.AddMvc();
+        }
+
+        private string GetConnectionString()
+        {
+            return _runningInTestContext ? string.Empty : ConnectionStringProvider.ConnectionString;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +71,13 @@ namespace Cafe.Waiter.Web
             }
             app.UseMvc();
             app.UseStaticFiles();
+        }
+
+        public Startup RunningInTestContext()
+        {
+            // TODO: not really happy about adding this method - short-term solution to avoiding calling static ConnectionStringProvider method when running unit tests.
+            _runningInTestContext = true;
+            return this;
         }
     }
 }
