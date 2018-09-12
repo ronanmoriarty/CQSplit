@@ -66,7 +66,14 @@ Task("Update-Sample-Application-Settings")
     .IsDependentOn("Start-Sample-Application-Docker-Containers")
     .Does(() =>
 {
-    StartPowershellScript("./Update-Settings-To-Use-Docker-Containers.ps1");
+    if(isCiBuild)
+    {
+        StartPowershellScript($"./Update-Settings-To-Use-Docker-Containers.ps1 -isCiBuild");
+    }
+    else
+    {
+        StartPowershellScript($"./Update-Settings-To-Use-Docker-Containers.ps1");
+    }
 });
 
 Task("Stop-Sample-Application-Docker-Containers")
