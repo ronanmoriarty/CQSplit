@@ -17,7 +17,7 @@ build_script:
     $eventProjectingServicePasswordSecureString = ConvertTo-SecureString $env:eventProjectingServicePassword -AsPlainText -Force
 
 
-    .\setup.ps1 -saPassword $saPassWordSecureString -waiterWebsitePassword $waiterWebsitePasswordSecureString -commandServicePassword $commandServicePasswordSecureString -eventProjectingServicePassword $eventProjectingServicePasswordSecureString
+    .\setup.ps1 -saPassword $saPassWordSecureString -waiterWebsitePassword $waiterWebsitePasswordSecureString -commandServicePassword $commandServicePasswordSecureString -eventProjectingServicePassword $eventProjectingServicePasswordSecureString -isCiBuild
 
 
     .\build.ps1 -Target Build-Sample-Application -isCiBuild=true
