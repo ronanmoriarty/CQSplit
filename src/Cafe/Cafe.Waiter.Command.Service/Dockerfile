@@ -30,6 +30,23 @@ COPY .\Cafe\Cafe.Waiter.Domain.Tests .\Cafe\Cafe.Waiter.Domain.Tests
 RUN dotnet test .\Cafe\Cafe.Waiter.Domain.Tests\Cafe.Waiter.Domain.Tests.csproj
 RUN dotnet publish .\Cafe\Cafe.Waiter.Command.Service
 
+FROM microsoft/dotnet:2.1-sdk AS test
+WORKDIR /app
+COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Events", ".\\Cafe\\Cafe.Waiter.Events"]
+COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Contracts", ".\\Cafe\\Cafe.Waiter.Contracts"]
+COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Domain", ".\\Cafe\\Cafe.Waiter.Domain"]
+COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Commands", ".\\Cafe\\Cafe.Waiter.Commands"]
+COPY --from=builder ["app\\Cafe\\Cafe.DAL.Sql", ".\\Cafe\\Cafe.DAL.Sql"]
+COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Command.Service", ".\\Cafe\\Cafe.Waiter.Command.Service"]
+COPY .\Cafe\Cafe.DAL.Tests.Common\Cafe.DAL.Tests.Common.csproj .\Cafe\Cafe.DAL.Tests.Common\
+RUN dotnet restore .\Cafe\Cafe.DAL.Tests.Common
+COPY .\Cafe\Cafe.DAL.Tests.Common .\Cafe\Cafe.DAL.Tests.Common
+COPY .\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.csproj .\Cafe\Cafe.Waiter.Command.Service.Tests\
+RUN dotnet restore .\Cafe\Cafe.Waiter.Command.Service.Tests
+COPY .\Cafe\Cafe.Waiter.Command.Service.Tests .\Cafe\Cafe.Waiter.Command.Service.Tests
+RUN dotnet build .\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.csproj
+CMD dotnet test .\app\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.dll
+
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app
 COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Command.Service\\bin\\Debug\\netcoreapp2.1\\publish", ".\\Cafe.Waiter.Command.Service"]
