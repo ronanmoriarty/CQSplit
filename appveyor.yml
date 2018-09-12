@@ -20,6 +20,6 @@ build_script:
     .\setup.ps1 -saPassword $saPassWordSecureString -waiterWebsitePassword $waiterWebsitePasswordSecureString -commandServicePassword $commandServicePasswordSecureString -eventProjectingServicePassword $eventProjectingServicePasswordSecureString
 
 
-    .\build.ps1 -Target Build-Sample-Application
+    .\build.ps1 -Target Build-Sample-Application -isCiBuild=true
 test_script:
-- ps: .\build.ps1 -Target Run-Sample-Application-Unit-Tests-Without-Build
+- ps: .\build.ps1 -Target Run-Sample-Application-Unit-Tests-Without-Build -isCiBuild=true
