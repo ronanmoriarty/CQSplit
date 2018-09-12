@@ -15,12 +15,19 @@ COPY .\Cafe\Cafe.DAL.Sql\Cafe.DAL.Sql.csproj .\Cafe\Cafe.DAL.Sql\
 RUN dotnet restore .\Cafe\Cafe.DAL.Sql
 COPY .\Cafe\Cafe.Waiter.Command.Service\Cafe.Waiter.Command.Service.csproj .\Cafe\Cafe.Waiter.Command.Service\
 RUN dotnet restore .\Cafe\Cafe.Waiter.Command.Service
+COPY .\Cafe\Cafe.Waiter.Commands\Cafe.Waiter.Commands.csproj .\Cafe\Cafe.Waiter.Commands\
+RUN dotnet restore .\Cafe\Cafe.Waiter.Commands
+COPY .\Cafe\Cafe.Waiter.Domain.Tests\Cafe.Waiter.Domain.Tests.csproj .\Cafe\Cafe.Waiter.Domain.Tests\
+RUN dotnet restore .\Cafe\Cafe.Waiter.Domain.Tests
 COPY .\Cafe\Cafe.Waiter.Contracts .\Cafe\Cafe.Waiter.Contracts
 COPY .\Cafe\Cafe.Waiter.Events .\Cafe\Cafe.Waiter.Events
 COPY .\Cafe\Cafe.Waiter.Domain .\Cafe\Cafe.Waiter.Domain
 COPY .\Cafe\Cafe.DAL.Sql .\Cafe\Cafe.DAL.Sql
 COPY .\Cafe\Cafe.Waiter.Command.Service .\Cafe\Cafe.Waiter.Command.Service
 COPY .\Cafe\Cafe.Waiter.Command.Service\appSettings.docker.json .\Cafe\Cafe.Waiter.Command.Service\appSettings.json
+COPY .\Cafe\Cafe.Waiter.Commands .\Cafe\Cafe.Waiter.Commands
+COPY .\Cafe\Cafe.Waiter.Domain.Tests .\Cafe\Cafe.Waiter.Domain.Tests
+RUN dotnet test .\Cafe\Cafe.Waiter.Domain.Tests\Cafe.Waiter.Domain.Tests.csproj
 RUN dotnet publish .\Cafe\Cafe.Waiter.Command.Service
 
 FROM microsoft/dotnet:2.1-runtime
