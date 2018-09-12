@@ -1,3 +1,7 @@
+[CmdletBinding()]
+param (
+    [switch]$IsCiBuild
+)
 
 . "$PSScriptRoot\Docker.ps1"
 . "$PSScriptRoot\FileOperations.ps1"
@@ -18,12 +22,13 @@ function GetAppSettingsTemplateFiles()
 
 $keyValuePairs = GetCQSplitKeyValuePairs
 
-$keyValuePairs.Keys | ForEach-Object {
-    Write-Output "$($_): $($keyValuePairs[$_])"
+if(-not $IsCiBuild)
+{
+    $keyValuePairs.Keys | ForEach-Object {
+        Write-Output "$($_): $($keyValuePairs[$_])"
+    }
 }
 
-$path = GetFullPath "$PSScriptRoot\..\"
-Write-Output "`$path: $path"
 $paths = GetAppSettingsTemplateFiles
 
-SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs
+SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs $IsCiBuild

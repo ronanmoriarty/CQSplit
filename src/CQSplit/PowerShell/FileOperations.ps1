@@ -25,7 +25,7 @@ function GetTemplateFileWithPlaceholdersReplaced([string] $filePath, [hashtable]
     return $temp
 }
 
-function SwapPlaceholdersToCreateNewJsonFiles([string[]] $jsonTemplatePaths, [string] $targetName, [hashtable] $keyValuePairs)
+function SwapPlaceholdersToCreateNewJsonFiles([string[]] $jsonTemplatePaths, [string] $targetName, [hashtable] $keyValuePairs, [bool] $IsCiBuild)
 {
     if($jsonTemplatePaths.Length -eq 0)
     {
@@ -44,7 +44,10 @@ function SwapPlaceholdersToCreateNewJsonFiles([string[]] $jsonTemplatePaths, [st
         }
 
         (GetTemplateFileWithPlaceholdersReplaced $sourcePath $keyValuePairs) | Set-Content $targetJsonPath
-        Write-Output "Created $targetJsonPath"
-        Write-Output (Get-Content $targetJsonPath)
+        if(-not $IsCiBuild)
+        {
+            Write-Output "Created $targetJsonPath"
+            Write-Output (Get-Content $targetJsonPath)
+        }
     }
 }
