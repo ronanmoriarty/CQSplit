@@ -19,7 +19,6 @@ COPY .\Cafe\Cafe.Waiter.Contracts .\Cafe\Cafe.Waiter.Contracts
 COPY .\Cafe\Cafe.Waiter.Events .\Cafe\Cafe.Waiter.Events
 COPY .\Cafe\Cafe.Waiter.Domain .\Cafe\Cafe.Waiter.Domain
 COPY .\Cafe\Cafe.DAL.Sql .\Cafe\Cafe.DAL.Sql
-COPY .\Cafe\Cafe.DAL.Sql .\Cafe\Cafe.DAL.Sql
 COPY .\Cafe\Cafe.Waiter.Command.Service .\Cafe\Cafe.Waiter.Command.Service
 COPY .\Cafe\Cafe.Waiter.Command.Service\appSettings.docker.json .\Cafe\Cafe.Waiter.Command.Service\appSettings.json
 RUN dotnet publish .\Cafe\Cafe.Waiter.Command.Service
