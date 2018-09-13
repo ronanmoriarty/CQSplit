@@ -22,6 +22,7 @@ private const string AllSampleApplicationTestProjects = "./src/Cafe/**/*.Tests.c
 private const string AllCQSplitTestProjects = "./src/CQSplit/**/*.Tests.csproj";
 private const string CafeSolutionPath = "./src/Cafe/Cafe.sln";
 private const string CQSplitSolutionPath = "./src/CQSplit/CQSplit.sln";
+private const string IntegrationTestsDockerComposeFilePath = "./docker-compose.integration-tests.yml";
 
 private DotNetCoreTestSettings OnlyUnitTests = new DotNetCoreTestSettings
     {
@@ -62,6 +63,27 @@ Task("Start-Sample-Application-Docker-Containers")
     });
 });
 
+Task("Build-Sample-Application-Docker-Images-For-Integration-Testing")
+    .Does(() =>
+{
+    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{IntegrationTestsDockerComposeFilePath}});
+});
+
+
+Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
+    .IsDependentOn("Build-Sample-Application-Docker-Images-For-Integration-Testing")
+    .Does(() =>
+{
+    DockerComposeUp(new DockerComposeUpSettings
+    {
+        Files = new []
+        {
+            IntegrationTestsDockerComposeFilePath
+        },
+        DetachedMode = true
+    });
+});
+
 Task("Update-Sample-Application-Settings")
     .IsDependentOn("Start-Sample-Application-Docker-Containers")
     .Does(() =>
@@ -85,6 +107,17 @@ Task("Stop-Sample-Application-Docker-Containers")
 private void StopSampleApplicationDockerContainers()
 {
     StopDockerContainers("./docker-compose.yml");
+}
+
+Task("Stop-Sample-Application-Docker-Containers-For-Integration-Testing")
+    .Does(() =>
+{
+    StopSampleApplicationDockerContainersForIntegrationTesting();
+});
+
+private void StopSampleApplicationDockerContainersForIntegrationTesting()
+{
+    StopDockerContainers(IntegrationTestsDockerComposeFilePath);
 }
 
 Task("Clean-Sample-Application")
