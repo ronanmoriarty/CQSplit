@@ -45,7 +45,7 @@ COPY .\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.
 RUN dotnet restore .\Cafe\Cafe.Waiter.Command.Service.Tests
 COPY .\Cafe\Cafe.Waiter.Command.Service.Tests .\Cafe\Cafe.Waiter.Command.Service.Tests
 RUN dotnet build .\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.csproj
-CMD dotnet test .\app\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.dll
+CMD dotnet test C:\app\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.csproj
 
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app
