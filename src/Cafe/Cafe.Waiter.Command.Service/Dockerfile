@@ -11,8 +11,6 @@ COPY .\Cafe\Cafe.Waiter.Domain\Cafe.Waiter.Domain.csproj .\Cafe\Cafe.Waiter.Doma
 RUN dotnet restore .\Cafe\Cafe.Waiter.Domain
 COPY .\Cafe\Cafe.DAL.Sql\Cafe.DAL.Sql.csproj .\Cafe\Cafe.DAL.Sql\
 RUN dotnet restore .\Cafe\Cafe.DAL.Sql
-COPY .\Cafe\Cafe.DAL.Sql\Cafe.DAL.Sql.csproj .\Cafe\Cafe.DAL.Sql\
-RUN dotnet restore .\Cafe\Cafe.DAL.Sql
 COPY .\Cafe\Cafe.Waiter.Command.Service\Cafe.Waiter.Command.Service.csproj .\Cafe\Cafe.Waiter.Command.Service\
 RUN dotnet restore .\Cafe\Cafe.Waiter.Command.Service
 COPY .\Cafe\Cafe.Waiter.Commands\Cafe.Waiter.Commands.csproj .\Cafe\Cafe.Waiter.Commands\
