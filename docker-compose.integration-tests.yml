@@ -51,3 +51,11 @@ services:
     depends_on:
       - "rabbitmq"
       - "waiter-read-db-server"
+  cafe-waiter-web-tests:
+    build:
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.Web\Dockerfile
+      target: test
+    depends_on:
+      - "rabbitmq"
+      - "waiter-read-db-server"
