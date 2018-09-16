@@ -36,7 +36,7 @@ COPY .\Cafe\Cafe.DAL.Tests.Common .\Cafe\Cafe.DAL.Tests.Common
 COPY .\Cafe\Cafe.Waiter.Web.Tests .\Cafe\Cafe.Waiter.Web.Tests
 RUN dotnet build .\Cafe\Cafe.Waiter.Web.Tests\Cafe.Waiter.Web.Tests.csproj
 COPY .\Cafe\Cafe.Waiter.Web.Tests\appSettings.docker.json .\Cafe\Cafe.Waiter.Web.Tests\appSettings.json
-CMD dotnet test C:\app\Cafe\Cafe.Waiter.Web.Tests\Cafe.Waiter.Web.Tests.csproj
+CMD dotnet test C:\app\Cafe\Cafe.Waiter.Web.Tests\Cafe.Waiter.Web.Tests.csproj --logger "trx;LogFileName=C:\\test-results\\cafe.waiter.web.tests.trx"
 
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app

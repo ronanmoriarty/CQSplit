@@ -35,7 +35,7 @@ RUN dotnet restore .\Cafe\Cafe.Waiter.EventProjecting.Service.Tests
 COPY .\Cafe\Cafe.DAL.Tests.Common .\Cafe\Cafe.DAL.Tests.Common
 COPY .\Cafe\Cafe.Waiter.EventProjecting.Service.Tests .\Cafe\Cafe.Waiter.EventProjecting.Service.Tests
 RUN dotnet build .\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\Cafe.Waiter.EventProjecting.Service.Tests.csproj
-CMD dotnet test C:\app\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\Cafe.Waiter.EventProjecting.Service.Tests.csproj
+CMD dotnet test C:\app\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\Cafe.Waiter.EventProjecting.Service.Tests.csproj --logger "trx;LogFileName=C:\\test-results\\cafe.waiter.eventprojecting.service.tests.trx"
 
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app
