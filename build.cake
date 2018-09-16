@@ -77,10 +77,12 @@ Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
     .Does(() =>
 {
     var dir = "test-results";
-    if (!DirectoryExists(dir))
+    if (DirectoryExists(dir))
     {
-        CreateDirectory(dir);
+        DeleteDirectory(dir, recursive: true);
     }
+
+    CreateDirectory(dir);
 
     DockerComposeUp(new DockerComposeUpSettings
     {
