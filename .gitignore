@@ -252,3 +252,4 @@ tools/
 **/*.old
 
 **/appSettings.json
+test-results/
