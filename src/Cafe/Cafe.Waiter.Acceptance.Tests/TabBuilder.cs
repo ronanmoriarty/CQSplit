@@ -19,7 +19,10 @@ namespace Cafe.Waiter.Acceptance.Tests
                 .AddJsonFile("appSettings.json")
                 .Build();
 
-            _chromeDriver = new ChromeDriver();
+            var chromeOptions = new ChromeOptions();
+            chromeOptions.AddArguments("headless");
+
+            _chromeDriver = new ChromeDriver(chromeOptions);
         }
 
         public TabBuilder WithTableNumber(int tableNumber)
