@@ -59,3 +59,11 @@ services:
     depends_on:
       - "rabbitmq"
       - "waiter-read-db-server"
+  cafe-waiter-acceptance-tests:
+    build:
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.Acceptance.Tests\Dockerfile
+    depends_on:
+      - "cafe-waiter-event-projecting-service"
+      - "cafe-waiter-command-service"
+      - "cafe-waiter-web"
