@@ -26,6 +26,10 @@ services:
       context: .\src\
       dockerfile: .\Cafe\Cafe.Waiter.EventProjecting.Service\Dockerfile
       target: test
+    volumes:
+      - type: bind
+        source: .\test-results
+        target: C:\test-results
     depends_on:
       - "rabbitmq"
       - "waiter-read-db-server"
@@ -41,6 +45,10 @@ services:
       context: .\src\
       dockerfile: .\Cafe\Cafe.Waiter.Command.Service\Dockerfile
       target: test
+    volumes:
+      - type: bind
+        source: .\test-results
+        target: C:\test-results
     depends_on:
       - "rabbitmq"
       - "waiter-write-db-server"
@@ -56,6 +64,10 @@ services:
       context: .\src\
       dockerfile: .\Cafe\Cafe.Waiter.Web\Dockerfile
       target: test
+    volumes:
+      - type: bind
+        source: .\test-results
+        target: C:\test-results
     depends_on:
       - "rabbitmq"
       - "waiter-read-db-server"
@@ -63,6 +75,10 @@ services:
     build:
       context: .\src\
       dockerfile: .\Cafe\Cafe.Waiter.Acceptance.Tests\Dockerfile
+    volumes:
+      - type: bind
+        source: .\test-results
+        target: C:\test-results
     depends_on:
       - "cafe-waiter-event-projecting-service"
       - "cafe-waiter-command-service"
