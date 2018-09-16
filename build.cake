@@ -76,6 +76,12 @@ Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
     .IsDependentOn("Build-Sample-Application-Docker-Images-For-Integration-Testing")
     .Does(() =>
 {
+    var dir = "test-results";
+    if (!DirectoryExists(dir))
+    {
+        CreateDirectory(dir);
+    }
+
     DockerComposeUp(new DockerComposeUpSettings
     {
         Files = new []
