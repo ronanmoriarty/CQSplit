@@ -92,7 +92,14 @@ Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
         },
         DetachedMode = true
     });
+
+    UploadTestResultsToAppveyor();
 });
+
+private void UploadTestResultsToAppveyor()
+{
+    StartPowershellScript($"./Upload-Test-Results-To-Appveyor.ps1");
+}
 
 Task("Update-Sample-Application-Settings")
     .IsDependentOn("Start-Sample-Application-Docker-Containers")
