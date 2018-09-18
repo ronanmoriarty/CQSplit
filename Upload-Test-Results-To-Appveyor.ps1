@@ -38,8 +38,8 @@ function UploadTestResults()
     )
 
     $testResultFiles | ForEach-Object {
-        Write-Host "Uploading $_ to Appveyor..."
         if ("${ENV:APPVEYOR_JOB_ID}" -ne "") {
+            Write-Host "Uploading $_ to Appveyor..."
             $wc = New-Object 'System.Net.WebClient'
             $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\test-results\$_))
         }
