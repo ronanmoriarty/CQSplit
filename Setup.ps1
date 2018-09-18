@@ -18,8 +18,10 @@ function GetJsonTemplateFiles()
 {
     return @(`
         "$PSScriptRoot\src\Cafe\Cafe.Waiter.Web\appSettings.json.template", `
+        "$PSScriptRoot\src\Cafe\Cafe.Waiter.Web.Tests\appSettings.json.template", `
         "$PSScriptRoot\src\Cafe\Cafe.Waiter.Command.Service\appSettings.json.template", `
-        "$PSScriptRoot\src\Cafe\Cafe.Waiter.EventProjecting.Service\appSettings.json.template" `
+        "$PSScriptRoot\src\Cafe\Cafe.Waiter.EventProjecting.Service\appSettings.json.template", `
+        "$PSScriptRoot\src\Cafe\Cafe.Waiter.Acceptance.Tests\appSettings.json.template" `
     )
 }
 

@@ -22,6 +22,9 @@ private const string AllSampleApplicationTestProjects = "./src/Cafe/**/*.Tests.c
 private const string AllCQSplitTestProjects = "./src/CQSplit/**/*.Tests.csproj";
 private const string CafeSolutionPath = "./src/Cafe/Cafe.sln";
 private const string CQSplitSolutionPath = "./src/CQSplit/CQSplit.sln";
+private const string DockerComposeFilePath = "./docker-compose.yml";
+private const string CQSplitDockerComposeFilePath = "./src/CQSplit/docker-compose.yml";
+private const string IntegrationTestsDockerComposeFilePath = "./docker-compose.integration-tests.yml";
 
 private DotNetCoreTestSettings OnlyUnitTests = new DotNetCoreTestSettings
     {
@@ -45,7 +48,7 @@ private DotNetCoreTestSettings OnlyAcceptanceTests = new DotNetCoreTestSettings
 Task("Build-Sample-Application-Docker-Images")
     .Does(() =>
 {
-    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{"./docker-compose.yml"}});
+    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{DockerComposeFilePath}});
 });
 
 Task("Start-Sample-Application-Docker-Containers")
@@ -56,11 +59,47 @@ Task("Start-Sample-Application-Docker-Containers")
     {
         Files = new []
         {
-            "./docker-compose.yml"
+            DockerComposeFilePath
         },
         DetachedMode = true
     });
 });
+
+Task("Build-Sample-Application-Docker-Images-For-Integration-Testing")
+    .Does(() =>
+{
+    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{IntegrationTestsDockerComposeFilePath}});
+});
+
+
+Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
+    .IsDependentOn("Build-Sample-Application-Docker-Images-For-Integration-Testing")
+    .Does(() =>
+{
+    var dir = "test-results";
+    if (DirectoryExists(dir))
+    {
+        DeleteDirectory(dir, recursive: true);
+    }
+
+    CreateDirectory(dir);
+
+    DockerComposeUp(new DockerComposeUpSettings
+    {
+        Files = new []
+        {
+            IntegrationTestsDockerComposeFilePath
+        },
+        DetachedMode = true
+    });
+
+    UploadTestResultsToAppveyor();
+});
+
+private void UploadTestResultsToAppveyor()
+{
+    StartPowershellScript($"./Upload-Test-Results-To-Appveyor.ps1");
+}
 
 Task("Update-Sample-Application-Settings")
     .IsDependentOn("Start-Sample-Application-Docker-Containers")
@@ -84,7 +123,18 @@ Task("Stop-Sample-Application-Docker-Containers")
 
 private void StopSampleApplicationDockerContainers()
 {
-    StopDockerContainers("./docker-compose.yml");
+    StopDockerContainers(DockerComposeFilePath);
+}
+
+Task("Stop-Sample-Application-Docker-Containers-For-Integration-Testing")
+    .Does(() =>
+{
+    StopSampleApplicationDockerContainersForIntegrationTesting();
+});
+
+private void StopSampleApplicationDockerContainersForIntegrationTesting()
+{
+    StopDockerContainers(IntegrationTestsDockerComposeFilePath);
 }
 
 Task("Clean-Sample-Application")
@@ -226,7 +276,7 @@ Task("Restore-CQSplit-NuGet-Packages")
 Task("Build-CQSplit-Docker-Images")
     .Does(() =>
 {
-    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{"./src/CQSplit/docker-compose.yml"}});
+    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{CQSplitDockerComposeFilePath}});
 });
 
 Task("Start-CQSplit-Docker-Containers")
@@ -237,7 +287,7 @@ Task("Start-CQSplit-Docker-Containers")
     {
         Files = new []
         {
-            "./src/CQSplit/docker-compose.yml"
+            CQSplitDockerComposeFilePath
         },
         DetachedMode = true
     });
@@ -264,7 +314,7 @@ Task("Stop-CQSplit-Docker-Containers")
 
 private void StopCQSplitDockerContainers()
 {
-    StopDockerContainers("./src/CQSplit/docker-compose.yml");
+    StopDockerContainers(CQSplitDockerComposeFilePath);
 }
 
 private void StopDockerContainers(string dockerComposePath)

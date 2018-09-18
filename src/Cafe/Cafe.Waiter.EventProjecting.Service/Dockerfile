@@ -21,6 +21,22 @@ COPY .\Cafe\Cafe.Waiter.EventProjecting.Service .\Cafe\Cafe.Waiter.EventProjecti
 COPY .\Cafe\Cafe.Waiter.EventProjecting.Service\appSettings.docker.json .\Cafe\Cafe.Waiter.EventProjecting.Service\appSettings.json
 RUN dotnet publish .\Cafe\Cafe.Waiter.EventProjecting.Service
 
+FROM microsoft/dotnet:2.1-sdk AS test
+WORKDIR /app
+COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Events", ".\\Cafe\\Cafe.Waiter.Events"]
+COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Contracts", ".\\Cafe\\Cafe.Waiter.Contracts"]
+COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Queries.DAL", ".\\Cafe\\Cafe.Waiter.Queries.DAL"]
+COPY --from=builder ["app\\Cafe\\Cafe.DAL.Sql", ".\\Cafe\\Cafe.DAL.Sql"]
+COPY --from=builder ["app\\Cafe\\Cafe.Waiter.EventProjecting.Service", ".\\Cafe\\Cafe.Waiter.EventProjecting.Service"]
+COPY .\Cafe\Cafe.DAL.Tests.Common\Cafe.DAL.Tests.Common.csproj .\Cafe\Cafe.DAL.Tests.Common\
+RUN dotnet restore .\Cafe\Cafe.DAL.Tests.Common
+COPY .\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\Cafe.Waiter.EventProjecting.Service.Tests.csproj .\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\
+RUN dotnet restore .\Cafe\Cafe.Waiter.EventProjecting.Service.Tests
+COPY .\Cafe\Cafe.DAL.Tests.Common .\Cafe\Cafe.DAL.Tests.Common
+COPY .\Cafe\Cafe.Waiter.EventProjecting.Service.Tests .\Cafe\Cafe.Waiter.EventProjecting.Service.Tests
+RUN dotnet build .\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\Cafe.Waiter.EventProjecting.Service.Tests.csproj
+CMD dotnet test C:\app\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\Cafe.Waiter.EventProjecting.Service.Tests.csproj --logger "trx;LogFileName=C:\\test-results\\cafe.waiter.eventprojecting.service.tests.trx"
+
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app
 COPY --from=builder ["app\\Cafe\\Cafe.Waiter.EventProjecting.Service\\bin\\Debug\\netcoreapp2.1\\publish", ".\\Cafe.Waiter.EventProjecting.Service"]

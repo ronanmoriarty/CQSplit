@@ -1,0 +1,85 @@
+version: '3.4'
+services:
+  rabbitmq:
+    image: ronanmoriarty/rabbitmq-windowsservercore
+  waiter-read-db-server:
+    build:
+      context: .\src\Cafe\Docker\SqlServer\
+      dockerfile: .\ReadModel\Dockerfile
+    env_file:
+      - .env
+  waiter-write-db-server:
+    build:
+      context: .\src\Cafe\Docker\SqlServer\
+      dockerfile: .\WriteModel\Dockerfile
+    env_file:
+      - .env
+  cafe-waiter-event-projecting-service:
+    build:
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.EventProjecting.Service\Dockerfile
+    depends_on:
+      - "rabbitmq"
+      - "waiter-read-db-server"
+  cafe-waiter-event-projecting-service-tests:
+    build:
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.EventProjecting.Service\Dockerfile
+      target: test
+    volumes:
+      - type: bind
+        source: .\test-results
+        target: C:\test-results
+    depends_on:
+      - "rabbitmq"
+      - "waiter-read-db-server"
+  cafe-waiter-command-service:
+    build:
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.Command.Service\Dockerfile
+    depends_on:
+      - "rabbitmq"
+      - "waiter-write-db-server"
+  cafe-waiter-command-service-tests:
+    build:
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.Command.Service\Dockerfile
+      target: test
+    volumes:
+      - type: bind
+        source: .\test-results
+        target: C:\test-results
+    depends_on:
+      - "rabbitmq"
+      - "waiter-write-db-server"
+  cafe-waiter-web:
+    build:
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.Web\Dockerfile
+    depends_on:
+      - "rabbitmq"
+      - "waiter-read-db-server"
+  cafe-waiter-web-tests:
+    build:
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.Web\Dockerfile
+      target: test
+    volumes:
+      - type: bind
+        source: .\test-results
+        target: C:\test-results
+    depends_on:
+      - "rabbitmq"
+      - "waiter-read-db-server"
+  cafe-waiter-acceptance-tests:
+    build:
+      context: .\src\
+      dockerfile: .\Cafe\Cafe.Waiter.Acceptance.Tests\Dockerfile
+    volumes:
+      - type: bind
+        source: .\test-results
+        target: C:\test-results
+    depends_on:
+      - "cafe-waiter-event-projecting-service"
+      - "cafe-waiter-command-service"
+      - "cafe-waiter-web"

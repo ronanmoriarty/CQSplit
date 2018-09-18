@@ -102,6 +102,7 @@ function GetKeyValuePairsToUseInsideContainers()
     $keyValuePairs.Add("`$rabbitMqServerAddress", "$($repositoryName)_rabbitmq_1")
     $keyValuePairs.Add("`$writeModelSqlServerAddress", "$($repositoryName)_waiter-write-db-server_1")
     $keyValuePairs.Add("`$readModelSqlServerAddress", "$($repositoryName)_waiter-read-db-server_1")
+    $keyValuePairs.Add("`$waiterWebsiteUrl", "http://$($repositoryName)_cafe-waiter-web_1")
     return $keyValuePairs
 }
 
