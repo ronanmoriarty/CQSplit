@@ -21,9 +21,6 @@ function WaitUntilTestContainersAreFinished()
                 Write-Host "Test container $testContainerId still running using image $_. Will wait 5 seconds and try again."
                 Start-Sleep -Seconds 5
             }
-            else {
-                Write-Host "Could not find running container for image $_"
-            }
         }
     }
 }
