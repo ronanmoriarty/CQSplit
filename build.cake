@@ -101,7 +101,7 @@ private void FixHNSErrorInAppveyor()
 {
     // See https://github.com/docker/for-win/issues/598
     // Also see https://stackoverflow.com/questions/45394360/hns-failed-with-error-the-parameter-is-incorrect
-    StartPowershellScript("Get-NetNat | Remove-NetNat");
+    StartPowershellScript("Get-NetNat | Remove-NetNat -Confirm");
 }
 
 private void RunIntegrationTests()
