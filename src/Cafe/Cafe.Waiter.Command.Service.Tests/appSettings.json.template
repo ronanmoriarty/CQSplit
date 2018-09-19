@@ -1,0 +1,10 @@
+﻿{
+  "BatchSize": 10,
+  "QueueName": "cafe.waiter.command.service",
+  "rabbitmq": {
+    "uri": "rabbitmq://$rabbitMqServerAddress",
+    "username": "$rabbitMqUsername",
+    "password": "$rabbitMqPassword"
+  },
+  "connectionString": "Server=$writeModelSqlServerAddress;Database=Cafe.Waiter.WriteModel;User Id=CommandService;Password=$commandServicePassword;"
+}
