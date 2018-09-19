@@ -4,7 +4,9 @@
   "rabbitmq": {
     "uri": "rabbitmq://$rabbitMqServerAddress",
     "username": "$rabbitMqUsername",
-    "password": "$rabbitMqPassword"
+    "password": "$rabbitMqPassword",
+    "retryLimit": 12,
+    "delayInSecondsBetweenRetries": 10
   },
   "connectionString": "Server=$writeModelSqlServerAddress;Database=Cafe.Waiter.WriteModel;User Id=CommandService;Password=$commandServicePassword;"
 }
