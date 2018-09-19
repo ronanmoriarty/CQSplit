@@ -1,4 +1,5 @@
-. .\src\CQSplit\PowerShell\FileOperations.ps1
+$scriptDir = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
+. $scriptDir\FileOperations.ps1
 
 $ErrorActionPreference = "Stop"
 

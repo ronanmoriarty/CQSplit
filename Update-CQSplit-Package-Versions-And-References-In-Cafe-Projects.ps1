@@ -1,4 +1,4 @@
-. .\Update-CQSplit-Package-Versions.ps1
+. .\src\CQSplit\PowerShell\Update-CQSplit-Package-Versions.ps1
 
 $oldVersion = GetVersion
 UpdateCQSplitPackageVersions

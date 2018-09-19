@@ -4,7 +4,8 @@ param (
     [string] $apiKey
 )
 
-. "$PSScriptRoot\..\..\..\Update-CQSplit-Package-Versions.ps1"
+$scriptDir = Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
+. $scriptDir\Update-CQSplit-Package-Versions.ps1
 
 $version = GetVersion
 Write-Output "`$version: $version"
