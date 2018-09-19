@@ -67,8 +67,7 @@ namespace CQSplit.Messaging.RabbitMq.Tests
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            var rabbitMqHostConfiguration = new RabbitMqHostConfiguration(configurationRoot);
-            return rabbitMqHostConfiguration;
+            return new RabbitMqHostConfiguration(configurationRoot);
         }
 
         private void WaitUntilMessageHasBeenConsumed()

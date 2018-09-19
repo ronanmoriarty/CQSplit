@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 
-namespace CQSplit.Messaging.RabbitMq
+namespace CQSplit.Messaging.RabbitMq.Tests
 {
     public class RabbitMqHostConfiguration : IRabbitMqHostConfiguration
     {
