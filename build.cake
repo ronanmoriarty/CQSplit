@@ -84,6 +84,8 @@ Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
 
     CreateDirectory(dir);
 
+    FixHNSErrorInAppveyor();
+
     DockerComposeUp(new DockerComposeUpSettings
     {
         Files = new []
@@ -96,9 +98,16 @@ Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
     UploadTestResultsToAppveyor();
 });
 
+private void FixHNSErrorInAppveyor()
+{
+    // See https://github.com/docker/for-win/issues/598
+    // Also see https://stackoverflow.com/questions/45394360/hns-failed-with-error-the-parameter-is-incorrect
+    StartPowershellScript("Get-NetNat | Remove-NetNat");
+}
+
 private void UploadTestResultsToAppveyor()
 {
-    StartPowershellScript($"./Upload-Test-Results-To-Appveyor.ps1");
+    StartPowershellScript("./Upload-Test-Results-To-Appveyor.ps1");
 }
 
 Task("Update-Sample-Application-Settings")
