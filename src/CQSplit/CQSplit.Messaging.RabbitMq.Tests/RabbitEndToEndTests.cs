@@ -40,7 +40,7 @@ namespace CQSplit.Messaging.RabbitMq.Tests
                 )
             );
 
-            _busControl = new MultipleConnectionAttemptMessageBusFactory(rabbitMqMessageBusFactory).Create();
+            _busControl = new MultipleConnectionAttemptMessageBusFactory(rabbitMqMessageBusFactory, CreateRabbitMqHostConfiguration()).Create();
             _rabbitMqSendEndpointProvider = new RabbitMqSendEndpointProvider(_busControl, rabbitMqHostConfiguration);
         }
 
