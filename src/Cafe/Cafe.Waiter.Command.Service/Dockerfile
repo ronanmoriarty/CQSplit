@@ -30,6 +30,8 @@ RUN dotnet publish .\Cafe\Cafe.Waiter.Command.Service
 
 FROM microsoft/dotnet:2.1-sdk AS test
 WORKDIR /app
+COPY .\Nuget.config .\Nuget.config
+COPY .\.nuget.local .\.nuget.local
 COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Events", ".\\Cafe\\Cafe.Waiter.Events"]
 COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Contracts", ".\\Cafe\\Cafe.Waiter.Contracts"]
 COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Domain", ".\\Cafe\\Cafe.Waiter.Domain"]
