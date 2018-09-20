@@ -25,13 +25,6 @@ function GetEnvironmentVariableFromEnvFile($environmentVariableName)
     return [regex]::Match((Get-Content $envPath),"$environmentVariableName='([^=]*)'").captures.groups[1].value
 }
 
-function GetWaiterWebsiteUrl()
-{
-    $waiterWebsiteContainerId = GetContainerRunningWithImageName "$($repositoryName)_cafe-waiter-web"
-    $waiterWebsiteIpAddress = GetIpAddress $waiterWebsiteContainerId
-    return "http://$waiterWebsiteIpAddress"
-}
-
 function GetWaiterWebsitePassword()
 {
     return GetEnvironmentVariableFromEnvFile "waiterWebsitePassword"
@@ -65,12 +58,11 @@ function GetPasswordKeyValuePairs()
 function GetKeyValuePairs()
 {
     $keyValuePairs = GetPasswordKeyValuePairs
-    $waiterWebsiteUrl = GetWaiterWebsiteUrl
 
     $keyValuePairs.Add("`$rabbitMqServerAddress", "localhost:35672")
     $keyValuePairs.Add("`$writeModelSqlServerAddress", "localhost,1400")
     $keyValuePairs.Add("`$readModelSqlServerAddress", "localhost,1401")
-    $keyValuePairs.Add("`$waiterWebsiteUrl", $waiterWebsiteUrl)
+    $keyValuePairs.Add("`$waiterWebsiteUrl", "http://localhost:8080")
     return $keyValuePairs
 }
 
