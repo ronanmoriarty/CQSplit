@@ -3,8 +3,8 @@ services:
   rabbitmq:
     image: ronanmoriarty/rabbitmq-windowsservercore
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "35672:5672"
+      - "45672:15672"
   waiter-read-db-server:
     build:
       context: .\src\Cafe\Docker\SqlServer\
