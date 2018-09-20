@@ -28,6 +28,6 @@ if(-not $IsCiBuild)
     }
 }
 
-$paths = GetAppSettingsTemplateFiles
+$jsonTemplateFiles = GetAppSettingsTemplateFiles
 
-SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs $IsCiBuild
+SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.json $keyValuePairs $IsCiBuild
