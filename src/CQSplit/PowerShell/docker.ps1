@@ -31,18 +31,11 @@ function GetRabbitMqAddress(){
     return $rabbitMqServerIpAddress
 }
 
-function GetWriteModelSqlServerAddress(){
-    $writeModelSqlServerContainerId = GetContainerRunningWithImageName "$($repositoryName)_waiter-write-db-server"
-    $writeModelSqlServerIpAddress = GetIpAddress $writeModelSqlServerContainerId
-    return $writeModelSqlServerIpAddress
-}
-
 function GetReadModelSqlServerAddress(){
     $readModelSqlServerContainerId = GetContainerRunningWithImageName "$($repositoryName)_waiter-read-db-server"
     $readModelSqlServerIpAddress = GetIpAddress $readModelSqlServerContainerId
     return $readModelSqlServerIpAddress
 }
-
 
 function GetWaiterWebsiteUrl()
 {
@@ -85,12 +78,11 @@ function GetKeyValuePairs()
 {
     $keyValuePairs = GetPasswordKeyValuePairs
     $rabbitMqServerAddress = GetRabbitMqAddress
-    $writeModelSqlServerAddress = GetWriteModelSqlServerAddress
     $readModelSqlServerAddress = GetReadModelSqlServerAddress
     $waiterWebsiteUrl = GetWaiterWebsiteUrl
 
     $keyValuePairs.Add("`$rabbitMqServerAddress", $rabbitMqServerAddress)
-    $keyValuePairs.Add("`$writeModelSqlServerAddress", $writeModelSqlServerAddress)
+    $keyValuePairs.Add("`$writeModelSqlServerAddress", "127.0.0.1,1400")
     $keyValuePairs.Add("`$readModelSqlServerAddress", $readModelSqlServerAddress)
     $keyValuePairs.Add("`$waiterWebsiteUrl", $waiterWebsiteUrl)
     return $keyValuePairs
