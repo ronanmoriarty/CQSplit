@@ -25,12 +25,6 @@ function GetEnvironmentVariableFromEnvFile($environmentVariableName)
     return [regex]::Match((Get-Content $envPath),"$environmentVariableName='([^=]*)'").captures.groups[1].value
 }
 
-function GetRabbitMqAddress(){
-    $rabbitMqContainerId = GetContainerRunningWithImageName "ronanmoriarty/rabbitmq-windowsservercore"
-    $rabbitMqServerIpAddress = GetIpAddress $rabbitMqContainerId
-    return $rabbitMqServerIpAddress
-}
-
 function GetWaiterWebsiteUrl()
 {
     $waiterWebsiteContainerId = GetContainerRunningWithImageName "$($repositoryName)_cafe-waiter-web"
@@ -71,10 +65,9 @@ function GetPasswordKeyValuePairs()
 function GetKeyValuePairs()
 {
     $keyValuePairs = GetPasswordKeyValuePairs
-    $rabbitMqServerAddress = GetRabbitMqAddress
     $waiterWebsiteUrl = GetWaiterWebsiteUrl
 
-    $keyValuePairs.Add("`$rabbitMqServerAddress", "$rabbitMqServerAddress")
+    $keyValuePairs.Add("`$rabbitMqServerAddress", "localhost:35672")
     $keyValuePairs.Add("`$writeModelSqlServerAddress", "localhost,1400")
     $keyValuePairs.Add("`$readModelSqlServerAddress", "localhost,1401")
     $keyValuePairs.Add("`$waiterWebsiteUrl", $waiterWebsiteUrl)

@@ -9,8 +9,7 @@ param (
 function GetCQSplitKeyValuePairs()
 {
     $keyValuePairs = GetPasswordKeyValuePairs
-    $rabbitMqServerAddress = GetRabbitMqAddress
-    $keyValuePairs.Add("`$rabbitMqServerAddress", $rabbitMqServerAddress)
+    $keyValuePairs.Add("`$rabbitMqServerAddress", "localhost:35672")
     return $keyValuePairs
 }
 
