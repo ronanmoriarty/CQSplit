@@ -42,4 +42,5 @@ CMD dotnet test C:\app\Cafe\Cafe.Waiter.EventProjecting.Service.Tests\Cafe.Waite
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app
 COPY --from=builder ["app\\Cafe\\Cafe.Waiter.EventProjecting.Service\\bin\\Debug\\netcoreapp2.1\\publish", ".\\Cafe.Waiter.EventProjecting.Service"]
+EXPOSE 1433
 CMD dotnet .\Cafe.Waiter.EventProjecting.Service\Cafe.Waiter.EventProjecting.Service.dll
