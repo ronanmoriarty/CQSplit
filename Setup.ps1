@@ -14,17 +14,6 @@ param (
 . .\src\CQSplit\PowerShell\Docker.ps1
 . .\src\CQSplit\PowerShell\FileOperations.ps1
 
-function GetJsonTemplateFiles()
-{
-    return @(`
-        "$PSScriptRoot\src\Cafe\Cafe.Waiter.Web\appSettings.json.template", `
-        "$PSScriptRoot\src\Cafe\Cafe.Waiter.Web.Tests\appSettings.json.template", `
-        "$PSScriptRoot\src\Cafe\Cafe.Waiter.Command.Service\appSettings.json.template", `
-        "$PSScriptRoot\src\Cafe\Cafe.Waiter.EventProjecting.Service\appSettings.json.template", `
-        "$PSScriptRoot\src\Cafe\Cafe.Waiter.Acceptance.Tests\appSettings.json.template" `
-    )
-}
-
 function CreateEnvFile()
 {
     Write-Output "sa_password=$saPasswordPlainText" | Out-File -encoding ASCII .env
@@ -42,7 +31,7 @@ $eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingSe
 CreateEnvFile
 $dockerKeyValuePairs = GetKeyValuePairsToUseInsideContainers
 $unitTestKeyValuePairs = GetKeyValuePairsForUnitTests
-$jsonTemplateFiles = GetJsonTemplateFiles
+$jsonTemplateFiles = GetAppSettingsTemplateFiles
 SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.docker.json $dockerKeyValuePairs $IsCiBuild
 SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.json $unitTestKeyValuePairs $IsCiBuild
 
