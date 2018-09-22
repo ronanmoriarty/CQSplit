@@ -44,6 +44,7 @@ COPY .\Cafe\Cafe.DAL.Tests.Common .\Cafe\Cafe.DAL.Tests.Common
 COPY .\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.csproj .\Cafe\Cafe.Waiter.Command.Service.Tests\
 RUN dotnet restore .\Cafe\Cafe.Waiter.Command.Service.Tests
 COPY .\Cafe\Cafe.Waiter.Command.Service.Tests .\Cafe\Cafe.Waiter.Command.Service.Tests
+COPY .\Cafe\Cafe.Waiter.Command.Service.Tests\appSettings.docker.json .\Cafe\Cafe.Waiter.Command.Service.Tests\appSettings.json
 RUN dotnet build .\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.csproj
 CMD dotnet test C:\app\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.csproj  --logger "trx;LogFileName=C:\\test-results\\cafe.waiter.command.service.tests.trx"
 
