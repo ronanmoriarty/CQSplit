@@ -37,7 +37,7 @@ SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.json $unitTe
 
 if(Test-Path .\src\.nuget.local\)
 {
-    rm -r .\src\.nuget.local\
+    Remove-Item -r .\src\.nuget.local\
 }
 
 mkdir .\src\.nuget.local\

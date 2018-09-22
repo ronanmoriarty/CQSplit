@@ -19,9 +19,9 @@ function GetAppSettingsTemplateFiles()
     return (Get-ChildItem -Path $cqRoot -Filter appSettings.json.template -Recurse) | Select-Object -ExpandProperty FullName
 }
 
-function GetTemplateFileWithPlaceholdersReplaced([string] $filePath, [hashtable] $keyValuePairs)
+function GetTemplateFileWithPlaceholdersReplaced([string] $templateFilePath, [hashtable] $keyValuePairs)
 {
-    $temp = (Get-Content $filePath)
+    $temp = (Get-Content $templateFilePath)
 
     $keyValuePairs.Keys | ForEach-Object {
         $value = $keyValuePairs[$_]
