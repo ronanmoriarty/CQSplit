@@ -13,12 +13,6 @@ function GetCQSplitKeyValuePairs()
     return $keyValuePairs
 }
 
-function GetAppSettingsTemplateFiles()
-{
-    $cqRoot = GetFullPath "$PSScriptRoot\..\"
-    return (Get-ChildItem -Path $cqRoot -Filter appSettings.json.template -Recurse) | Select-Object -ExpandProperty FullName
-}
-
 $keyValuePairs = GetCQSplitKeyValuePairs
 
 if(-not $IsCiBuild)
