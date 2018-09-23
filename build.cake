@@ -83,7 +83,7 @@ Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
 })
 .Finally(() =>
 {
-    StopSampleApplicationDockerContainers();
+    StopDockerContainers(IntegrationTestsDockerComposeFilePath);
 });
 
 private void CreateBlankTestResultsDirectory()
