@@ -79,10 +79,6 @@ Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
     FixHNSErrorInAppveyor();
     RunIntegrationTests();
     UploadTestResultsToAppveyor();
-})
-.Finally(() =>
-{
-    StopDockerContainers(IntegrationTestsDockerComposeFilePath);
 });
 
 private void CreateBlankTestResultsDirectory()
