@@ -68,7 +68,13 @@ Task("Start-Sample-Application-Docker-Containers")
 Task("Build-Sample-Application-Docker-Images-For-Integration-Testing")
     .Does(() =>
 {
-    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{IntegrationTestsDockerComposeFilePath}});
+    DockerComposeBuild(new DockerComposeBuildSettings
+    {
+        Files = new []
+        {
+            IntegrationTestsDockerComposeFilePath
+        }
+    });
 });
 
 Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
