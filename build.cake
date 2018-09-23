@@ -116,20 +116,6 @@ private void UploadTestResultsToAppveyor()
     StartPowershellScript("./Upload-Test-Results-To-Appveyor.ps1");
 }
 
-Task("Update-Sample-Application-Settings")
-    .IsDependentOn("Start-Sample-Application-Docker-Containers")
-    .Does(() =>
-{
-    if(isCiBuild)
-    {
-        StartPowershellScript($"./Update-Settings-To-Use-Docker-Containers.ps1 -isCiBuild");
-    }
-    else
-    {
-        StartPowershellScript($"./Update-Settings-To-Use-Docker-Containers.ps1");
-    }
-});
-
 Task("Stop-Sample-Application-Docker-Containers")
     .Does(() =>
 {
@@ -183,7 +169,6 @@ Task("Run-Sample-Application-Unit-Tests")
 });
 
 Task("Run-Sample-Application-Tests")
-    .IsDependentOn("Update-Sample-Application-Settings")
     .IsDependentOn("Run-Sample-Application-Unit-Tests")
     .Does(() =>
 {
@@ -206,7 +191,6 @@ private void RunDotNetTests(string filePattern, DotNetCoreTestSettings dotNetCor
 }
 
 Task("Run-Sample-Application")
-    .IsDependentOn("Update-Sample-Application-Settings")
     .Does(() =>
 {
     RunSampleApplication();
