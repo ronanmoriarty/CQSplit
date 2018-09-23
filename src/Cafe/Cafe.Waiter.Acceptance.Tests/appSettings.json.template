@@ -1,7 +1,7 @@
 ﻿{
   "connectionString": "Server=$readModelSqlServerAddress;Database=Cafe.Waiter.ReadModel;User Id=EventProjectingService;Password=$eventProjectingServicePassword;",
-  "maximumSqlConnectionRetries": 2,
-  "delayInMillisecondsBetweenSqlConnectionRetries": 1000,
+  "maximumSqlConnectionRetries": 12,
+  "delayInMillisecondsBetweenSqlConnectionRetries": 10000,
   "cafe": {
     "waiter": {
       "web": {
