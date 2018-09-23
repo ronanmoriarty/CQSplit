@@ -193,14 +193,9 @@ private void RunDotNetTests(string filePattern, DotNetCoreTestSettings dotNetCor
 Task("Run-Sample-Application")
     .Does(() =>
 {
-    RunSampleApplication();
-});
-
-private void RunSampleApplication()
-{
     var waiterWebsiteEntryPointUrl = GetWaiterWebsiteEntryPointUrl();
     Information($"The sample application is now running at {waiterWebsiteEntryPointUrl}");
-}
+});
 
 private string GetWaiterWebsiteEntryPointUrl()
 {
