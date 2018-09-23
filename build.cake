@@ -71,7 +71,6 @@ Task("Build-Sample-Application-Docker-Images-For-Integration-Testing")
     DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{IntegrationTestsDockerComposeFilePath}});
 });
 
-
 Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
     .IsDependentOn("Build-Sample-Application-Docker-Images-For-Integration-Testing")
     .Does(() =>
@@ -184,7 +183,7 @@ Task("Run-Sample-Application-Unit-Tests")
     .IsDependentOn("Build-Sample-Application")
     .Does(() =>
 {
-    RunSampleApplicationUnitTests();
+    RunDotNetTests(AllSampleApplicationTestProjects, OnlyUnitTests);
 });
 
 Task("Run-Sample-Application-Tests")
@@ -192,8 +191,8 @@ Task("Run-Sample-Application-Tests")
     .IsDependentOn("Run-Sample-Application-Unit-Tests")
     .Does(() =>
 {
-    RunSampleApplicationIntegrationTests();
-    RunSampleApplicationAcceptanceTests();
+    RunDotNetTests(AllSampleApplicationTestProjects, OnlyIntegrationTests);
+    RunDotNetTests(AllSampleApplicationTestProjects, OnlyAcceptanceTests);
 })
 .Finally(() => {
     StopDockerContainers(DockerComposeFilePath);
@@ -202,7 +201,7 @@ Task("Run-Sample-Application-Tests")
 Task("Run-Sample-Application-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunSampleApplicationUnitTests();
+    RunDotNetTests(AllSampleApplicationTestProjects, OnlyUnitTests);
 });
 
 Task("Run-Sample-Application-Tests-Without-Build")
@@ -210,27 +209,12 @@ Task("Run-Sample-Application-Tests-Without-Build")
     .IsDependentOn("Run-Sample-Application-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunSampleApplicationIntegrationTests();
-    RunSampleApplicationAcceptanceTests();
+    RunDotNetTests(AllSampleApplicationTestProjects, OnlyIntegrationTests);
+    RunDotNetTests(AllSampleApplicationTestProjects, OnlyAcceptanceTests);
 })
 .Finally(() => {
     StopDockerContainers(DockerComposeFilePath);
 });
-
-private void RunSampleApplicationUnitTests()
-{
-    RunDotNetTests(AllSampleApplicationTestProjects, OnlyUnitTests);
-}
-
-private void RunSampleApplicationIntegrationTests()
-{
-    RunDotNetTests(AllSampleApplicationTestProjects, OnlyIntegrationTests);
-}
-
-private void RunSampleApplicationAcceptanceTests()
-{
-    RunDotNetTests(AllSampleApplicationTestProjects, OnlyAcceptanceTests);
-}
 
 private void RunDotNetTests(string filePattern, DotNetCoreTestSettings dotNetCoreTestSettings)
 {
@@ -351,26 +335,11 @@ Task("Build-CQSplit")
     }
 });
 
-void RunCQSplitUnitTests()
-{
-    RunDotNetTests(AllCQSplitTestProjects, OnlyUnitTests);
-}
-
-void RunCQSplitIntegrationTests()
-{
-    RunDotNetTests(AllCQSplitTestProjects, OnlyIntegrationTests);
-}
-
-void RunCQSplitAcceptanceTests()
-{
-    RunDotNetTests(AllCQSplitTestProjects, OnlyAcceptanceTests);
-}
-
 Task("Run-CQSplit-Unit-Tests")
     .IsDependentOn("Build-CQSplit")
     .Does(() =>
 {
-    RunCQSplitUnitTests();
+    RunDotNetTests(AllCQSplitTestProjects, OnlyUnitTests);
 });
 
 Task("Run-CQSplit-Tests")
@@ -378,17 +347,17 @@ Task("Run-CQSplit-Tests")
     .IsDependentOn("Run-CQSplit-Unit-Tests")
     .Does(() =>
 {
-    RunCQSplitIntegrationTests();
-    RunCQSplitAcceptanceTests();
+    RunDotNetTests(AllCQSplitTestProjects, OnlyIntegrationTests);
+    RunDotNetTests(AllCQSplitTestProjects, OnlyAcceptanceTests);
 })
 .Finally(() => {
-    StopCQSplitDockerContainers();
+    StopDockerContainers(CQSplitDockerComposeFilePath);
 });
 
 Task("Run-CQSplit-Unit-Tests-Without-Build")
     .Does(() =>
 {
-    RunCQSplitUnitTests();
+    RunDotNetTests(AllCQSplitTestProjects, OnlyUnitTests);
 });
 
 Task("Create-CQSplit-Nuget-Packages")
