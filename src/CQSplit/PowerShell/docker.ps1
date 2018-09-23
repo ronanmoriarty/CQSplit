@@ -55,10 +55,9 @@ function GetPasswordKeyValuePairs()
     return $keyValuePairs
 }
 
-function GetKeyValuePairs()
+function GetKeyValuePairsToUseOutsideContainers()
 {
     $keyValuePairs = GetPasswordKeyValuePairs
-
     $keyValuePairs.Add("`$rabbitMqServerAddress", "localhost:35672")
     $keyValuePairs.Add("`$writeModelSqlServerAddress", "localhost,1400")
     $keyValuePairs.Add("`$readModelSqlServerAddress", "localhost,1401")
@@ -73,18 +72,6 @@ function GetKeyValuePairsToUseInsideContainers()
     $keyValuePairs.Add("`$writeModelSqlServerAddress", "$($repositoryName)_waiter-write-db-server_1")
     $keyValuePairs.Add("`$readModelSqlServerAddress", "$($repositoryName)_waiter-read-db-server_1")
     $keyValuePairs.Add("`$waiterWebsiteUrl", "http://$($repositoryName)_cafe-waiter-web_1")
-    return $keyValuePairs
-}
-
-function GetKeyValuePairsForUnitTests()
-{
-    # There are some unit tests that check the IoC has been configured correctly, and that various components can be resolved.
-    # Some of the dependencies created access appSettings.json files, and the configuration builders check that the appSettings.json files exist.
-    # TODO: delay creation of the IConfigurationRoots until the properties are actually accessed - then we can delete this method.
-    $keyValuePairs = GetPasswordKeyValuePairs
-    $keyValuePairs.Add("`$rabbitMqServerAddress", "dummy.url.for.unit.tests")
-    $keyValuePairs.Add("`$writeModelSqlServerAddress", "dummy.url.for.unit.tests")
-    $keyValuePairs.Add("`$readModelSqlServerAddress", "dummy.url.for.unit.tests")
     return $keyValuePairs
 }
 

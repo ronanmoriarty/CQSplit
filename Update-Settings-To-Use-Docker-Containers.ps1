@@ -6,7 +6,7 @@ param (
 . .\src\CQSplit\PowerShell\Docker.ps1
 . .\src\CQSplit\PowerShell\FileOperations.ps1
 
-$keyValuePairs = GetKeyValuePairs
+$keyValuePairs = GetKeyValuePairsToUseOutsideContainers
 
 if(-Not($IsCiBuild))
 {

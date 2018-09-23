@@ -30,10 +30,10 @@ $eventProjectingServicePasswordPlainText = ConvertToPlainText $eventProjectingSe
 
 CreateEnvFile
 $dockerKeyValuePairs = GetKeyValuePairsToUseInsideContainers
-$unitTestKeyValuePairs = GetKeyValuePairsForUnitTests
+$keyValuePairsToUseFromOutsideContainers = GetKeyValuePairsToUseOutsideContainers
 $jsonTemplateFiles = GetAppSettingsTemplateFiles
 SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.docker.json $dockerKeyValuePairs $IsCiBuild
-SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.json $unitTestKeyValuePairs $IsCiBuild
+SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.json $keyValuePairsToUseFromOutsideContainers $IsCiBuild
 
 if(Test-Path .\src\.nuget.local\)
 {
