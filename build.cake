@@ -244,19 +244,6 @@ Task("Start-CQSplit-Docker-Containers")
     });
 });
 
-Task("Update-CQSplit-Settings")
-    .IsDependentOn("Start-CQSplit-Docker-Containers")
-    .Does(() =>
-{
-    var command = "./src/CQSplit/PowerShell/Update-Settings-To-Use-Docker-Containers.ps1";
-    if(isCiBuild)
-    {
-        command += " -isCiBuild";
-    }
-
-    StartPowershellScript(command);
-});
-
 Task("Stop-CQSplit-Docker-Containers")
     .Does(() =>
 {
@@ -300,7 +287,6 @@ Task("Run-CQSplit-Unit-Tests")
 });
 
 Task("Run-CQSplit-Tests")
-    .IsDependentOn("Update-CQSplit-Settings")
     .IsDependentOn("Run-CQSplit-Unit-Tests")
     .Does(() =>
 {
