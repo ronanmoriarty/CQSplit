@@ -138,24 +138,14 @@ Task("Update-Sample-Application-Settings")
 Task("Stop-Sample-Application-Docker-Containers")
     .Does(() =>
 {
-    StopSampleApplicationDockerContainers();
-});
-
-private void StopSampleApplicationDockerContainers()
-{
     StopDockerContainers(DockerComposeFilePath);
-}
+});
 
 Task("Stop-Sample-Application-Docker-Containers-For-Integration-Testing")
     .Does(() =>
 {
-    StopSampleApplicationDockerContainersForIntegrationTesting();
-});
-
-private void StopSampleApplicationDockerContainersForIntegrationTesting()
-{
     StopDockerContainers(IntegrationTestsDockerComposeFilePath);
-}
+});
 
 Task("Clean-Sample-Application")
     .Does(() =>
@@ -206,7 +196,7 @@ Task("Run-Sample-Application-Tests")
     RunSampleApplicationAcceptanceTests();
 })
 .Finally(() => {
-    StopSampleApplicationDockerContainers();
+    StopDockerContainers(DockerComposeFilePath);
 });
 
 Task("Run-Sample-Application-Unit-Tests-Without-Build")
@@ -224,7 +214,7 @@ Task("Run-Sample-Application-Tests-Without-Build")
     RunSampleApplicationAcceptanceTests();
 })
 .Finally(() => {
-    StopSampleApplicationDockerContainers();
+    StopDockerContainers(DockerComposeFilePath);
 });
 
 private void RunSampleApplicationUnitTests()
@@ -329,13 +319,8 @@ Task("Update-CQSplit-Settings")
 Task("Stop-CQSplit-Docker-Containers")
     .Does(() =>
 {
-    StopCQSplitDockerContainers();
-});
-
-private void StopCQSplitDockerContainers()
-{
     StopDockerContainers(CQSplitDockerComposeFilePath);
-}
+});
 
 private void StopDockerContainers(string dockerComposePath)
 {
