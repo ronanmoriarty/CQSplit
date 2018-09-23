@@ -198,24 +198,6 @@ Task("Run-Sample-Application-Tests")
     StopDockerContainers(DockerComposeFilePath);
 });
 
-Task("Run-Sample-Application-Unit-Tests-Without-Build")
-    .Does(() =>
-{
-    RunDotNetTests(AllSampleApplicationTestProjects, OnlyUnitTests);
-});
-
-Task("Run-Sample-Application-Tests-Without-Build")
-    .IsDependentOn("Update-Sample-Application-Settings")
-    .IsDependentOn("Run-Sample-Application-Unit-Tests-Without-Build")
-    .Does(() =>
-{
-    RunDotNetTests(AllSampleApplicationTestProjects, OnlyIntegrationTests);
-    RunDotNetTests(AllSampleApplicationTestProjects, OnlyAcceptanceTests);
-})
-.Finally(() => {
-    StopDockerContainers(DockerComposeFilePath);
-});
-
 private void RunDotNetTests(string filePattern, DotNetCoreTestSettings dotNetCoreTestSettings)
 {
     var testProjects = GetFiles(filePattern);
@@ -352,12 +334,6 @@ Task("Run-CQSplit-Tests")
 })
 .Finally(() => {
     StopDockerContainers(CQSplitDockerComposeFilePath);
-});
-
-Task("Run-CQSplit-Unit-Tests-Without-Build")
-    .Does(() =>
-{
-    RunDotNetTests(AllCQSplitTestProjects, OnlyUnitTests);
 });
 
 Task("Create-CQSplit-Nuget-Packages")
