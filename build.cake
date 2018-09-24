@@ -68,9 +68,14 @@ Task("Start-Sample-Application-Docker-Containers")
 Task("Build-Sample-Application-Docker-Images-For-Integration-Testing")
     .Does(() =>
 {
-    DockerComposeBuild(new DockerComposeBuildSettings{Files = new []{IntegrationTestsDockerComposeFilePath}});
+    DockerComposeBuild(new DockerComposeBuildSettings
+    {
+        Files = new []
+        {
+            IntegrationTestsDockerComposeFilePath
+        }
+    });
 });
-
 
 Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
     .IsDependentOn("Build-Sample-Application-Docker-Images-For-Integration-Testing")
@@ -80,10 +85,6 @@ Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
     FixHNSErrorInAppveyor();
     RunIntegrationTests();
     UploadTestResultsToAppveyor();
-})
-.Finally(() =>
-{
-    StopSampleApplicationDockerContainers();
 });
 
 private void CreateBlankTestResultsDirectory()
@@ -121,41 +122,17 @@ private void UploadTestResultsToAppveyor()
     StartPowershellScript("./Upload-Test-Results-To-Appveyor.ps1");
 }
 
-Task("Update-Sample-Application-Settings")
-    .IsDependentOn("Start-Sample-Application-Docker-Containers")
-    .Does(() =>
-{
-    if(isCiBuild)
-    {
-        StartPowershellScript($"./Update-Settings-To-Use-Docker-Containers.ps1 -isCiBuild");
-    }
-    else
-    {
-        StartPowershellScript($"./Update-Settings-To-Use-Docker-Containers.ps1");
-    }
-});
-
 Task("Stop-Sample-Application-Docker-Containers")
     .Does(() =>
 {
-    StopSampleApplicationDockerContainers();
-});
-
-private void StopSampleApplicationDockerContainers()
-{
     StopDockerContainers(DockerComposeFilePath);
-}
+});
 
 Task("Stop-Sample-Application-Docker-Containers-For-Integration-Testing")
     .Does(() =>
 {
-    StopSampleApplicationDockerContainersForIntegrationTesting();
-});
-
-private void StopSampleApplicationDockerContainersForIntegrationTesting()
-{
     StopDockerContainers(IntegrationTestsDockerComposeFilePath);
-}
+});
 
 Task("Clean-Sample-Application")
     .Does(() =>
@@ -194,53 +171,19 @@ Task("Run-Sample-Application-Unit-Tests")
     .IsDependentOn("Build-Sample-Application")
     .Does(() =>
 {
-    RunSampleApplicationUnitTests();
+    RunDotNetTests(AllSampleApplicationTestProjects, OnlyUnitTests);
 });
 
 Task("Run-Sample-Application-Tests")
-    .IsDependentOn("Update-Sample-Application-Settings")
     .IsDependentOn("Run-Sample-Application-Unit-Tests")
     .Does(() =>
 {
-    RunSampleApplicationIntegrationTests();
-    RunSampleApplicationAcceptanceTests();
-})
-.Finally(() => {
-    StopSampleApplicationDockerContainers();
-});
-
-Task("Run-Sample-Application-Unit-Tests-Without-Build")
-    .Does(() =>
-{
-    RunSampleApplicationUnitTests();
-});
-
-Task("Run-Sample-Application-Tests-Without-Build")
-    .IsDependentOn("Update-Sample-Application-Settings")
-    .IsDependentOn("Run-Sample-Application-Unit-Tests-Without-Build")
-    .Does(() =>
-{
-    RunSampleApplicationIntegrationTests();
-    RunSampleApplicationAcceptanceTests();
-})
-.Finally(() => {
-    StopSampleApplicationDockerContainers();
-});
-
-private void RunSampleApplicationUnitTests()
-{
-    RunDotNetTests(AllSampleApplicationTestProjects, OnlyUnitTests);
-}
-
-private void RunSampleApplicationIntegrationTests()
-{
     RunDotNetTests(AllSampleApplicationTestProjects, OnlyIntegrationTests);
-}
-
-private void RunSampleApplicationAcceptanceTests()
-{
     RunDotNetTests(AllSampleApplicationTestProjects, OnlyAcceptanceTests);
-}
+})
+.Finally(() => {
+    StopDockerContainers(DockerComposeFilePath);
+});
 
 private void RunDotNetTests(string filePattern, DotNetCoreTestSettings dotNetCoreTestSettings)
 {
@@ -254,17 +197,11 @@ private void RunDotNetTests(string filePattern, DotNetCoreTestSettings dotNetCor
 }
 
 Task("Run-Sample-Application")
-    .IsDependentOn("Update-Sample-Application-Settings")
     .Does(() =>
-{
-    RunSampleApplication();
-});
-
-private void RunSampleApplication()
 {
     var waiterWebsiteEntryPointUrl = GetWaiterWebsiteEntryPointUrl();
     Information($"The sample application is now running at {waiterWebsiteEntryPointUrl}");
-}
+});
 
 private string GetWaiterWebsiteEntryPointUrl()
 {
@@ -313,29 +250,11 @@ Task("Start-CQSplit-Docker-Containers")
     });
 });
 
-Task("Update-CQSplit-Settings")
-    .IsDependentOn("Start-CQSplit-Docker-Containers")
-    .Does(() =>
-{
-    var command = "./src/CQSplit/PowerShell/Update-Settings-To-Use-Docker-Containers.ps1";
-    if(isCiBuild)
-    {
-        command += " -isCiBuild";
-    }
-
-    StartPowershellScript(command);
-});
-
 Task("Stop-CQSplit-Docker-Containers")
     .Does(() =>
 {
-    StopCQSplitDockerContainers();
-});
-
-private void StopCQSplitDockerContainers()
-{
     StopDockerContainers(CQSplitDockerComposeFilePath);
-}
+});
 
 private void StopDockerContainers(string dockerComposePath)
 {
@@ -366,44 +285,22 @@ Task("Build-CQSplit")
     }
 });
 
-void RunCQSplitUnitTests()
-{
-    RunDotNetTests(AllCQSplitTestProjects, OnlyUnitTests);
-}
-
-void RunCQSplitIntegrationTests()
-{
-    RunDotNetTests(AllCQSplitTestProjects, OnlyIntegrationTests);
-}
-
-void RunCQSplitAcceptanceTests()
-{
-    RunDotNetTests(AllCQSplitTestProjects, OnlyAcceptanceTests);
-}
-
 Task("Run-CQSplit-Unit-Tests")
     .IsDependentOn("Build-CQSplit")
     .Does(() =>
 {
-    RunCQSplitUnitTests();
+    RunDotNetTests(AllCQSplitTestProjects, OnlyUnitTests);
 });
 
 Task("Run-CQSplit-Tests")
-    .IsDependentOn("Update-CQSplit-Settings")
     .IsDependentOn("Run-CQSplit-Unit-Tests")
     .Does(() =>
 {
-    RunCQSplitIntegrationTests();
-    RunCQSplitAcceptanceTests();
+    RunDotNetTests(AllCQSplitTestProjects, OnlyIntegrationTests);
+    RunDotNetTests(AllCQSplitTestProjects, OnlyAcceptanceTests);
 })
 .Finally(() => {
-    StopCQSplitDockerContainers();
-});
-
-Task("Run-CQSplit-Unit-Tests-Without-Build")
-    .Does(() =>
-{
-    RunCQSplitUnitTests();
+    StopDockerContainers(CQSplitDockerComposeFilePath);
 });
 
 Task("Create-CQSplit-Nuget-Packages")

@@ -2,3 +2,6 @@ version: '3'
 services:
   rabbitmq:
     image: ronanmoriarty/rabbitmq-windowsservercore
+    ports:
+      - "35672:5672"
+      - "45672:15672"

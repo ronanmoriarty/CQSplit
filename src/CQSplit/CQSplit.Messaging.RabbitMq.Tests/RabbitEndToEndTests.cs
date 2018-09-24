@@ -40,7 +40,7 @@ namespace CQSplit.Messaging.RabbitMq.Tests
                 )
             );
 
-            _busControl = new MultipleConnectionAttemptMessageBusFactory(rabbitMqMessageBusFactory).Create();
+            _busControl = new MultipleConnectionAttemptMessageBusFactory(rabbitMqMessageBusFactory, CreateRabbitMqHostConfiguration()).Create();
             _rabbitMqSendEndpointProvider = new RabbitMqSendEndpointProvider(_busControl, rabbitMqHostConfiguration);
         }
 
@@ -67,8 +67,7 @@ namespace CQSplit.Messaging.RabbitMq.Tests
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            var rabbitMqHostConfiguration = new RabbitMqHostConfiguration(configurationRoot);
-            return rabbitMqHostConfiguration;
+            return new RabbitMqHostConfiguration(configurationRoot);
         }
 
         private void WaitUntilMessageHasBeenConsumed()

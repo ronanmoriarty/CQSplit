@@ -9,15 +9,8 @@ param (
 function GetCQSplitKeyValuePairs()
 {
     $keyValuePairs = GetPasswordKeyValuePairs
-    $rabbitMqServerAddress = GetRabbitMqAddress
-    $keyValuePairs.Add("`$rabbitMqServerAddress", $rabbitMqServerAddress)
+    $keyValuePairs.Add("`$rabbitMqServerAddress", "localhost:35672")
     return $keyValuePairs
-}
-
-function GetAppSettingsTemplateFiles()
-{
-    $cqRoot = GetFullPath "$PSScriptRoot\..\"
-    return (Get-ChildItem -Path $cqRoot -Filter appSettings.json.template -Recurse) | Select-Object -ExpandProperty FullName
 }
 
 $keyValuePairs = GetCQSplitKeyValuePairs
@@ -29,6 +22,6 @@ if(-not $IsCiBuild)
     }
 }
 
-$paths = GetAppSettingsTemplateFiles
+$jsonTemplateFiles = GetAppSettingsTemplateFiles
 
-SwapPlaceholdersToCreateNewJsonFiles $paths appSettings.json $keyValuePairs $IsCiBuild
+SwapPlaceholdersToCreateNewJsonFiles $jsonTemplateFiles appSettings.json $keyValuePairs $IsCiBuild

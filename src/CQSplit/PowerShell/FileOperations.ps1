@@ -13,9 +13,15 @@ function WriteToFile($path, $contents){
     $contents | Out-File -encoding ASCII $path
 }
 
-function GetTemplateFileWithPlaceholdersReplaced([string] $filePath, [hashtable] $keyValuePairs)
+function GetAppSettingsTemplateFiles()
 {
-    $temp = (Get-Content $filePath)
+    $cqRoot = GetFullPath "$PSScriptRoot\..\..\..\"
+    return (Get-ChildItem -Path $cqRoot -Filter appSettings.json.template -Recurse) | Select-Object -ExpandProperty FullName
+}
+
+function GetTemplateFileWithPlaceholdersReplaced([string] $templateFilePath, [hashtable] $keyValuePairs)
+{
+    $temp = (Get-Content $templateFilePath)
 
     $keyValuePairs.Keys | ForEach-Object {
         $value = $keyValuePairs[$_]

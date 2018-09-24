@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Cafe.DAL.Sql;
 using CQSplit.Messaging;
 using CQSplit.Messaging.RabbitMq;
 using MassTransit;
@@ -27,7 +28,7 @@ namespace Cafe.Waiter.EventProjecting.Service
         public void Start()
         {
             _logger.Info("Starting service.");
-            _busControl = new MultipleConnectionAttemptMessageBusFactory(_messageBusFactory).Create();
+            _busControl = new MultipleConnectionAttemptMessageBusFactory(_messageBusFactory, new RabbitMqHostConfiguration(ConfigurationRoot.Instance)).Create();
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)

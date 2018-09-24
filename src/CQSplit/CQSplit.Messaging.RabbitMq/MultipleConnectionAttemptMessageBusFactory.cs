@@ -8,19 +8,21 @@ namespace CQSplit.Messaging.RabbitMq
     public class MultipleConnectionAttemptMessageBusFactory : IMessageBusFactory
     {
         private readonly IMessageBusFactory _messageBusFactory;
+        private readonly IRabbitMqHostConfiguration _rabbitMqHostConfiguration;
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public MultipleConnectionAttemptMessageBusFactory(IMessageBusFactory messageBusFactory)
+        public MultipleConnectionAttemptMessageBusFactory(IMessageBusFactory messageBusFactory, IRabbitMqHostConfiguration rabbitMqHostConfiguration)
         {
             _messageBusFactory = messageBusFactory;
+            _rabbitMqHostConfiguration = rabbitMqHostConfiguration;
         }
 
         public IBusControl Create()
         {
             var busControl = _messageBusFactory.Create();
             var retryCount = 0;
-            const int retryLimit = 12;
-            const int delayInSecondsBetweenRetries = 10;
+            var retryLimit = _rabbitMqHostConfiguration.RetryLimit;
+            var delayInSecondsBetweenRetries = _rabbitMqHostConfiguration.DelayInSecondsBetweenRetries;
             var started = false;
             while (retryCount < retryLimit && !started)
             {

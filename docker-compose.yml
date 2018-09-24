@@ -2,18 +2,25 @@ version: '3'
 services:
   rabbitmq:
     image: ronanmoriarty/rabbitmq-windowsservercore
+    ports:
+      - "35672:5672"
+      - "45672:15672"
   waiter-read-db-server:
     build:
       context: .\src\Cafe\Docker\SqlServer\
       dockerfile: .\ReadModel\Dockerfile
     env_file:
       - .env
+    ports:
+      - "1401:1433"
   waiter-write-db-server:
     build:
       context: .\src\Cafe\Docker\SqlServer\
       dockerfile: .\WriteModel\Dockerfile
     env_file:
       - .env
+    ports:
+      - "1400:1433"
   cafe-waiter-event-projecting-service:
     build:
       context: .\src\
@@ -35,3 +42,5 @@ services:
     depends_on:
       - "rabbitmq"
       - "waiter-read-db-server"
+    ports:
+      - "8080:80"

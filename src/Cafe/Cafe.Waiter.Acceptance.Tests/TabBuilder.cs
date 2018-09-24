@@ -11,7 +11,7 @@ namespace Cafe.Waiter.Acceptance.Tests
         private string _waiter;
         private readonly ChromeDriver _chromeDriver;
         private readonly IConfigurationRoot _configurationRoot;
-        private ILogger _logger = LogManager.GetCurrentClassLogger();
+        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public TabBuilder()
         {

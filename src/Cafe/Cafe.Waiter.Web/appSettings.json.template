@@ -10,7 +10,11 @@
   "rabbitmq": {
     "uri": "rabbitmq://$rabbitMqServerAddress",
     "username": "$rabbitMqUsername",
-    "password": "$rabbitMqPassword"
+    "password": "$rabbitMqPassword",
+    "retryLimit": 12,
+    "delayInSecondsBetweenRetries": 10
   },
-  "connectionString": "Server=$readModelSqlServerAddress;Database=Cafe.Waiter.ReadModel;User Id=WaiterWebsite;Password=$waiterWebsitePassword;"
+  "connectionString": "Server=$readModelSqlServerAddress;Database=Cafe.Waiter.ReadModel;User Id=WaiterWebsite;Password=$waiterWebsitePassword;",
+  "maximumSqlConnectionRetries": 12,
+  "delayInMillisecondsBetweenSqlConnectionRetries": 10000
 }

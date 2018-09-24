@@ -30,6 +30,8 @@ RUN dotnet publish .\Cafe\Cafe.Waiter.Command.Service
 
 FROM microsoft/dotnet:2.1-sdk AS test
 WORKDIR /app
+COPY .\Nuget.config .\Nuget.config
+COPY .\.nuget.local .\.nuget.local
 COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Events", ".\\Cafe\\Cafe.Waiter.Events"]
 COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Contracts", ".\\Cafe\\Cafe.Waiter.Contracts"]
 COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Domain", ".\\Cafe\\Cafe.Waiter.Domain"]
@@ -42,10 +44,12 @@ COPY .\Cafe\Cafe.DAL.Tests.Common .\Cafe\Cafe.DAL.Tests.Common
 COPY .\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.csproj .\Cafe\Cafe.Waiter.Command.Service.Tests\
 RUN dotnet restore .\Cafe\Cafe.Waiter.Command.Service.Tests
 COPY .\Cafe\Cafe.Waiter.Command.Service.Tests .\Cafe\Cafe.Waiter.Command.Service.Tests
+COPY .\Cafe\Cafe.Waiter.Command.Service.Tests\appSettings.docker.json .\Cafe\Cafe.Waiter.Command.Service.Tests\appSettings.json
 RUN dotnet build .\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.csproj
 CMD dotnet test C:\app\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Command.Service.Tests.csproj  --logger "trx;LogFileName=C:\\test-results\\cafe.waiter.command.service.tests.trx"
 
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app
 COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Command.Service\\bin\\Debug\\netcoreapp2.1\\publish", ".\\Cafe.Waiter.Command.Service"]
+EXPOSE 1433
 CMD dotnet .\Cafe.Waiter.Command.Service\Cafe.Waiter.Command.Service.dll
