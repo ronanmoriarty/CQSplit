@@ -51,5 +51,4 @@ CMD dotnet test C:\app\Cafe\Cafe.Waiter.Command.Service.Tests\Cafe.Waiter.Comman
 FROM microsoft/dotnet:2.1-runtime
 WORKDIR /app
 COPY --from=builder ["app\\Cafe\\Cafe.Waiter.Command.Service\\bin\\Debug\\netcoreapp2.1\\publish", ".\\Cafe.Waiter.Command.Service"]
-EXPOSE 1433
 CMD dotnet .\Cafe.Waiter.Command.Service\Cafe.Waiter.Command.Service.dll
