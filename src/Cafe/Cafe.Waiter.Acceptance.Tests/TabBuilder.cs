@@ -22,7 +22,7 @@ namespace Cafe.Waiter.Acceptance.Tests
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
 
-            _chromeDriver = new ChromeDriver(chromeOptions);
+            _chromeDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService("C:\\chromedriver_win32\\chromedriver.exe"), chromeOptions);
         }
 
         public TabBuilder WithTableNumber(int tableNumber)
