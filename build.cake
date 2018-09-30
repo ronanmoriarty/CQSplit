@@ -82,6 +82,7 @@ Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
     .Does(() =>
 {
     CreateBlankTestResultsDirectory();
+    CreateBlankChromeDriverLogsDirectory();
     FixHNSErrorInAppveyor();
     RunIntegrationTests();
     UploadTestResultsToAppveyor();
@@ -90,6 +91,17 @@ Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
 private void CreateBlankTestResultsDirectory()
 {
     var dir = "test-results";
+    if (DirectoryExists(dir))
+    {
+        DeleteDirectory(dir, recursive: true);
+    }
+
+    CreateDirectory(dir);
+}
+
+private void CreateBlankChromeDriverLogsDirectory()
+{
+    var dir = "chromedriver-logs";
     if (DirectoryExists(dir))
     {
         DeleteDirectory(dir, recursive: true);
