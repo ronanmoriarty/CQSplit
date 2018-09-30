@@ -2,6 +2,7 @@
 using NLog;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using LogLevel = OpenQA.Selenium.LogLevel;
 
 namespace Cafe.Waiter.Acceptance.Tests
 {
@@ -21,8 +22,10 @@ namespace Cafe.Waiter.Acceptance.Tests
 
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
-
-            _chromeDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService("C:\\chromedriver_win32\\chromedriver.exe"), chromeOptions);
+            chromeOptions.AddArguments("--verbose");
+            chromeOptions.AddArguments("--log-path=C:\\chromedriver-logs\\chromedriver.log");
+            chromeOptions.SetLoggingPreference(LogType.Driver, LogLevel.Debug);
+            _chromeDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService("C:\\chromedriver_win32\\"), chromeOptions);
         }
 
         public TabBuilder WithTableNumber(int tableNumber)
