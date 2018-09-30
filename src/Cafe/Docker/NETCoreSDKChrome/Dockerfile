@@ -14,5 +14,5 @@ COPY --from=installer-env ["C:\\Program Files (x86)\\Google\\", "C:\\Program Fil
 COPY --from=installer-env ["c:\\temp\\chromedriver_win32\\", "C:\\chromedriver_win32"]
 
 USER ContainerAdministrator
-RUN setx /M PATH "%PATH%;C:\Program Files (x86)\Google;C:\chromedriver_win32"
+RUN setx /M PATH "%PATH%;C:\Program Files (x86)\Google\Chrome\Application;C:\chromedriver_win32"
 USER ContainerUser
