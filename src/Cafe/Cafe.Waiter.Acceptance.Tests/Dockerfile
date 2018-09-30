@@ -1,12 +1,5 @@
 ﻿#escape=`
-FROM microsoft/windowsservercore AS builder
-WORKDIR /app
-SHELL [ "powershell", "-command"]
-RUN Invoke-WebRequest -OutFile chromedriver_win32.zip https://chromedriver.storage.googleapis.com/2.42/chromedriver_win32.zip
-RUN Expand-Archive chromedriver_win32.zip -DestinationPath .\chromedriver_win32\;
-
-FROM microsoft/dotnet:2.1-sdk
-COPY --from=builder ["app\\chromedriver_win32\\chromedriver.exe", "C:\\Windows\\chromedriver.exe"]
+FROM net-core-sdk-chrome
 WORKDIR /app
 COPY .\Nuget.config .\Nuget.config
 COPY .\.nuget.local .\.nuget.local
