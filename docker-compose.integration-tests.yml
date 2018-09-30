@@ -88,6 +88,9 @@ services:
       - type: bind
         source: .\test-results
         target: C:\test-results
+      - type: bind
+        source: .\chromedriver-logs
+        target: C:\chromedriver-logs
     depends_on:
       - "cafe-waiter-event-projecting-service"
       - "cafe-waiter-command-service"
