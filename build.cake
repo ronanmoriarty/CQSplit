@@ -90,26 +90,29 @@ Task("Start-Sample-Application-Docker-Containers-For-Integration-Testing")
 
 private void CreateBlankTestResultsDirectory()
 {
-    var dir = "test-results";
-    if (DirectoryExists(dir))
-    {
-        DeleteDirectory(dir, recursive: true);
-    }
-
-    CreateDirectory(dir);
+    CreateBlankDirectory("test-results");
 }
 
 private void CreateBlankChromeDriverLogsDirectory()
 {
-    var dir = "chromedriver-logs";
-    if (DirectoryExists(dir))
-    {
-        DeleteDirectory(dir, recursive: true);
-    }
-
-    CreateDirectory(dir);
+    CreateBlankDirectory("chromedriver-logs");
 }
 
+private void CreateBlankDirectory(string directoryPath)
+{
+    if (DirectoryExists(directoryPath))
+    {
+        var files = new DirectoryInfo(directoryPath).GetFiles();
+        foreach (var file in files)
+        {
+            file.Delete();
+        }
+    }
+    else
+    {
+        CreateDirectory(directoryPath);
+    }
+}
 private void FixHNSErrorInAppveyor()
 {
     // See https://github.com/docker/for-win/issues/598
