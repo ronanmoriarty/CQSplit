@@ -47,12 +47,21 @@ USER ContainerUser
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-RUN Invoke-WebRequest -OutFile .\chrome.exe `
-    http://dl.google.com/chrome/install/375.126/chrome_installer.exe
-RUN .\chrome.exe /silent /install
-RUN Invoke-WebRequest -OutFile .\chromedriver_win32.zip `
-    https://chromedriver.storage.googleapis.com/2.42/chromedriver_win32.zip
-RUN Expand-Archive .\chromedriver_win32.zip -DestinationPath .\chromedriver_win32\;
+USER ContainerAdministrator
+RUN Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+RUN choco install googlechrome -y
+RUN choco install selenium-chrome-driver -y
+RUN choco install phantomjs -y
+USER ContainerUser
+
+ENV CHROME_LOG_FILE C:\chromedriver-logs\chrome.log
+
+# RUN Invoke-WebRequest -OutFile .\chrome.exe `
+#     http://dl.google.com/chrome/install/375.126/chrome_installer.exe
+# RUN .\chrome.exe /silent /install
+# RUN Invoke-WebRequest -OutFile .\chromedriver_win32.zip `
+#     https://chromedriver.storage.googleapis.com/2.42/chromedriver_win32.zip
+# RUN Expand-Archive .\chromedriver_win32.zip -DestinationPath .\chromedriver_win32\;
 
 WORKDIR /app
 COPY .\Nuget.config .\Nuget.config

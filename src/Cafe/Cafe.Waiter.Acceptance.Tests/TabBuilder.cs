@@ -22,10 +22,19 @@ namespace Cafe.Waiter.Acceptance.Tests
 
             var chromeOptions = new ChromeOptions();
             chromeOptions.AddArguments("headless");
-            chromeOptions.AddArguments("--verbose");
-            chromeOptions.AddArguments("--log-path=C:\\chromedriver-logs\\chromedriver.log");
+            // chromeOptions.AddArguments("disable-gpu");
+            // chromeOptions.AddArguments("disable-plugins");
+            chromeOptions.AddArguments("--enable-logging --v=1");
+            // chromeOptions.AddArguments("verbose");
+            // chromeOptions.AddArguments("no-sandbox");
+            //  chromeOptions.AddArguments("log-level=0");
+            //  chromeOptions.AddArguments("log-path=C:\\chromedriver-logs\\chromedriver.log");
+            // chromeOptions.AddArguments("disable-dev-shm-usage");
             chromeOptions.SetLoggingPreference(LogType.Driver, LogLevel.Debug);
-            _chromeDriver = new ChromeDriver(ChromeDriverService.CreateDefaultService("C:\\chromedriver_win32\\"), chromeOptions);
+            var chromeService = ChromeDriverService.CreateDefaultService("C:\\tools\\selenium\\");
+            chromeService.EnableVerboseLogging = true;
+            chromeService.LogPath = "C:\\chromedriver-logs\\chromedriver.log";
+            _chromeDriver = new ChromeDriver(chromeService, chromeOptions, System.TimeSpan.FromMinutes(3));
         }
 
         public TabBuilder WithTableNumber(int tableNumber)
