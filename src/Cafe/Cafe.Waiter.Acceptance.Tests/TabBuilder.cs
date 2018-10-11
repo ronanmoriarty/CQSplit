@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NLog;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using LogLevel = OpenQA.Selenium.LogLevel;
+using OpenQA.Selenium.Remote;
 
 namespace Cafe.Waiter.Acceptance.Tests
 {
@@ -10,31 +9,17 @@ namespace Cafe.Waiter.Acceptance.Tests
     {
         private int _tableNumber;
         private string _waiter;
-        private readonly ChromeDriver _chromeDriver;
+        private readonly RemoteWebDriver _webDriver;
         private readonly IConfigurationRoot _configurationRoot;
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public TabBuilder()
+        public TabBuilder(IWebDriverFactory webDriverFactory)
         {
             _configurationRoot = new ConfigurationBuilder()
                 .AddJsonFile("appSettings.json")
                 .Build();
 
-            var chromeOptions = new ChromeOptions();
-            chromeOptions.AddArguments("headless");
-            // chromeOptions.AddArguments("disable-gpu");
-            // chromeOptions.AddArguments("disable-plugins");
-            chromeOptions.AddArguments("--enable-logging --v=1");
-            // chromeOptions.AddArguments("verbose");
-            // chromeOptions.AddArguments("no-sandbox");
-            //  chromeOptions.AddArguments("log-level=0");
-            //  chromeOptions.AddArguments("log-path=C:\\chromedriver-logs\\chromedriver.log");
-            // chromeOptions.AddArguments("disable-dev-shm-usage");
-            chromeOptions.SetLoggingPreference(LogType.Driver, LogLevel.Debug);
-            var chromeService = ChromeDriverService.CreateDefaultService("C:\\tools\\selenium\\");
-            chromeService.EnableVerboseLogging = true;
-            chromeService.LogPath = "C:\\chromedriver-logs\\chromedriver.log";
-            _chromeDriver = new ChromeDriver(chromeService, chromeOptions, System.TimeSpan.FromMinutes(3));
+            _webDriver = webDriverFactory.CreateWebDriver();
         }
 
         public TabBuilder WithTableNumber(int tableNumber)
@@ -57,11 +42,11 @@ namespace Cafe.Waiter.Acceptance.Tests
                 SetWaiter();
                 SetTableNumber();
                 Submit();
-                return new BrowserSession(_chromeDriver);
+                return new BrowserSession(_webDriver);
             }
             catch (NoSuchElementException)
             {
-                _chromeDriver?.Dispose();
+                _webDriver?.Dispose();
                 throw;
             }
         }
@@ -71,7 +56,7 @@ namespace Cafe.Waiter.Acceptance.Tests
             var root = _configurationRoot["cafe:waiter:web:url"];
             var url = $"{root}/app/index.html#!/tabs";
             _logger.Debug($"Navigating to: {url}");
-            _chromeDriver.Url = url;
+            _webDriver.Url = url;
         }
 
         private void SetTableNumber()
@@ -86,13 +71,13 @@ namespace Cafe.Waiter.Acceptance.Tests
 
         private void SetText(string elementId, string text)
         {
-            var element = _chromeDriver.FindElementById(elementId);
+            var element = _webDriver.FindElementById(elementId);
             element.SendKeys(text);
         }
 
         private void Submit()
         {
-            var createTabButton = _chromeDriver.FindElement(By.XPath("//input[@type=\"submit\"]"));
+            var createTabButton = _webDriver.FindElement(By.XPath("//input[@type=\"submit\"]"));
             createTabButton.Click();
         }
     }

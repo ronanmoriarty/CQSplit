@@ -1,15 +1,15 @@
 ﻿using Cafe.DAL.Tests.Common;
-using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 
 namespace Cafe.Waiter.Acceptance.Tests
 {
     public class OpenTabs
     {
-        private readonly ChromeDriver _chromeDriver;
+        private readonly RemoteWebDriver _webDriver;
 
-        public OpenTabs(ChromeDriver chromeDriver)
+        public OpenTabs(RemoteWebDriver webDriver)
         {
-            _chromeDriver = chromeDriver;
+            _webDriver = webDriver;
         }
 
         public static void DeleteTabsFor(string waiter)
@@ -19,6 +19,6 @@ namespace Cafe.Waiter.Acceptance.Tests
             sqlExecutor.ExecuteNonQuery(commandText);
         }
 
-        public ContainsSingleTabConstraintBuilder ContainsSingleTab => new ContainsSingleTabConstraintBuilder(_chromeDriver);
+        public ContainsSingleTabConstraintBuilder ContainsSingleTab => new ContainsSingleTabConstraintBuilder(_webDriver);
     }
 }

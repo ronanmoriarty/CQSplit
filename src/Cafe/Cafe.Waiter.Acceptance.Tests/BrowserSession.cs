@@ -1,27 +1,28 @@
 ﻿using System;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 
 namespace Cafe.Waiter.Acceptance.Tests
 {
     public class BrowserSession : IDisposable
     {
-        private readonly ChromeDriver _chromeDriver;
+        private readonly RemoteWebDriver _webDriver;
 
-        public BrowserSession(ChromeDriver chromeDriver)
+        public BrowserSession(RemoteWebDriver webDriver)
         {
-            _chromeDriver = chromeDriver;
+            _webDriver = webDriver;
         }
 
-        public OpenTabs OpenTabs => new OpenTabs(_chromeDriver);
+        public OpenTabs OpenTabs => new OpenTabs(_webDriver);
 
         public void Dispose()
         {
-            _chromeDriver?.Dispose();
+            _webDriver?.Dispose();
         }
 
         public void RefreshPage()
         {
-            _chromeDriver.Navigate().Refresh();
+            _webDriver.Navigate().Refresh();
         }
     }
 }

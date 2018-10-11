@@ -2,6 +2,6 @@
 {
     public class CafeWaiterWebsite
     {
-        public static TabBuilder CreateTab { get; } = new TabBuilder();
+        public static TabBuilder CreateTab { get; } = new TabBuilder(new ChromeDriverFactory());
     }
 }
