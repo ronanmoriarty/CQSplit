@@ -4,31 +4,25 @@ namespace Cafe.Waiter.Acceptance.Tests
 {
     public class CafeWaiterWebsite
     {
-        private static readonly IConfigurationRoot ConfigurationRoot;
+        private readonly IConfigurationRoot _configurationRoot;
 
-        static CafeWaiterWebsite()
+        public CafeWaiterWebsite(IConfigurationRoot configurationRoot)
         {
-            ConfigurationRoot = GetConfigurationRoot();
+            _configurationRoot = configurationRoot;
+            CreateTab = new TabBuilder(GetWebDriver(), _configurationRoot);
         }
 
-        public static TabBuilder CreateTab { get; } = new TabBuilder(GetWebDriver(), ConfigurationRoot);
+        public TabBuilder CreateTab { get; }
 
-        private static IWebDriverFactory GetWebDriver()
+        private IWebDriverFactory GetWebDriver()
         {
-            switch (ConfigurationRoot["driver"])
+            switch (_configurationRoot["driver"])
             {
                 case "firefox":
                     return new FirefoxDriverFactory();
                 default:
                     return new ChromeDriverFactory();
             }
-        }
-
-        private static IConfigurationRoot GetConfigurationRoot()
-        {
-            return new ConfigurationBuilder()
-                .AddJsonFile("appSettings.json")
-                .Build();
         }
     }
 }
