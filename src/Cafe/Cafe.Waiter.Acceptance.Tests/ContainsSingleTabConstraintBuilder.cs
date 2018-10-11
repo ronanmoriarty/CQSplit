@@ -1,17 +1,17 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 
 namespace Cafe.Waiter.Acceptance.Tests
 {
     public class ContainsSingleTabConstraintBuilder
     {
-        private readonly ChromeDriver _chromeDriver;
+        private readonly RemoteWebDriver _webDriver;
         private string _waiter;
         private int _tableNumber;
 
-        public ContainsSingleTabConstraintBuilder(ChromeDriver chromeDriver)
+        public ContainsSingleTabConstraintBuilder(RemoteWebDriver webDriver)
         {
-            _chromeDriver = chromeDriver;
+            _webDriver = webDriver;
         }
 
         public ContainsSingleTabConstraintBuilder WithWaiter(string waiter)
@@ -35,7 +35,7 @@ namespace Cafe.Waiter.Acceptance.Tests
         {
             try
             {
-                _chromeDriver.FindElementByXPath($"//tr[td[text() = '{_waiter}'] and td[text() = '{_tableNumber}']]");
+                _webDriver.FindElementByXPath($"//tr[td[text() = '{_waiter}'] and td[text() = '{_tableNumber}']]");
                 return true;
             }
             catch (NoSuchElementException)

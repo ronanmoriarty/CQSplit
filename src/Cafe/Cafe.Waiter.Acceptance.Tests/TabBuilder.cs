@@ -13,12 +13,10 @@ namespace Cafe.Waiter.Acceptance.Tests
         private readonly IConfigurationRoot _configurationRoot;
         private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
-        public TabBuilder(IWebDriverFactory webDriverFactory)
+        public TabBuilder(IWebDriverFactory webDriverFactory,
+            IConfigurationRoot configurationRoot)
         {
-            _configurationRoot = new ConfigurationBuilder()
-                .AddJsonFile("appSettings.json")
-                .Build();
-
+            _configurationRoot = configurationRoot;
             _webDriver = webDriverFactory.CreateWebDriver();
         }
 
