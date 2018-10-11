@@ -13,6 +13,7 @@ namespace Cafe.Waiter.Acceptance.Tests
             chromeOptions.AddArguments("disable-gpu");
             chromeOptions.AddArguments("no-sandbox");
             chromeOptions.SetLoggingPreference(LogType.Driver, LogLevel.Debug);
+            chromeOptions.SetLoggingPreference(LogType.Browser, LogLevel.Debug);
             var chromeService = ChromeDriverService.CreateDefaultService("C:\\tools\\selenium\\");
             chromeService.EnableVerboseLogging = true;
             chromeService.LogPath = "C:\\chromedriver-logs\\chromedriver.log";
