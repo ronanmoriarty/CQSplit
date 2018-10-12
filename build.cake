@@ -128,7 +128,8 @@ private void RunIntegrationTests()
         {
             IntegrationTestsDockerComposeFilePath
         },
-        DetachedMode = true
+        DetachedMode = true,
+        ForceRecreate = true
     });
 }
 
