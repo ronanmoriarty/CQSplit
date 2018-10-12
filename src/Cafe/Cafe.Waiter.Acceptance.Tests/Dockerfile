@@ -1,7 +1,7 @@
 ﻿# escape=`
 
 # Installer image
-FROM microsoft/windowsservercore:1803 AS installer-env
+FROM microsoft/windowsservercore:1709 AS installer-env
 
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
@@ -20,7 +20,7 @@ RUN Invoke-WebRequest -OutFile dotnet.zip https://dotnetcli.blob.core.windows.ne
 
 
 # SDK image
-FROM microsoft/windowsservercore:1803
+FROM microsoft/windowsservercore:1709
 
 COPY --from=installer-env ["dotnet", "C:\\Program Files\\dotnet"]
 
