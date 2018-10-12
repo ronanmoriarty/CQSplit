@@ -38,30 +38,7 @@ ENV ASPNETCORE_URLS=http://+:80 `
     # Skip extraction of XML docs - generally not useful within an image/container - helps performance
     NUGET_XMLDOC_MODE=skip
 
-# Trigger first run experience by running arbitrary cmd to populate local package cache
-RUN dotnet help
-
-USER ContainerAdministrator
-RUN setx /M PATH "%PATH%;C:\;C:\chromedriver_win32"
-USER ContainerUser
-
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
-
-USER ContainerAdministrator
-RUN Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-RUN choco install googlechrome -y
-RUN choco install selenium-chrome-driver -y
-RUN choco install phantomjs -y
-USER ContainerUser
-
-ENV CHROME_LOG_FILE C:\chromedriver-logs\chrome.log
-
-# RUN Invoke-WebRequest -OutFile .\chrome.exe `
-#     http://dl.google.com/chrome/install/375.126/chrome_installer.exe
-# RUN .\chrome.exe /silent /install
-# RUN Invoke-WebRequest -OutFile .\chromedriver_win32.zip `
-#     https://chromedriver.storage.googleapis.com/2.42/chromedriver_win32.zip
-# RUN Expand-Archive .\chromedriver_win32.zip -DestinationPath .\chromedriver_win32\;
 
 WORKDIR /app
 COPY .\Nuget.config .\Nuget.config
@@ -77,5 +54,11 @@ COPY .\Cafe\Cafe.DAL.Tests.Common .\Cafe\Cafe.DAL.Tests.Common
 COPY .\Cafe\Cafe.Waiter.Acceptance.Tests .\Cafe\Cafe.Waiter.Acceptance.Tests
 COPY .\Cafe\Cafe.Waiter.Acceptance.Tests\appSettings.docker.json .\Cafe\Cafe.Waiter.Acceptance.Tests\appSettings.json
 RUN dotnet build .\Cafe\Cafe.Waiter.Acceptance.Tests\Cafe.Waiter.Acceptance.Tests.csproj
+
+USER ContainerAdministrator
+RUN Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+RUN choco install firefox -y
+RUN choco install selenium-gecko-driver -y
+USER ContainerUser
 
 CMD dotnet test C:\app\Cafe\Cafe.Waiter.Acceptance.Tests\Cafe.Waiter.Acceptance.Tests.csproj --logger "trx;LogFileName=C:\\test-results\\cafe.waiter.acceptance.tests.trx"
