@@ -12,7 +12,7 @@ namespace Cafe.Waiter.Acceptance.Tests
             {
                 LogLevel = FirefoxDriverLogLevel.Debug
             };
-            firefoxOptions.AddArgument("headless");
+            firefoxOptions.AddArgument("--headless");
             firefoxOptions.SetLoggingPreference(LogType.Driver, LogLevel.Debug);
             firefoxOptions.SetLoggingPreference(LogType.Browser, LogLevel.Debug);
 
